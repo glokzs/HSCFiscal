@@ -11,4 +11,5 @@ namespace HSCFiscalRegistrar.Models
         public bool IsOffline { get; set; }
         public int FrShiftNumber { get; set; }
     }
+    
 }
