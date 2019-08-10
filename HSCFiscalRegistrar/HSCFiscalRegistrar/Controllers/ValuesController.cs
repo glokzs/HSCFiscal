@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Flurl.Http;
-using HSCFiscalRegistrar.Enums;
-using HSCFiscalRegistrar.Models;
 using HSCFiscalRegistrar.RequestModels;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -22,14 +18,7 @@ namespace HSCFiscalRegistrar.Controllers
             var queryString = Request.QueryString;
             return new string[] {"value1", "value2"};
         }
-
-        [HttpPost]
-        public async Task<HttpResponseMessage> Post([FromBody] Request request)
-        {
-            var resp = await "http://52.38.152.232:8082".PostJsonAsync(request);
-            return resp;
-        }
-
+        
         // PUT api/values/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
