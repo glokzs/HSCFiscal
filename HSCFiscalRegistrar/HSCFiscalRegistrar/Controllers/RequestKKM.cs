@@ -36,18 +36,22 @@ namespace HSCFiscalRegistrar.Controllers
         [HttpPost]
         public async Task<string> Post([FromBody] KkmRegister kkm)
         {
-            string postData = JsonConvert.SerializeObject(kkm);
+            try
+            {
+                var client = new HttpClient();
+                var content = new StringContent(JsonConvert.SerializeObject(kkm));
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                var response = await client.PostAsync("http://52.38.152.232:8082", content);
             
-            string url = String.Format("http://52.38.152.232:8082");
-            
-            var client = new HttpClient();
-            var content = new StringContent(JsonConvert.SerializeObject(kkm));
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var response = await client.PostAsync("http://52.38.152.232:8082", content);
-            
-            var value = await response.Content.ReadAsStringAsync();
+                var value = await response.Content.ReadAsStringAsync();
 
-            return value;
+                return value;
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+    
         }
     }
 }
