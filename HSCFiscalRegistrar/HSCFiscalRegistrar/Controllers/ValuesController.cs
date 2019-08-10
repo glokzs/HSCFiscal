@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Flurl.Http;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
+using HSCFiscalRegistrar.RequestModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HSCFiscalRegistrar.Controllers

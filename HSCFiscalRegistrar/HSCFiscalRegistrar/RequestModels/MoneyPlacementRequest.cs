@@ -1,7 +1,8 @@
 using System;
 using HSCFiscalRegistrar.Enums;
+using HSCFiscalRegistrar.Models;
 
-namespace HSCFiscalRegistrar.Models
+namespace HSCFiscalRegistrar.RequestModels
 {
     public class MoneyPlacementRequest : Request 
     {
