@@ -34,36 +34,8 @@ namespace HSCFiscalRegistrar.Controllers
         }
 
         [HttpPost]
-        public async Task<string> Post()
+        public async Task<string> Post([FromBody] KkmRegister kkm)
         {
-            KkmRegister kkm = new KkmRegister
-            {
-                Command = 5,
-                DeviceId = 2732,
-                ReqNum = 1,
-                Token = 47828168,
-                Service = new Service
-                {
-                    RegInfo = new RegInfo
-                    {
-                        Org = new Org
-                        {
-                            Okved = "",
-                            TaxationType = 0,
-                            Inn = "160840027676",
-                            Title = "Bill"
-                        },
-                        Kkm = new Kkm
-                        {
-                            SerialNumber = "12345678",
-                            PointOfPaymentNumber = "",
-                            FnsKkmId = "123123123123",
-                            TerminalNumber = ""
-                        }
-                    }
-                }
-            };
-
             string postData = JsonConvert.SerializeObject(kkm);
             
             string url = String.Format("http://52.38.152.232:8082");
