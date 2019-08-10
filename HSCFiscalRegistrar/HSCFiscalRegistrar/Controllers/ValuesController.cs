@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Flurl.Http;
 using HSCFiscalRegistrar.Enums;
@@ -14,17 +15,19 @@ namespace HSCFiscalRegistrar.Controllers
     [ApiController]
     public class ValuesController : Controller
     {
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        // GET api/values
+        [HttpGet]
+        public ActionResult<IEnumerable<string>> Get()
         {
-            return "value";
+            var queryString = Request.QueryString;
+            return new string[] {"value1", "value2"};
         }
-        
+
         [HttpPost]
-        public void Post([FromBody] Request request)
+        public async Task<HttpResponseMessage> Post([FromBody] Request request)
         {
-            
+            var resp = await "http://52.38.152.232:8082".PostJsonAsync(request);
+            return resp;
         }
 
         // PUT api/values/5
