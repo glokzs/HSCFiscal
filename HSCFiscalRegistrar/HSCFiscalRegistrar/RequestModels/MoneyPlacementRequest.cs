@@ -4,7 +4,7 @@ using HSCFiscalRegistrar.Models;
 
 namespace HSCFiscalRegistrar.RequestModels
 {
-    public class MoneyPlacementRequest : Request 
+    public abstract class MoneyPlacementRequest
     {
         public DateTime DateTime { get; set; }
         public MoneyPlacementEnum Operation { get; set; }
