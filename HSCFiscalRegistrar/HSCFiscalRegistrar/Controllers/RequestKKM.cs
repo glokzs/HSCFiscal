@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using HSCFiscalRegistrar.Models;
+using HSCFiscalRegistrar.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
+using MediaTypeHeaderValue = System.Net.Http.Headers.MediaTypeHeaderValue;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -17,45 +19,63 @@ namespace HSCFiscalRegistrar.Controllers
     public class RequestKkm : Controller
     {
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public async Task<JsonResult> Get()
         {
-            return new string[] { "dsd", "value2" };
+            string url = "https://restcountries.eu/rest/v2";
+
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            string json = JsonConvert.SerializeObject(responseBody, Formatting.Indented);
+
+            return Json(json);
         }
-        
+
         [HttpPost]
-        public async Task<string> Post([FromBody] СashRegister register)
+        public async Task<string> Post()
         {
-            WebRequest request = WebRequest.Create("http://52.38.152.232:8082");
-            
-            request.Method = "POST"; 
-            
-            string data = JsonConvert.SerializeObject(register, Formatting.Indented);
-
-            byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(data);
-            
-            request.ContentType = "application/x-www-form-urlencoded";
-            
-            request.ContentLength = byteArray.Length;
-             
-            using (Stream dataStream = request.GetRequestStream())
+            KkmRegister kkm = new KkmRegister
             {
-                dataStream.Write(byteArray, 0, byteArray.Length);
-            }
- 
-            WebResponse response = await request.GetResponseAsync();
-
-            string readerData = "";
-            
-            using (Stream stream = response.GetResponseStream())
-            {
-                using (StreamReader reader = new StreamReader(stream ?? throw new Exception()))
+                Command = 5,
+                DeviceId = 2732,
+                ReqNum = 1,
+                Token = 47828168,
+                Service = new Service
                 {
-                    readerData += reader.ReadToEnd();
+                    RegInfo = new RegInfo
+                    {
+                        Org = new Org
+                        {
+                            Okved = "",
+                            TaxationType = 0,
+                            Inn = "160840027676",
+                            Title = "Bill"
+                        },
+                        Kkm = new Kkm
+                        {
+                            SerialNumber = "12345678",
+                            PointOfPaymentNumber = "",
+                            FnsKkmId = "123123123123",
+                            TerminalNumber = ""
+                        }
+                    }
                 }
-            }
-            response.Close();
+            };
 
-            return readerData;
+            string postData = JsonConvert.SerializeObject(kkm);
+            
+            string url = String.Format("http://52.38.152.232:8082");
+            
+            var client = new HttpClient();
+            var content = new StringContent(JsonConvert.SerializeObject(kkm));
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var response = await client.PostAsync("http://52.38.152.232:8082", content);
+            
+            var value = await response.Content.ReadAsStringAsync();
+
+            return value;
         }
     }
 }

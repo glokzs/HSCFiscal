@@ -1,11 +1,11 @@
 ﻿namespace HSCFiscalRegistrar.Models
 {
-    public class СashRegister
+    public class KkmRegister
     {
-        public int Comand { get; set; }
+        public int Command { get; set; }
         public int  DeviceId { get; set; }
         public int ReqNum { get; set; }
-        public double Token { get; set; }
+        public int Token { get; set; }
         public Service Service { get; set; }
     }
 }
