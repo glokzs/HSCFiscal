@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Flurl.Http;
+using HSCFiscalRegistrar.Enums;
+using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HSCFiscalRegistrar.Controllers
@@ -12,9 +15,22 @@ namespace HSCFiscalRegistrar.Controllers
     {
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public async Task <IActionResult> Get()
         {
+            MoneyPlacementRequest moneyPlacementRequest = new MoneyPlacementRequest
+            {
+                DateTime = DateTime.Now,
+                FrShiftNumber = 1,
+                Operation = MoneyPlacementEnum.MoneyPlacementDeposit,
+                Sum = new Money
+                {
+                    Bills = 0,
+                    Coins = 80000
+                }
+            };
+            await "http://52.38.152.232:8082".PostJsonAsync(moneyPlacementRequest);
             return new string[] { "value1", "value2" };
+            
         }
 
         // GET api/values/5

@@ -3,7 +3,7 @@ using HSCFiscalRegistrar.Enums;
 
 namespace HSCFiscalRegistrar.Models
 {
-    public class MoneyPlacementRequest
+    public class MoneyPlacementRequest : Request 
     {
         public DateTime DateTime { get; set; }
         public MoneyPlacementEnum Operation { get; set; }
@@ -11,5 +11,4 @@ namespace HSCFiscalRegistrar.Models
         public bool IsOffline { get; set; }
         public int FrShiftNumber { get; set; }
     }
-    
 }
