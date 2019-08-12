@@ -34,7 +34,7 @@ namespace HSCFiscalRegistrar.Controllers
         }
 
         [HttpPost]
-        public async Task<string> Post([FromBody] KkmRegister kkm)
+        public async Task<string> Post([FromBody] InitializationRequest kkm)
         {
             try
             {

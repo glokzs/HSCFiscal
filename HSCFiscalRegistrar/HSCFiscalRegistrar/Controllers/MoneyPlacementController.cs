@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Flurl.Http;
 using HSCFiscalRegistrar.RequestModels;
+using HSCFiscalRegistrar.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HSCFiscalRegistrar.Controllers
@@ -11,8 +12,7 @@ namespace HSCFiscalRegistrar.Controllers
         [HttpPost]
         public async Task<dynamic> Post([FromBody] MoneyPlacementRequest moneyPlacementRequest)
         {
-            string url = "http://52.38.152.232:8082";
-            return await url.PostJsonAsync(moneyPlacementRequest).ReceiveJson();
+            return await HttpService.Post(moneyPlacementRequest);
         }
     }
 }

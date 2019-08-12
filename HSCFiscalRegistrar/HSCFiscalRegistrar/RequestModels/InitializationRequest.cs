@@ -1,6 +1,6 @@
 ﻿namespace HSCFiscalRegistrar.Models
 {
-    public class KkmRegister
+    public class InitializationRequest
     {
         public int Command { get; set; }
         public int  DeviceId { get; set; }
