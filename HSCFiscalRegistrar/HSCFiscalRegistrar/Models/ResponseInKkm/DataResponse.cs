@@ -1,6 +1,6 @@
 ﻿namespace HSCFiscalRegistrar.Models.ResponseInKkm
 {
-    public class Data
+    public class DataResponse
     {
         public string CheckNumber { get; set; }
         public System.DateTime DateTime { get; set; }

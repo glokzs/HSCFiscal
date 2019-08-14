@@ -1,8 +1,6 @@
-﻿using HSCFiscalRegistrar.Models.ResponseInKkm;
-
-namespace HSCFiscalRegistrar.Models
+﻿namespace HSCFiscalRegistrar.Models.ResponseInKkm
 {
-    public class CheckOperation : Data
+    public class CheckOperation : DataResponse
     {
         public int CheckOrderNumber { get; set; }
         public int ShiftNumber { get; set; }
