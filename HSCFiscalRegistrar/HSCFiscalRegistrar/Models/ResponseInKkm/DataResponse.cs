@@ -2,6 +2,7 @@
 {
     public class DataResponse
     {
+        public string Id { get; set; }
         public string CheckNumber { get; set; }
         public System.DateTime DateTime { get; set; }
         public bool OfflineMode { get; set; }
