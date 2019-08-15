@@ -1,4 +1,4 @@
-﻿namespace HSCFiscalRegistrar.Models.ResponseInKkm
+﻿namespace HSCFiscalRegistrar.Models.ResponseInKkm.CheckAndMoneyOperationResponse
 {
     public class Cashbox
     {
