@@ -1,7 +1,7 @@
 ﻿namespace HSCFiscalRegistrar.Models.ResponseInKkm.ResponseReports
 {
-    public class Buy
+    public class Buy : OperationTypeSummartApiModel
     {
-        public string Id { get; set; }
+        
     }
 }

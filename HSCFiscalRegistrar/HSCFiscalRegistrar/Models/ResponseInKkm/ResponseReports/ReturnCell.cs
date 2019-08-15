@@ -1,7 +1,7 @@
 ﻿namespace HSCFiscalRegistrar.Models.ResponseInKkm.ResponseReports
 {
-    public class ReturnCell
+    public class ReturnCell : OperationTypeSummartApiModel
     {
-        public string Id { get; set; }
+        
     }
 }

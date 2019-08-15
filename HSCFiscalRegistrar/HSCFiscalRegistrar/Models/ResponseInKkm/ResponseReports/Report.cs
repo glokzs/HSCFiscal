@@ -1,6 +1,6 @@
 ﻿namespace HSCFiscalRegistrar.Models.ResponseInKkm.ResponseReports
 {
-    public class Report
+    public abstract class Report
     {
         public string Id { get; set; }
         public string TaxPayerName { get; set; }
@@ -18,12 +18,12 @@
         public int CashierCode { get; set; }
         public int ShiftNumber { get; set; }
         public int DocumentCount { get; set; }
-        public int PutMoneySum { get; set; }
-        public int TakeMoneySum { get; set; }
+        public decimal PutMoneySum { get; set; }
+        public decimal TakeMoneySum { get; set; }
         public int ControlSum { get; set; }
         public bool OfflineMode { get; set; }
         public bool CashboxOfflineMode { get; set; }
-        public int SumInCashbox { get; set; }
+        public decimal SumInCashbox { get; set; }
         public string SellId { get; set; }
         public string BuyId { get; set; }
         public string ReturnCellId { get; set; }

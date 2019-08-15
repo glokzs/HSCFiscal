@@ -1,7 +1,7 @@
 ﻿namespace HSCFiscalRegistrar.Models.ResponseInKkm.ResponseReports
 {
-    public class EndNonNullable
+    public class EndNonNullable : NonNullableApiModel
     {
-        public string Id { get; set; }
+        
     }
 }
