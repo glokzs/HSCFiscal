@@ -8,11 +8,13 @@ namespace HSCFiscalRegistrar.Controllers
 {
     [Route("api/[controller]")]
     public class MoneyPlacementController : Controller
-    {
+    {     
         [HttpPost]
         public async Task<dynamic> Post([FromBody] MoneyPlacementRequest moneyPlacementRequest)
         {
-            return await HttpService.Post(moneyPlacementRequest);
+            var res = await HttpService.Post(moneyPlacementRequest);
+            LogWriteService.LogWriter(res);
+            return res;
         }
     }
 }
