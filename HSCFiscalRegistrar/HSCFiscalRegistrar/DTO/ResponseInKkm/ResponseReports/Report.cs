@@ -2,7 +2,6 @@
 {
     public abstract class Report
     {
-        public string Id { get; set; }
         public string TaxPayerName { get; set; }
         public string TaxPayerIN { get; set; }
         public bool TaxPayerVAT { get; set; }
@@ -24,19 +23,11 @@
         public bool OfflineMode { get; set; }
         public bool CashboxOfflineMode { get; set; }
         public decimal SumInCashbox { get; set; }
-        public string SellId { get; set; }
-        public string BuyId { get; set; }
-        public string ReturnCellId { get; set; }
-        public string ReturnBuyId { get; set; }
-        public string EndNonNullableId { get; set; }
-        public string StartNonNullableId { get; set; }
-
-        public virtual Sell Sell { get; set; }
-        public virtual Buy Buy { get; set; }
-        public virtual ReturnBuy ReturnBuy { get; set; }
-        public virtual ReturnCell ReturnCell { get; set; }
-        public virtual EndNonNullable EndNonNullable { get; set; }
-        public virtual StartNonNullable StartNonNullable { get; set; }
-
+        public Sell Sell { get; set; }
+        public Buy Buy { get; set; }
+        public ReturnCell ReturnCell { get; set; }
+        public ReturnBuy ReturnBuy { get; set; }
+        public EndNonNullable EndNonNullable { get; set; }
+        public StartNonNullable StartNonNullable { get; set; }
     }
 }
