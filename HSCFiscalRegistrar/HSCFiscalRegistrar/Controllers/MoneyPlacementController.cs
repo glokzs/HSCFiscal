@@ -13,7 +13,7 @@ namespace HSCFiscalRegistrar.Controllers
         public async Task<dynamic> Post([FromBody] MoneyPlacementRequest moneyPlacementRequest)
         {
             var res = await HttpService.Post(moneyPlacementRequest);
-            LogWriteService.LogWriter(res);
+            LogWriteService.LogWrite(res);
             return res;
         }
     }
