@@ -1,4 +1,4 @@
-﻿namespace HSCFiscalRegistrar.Models.ResponseInKkm.ResponseReports
+﻿namespace HSCFiscalRegistrar.DTO.ResponseInKkm.ResponseReports
 {
     public abstract class Report
     {

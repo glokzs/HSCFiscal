@@ -1,4 +1,4 @@
-﻿namespace HSCFiscalRegistrar.Models.ResponseInKkm.CheckAndMoneyOperationResponse
+﻿namespace HSCFiscalRegistrar.DTO.ResponseInKkm.CheckAndMoneyOperationResponse
 {
     public class MoneyOperationResponse : DataResponse
     {
