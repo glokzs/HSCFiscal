@@ -2,23 +2,23 @@
 {
     public enum ResultTypeEnum
     {
-        ResultTypeOk = 0,
-        ResultTypeUnknownId = 1,
-        ResultTypeInvalidToken = 2,
-        ResultTypeProtocolError = 3,
-        ResultTypeUnknownCommand = 4,
-        ResultTypeUnsupportedCommand = 5,
-        ResultTypeInvalidConfiguration = 6,
-        ResultTypeSslIsNotAllowed = 7,
-        ResultTypeInvalidRequestNumber = 8,
-        ResultTypeInvalidRetryRequest = 9,
-        ResultTypeCantCancelTicket = 10,
-        ResultTypeOpenShiftTimeoutExpired = 11,
-        ResultTypeInvalidLoginPassword = 12,
-        ResultTypeIncorrectRequestData = 13,
-        ResultTypeNotEnoughCash = 14,
-        ResultTypeBlocked = 15,
-        ResultTypeServiceTemporarilyUnavailable = 254,
-        ResultTypeUnknownError = 255
+        RESULT_TYPE_OK = 0,
+        RESULT_TYPE_UNKNOWN_ID = 1,
+        RESULT_TYPE_INVALID_TOKEN = 2,
+        RESULT_TYPE_PROTOCOL_ERROR = 3,
+        RESULT_TYPE_UNKNOWN_COMMAND = 4,
+        RESULT_TYPE_UNSUPPORTED_COMMAND = 5,
+        RESULT_TYPE_INVALID_CONFIGURATION = 6,
+        RESULT_TYPE_SSL_IS_NOT_ALLOWED = 7,
+        RESULT_TYPE_INVALID_REQUEST_NUMBER = 8,
+        RESULT_TYPE_INVALID_RETRY_REQUEST = 9,
+        RESULT_TYPE_CANT_CANCEL_TICKET = 10,
+        RESULT_TYPE_OPEN_SHIFT_TIMEOUT_EXPIRED = 11,
+        RESULT_TYPE_INVALID_LOGIN_PASSWORD = 12,
+        RESULT_TYPE_INCORRECT_REQUEST_DATA = 13,
+        RESULT_TYPE_NOT_ENOUGH_CASH = 14,
+        RESULT_TYPE_BLOCKED = 15,
+        RESULT_TYPE_SERVICE_TEMPORARILY_UNAVAILABLE = 254,
+        RESULT_TYPE_UNKNOWN_ERROR = 255
     }
 }

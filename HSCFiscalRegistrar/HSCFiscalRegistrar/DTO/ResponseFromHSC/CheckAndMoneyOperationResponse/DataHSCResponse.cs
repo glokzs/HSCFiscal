@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using HSCFiscalRegistrar.Enums;
+using Microsoft.AspNetCore.Authentication;
 
 namespace HSCFiscalRegistrar.DTO.ResponseFromHSC.CheckAndMoneyOperationResponse
 {
@@ -6,7 +7,7 @@ namespace HSCFiscalRegistrar.DTO.ResponseFromHSC.CheckAndMoneyOperationResponse
     {
         public Result Result { get; set; }
         public Service Service { get; set; }
-        public string Command { get; set; }
+        public CommandTypeEnum Command { get; set; }
         public int Token { get; set; }
     }
 }
