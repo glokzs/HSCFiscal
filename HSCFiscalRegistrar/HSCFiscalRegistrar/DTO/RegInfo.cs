@@ -1,4 +1,4 @@
-namespace HSCFiscalRegistrar.DTO.RequestForHSC
+namespace HSCFiscalRegistrar.DTO
 {
     public class RegInfo
     {

@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.RequestForHSC.Initialization;
-using HSCFiscalRegistrar.RequestModels;
 using HSCFiscalRegistrar.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;

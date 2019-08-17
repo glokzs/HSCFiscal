@@ -2,7 +2,7 @@
 
 namespace HSCFiscalRegistrar.DTO.RequestForHSC
 {
-    public class DataHSCRequest
+    public abstract class DataHSCRequest
     {
         public CommandTypeEnum Command { get; set; }
         public int DeviceId { get; set; }
