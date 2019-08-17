@@ -6,6 +6,5 @@ namespace HSCFiscalRegistrar.DTO.ResponseFromHSC.Reports
     {
         public Report Report { get; set; }
         public CommandTypeEnum CommandEnum { get; set; }
-        public int Token { get; set; }
     }
 }
