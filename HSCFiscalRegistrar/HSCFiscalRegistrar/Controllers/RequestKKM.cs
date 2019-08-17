@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using HSCFiscalRegistrar.Models;
+using HSCFiscalRegistrar.DTO.RequestForHSC.Initialization;
 using HSCFiscalRegistrar.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
@@ -34,7 +34,7 @@ namespace HSCFiscalRegistrar.Controllers
         }
 
         [HttpPost]
-        public async Task<string> Post([FromBody] InitializationRequest kkm)
+        public async Task<string> Post([FromBody] InitializationOperationRequest kkm)
         {
             try
             {

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
-using HSCFiscalRegistrar.Models;
+using HSCFiscalRegistrar.DTO;
+using HSCFiscalRegistrar.DTO.RequestForHSC;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
