@@ -1,7 +1,7 @@
-﻿using HSCFiscalRegistrar.Enums;
-using Microsoft.AspNetCore.Authentication;
+﻿using HSCFiscalRegistrar.DTO.ResponseFromHSC.CheckAndMoneyOperationResponse;
+using HSCFiscalRegistrar.Enums;
 
-namespace HSCFiscalRegistrar.DTO.ResponseFromHSC.CheckAndMoneyOperationResponse
+namespace HSCFiscalRegistrar.DTO.ResponseFromHSC
 {
     public abstract class DataHSCResponse
     {

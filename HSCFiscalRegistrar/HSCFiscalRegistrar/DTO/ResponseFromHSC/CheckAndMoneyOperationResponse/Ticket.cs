@@ -3,6 +3,6 @@
     public class Ticket
     {
         public string QrCode { get; set; }
-        public string TicketNumber { get; set; }
+        public byte[] TicketNumber { get; set; }
     }
 }
