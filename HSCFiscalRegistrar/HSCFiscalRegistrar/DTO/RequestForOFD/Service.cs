@@ -1,6 +1,7 @@
+using HSCFiscalRegistrar.DTO;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace HSCFiscalRegistrar.Models
+namespace HSCFiscalRegistrar.DTO
 {
     public class Service
     {

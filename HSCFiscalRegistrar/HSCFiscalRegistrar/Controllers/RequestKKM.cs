@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using HSCFiscalRegistrar.DTO.RequestModels;
 using HSCFiscalRegistrar.Models;
 using HSCFiscalRegistrar.Services;
 using Microsoft.AspNetCore.Mvc;

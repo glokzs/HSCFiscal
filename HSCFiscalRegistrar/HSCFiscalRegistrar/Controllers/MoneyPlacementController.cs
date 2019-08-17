@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Flurl.Http;
-using HSCFiscalRegistrar.RequestModels;
+using HSCFiscalRegistrar.DTO.RequestModels;
 using HSCFiscalRegistrar.Services;
 using Microsoft.AspNetCore.Mvc;
 

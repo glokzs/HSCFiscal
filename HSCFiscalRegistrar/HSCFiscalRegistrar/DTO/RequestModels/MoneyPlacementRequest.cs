@@ -1,6 +1,4 @@
-using HSCFiscalRegistrar.Models;
-
-namespace HSCFiscalRegistrar.RequestModels
+namespace HSCFiscalRegistrar.DTO.RequestModels
 {
     public class MoneyPlacementRequest
     {
