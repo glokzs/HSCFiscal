@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using HSCFiscalRegistrar.DTO.RequestForOFD.FinanceOperations;
 using HSCFiscalRegistrar.Enums;
+using HSCFiscalRegistrar.Models.DateTime;
 
-namespace HSCFiscalRegistrar.DTO.RequestForOFD
+namespace HSCFiscalRegistrar.DTO.RequestForOFD.CheckProcessing
 {
-    public class TicketRequest
+    public class TicketRequest : DateTime
     {
         public OperationTypeEnum Operation { get; set; }
-        public Models.DateTime.DateTime DateTime { get; set; }
         public Operator Operator { get; set; }
         public Domain Domain { get; set; }
         public List<Item> Items { get; set; }

@@ -1,4 +1,4 @@
-namespace HSCFiscalRegistrar.DTO.RequestForOFD
+namespace HSCFiscalRegistrar.DTO.RequestForOFD.FinanceOperations
 {
     public class Amount
     {

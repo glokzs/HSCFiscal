@@ -1,5 +1,6 @@
+using HSCFiscalRegistrar.DTO.RequestForOFD.CheckProcessing;
+using HSCFiscalRegistrar.DTO.RequestForOFD.FinanceOperations;
 using HSCFiscalRegistrar.Enums;
-using HSCFiscalRegistrar.Models;
 
 namespace HSCFiscalRegistrar.DTO.RequestForOFD
 {

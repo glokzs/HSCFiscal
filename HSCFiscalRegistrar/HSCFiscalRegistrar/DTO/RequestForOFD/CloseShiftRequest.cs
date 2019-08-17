@@ -1,8 +1,10 @@
+using HSCFiscalRegistrar.Models.DateTime;
+
 namespace HSCFiscalRegistrar.DTO.RequestForOFD
 {
-    public class CloseShiftRequest
+    public class CloseShiftRequest : DateTime
     {
-        public Models.DateTime.DateTime CloseType { get; set; }
+        public DateTime CloseType { get; set; }
         public bool IsOffline { get; set; }
         public int FrShiftNumber { get; set; }
         public bool WithdrawMoney { get; set; }

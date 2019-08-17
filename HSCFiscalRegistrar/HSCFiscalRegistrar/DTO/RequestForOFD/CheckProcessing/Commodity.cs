@@ -1,4 +1,4 @@
-namespace HSCFiscalRegistrar.DTO.RequestForOFD
+namespace HSCFiscalRegistrar.DTO.RequestForOFD.CheckProcessing
 {
     public class Commodity
     {
@@ -6,8 +6,8 @@ namespace HSCFiscalRegistrar.DTO.RequestForOFD
         public string Name { get; set; }
         public string SectionCode { get; set; }
         public int Quantity { get; set; }
-        public Money Price { get; set; }
-        public Money Sum { get; set; }
+        public FinanceOperations.Money Price { get; set; }
+        public FinanceOperations.Money Sum { get; set; }
         
     }
 }
