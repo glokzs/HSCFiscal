@@ -1,4 +1,4 @@
-namespace HSCFiscalRegistrar.Models.DateTime
+namespace HSCFiscalRegistrar.DTO.DateAndTime
 {
     public class Date
     {

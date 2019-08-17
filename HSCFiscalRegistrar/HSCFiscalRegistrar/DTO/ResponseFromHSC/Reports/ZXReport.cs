@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using HSCFiscalRegistrar.DTO.DateAndTime;
 using HSCFiscalRegistrar.DTO.ResponseFromHSC.Reports.MoneyPlacements;
 using HSCFiscalRegistrar.DTO.ResponseFromHSC.Reports.Taxes;
 using HSCFiscalRegistrar.DTO.ResponseFromHSC.Reports.TicketOperations;
-using HSCFiscalRegistrar.Models.DateTime;
 
 namespace HSCFiscalRegistrar.DTO.ResponseFromHSC.Reports
 {

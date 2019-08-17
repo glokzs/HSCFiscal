@@ -1,3 +1,4 @@
+using HSCFiscalRegistrar.DTO.RequestForHSC;
 using HSCFiscalRegistrar.Models;
 
 namespace HSCFiscalRegistrar.RequestModels

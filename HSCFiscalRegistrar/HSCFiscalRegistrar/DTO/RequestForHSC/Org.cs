@@ -1,6 +1,4 @@
-using System;
-
-namespace HSCFiscalRegistrar.Models
+namespace HSCFiscalRegistrar.DTO.RequestForHSC
 {
     public class Org
     {
