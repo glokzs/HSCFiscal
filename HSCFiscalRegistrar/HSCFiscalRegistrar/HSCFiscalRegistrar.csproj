@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\DateTime\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace HSCFiscalRegistrar.DTO.ResponseFromHSC.Reports
+﻿namespace HSCFiscalRegistrar.DTO
 {
     public class Money
     {

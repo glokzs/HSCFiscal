@@ -1,7 +1,7 @@
 using HSCFiscalRegistrar.DTO.DateAndTime;
 using HSCFiscalRegistrar.Enums;
 
-namespace HSCFiscalRegistrar.Models
+namespace HSCFiscalRegistrar.DTO.RequestForHSC.MoneyPlacement
 {
     public class MoneyPlacement
     {
