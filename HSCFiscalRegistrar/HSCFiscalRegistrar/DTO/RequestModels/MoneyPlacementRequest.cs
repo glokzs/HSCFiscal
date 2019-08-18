@@ -1,3 +1,5 @@
+using HSCFiscalRegistrar.DTO.RequestForOFD.ServiceRequest;
+
 namespace HSCFiscalRegistrar.DTO.RequestModels
 {
     public class MoneyPlacementRequest

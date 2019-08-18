@@ -1,4 +1,6 @@
-﻿namespace HSCFiscalRegistrar.DTO.RequestModels
+﻿using HSCFiscalRegistrar.DTO.RequestForOFD.ServiceRequest;
+
+namespace HSCFiscalRegistrar.DTO.RequestModels
 {
     public class InitializationRequest
     {

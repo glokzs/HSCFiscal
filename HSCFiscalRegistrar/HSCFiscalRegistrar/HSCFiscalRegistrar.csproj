@@ -11,4 +11,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTO\RequestForOFD\Authorization" />
+    <Folder Include="DTO\RequestForOFD\CloseShiftRequest" />
+    <Folder Include="DTO\RequestForOFD\ReportRequest" />
+  </ItemGroup>
+
 </Project>
