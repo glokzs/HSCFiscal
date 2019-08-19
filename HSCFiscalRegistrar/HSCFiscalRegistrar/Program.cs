@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
 using HSCFiscalRegistrar.Enums;
-using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 

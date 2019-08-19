@@ -1,5 +1,3 @@
-using HSCFiscalRegistrar.Models;
-
 namespace HSCFiscalRegistrar.DTO
 {
     public class RegInfo

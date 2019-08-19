@@ -1,4 +1,4 @@
-namespace HSCFiscalRegistrar.Models
+namespace HSCFiscalRegistrar.DTO
 {
     public class Kkm
     {

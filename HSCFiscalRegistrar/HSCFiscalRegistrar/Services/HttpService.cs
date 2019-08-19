@@ -15,6 +15,7 @@ namespace HSCFiscalRegistrar.Services
         public static async Task<dynamic> Post([FromBody] object anyObject)
         {
             return await Url.PostJsonAsync(anyObject).ReceiveJson();
+            
         }
 
         [HttpGet]
@@ -22,5 +23,6 @@ namespace HSCFiscalRegistrar.Services
         {
             return await Url.GetJsonAsync();
         }
+
     }
 }

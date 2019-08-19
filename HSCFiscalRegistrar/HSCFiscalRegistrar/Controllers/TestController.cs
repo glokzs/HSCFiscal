@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
-using HSCFiscalRegistrar.Models;
+using HSCFiscalRegistrar.DTO;
+using HSCFiscalRegistrar.DTO.RequestForHSC;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -9,11 +11,12 @@ namespace HSCFiscalRegistrar.Controllers
     [ApiController]
     public class TestController : Controller
     {
+        
         [HttpPost]
         public async Task<JsonResult> Post([FromBody] Kkm kkm)
         {
             string json = JsonConvert.SerializeObject(kkm, Formatting.Indented);
-
+            
             return Json(json);
         }
     }

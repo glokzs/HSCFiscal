@@ -2,7 +2,7 @@ namespace HSCFiscalRegistrar.Enums
 {
     public enum MoneyPlacementEnum
     {
-        MoneyPlacementDeposit = 0,
-        MoneyPlacementWithdrawal = 1
+        MONEY_PLACEMENT_DEPOSIT = 0,
+        MONEY_PLACEMENT_WITHDRAWAL = 1
     }
 }

@@ -1,4 +1,4 @@
-namespace HSCFiscalRegistrar.Enums
+﻿namespace HSCFiscalRegistrar.Enums
 {
     public enum OperationTypeEnum
     {
