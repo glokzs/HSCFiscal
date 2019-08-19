@@ -8,8 +8,8 @@ namespace HSCFiscalRegistrar.DTO.RequestForOFD.ServiceRequest
     public class ServiceRequest
     {
         public CommQuality CommQuality { get; set; }
-        public SoftwareInformation software_information { get; set; }
-        //public SecurityStats Type { get; set; }
+        public SoftwareInformation SoftwareInformation { get; set; }
+        //public SecurityStats SecurityStats { get; set; }
         public OflinePeriod OfflinePeriod { get; set; }
         public int NomenclatureVersion { get; set; }
         public List<TicketAdInfo> TicketAdInfos { get; set; }
