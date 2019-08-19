@@ -9,7 +9,7 @@ namespace HSCFiscalRegistrar.DTO.RequestForOFD.ZXReport
     public class ZXReport : DateTime
     {
         public int ShiftNumber { get; set; }
-        public List<> Sections { get; set; }
+        public List<Section> Sections { get; set; }
         public List<Operation> Operations { get; set; }
         public List<Operation> Discounts { get; set; }
         public List<Operation> Markups { get; set; }
