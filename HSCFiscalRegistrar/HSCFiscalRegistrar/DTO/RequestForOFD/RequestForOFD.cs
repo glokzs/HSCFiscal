@@ -1,4 +1,3 @@
-using HSCFiscalRegistrar.DTO.RequestForOFD.Authorization;
 using HSCFiscalRegistrar.DTO.RequestForOFD.CheckProcessing;
 using HSCFiscalRegistrar.Enums;
 
@@ -12,7 +11,7 @@ namespace HSCFiscalRegistrar.DTO.RequestForOFD
         public ReportRequest.ReportRequest Report { get; set; }
         public NomenclatureRequest.NomenclatureRequest Nomenclature { get; set; }
         public ServiceRequest.ServiceRequest Service { get; set; }
-        public RequestModels.MoneyPlacementRequest MoneyPlacement { get; set; }
+        public MoneyPlacementRequest.MoneyPlacementRequest MoneyPlacement { get; set; }
         public AuthRequest Auth { get; set; }
     }
 }

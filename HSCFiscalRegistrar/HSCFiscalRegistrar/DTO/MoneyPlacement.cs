@@ -1,3 +1,4 @@
+using HSCFiscalRegistrar.DTO.DateAndTime;
 using HSCFiscalRegistrar.DTO.RequestForOFD.Finance;
 using HSCFiscalRegistrar.Enums;
 
@@ -7,6 +8,6 @@ namespace HSCFiscalRegistrar.DTO
     {
         public bool IsOffline { get; set; }
         public MoneyPlacementEnum Operation { get; set; }
-        public Models.DateTime.DateTime DateTime { get; set; }
+        public DateTime DateTime { get; set; }
     }
 }

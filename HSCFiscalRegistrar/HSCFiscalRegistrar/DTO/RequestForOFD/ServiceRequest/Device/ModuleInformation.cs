@@ -1,3 +1,5 @@
+using HSCFiscalRegistrar.DTO.ResponseFromHSC;
+
 namespace HSCFiscalRegistrar.DTO.RequestForOFD.ServiceRequest.Device
 {
     public class ModuleInformation

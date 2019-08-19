@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using System.Collections.Specialized;
+using HSCFiscalRegistrar.DTO.DateAndTime;
 using HSCFiscalRegistrar.DTO.RequestForOFD.MoneyPlacementRequest;
-using HSCFiscalRegistrar.Models.DateTime;
 using Microsoft.AspNetCore.JsonPatch.Operations;
 
 namespace HSCFiscalRegistrar.DTO.RequestForOFD.ZXReport

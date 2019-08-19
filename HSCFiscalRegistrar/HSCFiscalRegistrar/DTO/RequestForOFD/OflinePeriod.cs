@@ -1,8 +1,10 @@
+using HSCFiscalRegistrar.DTO.DateAndTime;
+
 namespace HSCFiscalRegistrar.DTO.RequestForOFD
 {
     public class OflinePeriod 
     {
-        public Models.DateTime.DateTime BeginTime { get; set; }
-        public Models.DateTime.DateTime EndTime { get; set; }
+        public DateTime BeginTime { get; set; }
+        public DateTime EndTime { get; set; }
     }
 }

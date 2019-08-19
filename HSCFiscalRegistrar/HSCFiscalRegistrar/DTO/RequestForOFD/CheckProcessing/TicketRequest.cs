@@ -1,8 +1,8 @@
 using System.Collections.Generic;
+using HSCFiscalRegistrar.DTO.DateAndTime;
 using HSCFiscalRegistrar.DTO.RequestForOFD.Customer;
 using HSCFiscalRegistrar.DTO.RequestForOFD.MoneyPlacementRequest;
 using HSCFiscalRegistrar.Enums;
-using HSCFiscalRegistrar.Models.DateTime;
 
 namespace HSCFiscalRegistrar.DTO.RequestForOFD.CheckProcessing
 {

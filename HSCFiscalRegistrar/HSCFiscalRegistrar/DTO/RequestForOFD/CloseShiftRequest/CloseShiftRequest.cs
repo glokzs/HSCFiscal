@@ -1,4 +1,4 @@
-using HSCFiscalRegistrar.Models.DateTime;
+using HSCFiscalRegistrar.DTO.DateAndTime;
 
 namespace HSCFiscalRegistrar.DTO.RequestForOFD.CloseShiftRequest
 {

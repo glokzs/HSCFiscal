@@ -1,5 +1,3 @@
-using HSCFiscalRegistrar.Models;
-
 namespace HSCFiscalRegistrar.DTO.RequestForOFD.ServiceRequest.Device
 {
     public class RegInfo
