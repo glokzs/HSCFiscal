@@ -6,5 +6,6 @@ namespace HSCFiscalRegistrar.DTO.RequestForOFD.ZXReport
         public int OperationsCount { get; set; }
         public Money OperationsSum { get; set; }
         
+        
     }
 }

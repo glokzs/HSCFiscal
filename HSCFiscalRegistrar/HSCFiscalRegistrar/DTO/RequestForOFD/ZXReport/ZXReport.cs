@@ -18,7 +18,8 @@ namespace HSCFiscalRegistrar.DTO.RequestForOFD.ZXReport
         public List<Tax> Taxes { get; set; }
         public List<NonNullableSum> StartShiftNonNullableSums { get; set; }
         public List<TicketOperation> TicketOperations { get; set; }
-        public MoneyPlacementZX Type { get; set; }
+        public MoneyPlacementZX MoneyPlacements { get; set; }
+        
         
         
         
