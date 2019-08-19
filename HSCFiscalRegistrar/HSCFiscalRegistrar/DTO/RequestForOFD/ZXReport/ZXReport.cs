@@ -3,14 +3,13 @@ using System.Collections.Specialized;
 using HSCFiscalRegistrar.DTO.RequestForOFD.MoneyPlacementRequest;
 using HSCFiscalRegistrar.Models.DateTime;
 using Microsoft.AspNetCore.JsonPatch.Operations;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HSCFiscalRegistrar.DTO.RequestForOFD.ZXReport
 {
     public class ZXReport : DateTime
     {
         public int ShiftNumber { get; set; }
-        public List<BitVector32.Section> Sections { get; set; }
+        public List<> Sections { get; set; }
         public List<Operation> Operations { get; set; }
         public List<Operation> Discounts { get; set; }
         public List<Operation> Markups { get; set; }
@@ -21,7 +20,8 @@ namespace HSCFiscalRegistrar.DTO.RequestForOFD.ZXReport
         public MoneyPlacementZX MoneyPlacements { get; set; }
         public AnnulledTickets AnnulledTickets { get; set; }
         public Money CashSum { get; set; }
-        
+        public Revenue Revenue { get; set; }
+        public List<NonNullableSum> NonNullableSums { get; set; }
         
         
         
