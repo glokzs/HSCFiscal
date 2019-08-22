@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Flurl.Http;
 using HSCFiscalRegistrar.DTO.RequestForHSC.MoneyPlacement;
+using HSCFiscalRegistrar.Models;
 using HSCFiscalRegistrar.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,5 +17,8 @@ namespace HSCFiscalRegistrar.Controllers
             LogWriteService.LogWrite(res);
             return res;
         }
+        
+        
+        
     }
 }

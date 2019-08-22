@@ -36,8 +36,33 @@ namespace HSCFiscalRegistrar
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDBbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-        }
+            
+            string connection = Configuration.GetConnectionString("HSCFiscalRegistarConnection");
+            services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationContext>();
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 4;
+                options.Password.RequiredUniqueChars = 0;
 
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = false;
+            });
+        }
+        
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -48,14 +73,18 @@ namespace HSCFiscalRegistrar
             {
                 app.UseHsts();
             }
+            
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseAuthentication();
             
             var myRouteHandler = new RouteHandler(Handle);
             var routeBuilder = new RouteBuilder(app, myRouteHandler);
             routeBuilder.MapRoute("default", "{controller}/{action}");
             app.UseRouter(routeBuilder.Build());
+            
+            
              
             app.Run(async (context) =>
             {
