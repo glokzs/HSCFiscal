@@ -10,8 +10,10 @@ namespace HSCFiscalRegistrar.Models
         {
             string adminLogin = "Admin";
             string password = "Admin";
-            string userToken = "santehniki";
-            string deviceId = "12345";
+
+            Guid userToken = Guid.NewGuid();
+            int deviceId = 12345;
+          
             DateTime dateTime = DateTime.Now;
             
             if (await roleManager.FindByNameAsync("admin") == null)
@@ -24,7 +26,9 @@ namespace HSCFiscalRegistrar.Models
             }
             if (await userManager.FindByNameAsync(adminLogin) == null)
             {
-                User admin = new User { UserName = adminLogin, UserToken = userToken, DeviceId = deviceId, Password = password, DateTime = dateTime};
+
+                User admin = new User { UserName = adminLogin, UserToken = userToken, DeviceId = deviceId, PasswordHash = password, DateTime = dateTime};
+
                 IdentityResult result = await userManager.CreateAsync(admin, password);
                 if (result.Succeeded)
                 {
