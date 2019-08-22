@@ -45,10 +45,15 @@ namespace HSCFiscalRegistrar.Controllers
                 Token = Guid.NewGuid()
             };
 
-            Data user = new Data
-            {
-                DateTime = DateTime.Now
-            };
+                User user = new User
+                {
+                    UserName = model.Login,
+                    PasswordHash = model.Password,
+                    DateTime = DateTime.Now,
+                    UserToken = userToken.Token,
+                    DeviceId = model.DeviceId
+
+                };
 
             return Json(userToken);
 
