@@ -3,17 +3,15 @@ using System;
 using HSCFiscalRegistrar.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HSCFiscalRegistrar.Migrations
 {
-    [DbContext(typeof(ApplicationDBbContext))]
-    [Migration("20190820141541_Inital")]
-    partial class Inital
+    [DbContext(typeof(ApplicationContext))]
+    partial class ApplicationContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,7 +61,7 @@ namespace HSCFiscalRegistrar.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
-                    b.Property<string>("UserToken");
+                    b.Property<Guid>("UserToken");
 
                     b.HasKey("Id");
 

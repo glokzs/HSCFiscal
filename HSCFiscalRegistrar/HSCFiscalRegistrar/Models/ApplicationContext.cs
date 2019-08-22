@@ -5,12 +5,9 @@ namespace HSCFiscalRegistrar.Models
 {
     public class ApplicationContext : IdentityDbContext<User>
     {
-        
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            
         }
-
     }
 }

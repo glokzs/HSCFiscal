@@ -21,10 +21,10 @@ namespace HSCFiscalRegistrar.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly ApplicationDBbContext _context;
+        private readonly ApplicationContext _context;
 
         public AuthorizeController(UserManager<User> userManager, SignInManager<User> signInManager,
-            ApplicationDBbContext context)
+            ApplicationContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;

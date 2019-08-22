@@ -30,14 +30,8 @@ namespace HSCFiscalRegistrar
 
         public void ConfigureServices(IServiceCollection services)
         {
-            string Connection = Configuration.GetConnectionString("HSCConnection");
-            services.AddDbContext<ApplicationDBbContext>(options => options.UseNpgsql(Connection));
-
-            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDBbContext>();
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            
-            string connection = Configuration.GetConnectionString("HSCFiscalRegistarConnection");
+            string connection = Configuration.GetConnectionString("connectionString");
             services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>();
