@@ -6,6 +6,8 @@ using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -29,7 +31,7 @@ namespace HSCFiscalRegistrar.Controllers
         public async Task<JsonResult> Post([FromBody] Data model)
         {
 
-            var result =
+            SignInResult result =
                 await _signInManager.PasswordSignInAsync(model.Login, model.Password, false, false);
 
             if (result.Succeeded)
@@ -43,13 +45,18 @@ namespace HSCFiscalRegistrar.Controllers
                 {
                     UserName = model.Login,
                     PasswordHash = model.Password,
-                    DateTime = DateTime.Now,
-                    UserToken = userToken.Token,
                     DeviceId = model.DeviceId
 
                 };
 
-            return Json(userToken);
+                user = await _userManager.FindByNameAsync(model.Login);
+
+                user.DateTime = DateTime.Now;
+                user.UserToken = userToken.Token;
+
+                var buf = _userManager.UpdateAsync(user);
+
+                return Json(userToken);
 
             }
             Errors errors = new Errors
