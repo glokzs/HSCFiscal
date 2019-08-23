@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NLog;
+﻿using NLog;
 using Newtonsoft.Json;
 
 namespace HSCFiscalRegistrar.Services

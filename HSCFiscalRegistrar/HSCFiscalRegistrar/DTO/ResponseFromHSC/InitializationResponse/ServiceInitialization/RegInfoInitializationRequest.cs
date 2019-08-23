@@ -1,6 +1,4 @@
-﻿using System.Security.AccessControl;
-
-namespace HSCFiscalRegistrar.DTO.ResponseFromHSC.InitializationResponse.ServiceInitialization
+﻿namespace HSCFiscalRegistrar.DTO.ResponseFromHSC.InitializationResponse.ServiceInitialization
 {
     public class RegInfoInitializationRequest 
     {

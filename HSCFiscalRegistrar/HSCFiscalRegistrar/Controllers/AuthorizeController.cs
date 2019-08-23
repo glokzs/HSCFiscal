@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using HSCFiscalRegistrar.DTO.Errors;
 using HSCFiscalRegistrar.DTO.UserModel;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
-using HSCFiscalRegistrar.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -58,15 +52,12 @@ namespace HSCFiscalRegistrar.Controllers
             return Json(userToken);
 
             }
-            else
-            {
-                Errors errors = new Errors
+            Errors errors = new Errors
                 {
                     Text = "Invalid login",
                     Code = OutputErrorsEnum.InvalidLoginOrPassword
                };
                 return Json(errors);
-            }
         }
     }
 }

@@ -1,8 +1,5 @@
-using System;
 using System.Threading.Tasks;
-using Flurl;
 using Flurl.Http;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HSCFiscalRegistrar.Services

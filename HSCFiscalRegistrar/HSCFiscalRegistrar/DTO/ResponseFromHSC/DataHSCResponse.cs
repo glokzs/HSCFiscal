@@ -1,5 +1,4 @@
-﻿using HSCFiscalRegistrar.DTO.ResponseFromHSC.CheckAndMoneyOperationResponse;
-using HSCFiscalRegistrar.Enums;
+﻿using HSCFiscalRegistrar.Enums;
 
 namespace HSCFiscalRegistrar.DTO.ResponseFromHSC
 {

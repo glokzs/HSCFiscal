@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HSCFiscalRegistrar.Migrations
 {
-    public partial class Inital : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,7 +41,7 @@ namespace HSCFiscalRegistrar.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    UserToken = table.Column<string>(nullable: true),
+                    UserToken = table.Column<Guid>(nullable: false),
                     DeviceId = table.Column<int>(nullable: false),
                     DateTime = table.Column<DateTime>(nullable: false)
                 },
