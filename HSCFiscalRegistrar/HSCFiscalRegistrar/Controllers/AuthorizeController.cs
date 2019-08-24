@@ -1,12 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using HSCFiscalRegistrar.DTO.Data;
 using HSCFiscalRegistrar.DTO.Errors;
 using HSCFiscalRegistrar.DTO.UserModel;
-using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace HSCFiscalRegistrar.Controllers
@@ -19,7 +17,8 @@ namespace HSCFiscalRegistrar.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly ApplicationContext _context;
 
-        public AuthorizeController(UserManager<User> userManager, SignInManager<User> signInManager,
+        public AuthorizeController(UserManager<User> userManager,
+            SignInManager<User> signInManager,
             ApplicationContext context)
         {
             _userManager = userManager;
@@ -28,44 +27,47 @@ namespace HSCFiscalRegistrar.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> Post([FromBody] Data model)
+        public async Task<JsonResult> Post([FromBody] UserDTO model)
         {
-
-            SignInResult result =
-                await _signInManager.PasswordSignInAsync(model.Login, model.Password, false, false);
+            SignInResult result = 
+                await _signInManager.PasswordSignInAsync(
+                    model.Login, 
+                    model.Password, 
+                    false, 
+                    false);
 
             if (result.Succeeded)
             {
-                UserToken userToken = new UserToken
-            {
-                Token = Guid.NewGuid()
-            };
+                User user = await _userManager.FindByNameAsync(model.Login);
+                
+                user.UserName = model.Login;
+                user.PasswordHash = model.Password;
+                user.DateTimeCreationToken = GenerateUserToken.TimeCreation();
+                user.UserToken = GenerateUserToken.getGuidKey();
 
-                User user = new User
+                var response = await _userManager.UpdateAsync(user);
+
+                if (response.Succeeded)
                 {
-                    UserName = model.Login,
-                    PasswordHash = model.Password,
-                    DeviceId = model.DeviceId
+                    var dto = new AnswerServerAuth
+                    {
+                        Data = new Data
+                        {
+                            Token = user.UserToken
+                        }
+                    };
 
-                };
-
-                user = await _userManager.FindByNameAsync(model.Login);
-
-                user.DateTime = DateTime.Now;
-                user.UserToken = userToken.Token;
-
-                var buf = _userManager.UpdateAsync(user);
-
-                return Json(userToken);
-
+                    return Json(dto);
+                }
+                else
+                {
+                    return Json("Ошибка в системе!");
+                }
             }
-            Errors errors = new Errors
-                {
-                    Text = "Invalid login",
-                    Code = OutputErrorsEnum.InvalidLoginOrPassword
-               };
-                return Json(errors);
+            else
+            {
+                return Json(ErrorsAuth.loginError());
+            }
         }
     }
 }
-    

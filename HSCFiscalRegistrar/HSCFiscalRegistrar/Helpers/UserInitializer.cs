@@ -8,14 +8,8 @@ namespace HSCFiscalRegistrar.Models
     {
         public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
-            string adminLogin = "Admin";
-            string password = "Admin";
-
-            Guid userToken = Guid.NewGuid();
-            int deviceId = 12345;
-
-            DateTime dateTime = DateTime.Now;
-
+            string adminEmail = "admin@gmail.com";
+            string password = "_Aa123456";
             if (await roleManager.FindByNameAsync("admin") == null)
             {
                 await roleManager.CreateAsync(new IdentityRole("admin"));
@@ -26,13 +20,9 @@ namespace HSCFiscalRegistrar.Models
                 await roleManager.CreateAsync(new IdentityRole("user"));
             }
 
-            if (await userManager.FindByNameAsync(adminLogin) == null)
+            if (await userManager.FindByNameAsync(adminEmail) == null)
             {
-                User admin = new User
-                {
-                    UserName = adminLogin, UserToken = userToken, DeviceId = deviceId, PasswordHash = password,
-                    DateTime = dateTime
-                };
+                User admin = new User {Email = adminEmail, UserName = adminEmail};
 
                 IdentityResult result = await userManager.CreateAsync(admin, password);
                 if (result.Succeeded)

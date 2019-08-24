@@ -7,6 +7,6 @@ namespace HSCFiscalRegistrar.Models
     {
         public Guid UserToken { get; set; }
         public int DeviceId { get; set; }
-        public DateTime DateTime { get; set; }
+        public DateTime DateTimeCreationToken { get; set; }
     }
 }

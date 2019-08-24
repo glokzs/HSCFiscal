@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace HSCFiscalRegistrar.DTO.UserModel
+namespace HSCFiscalRegistrar.DTO.Data
 {
-    public class UserToken
+    public class Data
     {
         public Guid Token { get; set; }
     }

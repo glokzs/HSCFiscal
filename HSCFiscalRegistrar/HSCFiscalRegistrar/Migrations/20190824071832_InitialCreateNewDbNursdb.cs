@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HSCFiscalRegistrar.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialCreateNewDbNursdb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,7 +43,7 @@ namespace HSCFiscalRegistrar.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     UserToken = table.Column<Guid>(nullable: false),
                     DeviceId = table.Column<int>(nullable: false),
-                    DateTime = table.Column<DateTime>(nullable: false)
+                    DateTimeCreationToken = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {

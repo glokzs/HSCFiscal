@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HSCFiscalRegistrar.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20190823154550_InitialTwo")]
-    partial class InitialTwo
+    [Migration("20190824071832_InitialCreateNewDbNursdb")]
+    partial class InitialCreateNewDbNursdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,7 +31,7 @@ namespace HSCFiscalRegistrar.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<DateTime>("DateTime");
+                    b.Property<DateTime>("DateTimeCreationToken");
 
                     b.Property<int>("DeviceId");
 

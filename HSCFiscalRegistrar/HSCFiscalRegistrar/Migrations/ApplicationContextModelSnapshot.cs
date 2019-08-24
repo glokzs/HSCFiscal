@@ -29,7 +29,7 @@ namespace HSCFiscalRegistrar.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<DateTime>("DateTime");
+                    b.Property<DateTime>("DateTimeCreationToken");
 
                     b.Property<int>("DeviceId");
 
