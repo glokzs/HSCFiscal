@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.Data;
 using HSCFiscalRegistrar.DTO.Errors;
 using HSCFiscalRegistrar.DTO.UserModel;
@@ -29,23 +30,19 @@ namespace HSCFiscalRegistrar.Controllers
         [HttpPost]
         public async Task<JsonResult> Post([FromBody] UserDTO model)
         {
-            SignInResult result = 
-                await _signInManager.PasswordSignInAsync(
-                    model.Login, 
-                    model.Password, 
-                    false, 
-                    false);
+            var result = await _signInManager.PasswordSignInAsync(model.Login, 
+                model.Password, 
+                false, 
+                false);
 
             if (result.Succeeded)
             {
-                User user = await _userManager.FindByNameAsync(model.Login);
+                var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Login);
                 
-                user.UserName = model.Login;
-                user.PasswordHash = model.Password;
-                user.DateTimeCreationToken = GenerateUserToken.TimeCreation();
-                user.UserToken = GenerateUserToken.getGuidKey();
+                appUser.DateTimeCreationToken = GenerateUserToken.TimeCreation();
+                appUser.UserToken = GenerateUserToken.getGuidKey();
 
-                var response = await _userManager.UpdateAsync(user);
+                var response = await _userManager.UpdateAsync(appUser);
 
                 if (response.Succeeded)
                 {
@@ -53,7 +50,7 @@ namespace HSCFiscalRegistrar.Controllers
                     {
                         Data = new Data
                         {
-                            Token = user.UserToken
+                            Token = appUser.UserToken
                         }
                     };
 

@@ -10,6 +10,7 @@ namespace HSCFiscalRegistrar.Models
         {
             string adminEmail = "admin@gmail.com";
             string password = "_Aa123456";
+            
             if (await roleManager.FindByNameAsync("admin") == null)
             {
                 await roleManager.CreateAsync(new IdentityRole("admin"));
@@ -22,7 +23,7 @@ namespace HSCFiscalRegistrar.Models
 
             if (await userManager.FindByNameAsync(adminEmail) == null)
             {
-                User admin = new User {Email = adminEmail, UserName = adminEmail};
+                User admin = new User {Email = adminEmail, UserName = adminEmail, PasswordHash = password};
 
                 IdentityResult result = await userManager.CreateAsync(admin, password);
                 if (result.Succeeded)
