@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using HSCFiscalRegistrar.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -62,16 +63,15 @@ namespace HSCFiscalRegistrar
                 app.UseHsts();
             }
             
-
+            
             app.UseHttpsRedirection();
             app.UseMvc();
             app.UseAuthentication();
-            
+
             var myRouteHandler = new RouteHandler(Handle);
             var routeBuilder = new RouteBuilder(app, myRouteHandler);
             routeBuilder.MapRoute("default", "{controller}/{action}");
             app.UseRouter(routeBuilder.Build());
-            
             
              
             app.Run(async (context) =>

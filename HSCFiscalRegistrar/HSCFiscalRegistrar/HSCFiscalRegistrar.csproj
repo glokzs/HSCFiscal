@@ -33,10 +33,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTO\RequestForOFD\Authorization" />
-    <Folder Include="DTO\RequestForOFD\CloseShiftRequest" />
-    <Folder Include="DTO\RequestForOFD\ReportRequest" />
-  </ItemGroup>
-
 </Project>
