@@ -6,6 +6,6 @@ namespace HSCFiscalRegistrar.DTO.UserModel
     {
         public int Command { get; set; }
         public string NewPassword { get; set; }
-        public Guid Token { get; set; }
+        public string Token { get; set; }
     }
 }

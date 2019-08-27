@@ -22,7 +22,7 @@ namespace HSCFiscalRegistrar.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> Post([FromBody] UserDTO model)
+        public async Task<JsonResult> Post([FromBody] UserRegistration model)
         {
             if (ModelState.IsValid)
             {
@@ -44,7 +44,7 @@ namespace HSCFiscalRegistrar.Controllers
                         ResponseServerReg answer = new ResponseServerReg
                         {
                             Successful = "You are registered",
-                            Token = user.UserToken
+                            Token = user.UserToken.ToString()
                         };
 
                         return Json(answer);

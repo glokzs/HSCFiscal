@@ -33,7 +33,7 @@ namespace HSCFiscalRegistrar.Controllers
             if (result.Succeeded)
             {
                 var userLog = _userManager.Users.FirstOrDefault(r => r.UserName == model.Login);
-                if (userLog != null && userLog.UserToken == model.Token)
+                if (userLog != null && userLog.UserToken.ToString() == model.Token)
                 {
                     userLog.DateTimeCreationToken = GenerateUserToken.TimeCreation();
                     userLog.UserToken = GenerateUserToken.getGuidKey();
@@ -50,7 +50,7 @@ namespace HSCFiscalRegistrar.Controllers
                         ResponseServerReg answer = new ResponseServerReg
                         {
                             Successful = "Password changed successfully",
-                            Token = userLog.UserToken
+                            Token = userLog.UserToken.ToString()
                         };
 
                         return Json(answer);
