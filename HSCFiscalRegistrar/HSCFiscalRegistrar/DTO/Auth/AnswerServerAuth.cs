@@ -2,6 +2,6 @@
 {
     public class AnswerServerAuth
     {
-        public Data Data { get; set; } = new Data();
+        public Data Data { get; set; }
     }
 }
