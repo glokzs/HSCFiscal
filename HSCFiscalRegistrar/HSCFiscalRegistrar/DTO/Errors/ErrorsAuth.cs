@@ -16,10 +16,25 @@ namespace HSCFiscalRegistrar.DTO.Errors
                 {
                     new Error
                     {
-                        Code = "1",
+                        Code = 1,
                         Text = "Vlalads"
                     },
                 }
+            };
+        }
+
+        public static DataErrors invalidToken()
+        {
+            return new DataErrors
+            {
+                Errors = new[]
+                {
+                    new Error
+                    {
+                        Code = 9,
+                        Text = "Token error"
+                    }
+                },
             };
         }
     }
