@@ -45,7 +45,7 @@ namespace HSCFiscalRegistrar.Controllers
                     {
                         Data = new Data
                         {
-                            Token = appUser.UserToken
+                            Token = appUser.UserToken.ToString()
                         }
                     };
 
