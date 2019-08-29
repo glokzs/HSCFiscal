@@ -16,7 +16,7 @@ namespace HSCFiscalRegistrar.DTO.Errors
                 {
                     new Error
                     {
-                        Code = "1",
+                        Code = 1,
                         Text = "Incorrect login or password"
                     },
                 }
