@@ -6,7 +6,6 @@ using HSCFiscalRegistrar.DTO.UserModel;
 using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -16,29 +15,25 @@ namespace HSCFiscalRegistrar.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly ApplicationContext _context;
 
         public AuthorizeController(UserManager<User> userManager,
-            SignInManager<User> signInManager,
-            ApplicationContext context)
+            SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context;
         }
 
         [HttpPost]
         public async Task<JsonResult> Post([FromBody] UserDTO model)
         {
-            var result = await _signInManager.PasswordSignInAsync(model.Login, 
-                model.Password, 
-                false, 
+            var result = await _signInManager.PasswordSignInAsync(model.Login,
+                model.Password,
+                false,
                 false);
-
             if (result.Succeeded)
             {
                 var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Login);
-                
+
                 appUser.DateTimeCreationToken = GenerateUserToken.TimeCreation();
                 appUser.UserToken = GenerateUserToken.getGuidKey();
 
@@ -50,7 +45,7 @@ namespace HSCFiscalRegistrar.Controllers
                     {
                         Data = new Data
                         {
-                            Token = appUser.UserToken
+                            Token = appUser.UserToken.ToString()
                         }
                     };
 
@@ -63,8 +58,9 @@ namespace HSCFiscalRegistrar.Controllers
             }
             else
             {
-                return Json(ErrorsAuth.loginError());
+                return Json(ErrorsAuth.LoginError());
             }
+
         }
     }
 }

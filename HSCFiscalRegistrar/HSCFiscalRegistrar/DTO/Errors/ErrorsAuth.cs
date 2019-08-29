@@ -8,7 +8,7 @@ namespace HSCFiscalRegistrar.DTO.Errors
         private OutputErrorsEnum Code { get; set; }
         private string Text { get; set; }
 
-        public static DataErrors loginError()
+        public static DataErrors LoginError()
         {
             return new DataErrors
             {
@@ -16,25 +16,41 @@ namespace HSCFiscalRegistrar.DTO.Errors
                 {
                     new Error
                     {
-                        Code = 1,
-                        Text = "Vlalads"
+                        Code = "1",
+                        Text = "Incorrect login or password"
                     },
                 }
             };
         }
-
-        public static DataErrors invalidToken()
+        public static ErrorOther CheckLogin()
         {
-            return new DataErrors
+            return new ErrorOther
             {
-                Errors = new[]
-                {
-                    new Error
-                    {
-                        Code = 9,
-                        Text = "Token error"
-                    }
-                },
+                Text = "Name is already taken"
+            };
+        }
+
+        public static ErrorOther RegisterError()
+        {
+            return new ErrorOther
+            {
+                Text = "Incorrect login"
+            };
+        }
+
+        public static ErrorOther UserNotFound()
+        {
+            return new ErrorOther
+            {
+                Text = "User not found"
+            };
+        }
+
+        public static ErrorOther PasswordAlready()
+        {
+            return new ErrorOther
+            {
+                Text = "Old and new passwords must not match"
             };
         }
     }
