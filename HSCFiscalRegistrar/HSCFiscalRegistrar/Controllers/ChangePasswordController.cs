@@ -46,7 +46,7 @@ namespace HSCFiscalRegistrar.Controllers
                     }
                     await _userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
 
-                    var response = await _userManager.UpdateAsync(user);
+                    IdentityResult response = await _userManager.UpdateAsync(user);
 
                     if (response.Succeeded)
                     {
