@@ -30,6 +30,7 @@ namespace HSCFiscalRegistrar.Controllers
                 model.Password,
                 false,
                 false);
+
             if (result.Succeeded)
             {
                 var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Login);

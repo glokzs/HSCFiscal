@@ -22,6 +22,7 @@ namespace HSCFiscalRegistrar.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
+
         [HttpPost]
         public async Task<JsonResult>Post([FromBody] UserChangePassword model)
         {
@@ -32,25 +33,27 @@ namespace HSCFiscalRegistrar.Controllers
 
             if (result.Succeeded)
             {
-                var userLog = _userManager.Users.FirstOrDefault(r => r.UserName == model.Login);
-                if (userLog != null && userLog.UserToken.ToString() == model.Token)
+                User user = _userManager.Users.FirstOrDefault(r => r.UserName == model.Login);
+
+                if (user != null && user.UserToken.ToString() == model.Token)
                 {
-                    userLog.DateTimeCreationToken = GenerateUserToken.TimeCreation();
-                    userLog.UserToken = GenerateUserToken.getGuidKey();
+                    user.DateTimeCreationToken = GenerateUserToken.TimeCreation();
+                    user.UserToken = GenerateUserToken.getGuidKey();
+
                     if (model.Password == model.NewPassword)
                     {
                         return Json(ErrorsAuth.PasswordAlready());
                     }
-                    await _userManager.ChangePasswordAsync(userLog, model.Password, model.NewPassword);
+                    await _userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
 
-                    var response = await _userManager.UpdateAsync(userLog);
+                    var response = await _userManager.UpdateAsync(user);
 
                     if (response.Succeeded)
                     {
                         ResponseServerReg answer = new ResponseServerReg
                         {
                             Successful = "Password changed successfully",
-                            Token = userLog.UserToken.ToString()
+                            Token = user.UserToken.ToString()
                         };
 
                         return Json(answer);
