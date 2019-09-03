@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HSCFiscalRegistrar.DTO.TokenValid;
 
 namespace HSCFiscalRegistrar.Helpers
 {
@@ -17,18 +18,11 @@ namespace HSCFiscalRegistrar.Helpers
         {
             _context = context;
         }
-
-
-        //public bool TokenChecking(object request)
-        //{
-        //    if (_context.Users.FirstOrDefault(u => u.UserToken == request.Token) != null)
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }    
-        //}
+        
+        public bool TokenChecking(UserDTO dto)
+        {
+            User user = _context.Users.FirstOrDefault(u => u.Email == dto.Email);
+            return user != null && (dto.Token != null && user.UserToken.ToString() == dto.Token);
+        }
     }
 }
