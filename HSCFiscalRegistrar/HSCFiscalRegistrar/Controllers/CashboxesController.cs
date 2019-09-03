@@ -9,8 +9,7 @@ namespace HSCFiscalRegistrar.Controllers
     public class CashboxesController : Controller
     {
         [HttpGet]
-
-        public JsonResult Get([FromBody]Data data)
+        public JsonResult Get([FromBody] Data data)
         {
             DTO.Cashboxes.Data cashboxModel = new DTO.Cashboxes.Data
             {

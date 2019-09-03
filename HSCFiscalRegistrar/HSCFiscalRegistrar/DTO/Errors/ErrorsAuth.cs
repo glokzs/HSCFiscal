@@ -22,6 +22,7 @@ namespace HSCFiscalRegistrar.DTO.Errors
                 }
             };
         }
+
         public static ErrorOther CheckLogin()
         {
             return new ErrorOther

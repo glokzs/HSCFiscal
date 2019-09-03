@@ -14,6 +14,5 @@ namespace HSCFiscalRegistrar.DTO.Cashboxes
         public bool IsOffline { get; set; }
         public int CurrentStatus { get; set; }
         public int Shift { get; set; }
-
     }
 }

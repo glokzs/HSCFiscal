@@ -7,12 +7,11 @@ namespace HSCFiscalRegistrar.Services
     public static class HttpService
     {
         private const string Url = "http://52.38.152.232:8082";
-        
+
         [HttpPost]
         public static async Task<dynamic> Post([FromBody] object anyObject)
         {
             return await Url.PostJsonAsync(anyObject).ReceiveJson();
-            
         }
 
         [HttpGet]
@@ -20,6 +19,5 @@ namespace HSCFiscalRegistrar.Services
         {
             return await Url.GetJsonAsync();
         }
-
     }
 }

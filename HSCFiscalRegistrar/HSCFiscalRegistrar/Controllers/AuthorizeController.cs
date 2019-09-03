@@ -6,6 +6,7 @@ using HSCFiscalRegistrar.DTO.UserModel;
 using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -24,7 +25,7 @@ namespace HSCFiscalRegistrar.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> Post([FromBody] UserDTO model)
+        public async Task<IActionResult> Post([FromBody] UserDTO model)
         {
             var result = await _signInManager.PasswordSignInAsync(model.Login,
                 model.Password,
@@ -35,33 +36,40 @@ namespace HSCFiscalRegistrar.Controllers
             {
                 var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Login);
 
-                appUser.DateTimeCreationToken = GenerateUserToken.TimeCreation();
-                appUser.UserToken = GenerateUserToken.getGuidKey();
-
-                var response = await _userManager.UpdateAsync(appUser);
-
-                if (response.Succeeded)
+                if (appUser != null)
                 {
-                    var dto = new AnswerServerAuth
-                    {
-                        Data = new Data
-                        {
-                            Token = appUser.UserToken.ToString()
-                        }
-                    };
+                    appUser.DateTimeCreationToken = GenerateUserToken.TimeCreation();
 
-                    return Json(dto);
+                    appUser.UserToken = GenerateUserToken.getGuidKey();
+
+                    var response = await _userManager.UpdateAsync(appUser);
+
+                    if (response.Succeeded)
+                    {
+                        var dto = new AnswerServerAuth
+                        {
+                            Data = new Data
+                            {
+                                Token = appUser.UserToken.ToString()
+                            }
+                        };
+
+                        return Ok(JsonConvert.SerializeObject(dto));
+                    }
+                    else
+                    {
+                        return Ok("Ошибка в системе!");
+                    }
                 }
                 else
                 {
-                    return Json("Ошибка в системе!");
+                    return Ok(ErrorsAuth.LoginError());
                 }
             }
             else
             {
-                return Json(ErrorsAuth.LoginError());
+                return Ok(ErrorsAuth.LoginError());
             }
-
         }
     }
 }

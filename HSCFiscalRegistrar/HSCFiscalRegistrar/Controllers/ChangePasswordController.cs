@@ -24,7 +24,7 @@ namespace HSCFiscalRegistrar.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult>Post([FromBody] UserChangePassword model)
+        public async Task<JsonResult> Post([FromBody] UserChangePassword model)
         {
             var result = await _signInManager.PasswordSignInAsync(model.Login,
                 model.Password,
@@ -44,6 +44,7 @@ namespace HSCFiscalRegistrar.Controllers
                     {
                         return Json(ErrorsAuth.PasswordAlready());
                     }
+
                     await _userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
 
                     IdentityResult response = await _userManager.UpdateAsync(user);
@@ -65,7 +66,6 @@ namespace HSCFiscalRegistrar.Controllers
                 }
                 else
                 {
-
                     return Json(ErrorsAuth.UserNotFound());
                 }
             }
@@ -74,6 +74,5 @@ namespace HSCFiscalRegistrar.Controllers
                 return Json(ErrorsAuth.LoginError());
             }
         }
-
     }
 }

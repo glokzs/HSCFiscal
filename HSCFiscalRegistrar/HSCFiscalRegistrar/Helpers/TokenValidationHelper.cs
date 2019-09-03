@@ -12,6 +12,7 @@ namespace HSCFiscalRegistrar.Helpers
     public class TokenValidationHelper
     {
         private readonly ApplicationContext _context;
+
         public TokenValidationHelper(ApplicationContext context)
         {
             _context = context;

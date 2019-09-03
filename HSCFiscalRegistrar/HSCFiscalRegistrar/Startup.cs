@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Threading.Tasks;
 using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -26,10 +24,14 @@ namespace HSCFiscalRegistrar
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
             string connection = Configuration.GetConnectionString("connectionString");
+
             services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
+
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>();
+
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.
@@ -51,7 +53,7 @@ namespace HSCFiscalRegistrar
                 options.User.RequireUniqueEmail = false;
             });
         }
-        
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -62,27 +64,15 @@ namespace HSCFiscalRegistrar
             {
                 app.UseHsts();
             }
-            
-            
+
             app.UseHttpsRedirection();
-            app.UseMvc();
             app.UseAuthentication();
 
-            var myRouteHandler = new RouteHandler(Handle);
-            var routeBuilder = new RouteBuilder(app, myRouteHandler);
-            routeBuilder.MapRoute("default", "{controller}/{action}");
-            app.UseRouter(routeBuilder.Build());
-            
-             
-            app.Run(async (context) =>
+            app.UseMvc(routes =>
             {
-                await context.Response.WriteAsync("Hello World!");
+                routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
-        }
-        
-        private async Task Handle(HttpContext context)
-        {
-            await context.Response.WriteAsync("API started!");
+
         }
     }
 }

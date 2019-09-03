@@ -54,7 +54,6 @@ namespace HSCFiscalRegistrar.Controllers
                 }
                 else
                 {
-
                     return Json(ErrorsAuth.RegisterError());
                 }
             }
