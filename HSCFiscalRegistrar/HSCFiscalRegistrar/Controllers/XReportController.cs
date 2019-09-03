@@ -6,6 +6,7 @@ namespace HSCFiscalRegistrar.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class XReportController : Controller
     {
         [HttpPost]
