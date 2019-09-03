@@ -3,7 +3,6 @@ using HSCFiscalRegistrar.DTO.Cashboxes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Data = HSCFiscalRegistrar.DTO.Data.Data;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -13,7 +12,7 @@ namespace HSCFiscalRegistrar.Controllers
     public class CashboxesController : Controller
     {
         [HttpPost]
-        public OkObjectResult Get([FromBody] Data data)
+        public ActionResult Get([FromBody] DtoToken dtoToken)
         {
             Wrapper wrapper = new Wrapper
             {
@@ -35,7 +34,6 @@ namespace HSCFiscalRegistrar.Controllers
                 }
 
             };
-
 
             return Ok(JsonConvert.SerializeObject(wrapper));
         }

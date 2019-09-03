@@ -67,6 +67,7 @@ namespace HSCFiscalRegistrar
             }
 
             app.UseHttpsRedirection();
+            app.UseIdentity();
             app.UseAuthentication();
 
             app.UseMvc(routes =>

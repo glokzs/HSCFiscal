@@ -4,6 +4,7 @@ using HSCFiscalRegistrar.DTO.Data;
 using HSCFiscalRegistrar.DTO.Errors;
 using HSCFiscalRegistrar.DTO.UserModel;
 using HSCFiscalRegistrar.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -12,6 +13,7 @@ namespace HSCFiscalRegistrar.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class AuthorizeController : Controller
     {
         private readonly UserManager<User> _userManager;

@@ -1,31 +1,21 @@
-﻿using HSCFiscalRegistrar.DTO.Data;
-using HSCFiscalRegistrar.DTO.Errors;
-using HSCFiscalRegistrar.DTO.TokenDto;
-using HSCFiscalRegistrar.Helpers;
+﻿using HSCFiscalRegistrar.DTO.TokenDto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace HSCFiscalRegistrar.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class XReportController : Controller
     {
         [HttpPost]
         public string XReportResult([FromBody] WrapperToken tokenDto)
         {
             //TODO: откоментить при тестировании валидации
-/*          var chooser = TokenValidationHelper.TokenValidator(User, tokenDto.Data.Token);            
-            bool check = chooser.Result.Equals(true);*/
+//            var chooser = TokenValidationHelper.TokenValidator(User, tokenDto.Data.Token);
+//            bool check = chooser.Result.Equals(true);
 
-            return getPost();
-        }
-
-        private string getPost()
-        {
-                      return @"{
+            return @"{
     ""Data"": {
         ""TaxPayerName"": ""ТОО Тест 21"",
         ""TaxPayerIN"": ""111140010124"",
@@ -104,6 +94,5 @@ namespace HSCFiscalRegistrar.Controllers
 }
 ";
         }
-
     }
 }
