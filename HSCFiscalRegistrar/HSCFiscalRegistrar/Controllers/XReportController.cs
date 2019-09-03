@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.Data;
+using HSCFiscalRegistrar.DTO.Errors;
+using HSCFiscalRegistrar.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -16,8 +19,14 @@ namespace HSCFiscalRegistrar.Controllers
         [HttpPost]
         public string XReportResult([FromBody]Data data)
         {
+            var chooser = TokenValidationHelper.TokenValidator(User, data.Token);
+            
+            return chooser.Result == 1 ? getPost() : JsonConvert.SerializeObject(ErrorsAuth.CheckLogin());
+        }
 
-            return @"{
+        private string getPost()
+        {
+                      return @"{
     ""Data"": {
         ""TaxPayerName"": ""ТОО Тест 21"",
         ""TaxPayerIN"": ""111140010124"",
@@ -96,5 +105,6 @@ namespace HSCFiscalRegistrar.Controllers
 }
 ";
         }
+
     }
 }
