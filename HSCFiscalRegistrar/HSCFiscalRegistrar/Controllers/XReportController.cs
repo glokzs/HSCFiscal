@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using HSCFiscalRegistrar.DTO.Data;
+﻿using HSCFiscalRegistrar.DTO.Data;
 using HSCFiscalRegistrar.DTO.Errors;
+using HSCFiscalRegistrar.DTO.TokenDto;
 using HSCFiscalRegistrar.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +14,13 @@ namespace HSCFiscalRegistrar.Controllers
     public class XReportController : Controller
     {
         [HttpPost]
-        public string XReportResult([FromBody]Data data)
+        public string XReportResult([FromBody] WrapperToken tokenDto)
         {
-            var chooser = TokenValidationHelper.TokenValidator(User, data.Token);
-            
-            return chooser.Result == 1 ? getPost() : JsonConvert.SerializeObject(ErrorsAuth.CheckLogin());
+            //TODO: откоментить при тестировании валидации
+/*          var chooser = TokenValidationHelper.TokenValidator(User, tokenDto.Data.Token);            
+            bool check = chooser.Result.Equals(true);*/
+
+            return getPost();
         }
 
         private string getPost()
