@@ -26,9 +26,8 @@ namespace HSCFiscalRegistrar
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            string connection = Configuration.GetConnectionString("connectionString");
-
-            services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
+            services.AddDbContext<ApplicationContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("connectionString")));
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>();
@@ -67,7 +66,6 @@ namespace HSCFiscalRegistrar
             }
 
             app.UseHttpsRedirection();
-            app.UseIdentity();
             app.UseAuthentication();
 
             app.UseMvc(routes =>
