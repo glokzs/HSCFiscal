@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.Cashboxes;
+using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -8,11 +11,16 @@ namespace HSCFiscalRegistrar.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class CashboxesController : Controller
     {
+        private static UserManager<User> _userManager;
+        public CashboxesController(UserManager<User> userManager)
+        {
+            _userManager = userManager;
+        }
+        
         [HttpPost]
-        public ActionResult Get([FromBody] DtoToken dtoToken)
+        public async Task<ActionResult> Get([FromBody] DtoToken dtoToken)
         {
             Wrapper wrapper = new Wrapper
             {

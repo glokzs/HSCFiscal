@@ -9,15 +9,12 @@ namespace HSCFiscalRegistrar.Helpers
 {
     public class TokenValidationHelper 
     {
-        private static UserManager<User> _userManager;
-        public TokenValidationHelper(ApplicationContext context, UserManager<User> userManager)
+       public static async Task<bool> TokenValidator(
+           ClaimsPrincipal user, 
+            UserManager<User> userManager, 
+            string token)
         {
-            _userManager = userManager;
-        }
-
-        public static async Task<bool> TokenValidator(ClaimsPrincipal user, string token)
-        {
-            User tokenOwner = await _userManager.GetUserAsync(user);
+            User tokenOwner = await userManager.GetUserAsync(user);
             return tokenOwner.UserToken.ToString() == token;
         }
     }
