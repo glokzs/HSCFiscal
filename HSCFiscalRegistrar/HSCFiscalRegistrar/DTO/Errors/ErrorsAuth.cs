@@ -22,6 +22,22 @@ namespace HSCFiscalRegistrar.DTO.Errors
                 }
             };
         }
+        
+        public static DataErrors TokenError()
+        {
+            return new DataErrors
+            {
+                Errors = new[]
+                {
+                    new Error
+                    {
+                        Code = 1015,
+                        Text = "Неверно указан токен"
+                    },
+                }
+            };
+        }
+
 
         public static ErrorOther CheckLogin()
         {
