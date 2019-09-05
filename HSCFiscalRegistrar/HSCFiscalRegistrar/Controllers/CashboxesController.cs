@@ -20,8 +20,9 @@ namespace HSCFiscalRegistrar.Controllers
         }
         
         [HttpPost]
-        public async Task<ActionResult> Get([FromBody] DtoToken dtoToken)
+        public  ActionResult Get([FromBody] DtoToken dtoToken)
         {
+            
             Wrapper wrapper = new Wrapper
             {
                 Data = new DTO.Cashboxes.Data
