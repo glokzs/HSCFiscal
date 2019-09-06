@@ -1,4 +1,4 @@
-namespace HSCFiscalRegistrar.Models
+namespace HSCFiscalRegistrar.Models.APKInfo
 {
     public class Org
     {
