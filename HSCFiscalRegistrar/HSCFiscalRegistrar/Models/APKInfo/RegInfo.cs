@@ -2,9 +2,10 @@ namespace HSCFiscalRegistrar.Models.APKInfo
 {
     public class RegInfo
     {
+        public string Id { get; set; }
         public string OrgId { get; set; }
-        public Org Org { get; set; }
+        public virtual Org Org { get; set; }
         public string KkmId { get; set; }
-        public Kkm Kkm { get; set; }
+        public virtual Kkm Kkm { get; set; }
     }
 }
