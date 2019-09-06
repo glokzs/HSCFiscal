@@ -59,20 +59,14 @@ namespace HSCFiscalRegistrar.Controllers
 
                         return Json(answer);
                     }
-                    else
-                    {
-                        return Json("Errors system");
-                    }
+
+                    return Json("Errors system");
                 }
-                else
-                {
-                    return Json(ErrorsAuth.UserNotFound());
-                }
+
+                return Json(ErrorsAuth.UserNotFound());
             }
-            else
-            {
-                return Json(ErrorsAuth.LoginError());
-            }
+
+            return Json(ErrorsAuth.LoginError());
         }
     }
 }
