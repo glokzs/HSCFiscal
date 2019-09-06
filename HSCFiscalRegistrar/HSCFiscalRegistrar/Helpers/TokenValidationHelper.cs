@@ -1,34 +1,21 @@
-﻿using HSCFiscalRegistrar.DTO.Errors;
+﻿using System.Linq;
 using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HSCFiscalRegistrar.Helpers
 {
-    public class TokenValidationHelper
+    public class TokenValidationHelper 
     {
-        private readonly ApplicationContext _context;
-
-        public TokenValidationHelper(ApplicationContext context)
+       public static async Task<bool> TokenValidator(
+           ClaimsPrincipal user, 
+            UserManager<User> userManager, 
+            string token)
         {
-            _context = context;
+            User tokenOwner = await userManager.GetUserAsync(user);
+            return tokenOwner.UserToken.ToString() == token;
         }
-
-
-        //public bool TokenChecking(object request)
-        //{
-        //    if (_context.Users.FirstOrDefault(u => u.UserToken == request.Token) != null)
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }    
-        //}
     }
 }

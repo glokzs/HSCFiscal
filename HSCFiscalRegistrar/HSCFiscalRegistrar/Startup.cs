@@ -1,4 +1,5 @@
 ﻿using System;
+using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -25,9 +26,8 @@ namespace HSCFiscalRegistrar
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            string connection = Configuration.GetConnectionString("connectionString");
-
-            services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
+            services.AddDbContext<ApplicationContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("connectionString")));
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>();

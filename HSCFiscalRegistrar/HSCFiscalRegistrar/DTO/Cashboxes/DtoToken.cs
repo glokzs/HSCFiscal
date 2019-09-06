@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace HSCFiscalRegistrar.DTO.Data
+namespace HSCFiscalRegistrar.DTO.Cashboxes
 {
-    public class Data
+    public class DtoToken
     {
         [JsonProperty("Token")]
         public string Token { get; set; }

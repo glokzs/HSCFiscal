@@ -1,6 +1,11 @@
-﻿using HSCFiscalRegistrar.DTO.Cashboxes;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using HSCFiscalRegistrar.DTO.Cashboxes;
+using HSCFiscalRegistrar.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Data = HSCFiscalRegistrar.DTO.Data.Data;
+using Newtonsoft.Json;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -8,27 +13,38 @@ namespace HSCFiscalRegistrar.Controllers
     [ApiController]
     public class CashboxesController : Controller
     {
-        [HttpGet]
-        public JsonResult Get([FromBody] Data data)
+        private static UserManager<User> _userManager;
+        public CashboxesController(UserManager<User> userManager)
         {
-            DTO.Cashboxes.Data cashboxModel = new DTO.Cashboxes.Data
+            _userManager = userManager;
+        }
+        
+        [HttpPost]
+        public  ActionResult Get([FromBody] DtoToken dtoToken)
+        {
+            
+            Wrapper wrapper = new Wrapper
             {
-                List =
+                Data = new DTO.Cashboxes.Data
                 {
-                    new List
-                    {
-                        UniqueNumber = "SWK00030767",
-                        RegistrationNumber = "240820180008",
-                        IdentificationNumber = "2405",
-                        Name = "Касса - 212408",
-                        IsOffline = false,
-                        CurrentStatus = 1,
-                        Shift = 59
-                    }
+                    List = new List<List>
+                        {
+                            new List
+                            {
+                                UniqueNumber = "SWK00030767",
+                                RegistrationNumber = "240820180008",
+                                IdentificationNumber = "2405",
+                                Name = "Касса - 212408",
+                                IsOffline = false,
+                                CurrentStatus = 1,
+                                Shift = 59
+                            }
+                        }
                 }
+
             };
 
-            return Json(cashboxModel);
+            return Ok(JsonConvert.SerializeObject(wrapper));
         }
     }
 }
