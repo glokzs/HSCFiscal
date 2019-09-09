@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using HSCFiscalRegistrar.Models;
+using HSCFiscalRegistrar.Models.APKInfo;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HSCFiscalRegistrar.Migrations
 {
@@ -120,6 +123,10 @@ namespace HSCFiscalRegistrar.Migrations
                 name: "IX_Services_RegInfoId",
                 table: "Services",
                 column: "RegInfoId");
+            
+            
+            
+            
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -11,14 +11,55 @@ namespace HSCFiscalRegistrar.Models
         public DbSet<RegInfo> RegInfos { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Request> Requests { get; set; }
+        public new DbSet<User> Users { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
             Database.EnsureCreated();
+            
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLazyLoadingProxies();
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Kkm>().HasData(new Kkm()
+            {
+                Id = "2",
+                SerialNumber = "12345678",
+                PointOfPayment = "",
+                FnsKkmId = "123123123123",
+                TerminalNumber = ""  
+            });
+            builder.Entity<Org>().HasData(new Org()
+            {
+                Id = "3",
+                Okved = "",
+                TaxationType = 0,
+                Inn = "160840027676",
+                Title = "Bill"
+            });
+            builder.Entity<RegInfo>().HasData(new RegInfo()
+            {
+                Id = "1",
+                KkmId = "2",
+                OrgId = "3"
+            });
+            builder.Entity<Service>().HasData(new Service()
+            {
+                Id = "5",
+                RegInfoId = "1"
+            });
+            builder.Entity<Request>().HasData(new Request()
+            {
+                Command = "5",
+                DeviceId = 3811,
+                ReqNum = 1,
+                Token = 1,
+                ServiceId = "5"
+            });
         }
     }
 }
