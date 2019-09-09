@@ -11,7 +11,6 @@ namespace HSCFiscalRegistrar.Models
         public DbSet<RegInfo> RegInfos { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Request> Requests { get; set; }
-        public new DbSet<User> Users { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
@@ -25,6 +24,7 @@ namespace HSCFiscalRegistrar.Models
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);   
             builder.Entity<Kkm>().HasData(new Kkm()
             {
                 Id = "2",
@@ -54,6 +54,7 @@ namespace HSCFiscalRegistrar.Models
             });
             builder.Entity<Request>().HasData(new Request()
             {
+                Id = "7",
                 Command = "5",
                 DeviceId = 3811,
                 ReqNum = 1,
