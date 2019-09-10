@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HSCFiscalRegistrar.DTO.UserModel
+﻿namespace HSCFiscalRegistrar.DTO.UserModel
 {
     public class UserChangePassword : UserDTO
     {

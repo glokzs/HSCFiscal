@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace HSCFiscalRegistrar.DTO.Errors
+﻿namespace HSCFiscalRegistrar.DTO.Errors
 {
     public class DataErrors
     {

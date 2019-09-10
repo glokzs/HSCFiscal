@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HSCFiscalRegistrar.DTO.Registration
+﻿namespace HSCFiscalRegistrar.DTO.Registration
 {
     public class ResponseServerReg
     {
