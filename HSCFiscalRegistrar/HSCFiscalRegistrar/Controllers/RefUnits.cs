@@ -12,7 +12,7 @@ namespace HSCFiscalRegistrar.Controllers
         public IActionResult Post()
         {
             var obj = JsonConvert.DeserializeObject<Unit>(System.IO.File.ReadAllText(@"Directories\ReferenceUnits.json"));
-            return Json(obj);
+            return Ok(JsonConvert.SerializeObject(obj));
         }
         
     }
