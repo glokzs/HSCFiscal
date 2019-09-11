@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HSCFiscalRegistrar.DTO.UserModel
+namespace HSCFiscalRegistrar.Helpers
 {
     public static class GenerateUserToken
     {

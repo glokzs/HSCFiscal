@@ -1,7 +1,8 @@
 using System.Threading.Tasks;
+using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace HSCFiscalRegistrar.Models
+namespace HSCFiscalRegistrar.Helpers
 {
     public class UserInitializer
     {

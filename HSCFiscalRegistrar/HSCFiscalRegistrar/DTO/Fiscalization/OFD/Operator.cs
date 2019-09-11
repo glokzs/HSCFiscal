@@ -1,6 +1,4 @@
-using System;
-
-namespace HSCFiscalRegistrar.DTO.Fiscalization
+namespace HSCFiscalRegistrar.DTO.Fiscalization.OFD
 {
     public class Operator
     {

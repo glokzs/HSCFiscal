@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace HSCFiscalRegistrar.DTO.Data
+namespace HSCFiscalRegistrar.DTO.Auth
 {
     public class Data
     {

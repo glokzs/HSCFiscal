@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using HSCFiscalRegistrar.Enums;
 
-namespace HSCFiscalRegistrar.DTO.Fiscalization
+namespace HSCFiscalRegistrar.DTO.Fiscalization.OFD
 {
     public class Ticket
     {
