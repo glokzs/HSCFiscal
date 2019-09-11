@@ -1,0 +1,218 @@
+{
+  "Command": 1,
+  "DeviceId": 2732,
+  "ReqNum": 65175,
+  "Token": 1150336111,
+  "Service": {
+    "RegInfo": {
+      "Org": {
+        "Okved": "",
+        "TaxationType": 0,
+        "Inn": "160840027676",
+        "Title": "Bill"
+      },
+      "Kkm": {
+        "SerialNumber": "12345678",
+        "PointOfPaymentNumber": "",
+        "FnsKkmId": "123123123123",
+        "TerminalNumber": ""
+      }
+    }
+  },
+  "Ticket": {
+    "Operation": 2,
+    "Operator": {
+      "Code": 1,
+      "Name": "OperName"
+    },
+    "DateTime": {
+      "Date": {
+        "Day": 9,
+        "Month": 8,
+        "Year": 2019
+      },
+      "Time": {
+        "Hour": 14,
+        "Minute": 0,
+        "Second": 0
+      }
+    },
+    "Amounts": {
+      "Total": {
+        "Bills": 100,
+        "Coins": 0
+      }
+    },
+    "Payments": [
+      {
+        "Type": 0,
+        "Sum": {
+          "Bills": 100,
+          "Coins": 0
+        }
+      },
+      {
+        "Type": 1,
+        "Sum": {
+          "Bills": 50,
+          "Coins": 10
+        }
+      }
+    ],
+    "Items": [
+      {
+        "Type": 1,
+        "Commodity": {
+          "Code": 1,
+          "Name": "плющки ",
+          "SectionCode": "43234",
+          "Quantity": 4,
+          "Price": {
+            "Bills": 212,
+            "Coins": 10
+          },
+          "Sum": {
+            "Bills": 50,
+            "Coins": 10
+          },
+          "Taxes": [
+            {
+              "Type": 0,
+              "TaxationType": 0,
+              "Percent": 12,
+              "Sum": {
+                "Bills": 5,
+                "Coins": 10
+              },
+              "IsInTotalSum": true
+            },
+            {
+              "Type": 1,
+              "TaxationType": 0,
+              "Percent": 10,
+              "Sum": {
+                "Bills": 1,
+                "Coins": 10
+              },
+              "IsInTotalSum": true
+            }
+          ]
+        },
+        "StornoCommodity": {
+          "Name": "asd",
+          "SectionCode": "43234",
+          "Quantity": 4,
+          "Price": {
+            "Bills": 212,
+            "Coins": 10
+          },
+          "Sum": {
+            "Bills": 50,
+            "Coins": 10
+          },
+          "Taxes": [
+            {
+              "Type": 0,
+              "TaxationType": 0,
+              "Percent": 12,
+              "Sum": {
+                "Bills": 5,
+                "Coins": 10
+              },
+              "IsInTotalSum": true
+            },
+            {
+              "Type": 1,
+              "TaxationType": 0,
+              "Percent": 10,
+              "Sum": {
+                "Bills": 1,
+                "Coins": 10
+              },
+              "IsInTotalSum": true
+            }
+          ]
+        },
+        "Markup": {
+          "Name": "наценка",
+          "Sum": {
+            "Bills": 5,
+            "Coins": 10
+          },
+          "Taxes": [
+            {
+              "Type": 0,
+              "TaxationType": 0,
+              "Percent": 12,
+              "Sum": {
+                "Bills": 5,
+                "Coins": 10
+              },
+              "IsInTotalSum": true
+            }
+          ]
+        },
+        "StornoMarkup": {
+          "Name": "отмена наценки",
+          "Sum": {
+            "Bills": 5,
+            "Coins": 10
+          },
+          "Taxes": [
+            {
+              "Type": 0,
+              "TaxationType": 0,
+              "Percent": 12,
+              "Sum": {
+                "Bills": 5,
+                "Coins": 10
+              },
+              "IsInTotalSum": true
+            }
+          ]
+        },
+        "Discount": {
+          "Name": "скидка",
+          "Sum": {
+            "Bills": 5,
+            "Coins": 10
+          },
+          "Taxes": [
+            {
+              "Type": 0,
+              "TaxationType": 0,
+              "Percent": 12,
+              "Sum": {
+                "Bills": 5,
+                "Coins": 10
+              },
+              "IsInTotalSum": true
+            }
+          ]
+        },
+        "StornoDiscount": {
+          "Name": "отмена скидки",
+          "Sum": {
+            "Bills": 5,
+            "Coins": 10
+          },
+          "Taxes": [
+            {
+              "Type": 0,
+              "TaxationType": 0,
+              "Percent": 12,
+              "Sum": {
+                "Bills": 5,
+                "Coins": 10
+              },
+              "IsInTotalSum": true
+            }
+          ]
+        }
+      }
+    ],
+    "Domain": {
+      "Type": 0
+    }
+  }
+}
