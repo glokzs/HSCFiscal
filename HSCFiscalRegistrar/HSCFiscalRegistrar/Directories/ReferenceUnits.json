@@ -1,0 +1,36 @@
+{
+  "Data": [
+    {
+      "Code": 796,
+      "NameRu": "шт",
+      "NameEn": "PC",
+      "NameKz": "дана"
+    },
+    {
+      "Code": 166,
+      "NameRu": "кг",
+      "NameEn": "kg",
+      "NameKz": "кг"
+    },
+    {
+      "Code": 112,
+      "NameRu": "литр",
+      "NameEn": "liter",
+      "NameKz": "литр"
+    },
+
+    {
+      "Code": 18,
+      "NameRu": "м.пог.",
+      "NameEn": "m.lin",
+      "NameKz": "м.пог."
+    },
+
+    {
+      "Code": 5111,
+      "NameRu": "одн.пач",
+      "NameEn": "one pack",
+      "NameKz": "бір бума"
+    }
+  ]
+}
