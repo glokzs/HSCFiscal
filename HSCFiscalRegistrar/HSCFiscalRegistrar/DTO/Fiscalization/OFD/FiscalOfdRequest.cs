@@ -3,7 +3,7 @@ using HSCFiscalRegistrar.Models.APKInfo;
 
 namespace HSCFiscalRegistrar.DTO.Fiscalization.OFD
 {
-    public class FiscResponse
+    public class FiscalOfdRequest
     {
         public CommandTypeEnum Command { get; set; }
         public int DeviceId { get; set; }
