@@ -13,7 +13,7 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization.KKM
         [JsonProperty("CashboxUniqueNumber")] 
         public string CashboxUniqueNumber { get; set; }
         [JsonProperty("OperationType")]
-        public int OperationType { get; set; }
+        public OperationTypeEnum OperationType { get; set; }
         [JsonProperty("Positions")]
         public List<PositionType> Positions = new List<PositionType>();
         [JsonProperty("TicketModifiers")]
@@ -21,7 +21,7 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization.KKM
         [JsonProperty("Payments")]
         public List<PaymentsType> Payments = new List<PaymentsType>();
         [JsonProperty("Change")]
-        public int Change { get; set; }
+        public decimal Change { get; set; }
         [JsonProperty("RoundType")]
         public int RoundType { get; set; }
         [JsonProperty("ExternalCheckNumber")]

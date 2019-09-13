@@ -7,14 +7,14 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization.KKM
     public class TicketModifierType
     {
         [JsonProperty("Sum")]
-        public int Sum { get; set; }
+        public decimal Sum { get; set; }
         [JsonProperty("Text")]
         public string Text { get; set; }
         [JsonProperty("Type")]
-        public int Type { get; set; }
+        public long Type { get; set; }
         [JsonProperty("TaxType")]
-        public int TaxType{ get; set; }
+        public TaxationTypeEnum TaxType{ get; set; }
         [JsonProperty("Tax")]
-        public int Tax { get; set; }
+        public decimal Tax { get; set; }
     }
 }

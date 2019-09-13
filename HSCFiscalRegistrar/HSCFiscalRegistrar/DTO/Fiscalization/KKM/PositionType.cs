@@ -1,3 +1,4 @@
+using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
 using HSCFiscalRegistrar.Enums;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
@@ -8,11 +9,11 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization.KKM
     public class PositionType
     {
         [JsonProperty("Count")]
-        public int Count { get; set; }
+        public decimal Count { get; set; }
         [JsonProperty("Price")]
-        public int Price { get; set; }
+        public decimal Price { get; set; }
         [JsonProperty("Tax")]
-        public int Tax { get; set; }
+        public decimal Tax { get; set; }
         [JsonProperty("TaxType")]
         public int TaxType { get; set; }
         [JsonProperty("PositionName")]
@@ -20,9 +21,9 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization.KKM
         [JsonProperty("PositionCode")]
         public string PositionCode { get; set; }
         [JsonProperty("Discount")]
-        public int Discount { get; set; }
+        public decimal Discount { get; set; }
         [JsonProperty("Markup")]
-        public int Markup { get; set; }
+        public decimal Markup { get; set; }
         [JsonProperty("SectionCode")]
         public string SectionCode { get; set; }
         [JsonProperty("IsStorno")]
