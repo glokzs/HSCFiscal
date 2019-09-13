@@ -11,6 +11,7 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization.OFD
         public Amount Amounts { get; set; }
         public List<Payment> Payments { get; set; }
         public List<Item> Items { get; set; }
+        public Domain Domain { get; set; }
         
     }
 }
