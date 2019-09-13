@@ -9,7 +9,6 @@ namespace HSCFiscalRegistrar.DTO.UserModel
         {
             return _guid = Guid.NewGuid();
         }
-
         public static DateTime TimeCreation()
         {
             return DateTime.Now;
