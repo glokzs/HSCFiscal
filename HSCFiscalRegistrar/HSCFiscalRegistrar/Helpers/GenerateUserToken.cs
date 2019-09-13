@@ -5,7 +5,7 @@ namespace HSCFiscalRegistrar.DTO.UserModel
     public static class GenerateUserToken
     {
         private static Guid _guid;
-        public static Guid getGuidKey()
+        public static Guid GetGuidKey()
         {
             return _guid = Guid.NewGuid();
         }
