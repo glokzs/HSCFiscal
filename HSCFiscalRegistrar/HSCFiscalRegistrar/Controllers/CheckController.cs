@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.DateAndTime;
 using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
 using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
+using HSCFiscalRegistrar.DTO.Fiscalization.OFDResponce;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
 using HSCFiscalRegistrar.Services;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using DateTime = HSCFiscalRegistrar.DTO.DateAndTime.DateTime;
+using Ticket = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Ticket;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -30,40 +32,52 @@ namespace HSCFiscalRegistrar.Controllers
         public async Task<IActionResult> Post([FromBody] CheckOperationRequest checkOperationRequest)
         {
             var request = _applicationContext.Requests.FirstOrDefault(r => r.Id == "7");
-                var fiscalOfdRequest = new FiscalOfdRequest
+            if (request != null)
             {
-                Command = 1,
-                Token = request.Token,
-                DeviceId = request.DeviceId,
-                ReqNum = request.ReqNum,
-                Service = request.Service,
-                Ticket = new Ticket
+                var fiscalOfdRequest = new FiscalOfdRequest
                 {
-                    Operation = checkOperationRequest.OperationType,
-                    Operator = new Operator()
+                    Command = 1,
+                    Token = request.Token,
+                    DeviceId = request.DeviceId,
+                    ReqNum = request.ReqNum,
+                    Service = request.Service,
+                    Ticket = new Ticket
                     {
-                        Code = 1,
-                        Name = "OperName"
-                    },
-                    DateTime = GetDateTime(),
-                    Amounts = new Amount()
-                    {
-                        Total = new Sum()
+                        Operation = checkOperationRequest.OperationType,
+                        Operator = new Operator()
                         {
-                            Bills = 100,
-                            Coins = 0
+                            Code = 1,
+                            Name = "OperName"
+                        },
+                        DateTime = GetDateTime(),
+                        Amounts = new Amount()
+                        {
+                            Total = new Sum()
+                            {
+                                Bills = 100,
+                                Coins = 0
+                            }
+                        },
+                        Payments = GetPayments(checkOperationRequest),
+                        Items = GetItems(checkOperationRequest),
+                        Domain = new Domain
+                        {
+                            Type = 0
                         }
-                    },
-                    Payments = GetPayments(checkOperationRequest),
-                    Items = GetItems(checkOperationRequest),
-                    Domain = new Domain
-                    {
-                        Type = 0
                     }
-                }
-            };
-            var resp = await HttpService.Post(fiscalOfdRequest);
-            return Ok(JsonConvert.SerializeObject(resp));
+                };
+                await _applicationContext.SaveChangesAsync();
+                var resp = await HttpService.Post(fiscalOfdRequest);
+                resp = JsonConvert.SerializeObject(resp);
+                Responce ofdResp = JsonConvert.DeserializeObject<Responce>(resp);
+                request.ReqNum += 1;
+                request.Token = ofdResp.Token;
+                _applicationContext.Update(request);
+                await _applicationContext.SaveChangesAsync();
+                return Ok(resp);
+            }
+
+            return NotFound();
         }
 
         private List<Item> GetItems(CheckOperationRequest checkOperationRequest)
