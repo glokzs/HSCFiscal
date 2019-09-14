@@ -1,0 +1,17 @@
+﻿using System;
+
+namespace HSCFiscalRegistrar.DTO.Fiscalization
+{
+    public class Data
+    {
+        public string CheckNumber { get; set; }
+        public DateTime DateTime { get; set; }
+        public bool OfflineMode { get; set; }
+        public bool CashboxOfflineMode { get; set; }
+        public Cashbox Cashboxe { get; set; }
+        public int CheckOrderNumber { get; set; }
+        public int ShiftNumber { get; set; }
+        public string EmployeeName { get; set; }
+        public string TicketUrl { get; set; }
+    }
+}

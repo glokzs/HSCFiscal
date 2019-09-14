@@ -7,6 +7,7 @@ using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
 using HSCFiscalRegistrar.DTO.Fiscalization.OFDResponce;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
+using HSCFiscalRegistrar.Models.APKInfo;
 using HSCFiscalRegistrar.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -66,19 +67,16 @@ namespace HSCFiscalRegistrar.Controllers
                         }
                     }
                 };
-                await _applicationContext.SaveChangesAsync();
                 var resp = await HttpService.Post(fiscalOfdRequest);
-                resp = JsonConvert.SerializeObject(resp);
-                Responce ofdResp = JsonConvert.DeserializeObject<Responce>(resp);
-                request.ReqNum += 1;
-                request.Token = ofdResp.Token;
-                _applicationContext.Update(request);
-                await _applicationContext.SaveChangesAsync();
+                var ofdResp = GetOfdResponse(ref resp);
+                await UpdateDatabaseFields(request, ofdResp);
                 return Ok(resp);
             }
 
             return NotFound();
         }
+
+       
 
         private List<Item> GetItems(CheckOperationRequest checkOperationRequest)
         {
@@ -349,6 +347,21 @@ namespace HSCFiscalRegistrar.Controllers
                     Second = now.Second
                 }
             };
+        }
+        
+        private async Task UpdateDatabaseFields(Request request, Response ofdResp)
+        {
+            request.ReqNum += 1;
+            request.Token = ofdResp.Token;
+            _applicationContext.Update(request);
+            await _applicationContext.SaveChangesAsync();
+        }
+
+        private Response GetOfdResponse(ref dynamic resp)
+        {
+            resp = JsonConvert.SerializeObject(resp);
+            Response ofdResp = JsonConvert.DeserializeObject<Response>(resp);
+            return ofdResp;
         }
     }
 }
