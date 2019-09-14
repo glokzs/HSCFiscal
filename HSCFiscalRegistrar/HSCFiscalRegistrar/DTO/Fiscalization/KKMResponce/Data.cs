@@ -8,7 +8,7 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization
         public DateTime DateTime { get; set; }
         public bool OfflineMode { get; set; }
         public bool CashboxOfflineMode { get; set; }
-        public Cashbox Cashboxe { get; set; }
+        public Cashbox Cashbox { get; set; }
         public int CheckOrderNumber { get; set; }
         public int ShiftNumber { get; set; }
         public string EmployeeName { get; set; }

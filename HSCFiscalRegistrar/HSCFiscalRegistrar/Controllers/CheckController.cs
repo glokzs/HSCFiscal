@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.DateAndTime;
+using HSCFiscalRegistrar.DTO.Fiscalization;
 using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
 using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
 using HSCFiscalRegistrar.DTO.Fiscalization.OFDResponce;
@@ -69,14 +70,39 @@ namespace HSCFiscalRegistrar.Controllers
                 };
                 var resp = await HttpService.Post(fiscalOfdRequest);
                 var ofdResp = GetOfdResponse(ref resp);
+                KkmResponse kkmResponse = new KkmResponse
+                {
+                    Data = new Data
+                        {
+                            DateTime = System.DateTime.Now.Date,
+                            CheckNumber = ofdResp.Ticket.TicketNumber,
+                            OfflineMode = false,
+                            Cashbox = GetCashbox(checkOperationRequest),
+                            CashboxOfflineMode = false,
+                            CheckOrderNumber = request.ReqNum,
+                            ShiftNumber = 54,
+                            EmployeeName = fiscalOfdRequest.Ticket.Operator.Name,
+                            TicketUrl = ofdResp.Ticket.QrCode,
+                    
+                        },
+                };
                 await UpdateDatabaseFields(request, ofdResp);
-                return Ok(resp);
+                return Ok(JsonConvert.SerializeObject(kkmResponse));
             }
 
             return NotFound();
         }
-
-       
+        
+        private Cashbox GetCashbox(CheckOperationRequest checkOperationRequest)
+        {
+            return new Cashbox
+            {
+                UniqueNumber = checkOperationRequest.CashboxUniqueNumber,
+                RegistrationNumber = "240820180008",
+                IdentityNumber = "2405",
+                Address = "asana"
+            };
+        }
 
         private List<Item> GetItems(CheckOperationRequest checkOperationRequest)
         {
@@ -89,7 +115,7 @@ namespace HSCFiscalRegistrar.Controllers
             return items;
         }
 
-        private static Item GetItem(PositionType positionType)
+        private Item GetItem(PositionType positionType)
         {
             return new Item
             {
@@ -103,7 +129,7 @@ namespace HSCFiscalRegistrar.Controllers
             };
         }
 
-        private static StornoDiscount GetStornoDiscount()
+        private StornoDiscount GetStornoDiscount()
         {
             return new StornoDiscount
             {
@@ -131,7 +157,7 @@ namespace HSCFiscalRegistrar.Controllers
             };
         }
 
-        private static Discount GetDiscount()
+        private Discount GetDiscount()
         {
             return new Discount
             {
@@ -159,7 +185,7 @@ namespace HSCFiscalRegistrar.Controllers
             };
         }
 
-        private static StornoMarkup GetStornoMarkup()
+        private StornoMarkup GetStornoMarkup()
         {
             return new StornoMarkup
             {
@@ -187,7 +213,7 @@ namespace HSCFiscalRegistrar.Controllers
             };
         }
 
-        private static Markup GetMarkup()
+        private Markup GetMarkup()
         {
             return new Markup
             {
@@ -215,7 +241,7 @@ namespace HSCFiscalRegistrar.Controllers
             };
         }
 
-        private static StornoCommodity GetStornoCommodity(PositionType positionType)
+        private StornoCommodity GetStornoCommodity(PositionType positionType)
         {
             return new StornoCommodity
             {
@@ -262,7 +288,7 @@ namespace HSCFiscalRegistrar.Controllers
             };
         }
 
-        private static Commodity GetCommodity(PositionType positionType)
+        private Commodity GetCommodity(PositionType positionType)
         {
             return new Commodity
             {
@@ -348,7 +374,7 @@ namespace HSCFiscalRegistrar.Controllers
                 }
             };
         }
-        
+
         private async Task UpdateDatabaseFields(Request request, Response ofdResp)
         {
             request.ReqNum += 1;
