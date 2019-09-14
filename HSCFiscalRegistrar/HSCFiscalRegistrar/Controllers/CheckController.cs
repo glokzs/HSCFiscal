@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,7 +6,6 @@ using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
 using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
-using HSCFiscalRegistrar.Models.APKInfo;
 using HSCFiscalRegistrar.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -31,10 +29,14 @@ namespace HSCFiscalRegistrar.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CheckOperationRequest checkOperationRequest)
         {
-            var payments = GetPayments(checkOperationRequest);
-            var fiscalOfdRequest = new FiscalOfdRequest
+            var request = _applicationContext.Requests.FirstOrDefault(r => r.Id == "7");
+                var fiscalOfdRequest = new FiscalOfdRequest
             {
-                Request = _applicationContext.Requests.FirstOrDefault(r => r.Id == "7"),
+                Command = 1,
+                Token = request.Token,
+                DeviceId = request.DeviceId,
+                ReqNum = request.ReqNum,
+                Service = request.Service,
                 Ticket = new Ticket
                 {
                     Operation = checkOperationRequest.OperationType,
@@ -52,7 +54,7 @@ namespace HSCFiscalRegistrar.Controllers
                             Coins = 0
                         }
                     },
-                    Payments = payments,
+                    Payments = GetPayments(checkOperationRequest),
                     Items = GetItems(checkOperationRequest),
                     Domain = new Domain
                     {
@@ -63,7 +65,7 @@ namespace HSCFiscalRegistrar.Controllers
             var resp = await HttpService.Post(fiscalOfdRequest);
             return Ok(JsonConvert.SerializeObject(resp));
         }
-        
+
         private List<Item> GetItems(CheckOperationRequest checkOperationRequest)
         {
             var items = new List<Item>();
@@ -71,6 +73,7 @@ namespace HSCFiscalRegistrar.Controllers
             {
                 items.Add(GetItem(positionType));
             }
+
             return items;
         }
 
@@ -78,6 +81,7 @@ namespace HSCFiscalRegistrar.Controllers
         {
             return new Item
             {
+                Type = ItemTypeEnum.ITEM_TYPE_COMMODITY,
                 Commodity = GetCommodity(positionType),
                 StornoCommodity = GetStornoCommodity(positionType),
                 Markup = GetMarkup(),

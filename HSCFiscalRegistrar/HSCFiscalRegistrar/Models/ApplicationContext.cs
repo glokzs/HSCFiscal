@@ -55,7 +55,7 @@ namespace HSCFiscalRegistrar.Models
             builder.Entity<Request>().HasData(new Request()
             {
                 Id = "7",
-                Command = "5",
+                Command = 5,
                 DeviceId = 2732,
                 ReqNum = 1,
                 Token = 46583490,
