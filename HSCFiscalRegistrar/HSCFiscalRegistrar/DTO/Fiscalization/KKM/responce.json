@@ -1,0 +1,67 @@
+{
+  "Token": "c4abc6fc649d4c11baa65dd9fb8cd859",
+  "CashboxUniqueNumber": "MBK00030767",
+  "OperationType": 2,
+  "Positions": [
+    {
+      "Count": 4,
+      "Price": 100,
+      "Tax": 0,
+      "TaxType": 0,
+      "PositionName": "Позиция 1",
+      "PositionCode": "1",
+      "Discount": 0,
+      "Markup": 0,
+      "SectionCode": "1",
+      "IsStorno": false,
+      "MarkupDeleted": false,
+      "DiscountDeleted": false,
+      "UnitCode": 796
+    },
+    {
+      "Count": 4,
+      "Price": 100,
+      "Tax": 0,
+      "TaxType": 0,
+      "PositionName": "Конфетки 1",
+      "PositionCode": "1",
+      "Discount": 0,
+      "Markup": 0,
+      "SectionCode": "1",
+      "IsStorno": false,
+      "MarkupDeleted": false,
+      "DiscountDeleted": false,
+      "UnitCode": 796
+    }
+  ],
+  "TicketModifiers": [
+    {
+      "sum": 150,
+      "Text": "Скидка по карте",
+      "Type": 1,
+      "TaxType": 0,
+      "Tax": 0
+    },
+    {
+      "sum": 160,
+      "Text": "наценка за обслуживание",
+      "Type": 2,
+      "TaxType": 0,
+      "Tax": 0
+    }
+  ],
+  "Payments": [
+    {
+      "Sum": 400,
+      "PaymentType": 0
+    },
+    {
+      "Sum": 410,
+      "PaymentType": 1
+    }
+  ],
+  "Change": 0,
+  "RoundType": 2,
+  "ExternalCheckNumber": "1161111",
+  "CustomerEmail": ""
+}
