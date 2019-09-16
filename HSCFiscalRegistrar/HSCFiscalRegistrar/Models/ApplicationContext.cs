@@ -58,7 +58,7 @@ namespace HSCFiscalRegistrar.Models
                 Command = 5,
                 DeviceId = 2732,
                 ReqNum = 1,
-                Token = 61056121,
+                Token = 74146475,
                 ServiceId = "5"
             });
         }

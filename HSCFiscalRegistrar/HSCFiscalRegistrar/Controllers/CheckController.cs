@@ -33,6 +33,11 @@ namespace HSCFiscalRegistrar.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CheckOperationRequest checkOperationRequest)
         {
+            decimal sum = 0;
+            foreach (var paymentsType in checkOperationRequest.Payments)
+            {
+                sum += paymentsType.Sum;
+            }
             var request = _applicationContext.Requests.FirstOrDefault(r => r.Id == "7");
             if (request != null)
             {
@@ -52,16 +57,16 @@ namespace HSCFiscalRegistrar.Controllers
                             Name = "OperName"
                         },
                         DateTime = GetDateTime(),
+                        Payments = GetPayments(checkOperationRequest),
+                        Items = GetItems(checkOperationRequest),
                         Amounts = new Amount()
                         {
                             Total = new Sum()
                             {
-                                Bills = 100,
+                                Bills = sum,
                                 Coins = 0
                             }
                         },
-                        Payments = GetPayments(checkOperationRequest),
-                        Items = GetItems(checkOperationRequest),
                         Domain = new Domain
                         {
                             Type = 0
@@ -249,12 +254,12 @@ namespace HSCFiscalRegistrar.Controllers
                 Name = positionType.PositionName,
                 Sum = new Sum
                 {
-                    Bills = positionType.Price,
+                    Bills = positionType.Price * (int)positionType.Count,
                     Coins = 0
                 },
                 Price = new Sum
                 {
-                    Bills = positionType.Price * (int) positionType.Count,
+                    Bills = positionType.Price,
                     Coins = 0
                 },
                 SectionCode = positionType.PositionCode,
@@ -297,12 +302,12 @@ namespace HSCFiscalRegistrar.Controllers
                 Code = positionType.UnitCode,
                 Sum = new Sum
                 {
-                    Bills = positionType.Price,
+                    Bills = positionType.Price * (int)positionType.Count,
                     Coins = 0
                 },
                 Price = new Sum
                 {
-                    Bills = positionType.Price * (int) positionType.Count,
+                    Bills = positionType.Price,
                     Coins = 0
                 },
                 SectionCode = positionType.PositionCode,
