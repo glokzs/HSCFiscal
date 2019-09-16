@@ -1,8 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using HSCFiscalRegistrar.DTO.Data;
+using HSCFiscalRegistrar.DTO.Auth;
 using HSCFiscalRegistrar.DTO.Errors;
 using HSCFiscalRegistrar.DTO.UserModel;
+using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.Errors;
 using HSCFiscalRegistrar.DTO.Registration;
 using HSCFiscalRegistrar.DTO.UserModel;
+using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -59,20 +60,14 @@ namespace HSCFiscalRegistrar.Controllers
 
                         return Json(answer);
                     }
-                    else
-                    {
-                        return Json("Errors system");
-                    }
+
+                    return Json("Errors system");
                 }
-                else
-                {
-                    return Json(ErrorsAuth.UserNotFound());
-                }
+
+                return Json(ErrorsAuth.UserNotFound());
             }
-            else
-            {
-                return Json(ErrorsAuth.LoginError());
-            }
+
+            return Json(ErrorsAuth.LoginError());
         }
     }
 }

@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using Flurl.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace HSCFiscalRegistrar.Services
 {
@@ -11,7 +13,9 @@ namespace HSCFiscalRegistrar.Services
         [HttpPost]
         public static async Task<dynamic> Post([FromBody] object anyObject)
         {
-            return await Url.PostJsonAsync(anyObject).ReceiveJson();
+            string obj = JsonConvert.SerializeObject(anyObject);
+            var x = await Url.PostJsonAsync(anyObject).ReceiveJson();
+            return x;
         }
 
         [HttpGet]

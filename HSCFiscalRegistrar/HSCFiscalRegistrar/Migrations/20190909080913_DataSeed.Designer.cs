@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HSCFiscalRegistrar.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20190824071832_InitialCreateNewDbNursdb")]
-    partial class InitialCreateNewDbNursdb
+    [Migration("20190909080913_DataSeed")]
+    partial class DataSeed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,142 @@ namespace HSCFiscalRegistrar.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            modelBuilder.Entity("HSCFiscalRegistrar.Models.APKInfo.Org", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Inn");
+
+                    b.Property<string>("Okved");
+
+                    b.Property<int>("TaxationType");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Orgs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "3",
+                            Inn = "160840027676",
+                            Okved = "",
+                            TaxationType = 0,
+                            Title = "Bill"
+                        });
+                });
+
+            modelBuilder.Entity("HSCFiscalRegistrar.Models.APKInfo.RegInfo", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("KkmId");
+
+                    b.Property<string>("OrgId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("KkmId");
+
+                    b.HasIndex("OrgId");
+
+                    b.ToTable("RegInfos");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            KkmId = "2",
+                            OrgId = "3"
+                        });
+                });
+
+            modelBuilder.Entity("HSCFiscalRegistrar.Models.APKInfo.Request", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Command");
+
+                    b.Property<int>("DeviceId");
+
+                    b.Property<int>("ReqNum");
+
+                    b.Property<string>("ServiceId");
+
+                    b.Property<int>("Token");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("Requests");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "7",
+                            Command = "5",
+                            DeviceId = 3811,
+                            ReqNum = 1,
+                            ServiceId = "5",
+                            Token = 1
+                        });
+                });
+
+            modelBuilder.Entity("HSCFiscalRegistrar.Models.APKInfo.Service", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("RegInfoId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RegInfoId");
+
+                    b.ToTable("Services");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "5",
+                            RegInfoId = "1"
+                        });
+                });
+
+            modelBuilder.Entity("HSCFiscalRegistrar.Models.Kkm", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("FnsKkmId");
+
+                    b.Property<string>("PointOfPayment");
+
+                    b.Property<string>("SerialNumber");
+
+                    b.Property<string>("TerminalNumber");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Kkms");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "2",
+                            FnsKkmId = "123123123123",
+                            PointOfPayment = "",
+                            SerialNumber = "12345678",
+                            TerminalNumber = ""
+                        });
+                });
 
             modelBuilder.Entity("HSCFiscalRegistrar.Models.User", b =>
                 {
@@ -182,6 +318,31 @@ namespace HSCFiscalRegistrar.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("HSCFiscalRegistrar.Models.APKInfo.RegInfo", b =>
+                {
+                    b.HasOne("HSCFiscalRegistrar.Models.Kkm", "Kkm")
+                        .WithMany()
+                        .HasForeignKey("KkmId");
+
+                    b.HasOne("HSCFiscalRegistrar.Models.APKInfo.Org", "Org")
+                        .WithMany()
+                        .HasForeignKey("OrgId");
+                });
+
+            modelBuilder.Entity("HSCFiscalRegistrar.Models.APKInfo.Request", b =>
+                {
+                    b.HasOne("HSCFiscalRegistrar.Models.APKInfo.Service", "Service")
+                        .WithMany()
+                        .HasForeignKey("ServiceId");
+                });
+
+            modelBuilder.Entity("HSCFiscalRegistrar.Models.APKInfo.Service", b =>
+                {
+                    b.HasOne("HSCFiscalRegistrar.Models.APKInfo.RegInfo", "RegInfo")
+                        .WithMany()
+                        .HasForeignKey("RegInfoId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

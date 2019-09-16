@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HSCFiscalRegistrar.Migrations
 {
-    public partial class InitialCreateNewDbNursdb : Migration
+    public partial class DataSeed : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +17,10 @@ namespace HSCFiscalRegistrar.Migrations
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true)
                 },
-                constraints: table => { table.PrimaryKey("PK_AspNetRoles", x => x.Id); });
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "AspNetUsers",
@@ -42,7 +45,40 @@ namespace HSCFiscalRegistrar.Migrations
                     DeviceId = table.Column<int>(nullable: false),
                     DateTimeCreationToken = table.Column<DateTime>(nullable: false)
                 },
-                constraints: table => { table.PrimaryKey("PK_AspNetUsers", x => x.Id); });
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Kkms",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    SerialNumber = table.Column<string>(nullable: true),
+                    PointOfPayment = table.Column<string>(nullable: true),
+                    FnsKkmId = table.Column<string>(nullable: true),
+                    TerminalNumber = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Kkms", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orgs",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Okved = table.Column<string>(nullable: true),
+                    TaxationType = table.Column<int>(nullable: false),
+                    Inn = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orgs", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
@@ -97,7 +133,7 @@ namespace HSCFiscalRegistrar.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserLogins", x => new {x.LoginProvider, x.ProviderKey});
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
                         name: "FK_AspNetUserLogins_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -115,7 +151,7 @@ namespace HSCFiscalRegistrar.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserRoles", x => new {x.UserId, x.RoleId});
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
                         column: x => x.RoleId,
@@ -141,7 +177,7 @@ namespace HSCFiscalRegistrar.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserTokens", x => new {x.UserId, x.LoginProvider, x.Name});
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -149,6 +185,96 @@ namespace HSCFiscalRegistrar.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "RegInfos",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    OrgId = table.Column<string>(nullable: true),
+                    KkmId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RegInfos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RegInfos_Kkms_KkmId",
+                        column: x => x.KkmId,
+                        principalTable: "Kkms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_RegInfos_Orgs_OrgId",
+                        column: x => x.OrgId,
+                        principalTable: "Orgs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Services",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    RegInfoId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Services", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Services_RegInfos_RegInfoId",
+                        column: x => x.RegInfoId,
+                        principalTable: "RegInfos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Requests",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Command = table.Column<string>(nullable: true),
+                    DeviceId = table.Column<int>(nullable: false),
+                    ReqNum = table.Column<int>(nullable: false),
+                    Token = table.Column<int>(nullable: false),
+                    ServiceId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Requests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Requests_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Kkms",
+                columns: new[] { "Id", "FnsKkmId", "PointOfPayment", "SerialNumber", "TerminalNumber" },
+                values: new object[] { "2", "123123123123", "", "12345678", "" });
+
+            migrationBuilder.InsertData(
+                table: "Orgs",
+                columns: new[] { "Id", "Inn", "Okved", "TaxationType", "Title" },
+                values: new object[] { "3", "160840027676", "", 0, "Bill" });
+
+            migrationBuilder.InsertData(
+                table: "RegInfos",
+                columns: new[] { "Id", "KkmId", "OrgId" },
+                values: new object[] { "1", "2", "3" });
+
+            migrationBuilder.InsertData(
+                table: "Services",
+                columns: new[] { "Id", "RegInfoId" },
+                values: new object[] { "5", "1" });
+
+            migrationBuilder.InsertData(
+                table: "Requests",
+                columns: new[] { "Id", "Command", "DeviceId", "ReqNum", "ServiceId", "Token" },
+                values: new object[] { "7", "5", 3811, 1, "5", 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -186,6 +312,26 @@ namespace HSCFiscalRegistrar.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RegInfos_KkmId",
+                table: "RegInfos",
+                column: "KkmId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RegInfos_OrgId",
+                table: "RegInfos",
+                column: "OrgId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Requests_ServiceId",
+                table: "Requests",
+                column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Services_RegInfoId",
+                table: "Services",
+                column: "RegInfoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -206,10 +352,25 @@ namespace HSCFiscalRegistrar.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Requests");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Services");
+
+            migrationBuilder.DropTable(
+                name: "RegInfos");
+
+            migrationBuilder.DropTable(
+                name: "Kkms");
+
+            migrationBuilder.DropTable(
+                name: "Orgs");
         }
     }
 }

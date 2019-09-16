@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using HSCFiscalRegistrar.Enums;
+﻿using HSCFiscalRegistrar.Enums;
 
 namespace HSCFiscalRegistrar.DTO.Errors
 {

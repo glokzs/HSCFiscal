@@ -2,6 +2,7 @@
 using HSCFiscalRegistrar.DTO.Errors;
 using HSCFiscalRegistrar.DTO.Registration;
 using HSCFiscalRegistrar.DTO.UserModel;
+using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
