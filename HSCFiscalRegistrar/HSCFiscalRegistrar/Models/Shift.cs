@@ -1,4 +1,5 @@
 ﻿using HSCFiscalRegistrar.DTO.DateAndTime;
+using HSCFiscalRegistrar.Models.APKInfo;
 
 namespace HSCFiscalRegistrar.Models
 {
@@ -7,10 +8,11 @@ namespace HSCFiscalRegistrar.Models
         public string Id { get; set; }
         public int Number { get; set; }
         public decimal TotalSum { get; set; }
-        public int TotalCount { get; set; }
+        public int OperationsCount { get; set; }
         public DateTime OpenDate { get; set; }
         public DateTime CloseDate { get; set; }
-        public int TerminalReqNum { get; set; }
+        public int KkmId { get; set; }
+        public virtual Kkm Kkm { get; set; }
         public string UserId { get; set; }
         public virtual User User { get; set; }
     }
