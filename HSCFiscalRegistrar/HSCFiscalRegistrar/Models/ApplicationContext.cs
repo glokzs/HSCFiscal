@@ -10,5 +10,6 @@ namespace HSCFiscalRegistrar.Models
         {
             Database.EnsureCreated();
         }
+        
     }
 }

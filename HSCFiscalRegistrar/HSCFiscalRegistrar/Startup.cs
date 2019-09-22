@@ -32,6 +32,8 @@ namespace HSCFiscalRegistrar
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>();
 
+            services.AddSingleton<TokenValidationHelper>();
+            
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.

@@ -5,8 +5,9 @@ namespace HSCFiscalRegistrar.Models
 {
     public class User : IdentityUser
     {
-        public Guid UserToken { get; set; }
+        public string UserToken { get; set; }
         public int DeviceId { get; set; }
         public DateTime DateTimeCreationToken { get; set; }
+        public DateTime ExpiryDate { get; set; }
     }
 }
