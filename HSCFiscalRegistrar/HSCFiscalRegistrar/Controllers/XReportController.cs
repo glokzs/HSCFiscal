@@ -27,8 +27,9 @@ namespace HSCFiscalRegistrar.Controllers
         public string XReportResult([FromBody] WrapperToken tokenDto)
         {
             
-            
-            return TokenValidationHelper.TokenValidator(_context, tokenDto.Data.Token) ? GetHardString() : "XYI";
+            var error = TokenValidationHelper.TokenValidator(_context, tokenDto.Data.Token);
+
+            return GetHardString();
         }
 
         private string GetHardString()
