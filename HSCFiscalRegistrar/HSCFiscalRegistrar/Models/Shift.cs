@@ -7,7 +7,7 @@ namespace HSCFiscalRegistrar.Models
     {
         public string Id { get; set; }
         public int Number { get; set; }
-        public decimal TotalSum { get; set; }
+        public decimal TotalAmount { get; set; }
         public int OperationsCount { get; set; }
         public DateTime OpenDate { get; set; }
         public DateTime CloseDate { get; set; }
