@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace HSCFiscalRegistrar.Helpers
 {
-    public class TokenValidationHelper 
+    public static class TokenValidationHelper 
     {
        public static async Task<bool> TokenValidator(
            ClaimsPrincipal user, 

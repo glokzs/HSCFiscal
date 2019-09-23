@@ -9,7 +9,7 @@ namespace HSCFiscalRegistrar.Controllers
         [HttpGet]
         public string Index()
         {
-            return $"God bless us";
+            return $"работает (╮°-°)┳┳  => не работает ( ╯°□°)╯┻┻";
         }
     }
 }
