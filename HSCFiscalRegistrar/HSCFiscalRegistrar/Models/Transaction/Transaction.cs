@@ -1,5 +1,6 @@
-using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
+using System;
 using HSCFiscalRegistrar.Enums;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HSCFiscalRegistrar.Models.Transaction
 {
@@ -14,6 +15,8 @@ namespace HSCFiscalRegistrar.Models.Transaction
         public int CheckNumber { get; set; }
         public int ShiftNumber { get; set; }
         public string TiketUrl { get; set; }
+        public DateTime Date { get; set; }
+        
     }
 
     
