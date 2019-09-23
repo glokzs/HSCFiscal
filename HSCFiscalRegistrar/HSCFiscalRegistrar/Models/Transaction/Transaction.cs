@@ -1,6 +1,5 @@
 using System;
 using HSCFiscalRegistrar.Enums;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HSCFiscalRegistrar.Models.Transaction
 {
