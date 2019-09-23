@@ -14,7 +14,6 @@ namespace HSCFiscalRegistrar.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
     public class AuthorizeController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -42,9 +41,8 @@ namespace HSCFiscalRegistrar.Controllers
                 if (appUser != null)
                 {
                     appUser.DateTimeCreationToken = GenerateUserToken.TimeCreation();
-
-                    appUser.UserToken = GenerateUserToken.getGuidKey();
-
+                    appUser.ExpiryDate = GenerateUserToken.ExpiryDate();
+                    appUser.UserToken = $"{appUser.Id}%{GenerateUserToken.GetGuidKey()}";
                     var response = await _userManager.UpdateAsync(appUser);
 
                     if (response.Succeeded)

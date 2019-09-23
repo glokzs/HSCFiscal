@@ -33,7 +33,7 @@ namespace HSCFiscalRegistrar.Controllers
                     {
                         Email = model.Login,
                         UserName = model.Login,
-                        UserToken = GenerateUserToken.getGuidKey(),
+                        UserToken = GenerateUserToken.GetGuidKey(),
                         DateTimeCreationToken = GenerateUserToken.TimeCreation()
                     };
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +30,8 @@ namespace HSCFiscalRegistrar
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>();
 
+            services.AddSingleton<TokenValidationHelper>();
+            
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.

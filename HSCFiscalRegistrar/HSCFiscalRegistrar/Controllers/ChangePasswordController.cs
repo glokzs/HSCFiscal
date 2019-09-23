@@ -39,7 +39,7 @@ namespace HSCFiscalRegistrar.Controllers
                 if (user != null && user.UserToken.ToString() == model.Token)
                 {
                     user.DateTimeCreationToken = GenerateUserToken.TimeCreation();
-                    user.UserToken = GenerateUserToken.getGuidKey();
+                    user.UserToken = GenerateUserToken.GetGuidKey();
 
                     if (model.Password == model.NewPassword)
                     {
