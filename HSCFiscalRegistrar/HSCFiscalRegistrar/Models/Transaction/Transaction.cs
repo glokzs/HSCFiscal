@@ -13,9 +13,10 @@ namespace HSCFiscalRegistrar.Models.Transaction
         public virtual Payment Payment { get; set; }
         public StateOfTransactionEnum State { get; set; }
         public int CheckNumber { get; set; }
-        public int ShiftNumber { get; set; }
+        public int ShiftNId { get; set; }
         public string TiketUrl { get; set; }
         public DateTime Date { get; set; }
+        public DateTime ChangeDate { get; set; }
         
     }
 
