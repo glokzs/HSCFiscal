@@ -31,7 +31,7 @@ namespace HSCFiscalRegistrar
                 .AddEntityFrameworkStores<ApplicationContext>();
 
             services.AddSingleton<TokenValidationHelper>();
-            
+
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.
@@ -53,7 +53,6 @@ namespace HSCFiscalRegistrar
                 options.User.RequireUniqueEmail = false;
             });
         }
-
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ApplicationContext context)
         {
             context.Database.EnsureCreated();

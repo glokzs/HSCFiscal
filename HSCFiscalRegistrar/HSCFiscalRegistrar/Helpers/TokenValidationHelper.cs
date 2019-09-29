@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Data;
+using System.Security.Authentication;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
-using Microsoft.AspNetCore.Identity;
 
 namespace HSCFiscalRegistrar.Helpers
 {
     public class TokenValidationHelper
     {
-        public static int TokenValidator(ApplicationContext context, string token)
+        public Exception TokenValidator(ApplicationContext context, string token)
         {
             User user = context.Users.Find(ParseId(token));
 
@@ -17,29 +16,25 @@ namespace HSCFiscalRegistrar.Helpers
             {
                 if (user.UserToken == token)
                 {
-                    if (DateTime.Now < user.ExpiryDate )
+                    if (DateTime.Now > user.ExpiryDate )
                     {
-                        return TokenError.GOOD_USER.GetHashCode();
-                    }
-                    else
-                    {
-                        return TokenError.TIME_EXCEPTIONS.GetHashCode();
+                        return new InvalidExpressionException();
                     }
                 }
                 else
                 {
-                    return TokenError.INVALID_TOKEN.GetHashCode();
+                    return new AuthenticationException();
                 }
             }
             else
             {
-                return TokenError.INVALID_USER.GetHashCode();
+                return new NullReferenceException();
             }
 
-            return TokenError.ANOTHER_ERROR.GetHashCode();
+            return null;
         }
 
-        private static string ParseId(string token)
+        private string ParseId(string token)
         {
             string[] tokenArray = token.Split('%');
             return tokenArray[0];

@@ -4,7 +4,6 @@ using HSCFiscalRegistrar.DTO.TokenDto;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -14,22 +13,28 @@ namespace HSCFiscalRegistrar.Controllers
     [ApiController]
     public class XReportController : Controller
     {
-        private readonly UserManager<User> _userManager;
         private readonly ApplicationContext _context;
-        public XReportController(UserManager<User> userManager, ApplicationContext context)
+        private readonly TokenValidationHelper _helper;
+        public XReportController(ApplicationContext context, TokenValidationHelper helper)
         {
-            _userManager = userManager;
             _context = context;
+            _helper = helper;
         }
-        
-        
+
         [HttpPost]
         public string XReportResult([FromBody] WrapperToken tokenDto)
         {
-            
-            var error = TokenValidationHelper.TokenValidator(_context, tokenDto.Data.Token);
+            try
+            {
+                var error = _helper.TokenValidator(_context, tokenDto.Data.Token);
 
-            return GetHardString();
+                return error == null ? GetHardString() : throw error;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return "ERROR";
+            }
         }
 
         private string GetHardString()
