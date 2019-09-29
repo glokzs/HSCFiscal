@@ -22,5 +22,10 @@ namespace HSCFiscalRegistrar.Helpers
             DateTime combined = DateTime.Now.Add(time);
             return combined;
         }
+
+        public static string Token(string appUserId)
+        {
+            return $"{appUserId}%{GetGuidKey()}";
+        }
     }
 }

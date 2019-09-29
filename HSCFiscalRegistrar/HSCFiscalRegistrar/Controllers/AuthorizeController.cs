@@ -42,7 +42,7 @@ namespace HSCFiscalRegistrar.Controllers
                 {
                     appUser.DateTimeCreationToken = GenerateUserToken.TimeCreation();
                     appUser.ExpiryDate = GenerateUserToken.ExpiryDate();
-                    appUser.UserToken = $"{appUser.Id}%{GenerateUserToken.GetGuidKey()}";
+                    appUser.UserToken = GenerateUserToken.Token(appUser.Id);
                     var response = await _userManager.UpdateAsync(appUser);
 
                     if (response.Succeeded)
