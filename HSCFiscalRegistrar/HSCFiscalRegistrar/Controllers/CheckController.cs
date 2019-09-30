@@ -75,7 +75,7 @@ namespace HSCFiscalRegistrar.Controllers
                 };
                 var resp = await HttpService.Post(fiscalOfdRequest);
                 var ofdResp = GetOfdResponse(ref resp);
-                KkmResponse kkmResponse = new KkmResponse
+                var kkmResponse = new KkmResponse
                 {
                     Data = new Data
                         {

@@ -7,7 +7,9 @@ namespace HSCFiscalRegistrar.DTO.XReport.OfdResponse
     {
         [JsonProperty("operation")]
         public OperationTypeEnum OperationType { get; set; }
+        [JsonProperty("count")]
         public int Count { get; set; }
+        [JsonProperty("sum")]
         public Money Sum { get; set; }
         
     }

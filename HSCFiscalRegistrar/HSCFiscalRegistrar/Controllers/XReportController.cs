@@ -1,101 +1,244 @@
-﻿using System.Linq;
- using System.Threading.Tasks;
- using HSCFiscalRegistrar.DTO.DateAndTime;
-using HSCFiscalRegistrar.DTO.Fiscalization.OFDResponce;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using HSCFiscalRegistrar.DTO.DateAndTime;
 using HSCFiscalRegistrar.DTO.XReport;
- using HSCFiscalRegistrar.Enums;
- using HSCFiscalRegistrar.Models;
- using HSCFiscalRegistrar.Models.APKInfo;
-using HSCFiscalRegistrar.Services;
+using HSCFiscalRegistrar.DTO.XReport.KkmResponce;
+using HSCFiscalRegistrar.DTO.XReport.OfdResponse;
+using HSCFiscalRegistrar.Enums;
+using HSCFiscalRegistrar.Models;
+using HSCFiscalRegistrar.Models.APKInfo;
 using Microsoft.AspNetCore.Identity;
- using Microsoft.AspNetCore.Mvc;
- using Newtonsoft.Json;
- using static HSCFiscalRegistrar.Services.HttpService;
- using DateTime = System.DateTime;
- 
- namespace HSCFiscalRegistrar.Controllers
- {
-     [Route("api/[controller]")]
-     [ApiController]
-     public class XReportController : Controller
-     {
-         private readonly UserManager<User> _userManager;
-         private readonly ApplicationContext _context;
-         public XReportController(UserManager<User> userManager, ApplicationContext context)
-         {
-             _userManager = userManager;
-             _context = context;
-         }
-         
-         
-         [HttpPost]
-         public async Task<IActionResult> XReportResult([FromBody] KkmRequest kkmRequest)
-         {
-             Request request = _context.Requests.FirstOrDefault(r => r.Id == "7");
-             if (request != null)
-             {
-                 OfdRequest ofdRequest = new OfdRequest
-                 {
-                     Command = 3,
-                     DeviceId = request.DeviceId.ToString(),
-                     ReqNum = request.ReqNum,
-                     Service = request.Service,
-                     Token = request.Token,
-                     Report = new Report
-                     {
-                         ReportType = ReportTypeEnum.REPORT_X,
-                         DateTime = GetDateTime()
-                     }
-                 };
-                 dynamic response = Post(ofdRequest);
-                 return Ok(JsonConvert.SerializeObject(response));
-             }
-             return NotFound();
-         }
- 
-         private dynamic GetOfdResponse(ref dynamic resp)
-         {
-             resp = JsonConvert.SerializeObject(resp);
-             var ofdResp = JsonConvert.DeserializeObject<Response>(resp);
-             return ofdResp;
-         }
- 
-         private OfdRequest GetOfdRequest(Request req)
-         {
-             return new OfdRequest
-             {
-                 Command = 1,
-                 Token = req.Token,
-                 ReqNum = req.ReqNum,
-                 Service = req.Service,
-                 Report = {ReportType = ReportTypeEnum.REPORT_X, DateTime = GetDateTime()}
-             };
-         }
- 
- 
-         private DTO.DateAndTime.DateTime GetDateTime()
-         {
-             var now = DateTime.Now;
-             return new DTO.DateAndTime.DateTime
-             {
-                 Date = new Date
-                 {
-                     Day = now.Day,
-                     Month = now.Month,
-                     Year = now.Year
-                 },
-                 Time = new Time
-                 {
-                     Hour = now.Hour,
-                     Minute = now.Minute,
-                     Second = now.Second
-                 }
-             };
-         }
- 
-         private string GetHardString()
-         {
-                         return @"{
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using static HSCFiscalRegistrar.Services.HttpService;
+using DateTime = System.DateTime;
+
+namespace HSCFiscalRegistrar.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class XReportController : Controller
+    {
+        private readonly UserManager<User> _userManager;
+        private readonly ApplicationContext _context;
+        private readonly SignInManager<User> _signInManager;
+
+        public XReportController(UserManager<User> userManager, ApplicationContext context,
+            SignInManager<User> signInManager)
+        {
+            _userManager = userManager;
+            _context = context;
+            _signInManager = signInManager;
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> XReportResult([FromBody] KkmRequest kkmRequest)
+        {
+            Request request = _context.Requests.FirstOrDefault(r => r.Id == "7");
+            if (request != null)
+            {
+                OfdRequest ofdRequest = new OfdRequest
+                {
+                    Command = 3,
+                    DeviceId = request.DeviceId,
+                    ReqNum = request.ReqNum,
+                    Service = request.Service,
+                    Token = request.Token,
+                    Report = new Report
+                    {
+                        ReportType = ReportTypeEnum.REPORT_X,
+                        DateTime = GetDateTime()
+                    }
+                };
+                var response = await Post(ofdRequest);
+                var ofdResponse = GetOfdResponse(ref response);
+                XReportKkmResponse xReportKkmResponse = new XReportKkmResponse
+                {
+                    Data = new Data
+                    {
+                        ReportNumber = ofdResponse.ZXReport.TicketOperations.Sum(t => t.TicketsTotalCount),
+                        TaxPayerName = "admin",
+                        TaxPayerIN = "111140010124",
+                        TaxPayerVAT = true,
+                        TaxPayerVATSeria = "32132",
+                        TaxPayerVATNumber = "12345",
+                        CashboxSN = "SWK00030767",
+                        CashboxRN = "240820180008",
+                        CashboxIN = 2405,
+                        StartOn = DateTime.Now,
+                        ReportOn = GetReportDateTime(ofdResponse),
+                        CloseOn = DateTime.Now,
+                        CashierCode = 123,
+                        ShiftNumber = ofdResponse.ZXReport.ShiftNumber,
+                        DocumentCount = ofdResponse.ZXReport.TicketOperations.Sum(t => t.TicketsTotalCount),
+                        PutMoneySum = GetPutMoneySum(ofdResponse),
+                        TakeMoneySum = GetTakeMoneySum(ofdResponse),
+                        ControlSum = ofdResponse.ZXReport.NonNullableSums.Sum(n => n.Sum.Bills),
+                        OfflineMode = ofdRequest.Report.IsOffline,
+                        CashboxOfflineMode = ofdRequest.Report.IsOffline,
+                        SumInCashbox = ofdResponse.ZXReport.CashSum.Bills,
+                        Sell = new OperationTypeSummaryApiModel
+                        {
+                            Change = 0,
+                            Count = ofdResponse.ZXReport.TicketOperations
+                                .Where(t => t.Operation == OperationTypeEnum.OPERATION_SELL).Sum(t => t.TicketsCount),
+                            Taken = ofdResponse.ZXReport.TicketOperations
+                                .Where(t => t.Operation == OperationTypeEnum.OPERATION_SELL).Sum(
+                                    t => t.TicketsSum.Bills),
+                            Markup = 0,
+                            Discount = 0,
+                            PaymentsByTypesApiModel = new List<PaymentsByTypesApiModel>(),
+                            TotalCount = ofdResponse.ZXReport.TicketOperations
+                                .Where(t => t.Operation == OperationTypeEnum.OPERATION_SELL).Sum(t => t.TicketsTotalCount),
+                            VAT = 0
+                        },
+                        Buy = new OperationTypeSummaryApiModel
+                        {
+                            Change = 0,
+                            Count = ofdResponse.ZXReport.TicketOperations
+                                .Where(t => t.Operation == OperationTypeEnum.OPERATION_BUY).Sum(t => t.TicketsCount),
+                            Taken = ofdResponse.ZXReport.TicketOperations
+                                .Where(t => t.Operation == OperationTypeEnum.OPERATION_BUY).Sum(
+                                    t => t.TicketsSum.Bills),
+                            Markup = 0,
+                            Discount = 0,
+                            PaymentsByTypesApiModel = new List<PaymentsByTypesApiModel>(),
+                            TotalCount = ofdResponse.ZXReport.TicketOperations
+                                .Where(t => t.Operation == OperationTypeEnum.OPERATION_BUY).Sum(t => t.TicketsTotalCount),
+                            VAT = 0
+                        },
+                        ReturnBuy = new OperationTypeSummaryApiModel
+                        {
+                            Change = 0,
+                            Count = ofdResponse.ZXReport.TicketOperations
+                                .Where(t => t.Operation == OperationTypeEnum.OPERATION_BUY_RETURN)
+                                .Sum(t => t.TicketsCount),
+                            Taken = ofdResponse.ZXReport.TicketOperations
+                                .Where(t => t.Operation == OperationTypeEnum.OPERATION_BUY_RETURN).Sum(
+                                    t => t.TicketsSum.Bills),
+                            Markup = 0,
+                            Discount = 0,
+                            PaymentsByTypesApiModel = new List<PaymentsByTypesApiModel>(),
+                            TotalCount = ofdResponse.ZXReport.TicketOperations
+                            .Where(t => t.Operation == OperationTypeEnum.OPERATION_BUY_RETURN).Sum(t => t.TicketsTotalCount),
+                            VAT = 0
+                        },
+                        ReturnSell = new OperationTypeSummaryApiModel
+                        {
+                            Change = 0,
+                            Count = ofdResponse.ZXReport.TicketOperations
+                                .Where(t => t.Operation == OperationTypeEnum.OPERATION_SELL_RETURN)
+                                .Sum(t => t.TicketsCount),
+                            Taken = ofdResponse.ZXReport.TicketOperations
+                                .Where(t => t.Operation == OperationTypeEnum.OPERATION_SELL_RETURN).Sum(
+                                    t => t.TicketsSum.Bills),
+                            Markup = 0,
+                            Discount = 0,
+                            PaymentsByTypesApiModel = new List<PaymentsByTypesApiModel>(),
+                            TotalCount = ofdResponse.ZXReport.TicketOperations
+                                .Where(t => t.Operation == OperationTypeEnum.OPERATION_SELL_RETURN).Sum(t => t.TicketsTotalCount),
+                            VAT = 0
+                        },
+
+                        StartNonNullable = new NonNullableApiModel
+                        {
+                            Buy = ofdResponse.ZXReport.StartShiftNonNullableSums
+                                .Where(n => n.Operation == OperationTypeEnum.OPERATION_BUY).Sum(n => n.Sum.Bills),
+                            Sell = ofdResponse.ZXReport.StartShiftNonNullableSums
+                                .Where(n => n.Operation == OperationTypeEnum.OPERATION_SELL).Sum(n => n.Sum.Bills),
+                            ReturnBuy = ofdResponse.ZXReport.StartShiftNonNullableSums
+                                .Where(n => n.Operation == OperationTypeEnum.OPERATION_BUY_RETURN)
+                                .Sum(n => n.Sum.Bills),
+                            ReturnSell = ofdResponse.ZXReport.StartShiftNonNullableSums
+                                .Where(n => n.Operation == OperationTypeEnum.OPERATION_SELL_RETURN)
+                                .Sum(n => n.Sum.Bills)
+                        },
+                        EndNonNullable = new NonNullableApiModel
+                        {
+                            Buy = ofdResponse.ZXReport.NonNullableSums
+                                .Where(n => n.Operation == OperationTypeEnum.OPERATION_BUY).Sum(n => n.Sum.Bills),
+                            Sell = ofdResponse.ZXReport.NonNullableSums
+                                .Where(n => n.Operation == OperationTypeEnum.OPERATION_SELL).Sum(n => n.Sum.Bills),
+                            ReturnBuy = ofdResponse.ZXReport.NonNullableSums
+                                .Where(n => n.Operation == OperationTypeEnum.OPERATION_BUY_RETURN)
+                                .Sum(n => n.Sum.Bills),
+                            ReturnSell = ofdResponse.ZXReport.NonNullableSums
+                                .Where(n => n.Operation == OperationTypeEnum.OPERATION_SELL_RETURN)
+                                .Sum(n => n.Sum.Bills)
+                        }
+                    }
+                };
+                return Ok(JsonConvert.SerializeObject(xReportKkmResponse));
+            }
+
+            return NotFound();
+        }
+
+        private static int GetTakeMoneySum(ZXOfdResponse ofdResponse)
+        {
+            return ofdResponse.ZXReport.MoneyPlacements
+                .Where(r => r.Operation == MoneyPlacementEnum.MONEY_PLACEMENT_WITHDRAWAL)
+                .Sum(t => t.OperationsSum.Bills);
+        }
+
+        private static int GetPutMoneySum(ZXOfdResponse ofdResponse)
+        {
+            return ofdResponse.ZXReport.MoneyPlacements
+                .Where(r => r.Operation == MoneyPlacementEnum.MONEY_PLACEMENT_DEPOSIT)
+                .Sum(t => t.OperationsSum.Bills);
+        }
+
+        private ZXOfdResponse GetOfdResponse(ref dynamic resp)
+        {
+            resp = JsonConvert.SerializeObject(resp);
+            ZXOfdResponse ofdResp = JsonConvert.DeserializeObject<ZXOfdResponse>(resp);
+            return ofdResp;
+        }
+
+        private OfdRequest GetOfdRequest(Request req)
+        {
+            return new OfdRequest
+            {
+                Command = 1,
+                Token = req.Token,
+                ReqNum = req.ReqNum,
+                Service = req.Service,
+                Report = {ReportType = ReportTypeEnum.REPORT_X, DateTime = GetDateTime()}
+            };
+        }
+
+        private DateTime GetReportDateTime(ZXOfdResponse zxOfdResponse)
+        {
+            var date = zxOfdResponse.ZXReport.DateTime;
+            DateTime dateTime = DateTime.Parse(date.ToString());
+            return dateTime;
+        }
+
+        private DTO.DateAndTime.DateTime GetDateTime()
+        {
+            var now = DateTime.Now;
+            return new DTO.DateAndTime.DateTime
+            {
+                Date = new Date
+                {
+                    Day = now.Day,
+                    Month = now.Month,
+                    Year = now.Year
+                },
+                Time = new Time
+                {
+                    Hour = now.Hour,
+                    Minute = now.Minute,
+                    Second = now.Second
+                }
+            };
+        }
+
+        private string GetHardString()
+        {
+            return @"{
      ""Data"": {
          ""TaxPayerName"": ""ТОО Тест 21"",
          ""TaxPayerIN"": ""111140010124"",
@@ -173,7 +316,6 @@ using Microsoft.AspNetCore.Identity;
      }
  }
  ";
-         }
-         
-     }
- }
+        }
+    }
+}

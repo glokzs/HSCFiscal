@@ -1,11 +1,13 @@
-﻿using System.Xml.Linq;
-using HSCFiscalRegistrar.Enums;
+﻿using HSCFiscalRegistrar.Enums;
+using Newtonsoft.Json;
 
 namespace HSCFiscalRegistrar.DTO.XReport.OfdResponse
 {
     public class ZXOfdResponse
     {
-        public ReportTypeEnum Report { get; set; }
+        [JsonProperty("report")]
+        public int Report { get; set; }
+        [JsonProperty("zx_report")]
         public ZXReport ZXReport { get; set; }
     }
 }
