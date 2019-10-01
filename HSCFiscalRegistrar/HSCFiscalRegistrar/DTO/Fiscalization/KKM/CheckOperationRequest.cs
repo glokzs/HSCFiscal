@@ -28,5 +28,9 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization.KKM
         public string ExternalCheckNumber { get; set; }
         [JsonProperty("CustomerEmail")]
         public string CustomerEmail { get; set; }
+        public override string ToString()
+        {
+            return $"{Token}";
+        }
     }
 }
