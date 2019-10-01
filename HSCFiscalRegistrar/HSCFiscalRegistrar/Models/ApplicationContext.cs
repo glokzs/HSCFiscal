@@ -11,6 +11,9 @@ namespace HSCFiscalRegistrar.Models
         public DbSet<RegInfo> RegInfos { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Request> Requests { get; set; }
+        public DbSet<Shift> Shifts { get; set; }
+        public DbSet<Operation.Operation> Operations { get; set; }
+        public DbSet<ShiftOperation> ShiftOperations { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
