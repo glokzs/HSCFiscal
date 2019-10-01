@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Castle.Core.Logging;
 using HSCFiscalRegistrar.DTO.Cashboxes;
 using HSCFiscalRegistrar.DTO.Errors;
 using HSCFiscalRegistrar.Helpers;
@@ -32,7 +31,7 @@ namespace HSCFiscalRegistrar.Controllers
         [HttpPost]
         public  ActionResult Get([FromBody] DtoToken dtoToken)
         {
-            var _logger = _loggerFactory.CreateLogger("Autorize|Post");
+            var _logger = _loggerFactory.CreateLogger("Cashbox|Post");
             _logger.LogInformation($"Получение списка касс пользователя: {dtoToken.Token}"); 
             
                 try
