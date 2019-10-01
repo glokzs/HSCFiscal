@@ -16,7 +16,7 @@ namespace HSCFiscalRegistrar.DTO.XReport.OfdResponse
         [JsonProperty("discounts")]
         public List<Operation> Discounts { get; set; }
         [JsonProperty("markups")]
-        public List<Operation> Markups { get; set; }
+        public List<Operation> Markups{ get; set; }
         [JsonProperty("total_result")]
         public List<Operation> TotalResult { get; set; }
         [JsonProperty("taxes")]

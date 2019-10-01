@@ -39,19 +39,7 @@ namespace HSCFiscalRegistrar.Controllers
             Request request = _context.Requests.FirstOrDefault(r => r.Id == "7");
             if (request != null)
             {
-                OfdRequest ofdRequest = new OfdRequest
-                {
-                    Command = 3,
-                    DeviceId = request.DeviceId,
-                    ReqNum = request.ReqNum,
-                    Service = request.Service,
-                    Token = request.Token,
-                    Report = new Report
-                    {
-                        ReportType = ReportTypeEnum.REPORT_X,
-                        DateTime = GetDateTime()
-                    }
-                };
+                OfdRequest ofdRequest = GetOfdRequest(request);
                 var response = await Post(ofdRequest);
                 var ofdResponse = GetOfdResponse(ref response);
                 XReportKkmResponse xReportKkmResponse = new XReportKkmResponse
@@ -68,7 +56,7 @@ namespace HSCFiscalRegistrar.Controllers
                         CashboxRN = "240820180008",
                         CashboxIN = 2405,
                         StartOn = DateTime.Now,
-                        ReportOn = GetReportDateTime(ofdResponse),
+                        ReportOn = DateTime.Now,
                         CloseOn = DateTime.Now,
                         CashierCode = 123,
                         ShiftNumber = ofdResponse.ZXReport.ShiftNumber,
@@ -201,21 +189,18 @@ namespace HSCFiscalRegistrar.Controllers
         {
             return new OfdRequest
             {
-                Command = 1,
-                Token = req.Token,
+                Command = 3,
+                DeviceId = req.DeviceId,
                 ReqNum = req.ReqNum,
                 Service = req.Service,
-                Report = {ReportType = ReportTypeEnum.REPORT_X, DateTime = GetDateTime()}
+                Token = req.Token,
+                Report = new Report
+                {
+                    ReportType = ReportTypeEnum.REPORT_X,
+                    DateTime = GetDateTime()
+                }
             };
         }
-
-        private DateTime GetReportDateTime(ZXOfdResponse zxOfdResponse)
-        {
-            var date = zxOfdResponse.ZXReport.DateTime;
-            DateTime dateTime = DateTime.Parse(date.ToString());
-            return dateTime;
-        }
-
         private DTO.DateAndTime.DateTime GetDateTime()
         {
             var now = DateTime.Now;
