@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.Auth;
 using HSCFiscalRegistrar.DTO.Errors;
@@ -8,7 +9,9 @@ using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -18,59 +21,74 @@ namespace HSCFiscalRegistrar.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly ILoggerFactory _loggerFactory;
 
-        public AuthorizeController(UserManager<User> userManager,
+        public AuthorizeController(UserManager<User> userManager, ILoggerFactory loggerFactory,
             SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _loggerFactory = loggerFactory;
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] UserDTO model)
         {
-            var result = await _signInManager.PasswordSignInAsync(model.Login,
-                model.Password,
-                false,
-                false);
-
-            if (result.Succeeded)
+            var _logger = _loggerFactory.CreateLogger("Autorize|Post");
+            _logger.LogInformation($"Авторизация пользователя: {model}");
+            
+            try
             {
-                var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Login);
+                var result = await _signInManager.PasswordSignInAsync(model.Login,
+                    model.Password,
+                    false,
+                    false);
 
-                if (appUser != null)
+                if (result.Succeeded)
                 {
-                    appUser.DateTimeCreationToken = GenerateUserToken.TimeCreation();
-                    appUser.ExpiryDate = GenerateUserToken.ExpiryDate();
-                    appUser.UserToken = GenerateUserToken.Token(appUser.Id);
-                    var response = await _userManager.UpdateAsync(appUser);
+                    var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Login);
 
-                    if (response.Succeeded)
+                    if (appUser != null)
                     {
-                        var dto = new AnswerServerAuth
-                        {
-                            Data = new Data
-                            {
-                                Token = appUser.UserToken.ToString()
-                            }
-                        };
+                        appUser.DateTimeCreationToken = GenerateUserToken.TimeCreation();
+                        appUser.ExpiryDate = GenerateUserToken.ExpiryDate();
+                        appUser.UserToken = GenerateUserToken.Token(appUser.Id);
+                        var response = await _userManager.UpdateAsync(appUser);
 
-                        return Ok(JsonConvert.SerializeObject(dto));
+                        if (response.Succeeded)
+                        {
+                            var dto = new AnswerServerAuth
+                            {
+                                Data = new Data
+                                {
+                                    Token = appUser.UserToken.ToString()
+                                }
+                            };
+
+                            return Ok(JsonConvert.SerializeObject(dto));
+                        }
+                        else
+                        {
+                            return Ok("Ошибка в системе!");
+                        }
                     }
                     else
                     {
-                        return Ok("Ошибка в системе!");
+                        return Ok(ErrorsAuth.LoginError());
                     }
                 }
                 else
                 {
+                    _logger.LogError($"Ошибка авторизации пользователя: {model.Login}");
                     return Ok(ErrorsAuth.LoginError());
                 }
             }
-            else
+            catch (Exception e)
             {
-                return Ok(ErrorsAuth.LoginError());
+                _logger.LogError(e.ToString());
+                return Ok(e.Message);
             }
+            
         }
     }
 }

@@ -33,7 +33,7 @@ namespace HSCFiscalRegistrar.Helpers
             return null;
         }
 
-        private string ParseId(string token)
+        private static string ParseId(string token)
         {
             string[] tokenArray = token.Split('%');
             return tokenArray[0];
