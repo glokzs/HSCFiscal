@@ -51,11 +51,11 @@ namespace HSCFiscalRegistrar.Controllers
                     Ticket = new Ticket
                     {
                         Operation = checkOperationRequest.OperationType,
-                        Operator = new Operator()
-                        {
-                            Code = 1,
-                            Name = "OperName"
-                        },
+//                        Operator = new Operator()
+//                        {
+//                            Code = 1,
+//                            Name = "OperName"
+//                        },
                         DateTime = GetDateTime(),
                         Payments = GetPayments(checkOperationRequest),
                         Items = GetItems(checkOperationRequest),

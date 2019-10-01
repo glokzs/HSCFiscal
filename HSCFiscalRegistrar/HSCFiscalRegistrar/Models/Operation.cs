@@ -22,8 +22,8 @@ namespace HSCFiscalRegistrar.Models.Operation
         public decimal CardAmount { get; set; }
         public decimal CashAmountFromClient { get; set; }
         public string OperatorId { get; set; }
-        public Operator Operator { get; set; }
-        public Kkm Kkm { get; set; }
+        public virtual Operator Operator { get; set; }
         public string KkmId { get; set; }
+        public virtual Kkm Kkm { get; set; }
     }
 }
