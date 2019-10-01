@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.DateAndTime;
+using HSCFiscalRegistrar.DTO.Errors;
 using HSCFiscalRegistrar.DTO.Fiscalization;
 using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
 using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
@@ -15,6 +17,8 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using DateTime = HSCFiscalRegistrar.DTO.DateAndTime.DateTime;
 using Ticket = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Ticket;
+using Microsoft.Extensions.Logging;
+using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -23,79 +27,93 @@ namespace HSCFiscalRegistrar.Controllers
     {
         private readonly ApplicationContext _applicationContext;
         private UserManager<User> _userManager;
-
-        public CheckController(ApplicationContext applicationContext, UserManager<User> userManager)
+        private readonly ILoggerFactory _loggerFactory;
+        public CheckController(ApplicationContext applicationContext, UserManager<User> userManager, ILoggerFactory loggerFactory)
         {
             _applicationContext = applicationContext;
             _userManager = userManager;
+            _loggerFactory = loggerFactory;
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CheckOperationRequest checkOperationRequest)
         {
-            decimal sum = 0;
-            foreach (var paymentsType in checkOperationRequest.Payments)
-            {
-                sum += paymentsType.Sum;
-            }
-            var request = _applicationContext.Requests.FirstOrDefault(r => r.Id == "7");
-            if (request != null)
-            {
-                var fiscalOfdRequest = new FiscalOfdRequest
-                {
-                    Command = 1,
-                    Token = request.Token,
-                    DeviceId = request.DeviceId,
-                    ReqNum = request.ReqNum,
-                    Service = request.Service,
-                    Ticket = new Ticket
-                    {
-                        Operation = checkOperationRequest.OperationType,
-                        Operator = new Operator()
-                        {
-                            Code = 1,
-                            Name = "OperName"
-                        },
-                        DateTime = GetDateTime(),
-                        Payments = GetPayments(checkOperationRequest),
-                        Items = GetItems(checkOperationRequest),
-                        Amounts = new Amount()
-                        {
-                            Total = new Sum()
-                            {
-                                Bills = sum,
-                                Coins = 0
-                            }
-                        },
-                        Domain = new Domain
-                        {
-                            Type = 0
-                        }
-                    }
-                };
-                var resp = await HttpService.Post(fiscalOfdRequest);
-                var ofdResp = GetOfdResponse(ref resp);
-                KkmResponse kkmResponse = new KkmResponse
-                {
-                    Data = new Data
-                        {
-                            DateTime = System.DateTime.Now.Date,
-                            CheckNumber = ofdResp.Ticket.TicketNumber,
-                            OfflineMode = false,
-                            Cashbox = GetCashbox(checkOperationRequest),
-                            CashboxOfflineMode = false,
-                            CheckOrderNumber = request.ReqNum,
-                            ShiftNumber = 54,
-                            EmployeeName = fiscalOfdRequest.Ticket.Operator.Name,
-                            TicketUrl = ofdResp.Ticket.QrCode,
-                    
-                        },
-                };
-                await UpdateDatabaseFields(request, ofdResp);
-                return Ok(JsonConvert.SerializeObject(kkmResponse));
-            }
+            var _logger = _loggerFactory.CreateLogger("Check|Post");
+            _logger.LogInformation($"Информация по чеку: {checkOperationRequest.Token}");
 
-            return NotFound();
+            try
+            {
+                decimal sum = 0;
+                foreach (var paymentsType in checkOperationRequest.Payments)
+                {
+                    sum += paymentsType.Sum;
+                }
+                var request = _applicationContext.Requests.FirstOrDefault(r => r.Id == "7");
+                if (request != null)
+                {
+                    var fiscalOfdRequest = new FiscalOfdRequest
+                    {
+                        Command = 1,
+                        Token = request.Token,
+                        DeviceId = request.DeviceId,
+                        ReqNum = request.ReqNum,
+                        Service = request.Service,
+                        Ticket = new Ticket
+                        {
+                            Operation = checkOperationRequest.OperationType,
+                            Operator = new Operator()
+                            {
+                                Code = 1,
+                                Name = "OperName"
+                            },
+                            DateTime = GetDateTime(),
+                            Payments = GetPayments(checkOperationRequest),
+                            Items = GetItems(checkOperationRequest),
+                            Amounts = new Amount()
+                            {
+                                Total = new Sum()
+                                {
+                                    Bills = sum,
+                                    Coins = 0
+                                }
+                            },
+                            Domain = new Domain
+                            {
+                                Type = 0
+                            }
+                        }
+                    };
+                    var resp = await HttpService.Post(fiscalOfdRequest);
+                    var ofdResp = GetOfdResponse(ref resp);
+                    KkmResponse kkmResponse = new KkmResponse
+                    {
+                        Data = new Data
+                            {
+                                DateTime = System.DateTime.Now.Date,
+                                CheckNumber = ofdResp.Ticket.TicketNumber,
+                                OfflineMode = false,
+                                Cashbox = GetCashbox(checkOperationRequest),
+                                CashboxOfflineMode = false,
+                                CheckOrderNumber = request.ReqNum,
+                                ShiftNumber = 54,
+                                EmployeeName = fiscalOfdRequest.Ticket.Operator.Name,
+                                TicketUrl = ofdResp.Ticket.QrCode,
+                        
+                            },
+                    };
+                    await UpdateDatabaseFields(request, ofdResp);
+                    return Ok(JsonConvert.SerializeObject(kkmResponse));
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+                return Ok(e.Message);
+            }
+            
+
+            _logger.LogError($"Ошибка авторизации пользователя: {checkOperationRequest.Token}");
+            return Ok(ErrorsAuth.LoginError());
         }
         
         private Cashbox GetCashbox(CheckOperationRequest checkOperationRequest)
