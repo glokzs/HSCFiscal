@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using Castle.Core.Logging;
 using HSCFiscalRegistrar.DTO.Cashboxes;
+using HSCFiscalRegistrar.DTO.Errors;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 
 
 namespace HSCFiscalRegistrar.Controllers
@@ -17,17 +21,20 @@ namespace HSCFiscalRegistrar.Controllers
         private static UserManager<User> _userManager;
         private readonly ApplicationContext _context;
         private readonly TokenValidationHelper _helper;
-        public CashboxesController(UserManager<User> userManager, TokenValidationHelper helper)
+        private readonly ILoggerFactory _loggerFactory;
+        public CashboxesController(UserManager<User> userManager, TokenValidationHelper helper, ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _helper = _helper;
+            _loggerFactory = loggerFactory;
         }
         
         [HttpPost]
         public  ActionResult Get([FromBody] DtoToken dtoToken)
         {
-            try
-            {
+            var _logger = _loggerFactory.CreateLogger("Autorize|Post");
+            _logger.LogInformation($"Получение списка касс пользователя: {dtoToken.Token}"); 
+            
                 try
                 {
                     var error = _helper.TokenValidator(_context, dtoToken.Token);
@@ -35,20 +42,12 @@ namespace HSCFiscalRegistrar.Controllers
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
-                    return "ERROR";
+                    _logger.LogError($"Неверный токен: {dtoToken.Token}");
+                    return Ok(ErrorsAuth.TokenError());
+                    
                 }
-                
-                
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-            
         }
-
+            
         private string GetCashBoxesData()
         {
             Wrapper wrapper = new Wrapper

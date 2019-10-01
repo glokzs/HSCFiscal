@@ -6,12 +6,11 @@ using HSCFiscalRegistrar.DTO.Errors;
 using HSCFiscalRegistrar.DTO.UserModel;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using ILogger = Microsoft.Extensions.Logging.ILogger;
+using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 
 namespace HSCFiscalRegistrar.Controllers
 {
