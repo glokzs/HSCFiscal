@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using DateTime = HSCFiscalRegistrar.DTO.DateAndTime.DateTime;
+using Operator = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Operator;
 using Ticket = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Ticket;
 
 namespace HSCFiscalRegistrar.Controllers
@@ -51,11 +52,11 @@ namespace HSCFiscalRegistrar.Controllers
                     Ticket = new Ticket
                     {
                         Operation = checkOperationRequest.OperationType,
-//                        Operator = new Operator()
-//                        {
-//                            Code = 1,
-//                            Name = "OperName"
-//                        },
+                        Operator = new Operator()
+                        {
+                            Code = 1,
+                            Name = "OperName"
+                        },
                         DateTime = GetDateTime(),
                         Payments = GetPayments(checkOperationRequest),
                         Items = GetItems(checkOperationRequest),

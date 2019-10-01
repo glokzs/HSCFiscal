@@ -1,7 +1,7 @@
 using System;
-using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models.APKInfo;
+using DateTime = System.DateTime;
 
 namespace HSCFiscalRegistrar.Models.Operation
 {

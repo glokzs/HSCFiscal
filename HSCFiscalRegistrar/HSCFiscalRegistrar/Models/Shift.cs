@@ -1,5 +1,4 @@
-﻿using HSCFiscalRegistrar.DTO.DateAndTime;
-using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
+﻿using DateTime = System.DateTime;
 using HSCFiscalRegistrar.Models.APKInfo;
 
 namespace HSCFiscalRegistrar.Models
@@ -8,8 +7,8 @@ namespace HSCFiscalRegistrar.Models
     {
         public string Id { get; set; }
         public int Number { get; set; }
-        public System.DateTime OpenDate { get; set; }
-        public System.DateTime CloseDate { get; set; }
+        public DateTime OpenDate { get; set; }
+        public DateTime CloseDate { get; set; }
         public int KkmId { get; set; }
         public virtual Kkm Kkm { get; set; }
         public string OperatorId { get; set; }

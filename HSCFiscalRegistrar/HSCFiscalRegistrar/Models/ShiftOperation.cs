@@ -1,5 +1,4 @@
 using HSCFiscalRegistrar.Enums;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace HSCFiscalRegistrar.Models
 {
