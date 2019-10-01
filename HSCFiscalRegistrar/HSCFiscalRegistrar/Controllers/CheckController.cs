@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using DateTime = HSCFiscalRegistrar.DTO.DateAndTime.DateTime;
+using Operator = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Operator;
 using Ticket = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Ticket;
 
 namespace HSCFiscalRegistrar.Controllers
@@ -75,7 +76,7 @@ namespace HSCFiscalRegistrar.Controllers
                 };
                 var resp = await HttpService.Post(fiscalOfdRequest);
                 var ofdResp = GetOfdResponse(ref resp);
-                KkmResponse kkmResponse = new KkmResponse
+                var kkmResponse = new KkmResponse
                 {
                     Data = new Data
                         {

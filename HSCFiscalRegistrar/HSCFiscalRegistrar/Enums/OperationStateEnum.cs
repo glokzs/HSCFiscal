@@ -1,6 +1,6 @@
 namespace HSCFiscalRegistrar.Enums
 {
-    public enum StateOfTransactionEnum
+    public enum OperationStateEnum
     {
         New,
         Pending,
