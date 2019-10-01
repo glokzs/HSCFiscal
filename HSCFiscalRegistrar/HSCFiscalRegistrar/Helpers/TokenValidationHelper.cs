@@ -11,12 +11,11 @@ namespace HSCFiscalRegistrar.Helpers
         public Exception TokenValidator(ApplicationContext context, string token)
         {
             User user = context.Users.Find(ParseId(token));
-
             if (user != null)
             {
                 if (user.UserToken == token)
                 {
-                    if (DateTime.Now > user.ExpiryDate )
+                    if (DateTime.Now > user.ExpiryDate)
                     {
                         return new InvalidExpressionException();
                     }

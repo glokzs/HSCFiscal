@@ -27,7 +27,6 @@ namespace HSCFiscalRegistrar.Controllers
             try
             {
                 var error = _helper.TokenValidator(_context, tokenDto.Data.Token);
-
                 return error == null ? GetHardString() : throw error;
             }
             catch (Exception e)

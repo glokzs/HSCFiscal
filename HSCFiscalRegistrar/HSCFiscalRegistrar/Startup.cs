@@ -18,7 +18,7 @@ namespace HSCFiscalRegistrar
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -56,6 +56,7 @@ namespace HSCFiscalRegistrar
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ApplicationContext context)
         {
             context.Database.EnsureCreated();
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
