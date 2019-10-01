@@ -18,6 +18,7 @@ namespace HSCFiscalRegistrar.Models.Operation
         public DateTime CreationDate { get; set; }
         public string QR { get; set; }
         public decimal Amount { get; set; }
+        public decimal ChangeAmount { get; set; }
         public decimal CashAmount { get; set; }
         public decimal CardAmount { get; set; }
         public decimal CashAmountFromClient { get; set; }
