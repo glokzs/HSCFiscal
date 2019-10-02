@@ -76,12 +76,12 @@ namespace HSCFiscalRegistrar.Controllers
                     return Json(ErrorsAuth.UserNotFound());
                 }
                 _logger.LogError($"Такого пользователя не существует: {model.Login}");
-                return Json(ErrorsAuth.LoginError());
+                return Json(ErrorsAuth.UserNotFound());
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return Ok(e.Message);
+                return Json(ErrorsAuth.LoginError());
             }
             
         }
