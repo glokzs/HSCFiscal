@@ -1,12 +1,10 @@
 ﻿using System;
-using HSCFiscalRegistrar.DTO.Errors;
 using HSCFiscalRegistrar.DTO.TokenDto;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using HSCFiscalRegistrar.Helpers;
+using Microsoft.Extensions.Logging;
+using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -16,24 +14,29 @@ namespace HSCFiscalRegistrar.Controllers
     {
         private readonly ApplicationContext _context;
         private readonly TokenValidationHelper _helper;
-        public XReportController(ApplicationContext context, TokenValidationHelper helper)
+        private readonly ILoggerFactory _loggerFactory;
+        public XReportController(ApplicationContext context, TokenValidationHelper helper, ILoggerFactory loggerFactory)
         {
             _context = context;
             _helper = helper;
+            _loggerFactory = loggerFactory;
         }
 
         [HttpPost]
         public string XReportResult([FromBody] WrapperToken tokenDto)
         {
+            var _logger = _loggerFactory.CreateLogger("XReport|Post");
+            _logger.LogInformation($"X отчет: {tokenDto.Data.Token}");
             try
             {
                 var error = _helper.TokenValidator(_context, tokenDto.Data.Token);
                 return error == null ? GetHardString() : throw error;
+                
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                return "ERROR";
+                _logger.LogError(e.ToString());
+                return Ok(e.Message);
             }
         }
 

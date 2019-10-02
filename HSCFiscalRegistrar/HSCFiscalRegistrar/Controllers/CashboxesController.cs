@@ -37,7 +37,7 @@ namespace HSCFiscalRegistrar.Controllers
                 try
                 {
                     var error = _helper.TokenValidator(_context, dtoToken.Token);
-                    return error == null ? GetCashBoxesData(JsonConvert.SerializeObject() : throw error;
+                    return error == null ? GetCashBoxesData() : throw error;
                 }
                 catch (Exception e)
                 {
@@ -47,7 +47,7 @@ namespace HSCFiscalRegistrar.Controllers
                 }
         }
             
-        private string GetCashBoxesData()
+        private OkObjectResult GetCashBoxesData()
         {
             Wrapper wrapper = new Wrapper
             {
