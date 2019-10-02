@@ -69,12 +69,13 @@ namespace HSCFiscalRegistrar.Controllers
                 }
 
                 _logger.LogError($"Ошибка регистрации пользователя: {model.Login} {model.Password}");
-                return Ok(ErrorsAuth.RegisterError());
+                return Json(ErrorsAuth.RegisterError());
             }
             catch (Exception e)
             {
                 _logger.LogError(e.ToString());
-                return Ok(e.Message);
+                var str = "Invalid Error";
+                return Json(str);
             }
             
         }
