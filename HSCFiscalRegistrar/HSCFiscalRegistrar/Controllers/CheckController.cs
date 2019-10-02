@@ -19,6 +19,7 @@ using DateTime = HSCFiscalRegistrar.DTO.DateAndTime.DateTime;
 using Ticket = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Ticket;
 using Microsoft.Extensions.Logging;
 using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
+using Operator = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Operator;
 
 namespace HSCFiscalRegistrar.Controllers
 {

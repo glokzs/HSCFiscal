@@ -36,7 +36,7 @@ namespace HSCFiscalRegistrar.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e.ToString());
-                return Ok(e.Message);
+                return "ERROR";
             }
         }
 

@@ -59,11 +59,12 @@ namespace HSCFiscalRegistrar.Controllers
 
                             return Json(answer);
                         }
-
+                        _logger.LogError($"Неверный логин: {model.Login}");
                         return Json(ErrorsAuth.CheckLogin());
                     }
                     else
                     {
+                        _logger.LogError($"Неверный формат логина: {model.Login}");
                         return Json(ErrorsAuth.RegisterError());
                     }
                 }
