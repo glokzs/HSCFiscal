@@ -11,6 +11,9 @@ namespace HSCFiscalRegistrar.Models
         public DbSet<RegInfo> RegInfos { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Request> Requests { get; set; }
+        public DbSet<Shift> Shifts { get; set; }
+        public DbSet<Operation.Operation> Operations { get; set; }
+        public DbSet<ShiftOperation> ShiftOperations { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
@@ -58,7 +61,7 @@ namespace HSCFiscalRegistrar.Models
                 Command = 5,
                 DeviceId = 2732,
                 ReqNum = 1,
-                Token = 74146475,
+                Token = -188788514,
                 ServiceId = "5"
             });
         }

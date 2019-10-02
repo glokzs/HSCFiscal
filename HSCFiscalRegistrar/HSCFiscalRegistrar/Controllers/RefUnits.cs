@@ -1,4 +1,3 @@
-using System.IO;
 using HSCFiscalRegistrar.Directories;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;

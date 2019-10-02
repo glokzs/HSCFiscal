@@ -1,4 +1,3 @@
-using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
 using HSCFiscalRegistrar.Enums;
 using Newtonsoft.Json;
 

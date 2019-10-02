@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
 using HSCFiscalRegistrar.Enums;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace HSCFiscalRegistrar.DTO.Fiscalization.KKM
 {

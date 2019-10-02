@@ -1,8 +1,4 @@
-using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
-using HSCFiscalRegistrar.Enums;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace HSCFiscalRegistrar.DTO.Fiscalization.KKM
 {

@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace HSCFiscalRegistrar.DTO.Fiscalization.OFDResponce
 {
