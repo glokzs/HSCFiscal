@@ -56,9 +56,9 @@ namespace HSCFiscalRegistrar.Controllers
                     {
                         Command = 1,
                         Token = request.Token,
-                        DeviceId = request.DeviceId,
-                        ReqNum = request.ReqNum,
                         Service = request.Service,
+                        DeviceId = request.Service.RegInfo.Kkm.DeviceId,
+                        ReqNum = request.ReqNum,
                         Ticket = new Ticket
                         {
                             Operation = checkOperationRequest.OperationType,

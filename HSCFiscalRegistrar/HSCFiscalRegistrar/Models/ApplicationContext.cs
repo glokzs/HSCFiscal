@@ -59,7 +59,6 @@ namespace HSCFiscalRegistrar.Models
             {
                 Id = "7",
                 Command = 5,
-                DeviceId = 2732,
                 ReqNum = 1,
                 Token = -188788514,
                 ServiceId = "5"

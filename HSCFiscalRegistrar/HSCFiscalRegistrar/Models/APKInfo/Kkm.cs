@@ -10,5 +10,6 @@ namespace HSCFiscalRegistrar.Models.APKInfo
         public string PointOfPayment { get; set; }
         public string FnsKkmId { get; set; }
         public string TerminalNumber { get; set; }
+        public int DeviceId { get; set; }
     }
 }
