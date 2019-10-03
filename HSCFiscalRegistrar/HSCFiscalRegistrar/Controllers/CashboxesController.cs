@@ -21,11 +21,12 @@ namespace HSCFiscalRegistrar.Controllers
         private readonly ApplicationContext _context;
         private readonly TokenValidationHelper _helper;
         private readonly ILoggerFactory _loggerFactory;
-        public CashboxesController(UserManager<User> userManager, TokenValidationHelper helper, ILoggerFactory loggerFactory)
+        public CashboxesController(UserManager<User> userManager, TokenValidationHelper helper, ILoggerFactory loggerFactory, ApplicationContext context)
         {
             _userManager = userManager;
             _helper = helper;
             _loggerFactory = loggerFactory;
+            _context = context;
         }
         
         [HttpPost]
@@ -39,7 +40,7 @@ namespace HSCFiscalRegistrar.Controllers
                     var error = _helper.TokenValidator(_context, dtoToken.Token);
                     return error == null ? GetCashBoxesData() : throw error;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     _logger.LogError($"Неверный токен: {dtoToken.Token}");
                     return Ok(ErrorsAuth.TokenError());

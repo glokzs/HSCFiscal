@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using HSCFiscalRegistrar.Models;
+using HSCFiscalRegistrar.Models.APKInfo;
 using Microsoft.AspNetCore.Identity;
 
 namespace HSCFiscalRegistrar.Helpers
@@ -23,7 +24,13 @@ namespace HSCFiscalRegistrar.Helpers
 
             if (await userManager.FindByNameAsync(adminEmail) == null)
             {
-                User admin = new User {Email = adminEmail, UserName = adminEmail, PasswordHash = password};
+                User admin = new User {
+                    Email = adminEmail,
+                    UserName = adminEmail,
+                    PasswordHash = password,
+                    KkmId = "2",
+                    OrgId = "3"
+                };
 
                 IdentityResult result = await userManager.CreateAsync(admin, password);
                 if (result.Succeeded)
