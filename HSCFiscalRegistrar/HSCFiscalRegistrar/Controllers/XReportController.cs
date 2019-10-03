@@ -51,7 +51,7 @@ namespace HSCFiscalRegistrar.Controllers
         ""TaxPayerVATNumber"": ""1231212"",
         ""ReportNumber"": 1,
         ""CashboxSN"": ""SWK00030767"",
-        ""CashboxIN"": 2405,
+        ""CashboxIN"": 2732,
         ""CashboxRN"": ""240820180008"",
         ""StartOn"": ""07.08.2019 13:29:56"",
         ""ReportOn"": ""07.08.2019 15:16:16"",

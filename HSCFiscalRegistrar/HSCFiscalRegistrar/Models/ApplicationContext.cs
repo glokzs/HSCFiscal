@@ -31,7 +31,10 @@ namespace HSCFiscalRegistrar.Models
                 SerialNumber = "12345678",
                 PointOfPayment = "",
                 FnsKkmId = "123123123123",
-                TerminalNumber = ""  
+                TerminalNumber = "",
+                DeviceId = 2732,
+                OfdToken = 51902878,
+                ReqNum = 100
             });
             builder.Entity<Org>().HasData(new Org()
             {
@@ -39,7 +42,11 @@ namespace HSCFiscalRegistrar.Models
                 Okved = "",
                 TaxationType = 0,
                 Inn = "160840027676",
-                Title = "Bill"
+                Title = "Bill",
+                Name = "TOO ROGA&KOPITA",
+                VAT = true,
+                VATNumber = "1231212",
+                VATSeria = "32132"
             });
         }
         
