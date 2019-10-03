@@ -1,6 +1,5 @@
 ﻿using HSCFiscalRegistrar.Enums;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace HSCFiscalRegistrar.DTO.XReport.OfdResponse
 {

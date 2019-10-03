@@ -1,6 +1,4 @@
 ﻿using HSCFiscalRegistrar.Enums;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace HSCFiscalRegistrar.DTO.XReport
 {

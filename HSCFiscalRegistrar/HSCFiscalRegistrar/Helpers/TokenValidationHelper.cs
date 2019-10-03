@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Security.Authentication;
-using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
 
 namespace HSCFiscalRegistrar.Helpers

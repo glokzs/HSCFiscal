@@ -24,7 +24,7 @@ namespace HSCFiscalRegistrar.Controllers
         public CashboxesController(UserManager<User> userManager, TokenValidationHelper helper, ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
-            _helper = _helper;
+            _helper = helper;
             _loggerFactory = loggerFactory;
         }
         
