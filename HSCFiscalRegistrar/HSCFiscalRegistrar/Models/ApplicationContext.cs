@@ -34,7 +34,8 @@ namespace HSCFiscalRegistrar.Models
                 TerminalNumber = "",
                 DeviceId = 2732,
                 OfdToken = 51902878,
-                ReqNum = 100
+                ReqNum = 100,
+                Address = "135 Amangeldi street"
             });
             builder.Entity<Org>().HasData(new Org()
             {
