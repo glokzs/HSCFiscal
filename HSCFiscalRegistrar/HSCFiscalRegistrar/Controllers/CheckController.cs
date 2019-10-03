@@ -20,6 +20,7 @@ using Ticket = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Ticket;
 using Microsoft.Extensions.Logging;
 using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 using Operator = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Operator;
+using Service = HSCFiscalRegistrar.Models.APKInfo.Service;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -41,7 +42,8 @@ namespace HSCFiscalRegistrar.Controllers
         {
             var _logger = _loggerFactory.CreateLogger("Check|Post");
             _logger.LogInformation($"Информация по чеку: {checkOperationRequest.Token}");
-
+            var user = _userManager.GetUserAsync(User);
+            var kkm = user.Result.Kkm;
             try
             {
                 decimal sum = 0;
@@ -49,16 +51,20 @@ namespace HSCFiscalRegistrar.Controllers
                 {
                     sum += paymentsType.Sum;
                 }
-                var request = _applicationContext.Requests.FirstOrDefault(r => r.Id == "7");
-                if (request != null)
-                {
-                    var fiscalOfdRequest = new FiscalOfdRequest
+                var fiscalOfdRequest = new FiscalOfdRequest
                     {
                         Command = 1,
-                        Token = request.Token,
-                        Service = request.Service,
-                        DeviceId = request.Service.RegInfo.Kkm.DeviceId,
-                        ReqNum = request.ReqNum,
+                        Token = kkm.OfdToken,
+                        Service = new Service
+                        {
+                            RegInfo = new RegInfo()
+                            {
+                                Kkm = user.Result.Kkm,
+                                Org = user.Result.Org,
+                            }
+                        },
+                        DeviceId = kkm.DeviceId,
+                        ReqNum = kkm.ReqNum,
                         Ticket = new Ticket
                         {
                             Operation = checkOperationRequest.OperationType,
@@ -95,16 +101,16 @@ namespace HSCFiscalRegistrar.Controllers
                                 OfflineMode = false,
                                 Cashbox = GetCashbox(checkOperationRequest),
                                 CashboxOfflineMode = false,
-                                CheckOrderNumber = request.ReqNum,
+                                CheckOrderNumber = kkm.ReqNum,
                                 ShiftNumber = 54,
                                 EmployeeName = fiscalOfdRequest.Ticket.Operator.Name,
                                 TicketUrl = ofdResp.Ticket.QrCode,
                         
                             },
                     };
-                    await UpdateDatabaseFields(request, ofdResp);
+                    await UpdateDatabaseFields(ofdResp, kkm);
                     return Ok(JsonConvert.SerializeObject(kkmResponse));
-                }
+                
             }
             catch (Exception e)
             {
@@ -399,11 +405,11 @@ namespace HSCFiscalRegistrar.Controllers
             };
         }
 
-        private async Task UpdateDatabaseFields(Request request, Response ofdResp)
+        private async Task UpdateDatabaseFields(Response ofdResp, Kkm kkm)
         {
-            request.ReqNum += 1;
-            request.Token = ofdResp.Token;
-            _applicationContext.Update(request);
+            kkm.ReqNum += 1;
+            kkm.OfdToken = ofdResp.Token;
+            _applicationContext.Update(kkm);
             await _applicationContext.SaveChangesAsync();
         }
 
