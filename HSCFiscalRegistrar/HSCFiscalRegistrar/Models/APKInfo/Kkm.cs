@@ -12,6 +12,7 @@ namespace HSCFiscalRegistrar.Models.APKInfo
         public string TerminalNumber { get; set; }
         public int DeviceId { get; set; }
         public int OfdToken { get; set; }
-        public int ReqNum { get; set; } 
+        public int ReqNum { get; set; }
+        public string Address { get; set; }
     }
 }
