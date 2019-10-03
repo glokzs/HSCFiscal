@@ -1,30 +1,19 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HSCFiscalRegistrar.Controllers.OfdControllers;
-using HSCFiscalRegistrar.DTO.DateAndTime;
 using HSCFiscalRegistrar.DTO.Errors;
 using HSCFiscalRegistrar.DTO.Fiscalization;
 using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
-using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
-using HSCFiscalRegistrar.DTO.Fiscalization.OFDResponce;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
 using HSCFiscalRegistrar.Models.APKInfo;
 using HSCFiscalRegistrar.Models.Operation;
-using HSCFiscalRegistrar.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using DateTime = HSCFiscalRegistrar.DTO.DateAndTime.DateTime;
-using Ticket = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Ticket;
 using Microsoft.Extensions.Logging;
 using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
-using Operator = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Operator;
-using Service = HSCFiscalRegistrar.Models.APKInfo.Service;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -52,7 +41,7 @@ namespace HSCFiscalRegistrar.Controllers
                 var sum = checkOperationRequest.Payments.Sum(paymentsType => paymentsType.Sum);
 
                 int checkNumber = GetCheckNumber();
-                var date = System.DateTime.Now;
+                var date = DateTime.Now;
                 var QR = GetUrl(kkm, checkNumber.ToString(), sum, date);
                 KkmResponse kkmResponse = new KkmResponse
                     {
@@ -109,7 +98,7 @@ namespace HSCFiscalRegistrar.Controllers
                 FiscalNumber = checkNumber,
                 IsOffline = false,
                 QR = QR,
-                OperatorId = user.Id
+                OperatorId = user.Id    
             };
             return operation;
         }
@@ -136,13 +125,14 @@ namespace HSCFiscalRegistrar.Controllers
         {
             kkm.ReqNum += 1;
             _applicationContext.Update(kkm);
+            await _applicationContext.SaveChangesAsync();
             _applicationContext.Operations.Add(operation);
             await _applicationContext.SaveChangesAsync();
         }
 
-        private string GetUrl(Kkm kkm, string checkNumber, decimal sum, System.DateTime date)
+        private string GetUrl(Kkm kkm, string checkNumber, decimal sum, DateTime date)
         {
-            string dateString = $"{date.Year}{date.Month}{date.Day}T{date.Hour}{date.Minute}";
+            string dateString = $"{date.Year}{date.Month}{date.Day}T{date.Hour}{date.Minute}{date.Second}";
             return $"http://consumer.test-oofd.kz?i={checkNumber}&f={kkm.FnsKkmId}&s={sum}&t={dateString}";
         }
 

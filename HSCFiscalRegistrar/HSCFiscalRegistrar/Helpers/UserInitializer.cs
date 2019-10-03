@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using HSCFiscalRegistrar.Models;
-using HSCFiscalRegistrar.Models.APKInfo;
 using Microsoft.AspNetCore.Identity;
 
 namespace HSCFiscalRegistrar.Helpers

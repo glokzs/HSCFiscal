@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-
 namespace HSCFiscalRegistrar.Models.APKInfo
 {
     public class Org
