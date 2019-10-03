@@ -8,9 +8,6 @@ namespace HSCFiscalRegistrar.Models
     {
         public DbSet<Kkm> Kkms { get; set; }
         public DbSet<Org> Orgs { get; set; }
-        public DbSet<RegInfo> RegInfos { get; set; }
-        public DbSet<Service> Services { get; set; }
-        public DbSet<Request> Requests { get; set; }
         public DbSet<Shift> Shifts { get; set; }
         public DbSet<Operation.Operation> Operations { get; set; }
         public DbSet<ShiftOperation> ShiftOperations { get; set; }
@@ -43,25 +40,6 @@ namespace HSCFiscalRegistrar.Models
                 TaxationType = 0,
                 Inn = "160840027676",
                 Title = "Bill"
-            });
-            builder.Entity<RegInfo>().HasData(new RegInfo()
-            {
-                Id = "1",
-                KkmId = "2",
-                OrgId = "3"
-            });
-            builder.Entity<Service>().HasData(new Service()
-            {
-                Id = "5",
-                RegInfoId = "1"
-            });
-            builder.Entity<Request>().HasData(new Request()
-            {
-                Id = "7",
-                Command = 5,
-                ReqNum = 1,
-                Token = -188788514,
-                ServiceId = "5"
             });
         }
         

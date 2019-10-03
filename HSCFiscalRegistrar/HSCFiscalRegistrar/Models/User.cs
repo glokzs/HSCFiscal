@@ -7,7 +7,6 @@ namespace HSCFiscalRegistrar.Models
     public class User : IdentityUser
     {
         public string UserToken { get; set; }
-        public int DeviceId { get; set; }
         public DateTime DateTimeCreationToken { get; set; }
         public DateTime ExpiryDate { get; set; }
         public Kkm Kkm { get; set; }
