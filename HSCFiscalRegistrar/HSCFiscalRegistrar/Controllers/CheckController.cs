@@ -49,14 +49,11 @@ namespace HSCFiscalRegistrar.Controllers
             var kkm = user.Result.Kkm;
             try
             {
-                decimal sum = 0;
-                foreach (var paymentsType in checkOperationRequest.Payments)
-                {
-                    sum += paymentsType.Sum;
-                }
+                var sum = checkOperationRequest.Payments.Sum(paymentsType => paymentsType.Sum);
 
                 int checkNumber = GetCheckNumber();
-                var date = System.DateTime.Now.Date;
+                var date = System.DateTime.Now;
+                var QR = GetUrl(kkm, checkNumber.ToString(), sum, date);
                 KkmResponse kkmResponse = new KkmResponse
                     {
                         Data = new Data
@@ -75,10 +72,12 @@ namespace HSCFiscalRegistrar.Controllers
                                 CheckOrderNumber = kkm.ReqNum,
                                 ShiftNumber = 55,
                                 EmployeeName = User.Identity.Name,
-                                TicketUrl = GetUrl(kkm,checkNumber.ToString(),sum,date),
-                            },
+                                TicketUrl = QR,
+                            }
                     }; 
-                await UpdateDatabaseFields(kkm);
+              
+                var operation = GetOperation(checkOperationRequest, checkNumber, date, QR, user.Result);
+                await UpdateDatabaseFields(kkm, operation);
                 return Ok(JsonConvert.SerializeObject(kkmResponse));
                 
             }
@@ -89,6 +88,32 @@ namespace HSCFiscalRegistrar.Controllers
                 return Ok(ErrorsAuth.LoginError());
             }
         }
+
+        private Operation GetOperation(
+            CheckOperationRequest checkOperationRequest, int checkNumber, System.DateTime date, string QR, User user)
+        {
+            var total = checkOperationRequest.Payments.Sum(p => p.Sum);
+            var operation = new Operation
+            {
+                Amount = total,
+                Type = checkOperationRequest.OperationType,
+                CardAmount = checkOperationRequest.Payments
+                    .Where(p => p.PaymentType == PaymentTypeEnum.PAYMENT_CARD)
+                    .Sum(p => p.Sum),
+                CashAmount = checkOperationRequest.Payments
+                    .Where(p => p.PaymentType == PaymentTypeEnum.PAYMENT_CASH)
+                    .Sum(p => p.Sum),
+                ChangeAmount = checkOperationRequest.Change,
+                CheckNumber = _applicationContext.Operations.Count() + 1,
+                CreationDate = date,
+                FiscalNumber = checkNumber,
+                IsOffline = false,
+                QR = QR,
+                OperatorId = user.Id
+            };
+            return operation;
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CheckOperationRequest checkOperationRequest)
         {
@@ -107,10 +132,11 @@ namespace HSCFiscalRegistrar.Controllers
             }
         }
         
-        private async Task UpdateDatabaseFields(Kkm kkm)
+        private async Task UpdateDatabaseFields(Kkm kkm, Operation operation)
         {
             kkm.ReqNum += 1;
             _applicationContext.Update(kkm);
+            _applicationContext.Operations.Add(operation);
             await _applicationContext.SaveChangesAsync();
         }
 
@@ -122,8 +148,8 @@ namespace HSCFiscalRegistrar.Controllers
 
         private int GetCheckNumber()
         {
-           Random r = new Random();
-           return r.Next(999999999);
+           var random = new Random();
+           return random.Next(999999999);
         }
         
     }
