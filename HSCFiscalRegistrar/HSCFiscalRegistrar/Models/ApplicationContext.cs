@@ -1,7 +1,6 @@
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models.APKInfo;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace HSCFiscalRegistrar.Models

@@ -1,5 +1,4 @@
 using System;
-using HSCFiscalRegistrar.Models.APKInfo;
 using Microsoft.AspNetCore.Identity;
 
 namespace HSCFiscalRegistrar.Models

@@ -60,7 +60,7 @@ namespace HSCFiscalRegistrar.Controllers
             var oper = _applicationContext.Operators.FirstOrDefault(op => op.UserId == user.Result.Id);
             if (oper == null) return NotFound("Operator not found");
             var kkm = oper.Kkm;
-            var check = new OfdCheckOperation(_applicationContext);
+            var check = new OfdCheckOperation();
             try
             {
                 var sum = checkOperationRequest.Payments.Sum(paymentsType => paymentsType.Sum);

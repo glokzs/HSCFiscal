@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.DateAndTime;
 using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
 using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
@@ -15,13 +13,6 @@ namespace HSCFiscalRegistrar.Services
 {
     public class OfdCheckOperation
     {
-        private readonly ApplicationContext _applicationContext;
-
-        public OfdCheckOperation(ApplicationContext applicationContext)
-        {
-            _applicationContext = applicationContext;
-        }
-
         public async void OfdRequest(int checkNumber, Operator oper, CheckOperationRequest checkOperationRequest, Kkm kkm, decimal sum)
         {
             var fiscalOfdRequest = new FiscalOfdRequest
