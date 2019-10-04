@@ -47,7 +47,7 @@ namespace HSCFiscalRegistrar.Controllers
                 var checkNumber = GetCheckNumber();
                 var date = DateTime.Now;
                 var qr = GetUrl(kkm, checkNumber.ToString(), sum, date);
-                var kkmResponse = GetKkmResponse(date, checkNumber, kkm, qr);
+                var kkmResponse = GetKkmResponse(date, checkNumber, kkm, qr, oper);
                 var operation = GetOperation(checkOperationRequest, checkNumber, date, qr, oper);
                 await UpdateDatabaseFields(kkm, operation);
                 check.OfdRequest(checkNumber, checkOperationRequest, kkm, user, sum);
@@ -61,7 +61,7 @@ namespace HSCFiscalRegistrar.Controllers
             }
         }
 
-        private KkmResponse GetKkmResponse(DateTime date, int checkNumber, Kkm kkm, string QR)
+        private KkmResponse GetKkmResponse(DateTime date, int checkNumber, Kkm kkm, string QR, Operator oper)
         {
             return new KkmResponse
             {
@@ -80,7 +80,7 @@ namespace HSCFiscalRegistrar.Controllers
                     CashboxOfflineMode = false,
                     CheckOrderNumber = kkm.ReqNum,
                     ShiftNumber = 55,
-                    EmployeeName = User.Identity.Name,
+                    EmployeeName = oper.Name,
                     TicketUrl = QR,
                 }
             };
