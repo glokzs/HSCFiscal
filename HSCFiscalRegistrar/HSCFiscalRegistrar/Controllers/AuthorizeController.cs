@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.Auth;
-using HSCFiscalRegistrar.DTO.Errors;
 using HSCFiscalRegistrar.DTO.UserModel;
+using HSCFiscalRegistrar.Exceptions;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Identity;
@@ -33,9 +33,9 @@ namespace HSCFiscalRegistrar.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] UserDTO model)
         {
-            var _logger = _loggerFactory.CreateLogger("Autorize|Post");
-            _logger.LogInformation($"Авторизация пользователя: {model}");
-            
+            var logger = _loggerFactory.CreateLogger("Autorize|Post");
+            logger.LogInformation($"Авторизация пользователя: {model}");
+
             try
             {
                 var result = await _signInManager.PasswordSignInAsync(model.Login,
@@ -60,34 +60,31 @@ namespace HSCFiscalRegistrar.Controllers
                             {
                                 Data = new Data
                                 {
-                                    Token = appUser.UserToken.ToString()
+                                    Token = appUser.UserToken
                                 }
                             };
-
                             return Ok(JsonConvert.SerializeObject(dto));
                         }
-                        else
-                        {
-                            return Ok("Ошибка в системе!");
-                        }
+
+                        throw new DbUpdateException("Ошибка обновления дб");
                     }
                     else
                     {
-                        return Ok(ErrorsAuth.LoginError());
+                        throw new UserNullException("пользователь не найден в бд по логину");
                     }
                 }
                 else
                 {
-                    _logger.LogError($"Ошибка авторизации пользователя: {model.Login}");
-                    return Ok(ErrorsAuth.LoginError());
+                    logger.LogError($"Ошибка авторизации пользователя: {model.Login}");
+                    throw new AuthorizeException("Неверный логин или пароль");
                 }
             }
             catch (Exception e)
             {
-                _logger.LogError(e.ToString());
+                logger.LogError(e.ToString());
                 return Ok(e.Message);
             }
-            
+
         }
     }
 }
