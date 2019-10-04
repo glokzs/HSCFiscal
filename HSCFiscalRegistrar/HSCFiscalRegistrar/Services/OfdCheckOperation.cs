@@ -16,18 +16,14 @@ namespace HSCFiscalRegistrar.Services
     public class OfdCheckOperation
     {
         private readonly ApplicationContext _applicationContext;
-        private readonly string _userId; 
 
-        public OfdCheckOperation(ApplicationContext applicationContext, string userId)
+        public OfdCheckOperation(ApplicationContext applicationContext)
         {
             _applicationContext = applicationContext;
-            _userId = userId;
         }
 
-        public async void OfdRequest(int checkNumber, CheckOperationRequest checkOperationRequest, Kkm kkm, Task<User> user, decimal sum)
+        public async void OfdRequest(int checkNumber, Operator oper, CheckOperationRequest checkOperationRequest, Kkm kkm, decimal sum)
         {
-            var oper = _applicationContext.Operators.FirstOrDefault(op => op.UserId == _userId);
-            if (oper == null) return;
             var fiscalOfdRequest = new FiscalOfdRequest
             {
                 Command = 1,

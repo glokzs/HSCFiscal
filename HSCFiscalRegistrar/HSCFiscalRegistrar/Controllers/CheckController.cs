@@ -25,7 +25,9 @@ namespace HSCFiscalRegistrar.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ILoggerFactory _loggerFactory;
         private readonly TokenValidationHelper _helper;
-        public CheckController(ApplicationContext applicationContext, UserManager<User> userManager, ILoggerFactory loggerFactory, TokenValidationHelper helper)
+
+        public CheckController(ApplicationContext applicationContext, UserManager<User> userManager,
+            ILoggerFactory loggerFactory, TokenValidationHelper helper)
         {
             _applicationContext = applicationContext;
             _userManager = userManager;
@@ -33,14 +35,32 @@ namespace HSCFiscalRegistrar.Controllers
             _helper = helper;
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] CheckOperationRequest checkOperationRequest)
+        {
+            var _logger = _loggerFactory.CreateLogger("Check|Post");
+            _logger.LogInformation($"Информация по чеку: {checkOperationRequest.Token}");
+
+            try
+            {
+                var error = _helper.TokenValidator(_applicationContext, checkOperationRequest.Token);
+                return await (error == null ? Response(checkOperationRequest, _logger) : throw error);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+                return Json(e.StackTrace);
+            }
+        }
+
         private async Task<IActionResult> Response(CheckOperationRequest checkOperationRequest, ILogger _logger)
         {
-            
             var user = _userManager.FindByIdAsync(_helper.ParseId(checkOperationRequest.Token));
             var oper = _applicationContext.Operators.FirstOrDefault(op => op.UserId == user.Result.Id);
             if (oper == null) return NotFound("Operator not found");
             var kkm = oper.Kkm;
-            var check = new OfdCheckOperation(_applicationContext, user.Result.Id);
+            var check = new OfdCheckOperation(_applicationContext);
             try
             {
                 var sum = checkOperationRequest.Payments.Sum(paymentsType => paymentsType.Sum);
@@ -50,7 +70,7 @@ namespace HSCFiscalRegistrar.Controllers
                 var kkmResponse = GetKkmResponse(date, checkNumber, kkm, qr, oper);
                 var operation = GetOperation(checkOperationRequest, checkNumber, date, qr, oper);
                 await UpdateDatabaseFields(kkm, operation);
-                check.OfdRequest(checkNumber, checkOperationRequest, kkm, user, sum);
+                check.OfdRequest(checkNumber, oper, checkOperationRequest, kkm, sum);
                 return Ok(JsonConvert.SerializeObject(kkmResponse));
             }
             catch (Exception e)
@@ -113,24 +133,6 @@ namespace HSCFiscalRegistrar.Controllers
             return operation;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CheckOperationRequest checkOperationRequest)
-        {
-            var _logger = _loggerFactory.CreateLogger("Check|Post");
-            _logger.LogInformation($"Информация по чеку: {checkOperationRequest.Token}");
-           
-            try
-            {
-                var error = _helper.TokenValidator(_applicationContext, checkOperationRequest.Token);
-                return await (error == null ? Response(checkOperationRequest, _logger) : throw error);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.ToString());
-                return Json(e.StackTrace);
-            }
-        }
-        
         private async Task UpdateDatabaseFields(Kkm kkm, Operation operation)
         {
             kkm.ReqNum += 1;
@@ -148,9 +150,8 @@ namespace HSCFiscalRegistrar.Controllers
 
         private int GetCheckNumber()
         {
-           var random = new Random();
-           return random.Next(999999999);
+            var random = new Random();
+            return random.Next(999999999);
         }
-        
     }
 }
