@@ -9,9 +9,5 @@ namespace HSCFiscalRegistrar.Models
         public string UserToken { get; set; }
         public DateTime DateTimeCreationToken { get; set; }
         public DateTime ExpiryDate { get; set; }
-        public virtual Kkm Kkm { get; set; }
-        public string KkmId { get; set; }
-        public virtual Org Org { get; set; }
-        public string OrgId { get; set; }
     }
 }

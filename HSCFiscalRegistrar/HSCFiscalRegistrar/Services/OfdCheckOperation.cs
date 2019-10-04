@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.DateAndTime;
 using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
@@ -6,19 +7,27 @@ using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
 using HSCFiscalRegistrar.Models.APKInfo;
-using HSCFiscalRegistrar.Services;
-using Microsoft.AspNetCore.Mvc;
 using DateTime = System.DateTime;
 using Operator = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Operator;
 using Service = HSCFiscalRegistrar.Models.APKInfo.Service;
 using Ticket = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Ticket;
 
-namespace HSCFiscalRegistrar.Controllers.OfdControllers
+namespace HSCFiscalRegistrar.Services
 {
-    public class CheckOperationOfdController : Controller
+    public class OfdCheckOperation
     {
-        public async Task<IActionResult> OfdResponse(CheckOperationRequest checkOperationRequest, Kkm kkm, Task<User> user, decimal sum)
+        private readonly ApplicationContext _applicationContext;
+        private readonly string _userId; 
+
+        public OfdCheckOperation(ApplicationContext applicationContext, string userId)
         {
+            _applicationContext = applicationContext;
+            _userId = userId;
+        }
+
+        public async void OfdRequest(int checkNumber, CheckOperationRequest checkOperationRequest, Kkm kkm, Task<User> user, decimal sum)
+        {
+            var oper = _applicationContext.Operators.FirstOrDefault(op => op.UserId == _userId);
             var fiscalOfdRequest = new FiscalOfdRequest
             {
                 Command = 1,
@@ -27,8 +36,8 @@ namespace HSCFiscalRegistrar.Controllers.OfdControllers
                 {
                     RegInfo = new RegInfo()
                     {
-                        Kkm = user.Result.Kkm,
-                        Org = user.Result.Org,
+                        Kkm = oper.Kkm,
+                        Org = oper.Org,
                     }
                 },
                 DeviceId = kkm.DeviceId,
@@ -55,10 +64,11 @@ namespace HSCFiscalRegistrar.Controllers.OfdControllers
                     Domain = new Domain
                     {
                         Type = 0
-                    }
+                    },
+                    OfflineTicketNumber = checkNumber
                 }
             }; 
-            return await HttpService.Post(fiscalOfdRequest);
+            await HttpService.Post(fiscalOfdRequest);
         }
 
         private List<Item> GetItems(CheckOperationRequest checkOperationRequest)

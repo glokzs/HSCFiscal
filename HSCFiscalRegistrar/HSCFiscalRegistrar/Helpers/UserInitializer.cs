@@ -6,6 +6,7 @@ namespace HSCFiscalRegistrar.Helpers
 {
     public class UserInitializer
     {
+        public static string Id;
         public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             string adminEmail = "admin@gmail.com";
@@ -27,8 +28,7 @@ namespace HSCFiscalRegistrar.Helpers
                     Email = adminEmail,
                     UserName = adminEmail,
                     PasswordHash = password,
-                    KkmId = "2",
-                    OrgId = "3"
+                    Id = "1"
                 };
 
                 IdentityResult result = await userManager.CreateAsync(admin, password);

@@ -20,6 +20,7 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization.OFD
         public List<Item> Items { get; set; }
         [JsonProperty("Domain")]
         public Domain Domain { get; set; }
-        
+        [JsonProperty("OfflineTicketNumber")]
+        public int OfflineTicketNumber { get; set; }
     }
 }

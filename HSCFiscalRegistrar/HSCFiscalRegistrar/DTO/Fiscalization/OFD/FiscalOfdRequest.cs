@@ -17,5 +17,6 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization.OFD
         public Service Service { get; set; }
         [JsonProperty("Ticket")]
         public Ticket Ticket { get; set; }
+       
     }
 }

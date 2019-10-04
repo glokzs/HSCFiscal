@@ -1,5 +1,7 @@
+using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models.APKInfo;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace HSCFiscalRegistrar.Models
@@ -11,6 +13,7 @@ namespace HSCFiscalRegistrar.Models
         public DbSet<Shift> Shifts { get; set; }
         public DbSet<Operation.Operation> Operations { get; set; }
         public DbSet<ShiftOperation> ShiftOperations { get; set; }
+        public DbSet<Operator> Operators { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
@@ -48,6 +51,13 @@ namespace HSCFiscalRegistrar.Models
                 VAT = true,
                 VATNumber = "1231212",
                 VATSeria = "32132"
+            });
+            builder.Entity<Operator>().HasData(new Operator
+            {
+                Id = "1",
+                KkmId = "2",
+                OrgId = "3",
+                UserId = UserInitializer.Id
             });
         }
         
