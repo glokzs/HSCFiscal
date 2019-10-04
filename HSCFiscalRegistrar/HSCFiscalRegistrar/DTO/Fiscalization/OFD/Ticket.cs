@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using HSCFiscalRegistrar.Enums;
+using HSCFiscalRegistrar.Models;
 using Newtonsoft.Json;
 
 namespace HSCFiscalRegistrar.DTO.Fiscalization.OFD

@@ -8,7 +8,6 @@ using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
 using HSCFiscalRegistrar.Models.APKInfo;
 using DateTime = System.DateTime;
-using Operator = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Operator;
 using Service = HSCFiscalRegistrar.Models.APKInfo.Service;
 using Ticket = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Ticket;
 

@@ -38,31 +38,27 @@ namespace HSCFiscalRegistrar.Controllers
             
             var user = _userManager.FindByIdAsync(_helper.ParseId(checkOperationRequest.Token));
             var oper = _applicationContext.Operators.FirstOrDefault(op => op.UserId == user.Result.Id);
-            if (oper != null)
+            if (oper == null) return NotFound("Operator not found");
+            var kkm = oper.Kkm;
+            var check = new OfdCheckOperation(_applicationContext, user.Result.Id);
+            try
             {
-                var kkm = oper.Kkm;
-                var check = new OfdCheckOperation(_applicationContext, user.Result.Id);
-                try
-                {
-                    var sum = checkOperationRequest.Payments.Sum(paymentsType => paymentsType.Sum);
-                    var checkNumber = GetCheckNumber();
-                    var date = DateTime.Now;
-                    var qr = GetUrl(kkm, checkNumber.ToString(), sum, date);
-                    var kkmResponse = GetKkmResponse(date, checkNumber, kkm, qr);
-                    var operation = GetOperation(checkOperationRequest, checkNumber, date, qr, user.Result);
-                    await UpdateDatabaseFields(kkm, operation);
-                    check.OfdRequest(checkNumber, checkOperationRequest, kkm, user, sum);
-                    return Ok(JsonConvert.SerializeObject(kkmResponse));
-                }
-                catch (Exception e)
-                {
-                    _logger.LogError(e.ToString());
-                    _logger.LogError($"Ошибка авторизации пользователя: {checkOperationRequest.Token}");
-                    return Ok(ErrorsAuth.LoginError());
-                }
+                var sum = checkOperationRequest.Payments.Sum(paymentsType => paymentsType.Sum);
+                var checkNumber = GetCheckNumber();
+                var date = DateTime.Now;
+                var qr = GetUrl(kkm, checkNumber.ToString(), sum, date);
+                var kkmResponse = GetKkmResponse(date, checkNumber, kkm, qr);
+                var operation = GetOperation(checkOperationRequest, checkNumber, date, qr, oper);
+                await UpdateDatabaseFields(kkm, operation);
+                check.OfdRequest(checkNumber, checkOperationRequest, kkm, user, sum);
+                return Ok(JsonConvert.SerializeObject(kkmResponse));
             }
-
-            return NotFound();
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+                _logger.LogError($"Ошибка авторизации пользователя: {checkOperationRequest.Token}");
+                return Ok(ErrorsAuth.LoginError());
+            }
         }
 
         private KkmResponse GetKkmResponse(DateTime date, int checkNumber, Kkm kkm, string QR)
@@ -91,7 +87,7 @@ namespace HSCFiscalRegistrar.Controllers
         }
 
         private Operation GetOperation(
-            CheckOperationRequest checkOperationRequest, int checkNumber, DateTime date, string qr, User user)
+            CheckOperationRequest checkOperationRequest, int checkNumber, DateTime date, string qr, Operator oper)
         {
             var total = checkOperationRequest.Payments.Sum(p => p.Sum);
             var operation = new Operation
@@ -110,7 +106,9 @@ namespace HSCFiscalRegistrar.Controllers
                 FiscalNumber = checkNumber,
                 IsOffline = false,
                 QR = qr,
-                OperatorId = user.Id    
+                OperatorId = oper.Id,
+                OperationState = OperationStateEnum.New,
+                KkmId = oper.KkmId
             };
             return operation;
         }
