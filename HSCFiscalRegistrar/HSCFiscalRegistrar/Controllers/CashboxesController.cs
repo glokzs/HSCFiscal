@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using HSCFiscalRegistrar.DTO.Cashboxes;
 using HSCFiscalRegistrar.DTO.Errors;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
+using HSCFiscalRegistrar.Models.APKInfo;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -33,23 +35,35 @@ namespace HSCFiscalRegistrar.Controllers
         public  ActionResult Get([FromBody] DtoToken dtoToken)
         {
             var _logger = _loggerFactory.CreateLogger("Cashbox|Post");
+            _logger.LogInformation($"Получение списка касс пользователя: {dtoToken.Token}"); 
             
-                try
+            var error = _helper.TokenValidator(_context, dtoToken.Token);
+
+            User resUser = _userManager.Users.FirstOrDefault(t => t.UserToken == dtoToken.Token);
+            if (resUser != null)
+            {
+                Operator resOperator = _context.Operators.FirstOrDefault(i => i.UserId == resUser.Id);
+                if (resOperator != null)
                 {
-                    _logger.LogInformation($"Получение списка касс пользователя: {dtoToken.Token}"); 
-                    
-                    var error = _helper.TokenValidator(_context, dtoToken.Token);
-                    return error == null ? GetCashBoxesData() : throw error;
+                    Kkm resKkm = _context.Kkms.FirstOrDefault(i => i.Id == resOperator.KkmId);
+                    if (resKkm != null)
+                    {
+                        return error == null ? GetCashBoxesData(resKkm) : throw error;
+                    }
                 }
-                catch (Exception)
-                {
-                    _logger.LogError($"Неверный токен: {dtoToken.Token}");
-                    return Ok(ErrorsAuth.TokenError());
-                    
-                }
+            }
+            else
+            {
+                _logger.LogError($"Неверный токен: {dtoToken.Token}");
+                return Ok(ErrorsAuth.TokenError());
+            }
+                
+            
+
+            return Ok();
         }
             
-        private OkObjectResult GetCashBoxesData()
+        private OkObjectResult GetCashBoxesData(Kkm kkm)
         {
             Wrapper wrapper = new Wrapper
             {
@@ -59,9 +73,9 @@ namespace HSCFiscalRegistrar.Controllers
                     {
                         new List
                         {
-                            UniqueNumber = "SWK00030767",
-                            RegistrationNumber = "240820180008",
-                            IdentificationNumber = "2405",
+                            UniqueNumber = kkm.SerialNumber,
+                            RegistrationNumber = kkm.FnsKkmId,
+                            IdentificationNumber = kkm.DeviceId.ToString(),
                             Name = "Касса - 212408",
                             IsOffline = false,
                             CurrentStatus = 1,
