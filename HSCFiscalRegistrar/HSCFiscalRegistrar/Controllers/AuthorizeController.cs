@@ -34,10 +34,11 @@ namespace HSCFiscalRegistrar.Controllers
         public async Task<IActionResult> Post([FromBody] UserDTO model)
         {
             var _logger = _loggerFactory.CreateLogger("Autorize|Post");
-            _logger.LogInformation($"Авторизация пользователя: {model}");
             
             try
             {
+                _logger.LogInformation($"Авторизация пользователя: {model}");
+                
                 var result = await _signInManager.PasswordSignInAsync(model.Login,
                     model.Password,
                     false,

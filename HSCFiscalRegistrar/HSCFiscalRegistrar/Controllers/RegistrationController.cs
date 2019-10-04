@@ -30,10 +30,11 @@ namespace HSCFiscalRegistrar.Controllers
         public async Task<JsonResult> Post([FromBody] UserRegistration model)
         {
             var _logger = _loggerFactory.CreateLogger("Registration|Post");
-            _logger.LogInformation($"Регистрация пользователя: {model}");
-
+            
             try
             {
+                _logger.LogInformation($"Регистрация пользователя: {model}");
+                
                 if (ModelState.IsValid)
                 {
                     if (model.Login.Contains("@"))

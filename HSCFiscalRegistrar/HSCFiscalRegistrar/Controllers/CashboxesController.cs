@@ -33,10 +33,11 @@ namespace HSCFiscalRegistrar.Controllers
         public  ActionResult Get([FromBody] DtoToken dtoToken)
         {
             var _logger = _loggerFactory.CreateLogger("Cashbox|Post");
-            _logger.LogInformation($"Получение списка касс пользователя: {dtoToken.Token}"); 
             
                 try
                 {
+                    _logger.LogInformation($"Получение списка касс пользователя: {dtoToken.Token}"); 
+                    
                     var error = _helper.TokenValidator(_context, dtoToken.Token);
                     return error == null ? GetCashBoxesData() : throw error;
                 }

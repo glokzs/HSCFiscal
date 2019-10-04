@@ -26,9 +26,11 @@ namespace HSCFiscalRegistrar.Controllers
         public string XReportResult([FromBody] WrapperToken tokenDto)
         {
             var _logger = _loggerFactory.CreateLogger("XReport|Post");
-            _logger.LogInformation($"X отчет: {tokenDto.Data.Token}");
+            
             try
             {
+                _logger.LogInformation($"X отчет: {tokenDto.Data.Token}");
+                
                 var error = _helper.TokenValidator(_context, tokenDto.Data.Token);
                 return error == null ? GetHardString() : throw error;
                 
