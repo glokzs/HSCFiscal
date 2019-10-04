@@ -45,7 +45,7 @@ namespace HSCFiscalRegistrar.Controllers
             try
             {
                 var error = _helper.TokenValidator(_applicationContext, checkOperationRequest.Token);
-                return await (error == null ? Response(checkOperationRequest, _logger) : throw error);
+                return await Response(checkOperationRequest, _logger);
             }
             catch (Exception e)
             {
@@ -64,7 +64,7 @@ namespace HSCFiscalRegistrar.Controllers
             try
             {
                 var sum = checkOperationRequest.Payments.Sum(paymentsType => paymentsType.Sum);
-                var checkNumber = GetCheckNumber();
+                var checkNumber = GeneratorFiscalSign.GenerateFiscalSign();
                 var date = DateTime.Now;
                 var qr = GetUrl(kkm, checkNumber.ToString(), sum, date);
                 var kkmResponse = GetKkmResponse(date, checkNumber, kkm, qr, oper);

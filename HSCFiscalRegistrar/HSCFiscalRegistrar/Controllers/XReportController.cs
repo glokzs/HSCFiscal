@@ -29,9 +29,8 @@ namespace HSCFiscalRegistrar.Controllers
             _logger.LogInformation($"X отчет: {tokenDto.Data.Token}");
             try
             {
-                var error = _helper.TokenValidator(_context, tokenDto.Data.Token);
-                return error == null ? GetHardString() : throw error;
-                
+                _helper.TokenValidator(_context, tokenDto.Data.Token);
+                return GetHardString();
             }
             catch (Exception e)
             {

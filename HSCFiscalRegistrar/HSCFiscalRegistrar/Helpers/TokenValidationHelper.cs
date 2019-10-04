@@ -1,32 +1,40 @@
 ﻿using System;
 using System.Data;
 using System.Security.Authentication;
+using Castle.Core.Logging;
 using HSCFiscalRegistrar.Models;
 
 namespace HSCFiscalRegistrar.Helpers
 {
     public class TokenValidationHelper
     {
-        public Exception TokenValidator(ApplicationContext context, string token)
+        private readonly ILoggerFactory _loggerFactory;
+        public TokenValidationHelper(ILoggerFactory loggerFactory)
         {
-            User user = context.Users.Find(ParseId(token));
-            if (user != null)
+            _loggerFactory = loggerFactory;
+        }
+        public string TokenValidator(ApplicationContext context, string token)
+        {
+            try
             {
-                if (user.UserToken == token)
+                User user = context.Users.Find(ParseId(token));
+                if (user != null)
                 {
-                    if (DateTime.Now > user.ExpiryDate)
+                    if (user.UserToken == token)
                     {
-                        return new InvalidExpressionException();
+                        if (DateTime.Now > user.ExpiryDate)
+                        {
+                        }
+                    }
+                    else
+                    {
                     }
                 }
-                else
-                {
-                    return new AuthenticationException();
-                }
             }
-            else
+            catch (Exception e)
             {
-                return new NullReferenceException();
+                Console.WriteLine(e);
+                throw;
             }
 
             return null;

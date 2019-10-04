@@ -17,37 +17,40 @@ namespace HSCFiscalRegistrar.Controllers
     [ApiController]
     public class CashboxesController : Controller
     {
-        private static UserManager<User> _userManager;
         private readonly ApplicationContext _context;
         private readonly TokenValidationHelper _helper;
         private readonly ILoggerFactory _loggerFactory;
-        public CashboxesController(UserManager<User> userManager, TokenValidationHelper helper, ILoggerFactory loggerFactory, ApplicationContext context)
+        private ILogger Logger { get; set; }
+
+        public CashboxesController(
+            TokenValidationHelper helper,
+            ILoggerFactory loggerFactory,
+            ApplicationContext context)
         {
-            _userManager = userManager;
             _helper = helper;
             _loggerFactory = loggerFactory;
             _context = context;
+            Logger = this._loggerFactory.CreateLogger("Cashbox|Post");
         }
-        
+
         [HttpPost]
-        public  ActionResult Get([FromBody] DtoToken dtoToken)
+        public ActionResult Get([FromBody] DtoToken dtoToken)
         {
-            var _logger = _loggerFactory.CreateLogger("Cashbox|Post");
-            _logger.LogInformation($"Получение списка касс пользователя: {dtoToken.Token}"); 
-            
-                try
-                {
-                    var error = _helper.TokenValidator(_context, dtoToken.Token);
-                    return error == null ? GetCashBoxesData() : throw error;
-                }
-                catch (Exception)
-                {
-                    _logger.LogError($"Неверный токен: {dtoToken.Token}");
-                    return Ok(ErrorsAuth.TokenError());
-                    
-                }
+            try
+            {
+                Logger.LogInformation($"Получение списка касс пользователя: {dtoToken.Token}");
+                var error = _helper.TokenValidator(_context, dtoToken.Token);
+
+                return GetCashBoxesData();
+            }
+            catch (Exception)
+            {
+                Logger = _loggerFactory.CreateLogger("Cashbox|Post");
+                Logger.LogError($"Неверный токен: {dtoToken.Token}");
+                return Ok(ErrorsAuth.TokenError());
+            }
         }
-            
+
         private OkObjectResult GetCashBoxesData()
         {
             Wrapper wrapper = new Wrapper
@@ -68,7 +71,6 @@ namespace HSCFiscalRegistrar.Controllers
                         }
                     }
                 }
-
             };
             return Ok(JsonConvert.SerializeObject(wrapper));
         }
