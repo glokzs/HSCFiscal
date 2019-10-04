@@ -27,6 +27,7 @@ namespace HSCFiscalRegistrar.Services
         public async void OfdRequest(int checkNumber, CheckOperationRequest checkOperationRequest, Kkm kkm, Task<User> user, decimal sum)
         {
             var oper = _applicationContext.Operators.FirstOrDefault(op => op.UserId == _userId);
+            if (oper == null) return;
             var fiscalOfdRequest = new FiscalOfdRequest
             {
                 Command = 1,
