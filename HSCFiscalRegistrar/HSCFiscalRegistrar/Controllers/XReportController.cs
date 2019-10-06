@@ -15,8 +15,9 @@ namespace HSCFiscalRegistrar.Controllers
         private readonly ApplicationContext _context;
         private readonly TokenValidationHelper _helper;
         private readonly ILoggerFactory _loggerFactory;
-        public XReportController(ApplicationContext context, 
-            TokenValidationHelper helper, 
+
+        public XReportController(ApplicationContext context,
+            TokenValidationHelper helper,
             ILoggerFactory loggerFactory)
         {
             _context = context;
@@ -29,12 +30,11 @@ namespace HSCFiscalRegistrar.Controllers
         {
             var logger = _loggerFactory.CreateLogger("XReport|Post");
             logger.LogInformation($"X отчет: {tokenDto.Data.Token}");
-            
+
             try
             {
                 var error = _helper.TokenValidator(_context, tokenDto.Data.Token);
                 return error == null ? GetHardString() : throw error;
-                
             }
             catch (Exception e)
             {
@@ -45,7 +45,7 @@ namespace HSCFiscalRegistrar.Controllers
 
         private string GetHardString()
         {
-                        return @"{
+            return @"{
     ""Data"": {
         ""TaxPayerName"": ""ТОО Тест 21"",
         ""TaxPayerIN"": ""111140010124"",
@@ -124,6 +124,5 @@ namespace HSCFiscalRegistrar.Controllers
 }
 ";
         }
-        
     }
 }

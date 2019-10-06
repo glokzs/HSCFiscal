@@ -34,7 +34,7 @@ namespace HSCFiscalRegistrar.Controllers
         {
             var _logger = _loggerFactory.CreateLogger("ChangePassword|Post");
             _logger.LogInformation($"Смена пароля: {model}");
-            
+
             try
             {
                 var result = await _signInManager.PasswordSignInAsync(model.Login,
@@ -73,8 +73,10 @@ namespace HSCFiscalRegistrar.Controllers
 
                         return Json("Errors system");
                     }
+
                     return Json(ErrorsAuth.UserNotFound());
                 }
+
                 _logger.LogError($"Такого пользователя не существует: {model.Login}");
                 return Json(ErrorsAuth.UserNotFound());
             }
@@ -83,7 +85,6 @@ namespace HSCFiscalRegistrar.Controllers
                 Console.WriteLine(e);
                 return Json(ErrorsAuth.LoginError());
             }
-            
         }
     }
 }

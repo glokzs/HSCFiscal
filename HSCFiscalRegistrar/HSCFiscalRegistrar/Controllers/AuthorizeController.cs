@@ -55,7 +55,7 @@ namespace HSCFiscalRegistrar.Controllers
                         var response = await _userManager.UpdateAsync(appUser);
 
                         if (!response.Succeeded) throw new DbUpdateException("Ошибка обновления дб");
-                        
+
                         var dto = new AnswerServerAuth
                         {
                             Data = new Data
@@ -63,8 +63,8 @@ namespace HSCFiscalRegistrar.Controllers
                                 Token = appUser.UserToken
                             }
                         };
+                        
                         return Ok(JsonConvert.SerializeObject(dto));
-
                     }
                     else
                     {
@@ -77,12 +77,26 @@ namespace HSCFiscalRegistrar.Controllers
                     throw new AuthorizeException("Неверный логин или пароль");
                 }
             }
+            catch (AuthorizeException e)
+            {
+                logger.LogError(e.ToString());
+                return Ok(e.Message);
+            }
+            catch (UserNullException e)
+            {
+                logger.LogError(e.ToString());
+                return Ok(e.Message);
+            }
+            catch (DbUpdateException e)
+            {
+                logger.LogError(e.ToString());
+                return Ok(e.Message);
+            }
             catch (Exception e)
             {
                 logger.LogError(e.ToString());
                 return Ok(e.Message);
             }
-
         }
     }
 }

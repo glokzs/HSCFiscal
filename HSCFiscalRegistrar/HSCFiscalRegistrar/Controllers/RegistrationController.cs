@@ -19,7 +19,8 @@ namespace HSCFiscalRegistrar.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly ILoggerFactory _loggerFactory;
 
-        public RegistrationController(UserManager<User> userManager, SignInManager<User> signInManager, ILoggerFactory loggerFactory)
+        public RegistrationController(UserManager<User> userManager, SignInManager<User> signInManager,
+            ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -59,6 +60,7 @@ namespace HSCFiscalRegistrar.Controllers
 
                             return Json(answer);
                         }
+
                         _logger.LogError($"Неверный логин: {model.Login}");
                         return Json(ErrorsAuth.CheckLogin());
                     }
@@ -78,7 +80,6 @@ namespace HSCFiscalRegistrar.Controllers
                 var str = "Invalid Error";
                 return Json(str);
             }
-            
         }
     }
 }
