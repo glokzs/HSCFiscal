@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.Auth;
 using HSCFiscalRegistrar.DTO.UserModel;
+using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Exceptions;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
@@ -21,12 +22,14 @@ namespace HSCFiscalRegistrar.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ILoggerFactory _loggerFactory;
+        private readonly GenerateErrorHelper _errorHelper;
 
         public AuthorizeController(UserManager<User> userManager, ILoggerFactory loggerFactory,
-            SignInManager<User> signInManager)
+            SignInManager<User> signInManager, GenerateErrorHelper helper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _errorHelper = helper;
             _loggerFactory = loggerFactory;
         }
 
@@ -80,22 +83,22 @@ namespace HSCFiscalRegistrar.Controllers
             catch (AuthorizeException e)
             {
                 logger.LogError(e.ToString());
-                return Ok(e.Message);
+                return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.AUTHORIZATION_ERROR));
             }
             catch (UserNullException e)
             {
                 logger.LogError(e.ToString());
-                return Ok(e.Message);
+                return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.UNKNOWN_ERROR));
             }
             catch (DbUpdateException e)
             {
                 logger.LogError(e.ToString());
-                return Ok(e.Message);
+                return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.UNKNOWN_ERROR));
             }
             catch (Exception e)
             {
                 logger.LogError(e.ToString());
-                return Ok(e.Message);
+                return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.UNKNOWN_ERROR));
             }
         }
     }

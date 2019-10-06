@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using HSCFiscalRegistrar.DTO.Errors;
 using HSCFiscalRegistrar.DTO.Fiscalization;
 using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
 using HSCFiscalRegistrar.Enums;
@@ -24,15 +23,17 @@ namespace HSCFiscalRegistrar.Controllers
         private readonly ApplicationContext _applicationContext;
         private readonly UserManager<User> _userManager;
         private readonly ILoggerFactory _loggerFactory;
+        private readonly GenerateErrorHelper _errorHelper; 
         private readonly TokenValidationHelper _helper;
 
         public CheckController(ApplicationContext applicationContext, UserManager<User> userManager,
-            ILoggerFactory loggerFactory, TokenValidationHelper helper)
+            ILoggerFactory loggerFactory, TokenValidationHelper helper, GenerateErrorHelper errorHelper)
         {
             _applicationContext = applicationContext;
             _userManager = userManager;
             _loggerFactory = loggerFactory;
             _helper = helper;
+            _errorHelper = errorHelper;
         }
 
 
@@ -61,6 +62,7 @@ namespace HSCFiscalRegistrar.Controllers
             if (oper == null) return NotFound("Operator not found");
             var kkm = oper.Kkm;
             var check = new OfdCheckOperation();
+            
             try
             {
                 var sum = checkOperationRequest.Payments.Sum(paymentsType => paymentsType.Sum);
@@ -77,7 +79,7 @@ namespace HSCFiscalRegistrar.Controllers
             {
                 _logger.LogError(e.ToString());
                 _logger.LogError($"Ошибка авторизации пользователя: {checkOperationRequest.Token}");
-                return Ok(ErrorsAuth.LoginError());
+                return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.UNKNOWN_ERROR));
             }
         }
 
