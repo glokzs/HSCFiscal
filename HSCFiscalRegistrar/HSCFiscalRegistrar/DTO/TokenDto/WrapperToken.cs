@@ -4,10 +4,7 @@ namespace HSCFiscalRegistrar.DTO.TokenDto
 {
     public class WrapperToken
     {
-        public Data Data { get; set; }
-        public override string ToString()
-        {
-            return $"{Data}";
-        }
+        public string Token { get; set; }
+        public string CashboxUniqueNumber { get; set; }
     }
 }

@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\OfdControllers\**" />
+    <Content Remove="Controllers\OfdControllers\**" />
+    <EmbeddedResource Remove="Controllers\OfdControllers\**" />
+    <None Remove="Controllers\OfdControllers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Migrations\20190823154646_AddNewMigration.cs" />
     <Compile Remove="Migrations\20190823154646_AddNewMigration.Designer.cs" />
   </ItemGroup>
@@ -36,10 +43,6 @@
     <None Update="C:\Users\sadyk\.nuget\packages\nlog.config\4.6.6\contentFiles\any\any\NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\OfdControllers" />
   </ItemGroup>
 
 </Project>

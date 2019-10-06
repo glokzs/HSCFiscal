@@ -41,10 +41,11 @@ namespace HSCFiscalRegistrar.Controllers
         public async Task<IActionResult> Post([FromBody] CheckOperationRequest checkOperationRequest)
         {
             var _logger = _loggerFactory.CreateLogger("Check|Post");
-            _logger.LogInformation($"Информация по чеку: {checkOperationRequest.Token}");
-
+            
             try
             {
+                _logger.LogInformation($"Информация по чеку: {checkOperationRequest.Token}");
+                
                 var error = _helper.TokenValidator(_applicationContext, checkOperationRequest.Token);
                 return await (error == null ? Response(checkOperationRequest, _logger) : throw error);
             }
@@ -66,7 +67,7 @@ namespace HSCFiscalRegistrar.Controllers
             try
             {
                 var sum = checkOperationRequest.Payments.Sum(paymentsType => paymentsType.Sum);
-                var checkNumber = GetCheckNumber();
+                var checkNumber = GeneratorFiscalSign.GenerateFiscalSign();
                 var date = DateTime.Now;
                 var qr = GetUrl(kkm, checkNumber.ToString(), sum, date);
                 var kkmResponse = GetKkmResponse(date, checkNumber, kkm, qr, oper);

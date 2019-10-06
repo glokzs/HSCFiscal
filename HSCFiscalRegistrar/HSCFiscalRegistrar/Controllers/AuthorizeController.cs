@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.Auth;
 using HSCFiscalRegistrar.DTO.UserModel;
-using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Exceptions;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
@@ -22,14 +21,12 @@ namespace HSCFiscalRegistrar.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ILoggerFactory _loggerFactory;
-        private readonly GenerateErrorHelper _errorHelper;
 
         public AuthorizeController(UserManager<User> userManager, ILoggerFactory loggerFactory,
-            SignInManager<User> signInManager, GenerateErrorHelper helper)
+            SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _errorHelper = helper;
             _loggerFactory = loggerFactory;
         }
 
@@ -57,17 +54,19 @@ namespace HSCFiscalRegistrar.Controllers
                         appUser.UserToken = GenerateUserToken.Token(appUser.Id);
                         var response = await _userManager.UpdateAsync(appUser);
 
-                        if (!response.Succeeded) throw new DbUpdateException("Ошибка обновления дб");
-
-                        var dto = new AnswerServerAuth
+                        if (response.Succeeded)
                         {
-                            Data = new Data
+                            var dto = new AnswerServerAuth
                             {
-                                Token = appUser.UserToken
-                            }
-                        };
-                        
-                        return Ok(JsonConvert.SerializeObject(dto));
+                                Data = new Data
+                                {
+                                    Token = appUser.UserToken
+                                }
+                            };
+                            return Ok(JsonConvert.SerializeObject(dto));
+                        }
+
+                        throw new DbUpdateException("Ошибка обновления дб");
                     }
                     else
                     {
@@ -80,26 +79,12 @@ namespace HSCFiscalRegistrar.Controllers
                     throw new AuthorizeException("Неверный логин или пароль");
                 }
             }
-            catch (AuthorizeException e)
-            {
-                logger.LogError(e.ToString());
-                return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.AUTHORIZATION_ERROR));
-            }
-            catch (UserNullException e)
-            {
-                logger.LogError(e.ToString());
-                return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.UNKNOWN_ERROR));
-            }
-            catch (DbUpdateException e)
-            {
-                logger.LogError(e.ToString());
-                return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.UNKNOWN_ERROR));
-            }
             catch (Exception e)
             {
                 logger.LogError(e.ToString());
-                return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.UNKNOWN_ERROR));
+                return Ok(e.Message);
             }
+
         }
     }
 }
