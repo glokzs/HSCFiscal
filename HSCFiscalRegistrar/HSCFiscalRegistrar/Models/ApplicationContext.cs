@@ -1,5 +1,8 @@
+using System.Linq;
+using System.Threading.Tasks;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models.APKInfo;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -57,10 +60,8 @@ namespace HSCFiscalRegistrar.Models
                 Name = "Ibragim",
                 Code = 228,
                 KkmId = "2",
-                OrgId = "3",
-                UserId = UserInitializer.Id
+                OrgId = "3"
             });
         }
-        
     }
 }
