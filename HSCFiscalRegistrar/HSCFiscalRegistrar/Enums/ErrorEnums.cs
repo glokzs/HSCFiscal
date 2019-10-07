@@ -37,8 +37,9 @@
         //ошибка валидации данных
         CHECK_NOT_REGISTERED = 16,
         //ошибка валидации данных
-        OFFLINE_MODE_EXCEEDS_24_HOURS = 17,
+        OFFLINE_MODE_EXCEEDS_24_HOURS = 18,
         //ошибка валидации данных
-        Z_REPORT_MISSING = 18
+        Z_REPORT_MISSING = 1014,
+        
     }
 }

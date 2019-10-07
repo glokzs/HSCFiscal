@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Data;
+using System.Security.Authentication;
 using HSCFiscalRegistrar.DTO.TokenDto;
+using HSCFiscalRegistrar.Enums;
+using HSCFiscalRegistrar.Exceptions;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -15,14 +19,16 @@ namespace HSCFiscalRegistrar.Controllers
         private readonly ApplicationContext _context;
         private readonly TokenValidationHelper _helper;
         private readonly ILoggerFactory _loggerFactory;
+        private readonly GenerateErrorHelper _errorHelper;
 
         public XReportController(ApplicationContext context,
             TokenValidationHelper helper,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory, GenerateErrorHelper errorHelper)
         {
             _context = context;
             _helper = helper;
             _loggerFactory = loggerFactory;
+            _errorHelper = errorHelper;
         }
 
         [HttpPost]
@@ -36,13 +42,28 @@ namespace HSCFiscalRegistrar.Controllers
                 var error = _helper.TokenValidator(_context, tokenDto.Token);
                 return error == null ? GetHardString() : throw error;
             }
+            catch (AuthenticationException e)
+            {
+                logger.LogError(e.StackTrace);
+                return _errorHelper.GetErrorRequest((int) ErrorEnums.AUTHORIZATION_ERROR);
+            }
+            catch (UserNullException e)
+            {
+                logger.LogError(e.StackTrace);
+                return _errorHelper.GetErrorRequest((int) ErrorEnums.UNKNOWN_ERROR);
+            }
+            catch (InvalidExpressionException e)
+            {
+                logger.LogError(e.StackTrace);
+                return _errorHelper.GetErrorRequest((int) ErrorEnums.SESSION_ERROR);
+            }
             catch (Exception e)
             {
                 logger.LogError(e.ToString());
                 return "ERROR";
             }
         }
-
+        
         private string GetHardString()
         {
             return @"{
