@@ -10,12 +10,10 @@ namespace HSCFiscalRegistrar.Controllers
     public class OperatorController : Controller
     {
         private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
         private ApplicationContext _context;
 
-        public OperatorController(SignInManager<User> signInManager, UserManager<User> userManager, ApplicationContext context)
+        public OperatorController( UserManager<User> userManager, ApplicationContext context)
         {
-            _signInManager = signInManager;
             _userManager = userManager;
             _context = context;
         }
@@ -24,36 +22,35 @@ namespace HSCFiscalRegistrar.Controllers
         
         public async Task<IActionResult> Post()
         {
+            
             try
             {
-                if (ModelState.IsValid)
+                string adminEmail = "admin@gmail.com";
+                string password = "_Aa123456";
+                
+                if (await _userManager.FindByNameAsync(adminEmail) == null)
                 {
-                    User user = new User
-                    {
-                        UserName = "admin@admin.com",
-                        PasswordHash = "_Aa123456",
-                        Id = "3"
-                        
+                    User admin = new User {
+                        Email = adminEmail,
+                        UserName = adminEmail,
+                        PasswordHash = password
                     };
-                    
-                    var result = await _userManager.CreateAsync(user, user.PasswordHash);
 
+                    IdentityResult result = await _userManager.CreateAsync(admin, password);
                     if (result.Succeeded)
                     {
-                        await _signInManager.SignInAsync(user, false);
+                        await _userManager.AddToRoleAsync(admin, "admin");
                     }
-                    
-                    Operator modelOperator = new Operator
-                        
+                    Operator operatorModel = new Operator
                     {
-                        UserId = user.Id,
+                        UserId = admin.Id,
                         Name = "Ibragim",
                         Code = 228,
                         KkmId = "2",
                         OrgId = "3"
+                        
                     };
-
-                    _context.Operators.Add(modelOperator);
+                    _context.Operators.Add(operatorModel);
                     await _context.SaveChangesAsync();
                 }
             }

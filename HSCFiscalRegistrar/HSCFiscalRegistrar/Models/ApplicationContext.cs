@@ -51,15 +51,6 @@ namespace HSCFiscalRegistrar.Models
                 VATNumber = "1231212",
                 VATSeria = "32132"
             });
-//            builder.Entity<Operator>().HasData(new Operator
-//            {
-//                Id = "1",
-//                Name = "Ibragim",
-//                Code = 228,
-//                KkmId = "2",
-//                OrgId = "3",
-//                UserId = UserInitializer.Id
-//            });
         }
         
     }
