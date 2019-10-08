@@ -9,7 +9,7 @@ namespace HSCFiscalRegistrar.Models
         public int Number { get; set; }
         public DateTime OpenDate { get; set; }
         public DateTime CloseDate { get; set; }
-        public int KkmId { get; set; }
+        public string KkmId { get; set; }
         public virtual Kkm Kkm { get; set; }
         public string OperatorId { get; set; }
         public virtual Operator Operator{ get; set; }

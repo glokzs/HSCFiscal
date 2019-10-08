@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using HSCFiscalRegistrar.DTO.DateAndTime;
 using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
@@ -6,7 +7,6 @@ using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
 using HSCFiscalRegistrar.Models.APKInfo;
 using HSCFiscalRegistrar.Models.Operation;
-using DateTime = System.DateTime;
 using Service = HSCFiscalRegistrar.Models.APKInfo.Service;
 using Ticket = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Ticket;
 
@@ -57,6 +57,8 @@ namespace HSCFiscalRegistrar.Services
                 }
             }; 
             await HttpService.Post(fiscalOfdRequest);
+            Console.WriteLine("fdsf");
+
         }
 
         private List<Item> GetItems(CheckOperationRequest checkOperationRequest)

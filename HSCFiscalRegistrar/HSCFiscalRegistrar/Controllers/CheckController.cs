@@ -23,7 +23,7 @@ namespace HSCFiscalRegistrar.Controllers
         private readonly ApplicationContext _applicationContext;
         private readonly UserManager<User> _userManager;
         private readonly ILoggerFactory _loggerFactory;
-        private readonly GenerateErrorHelper _errorHelper; 
+        private readonly GenerateErrorHelper _errorHelper;
         private readonly TokenValidationHelper _helper;
 
         public CheckController(ApplicationContext applicationContext, UserManager<User> userManager,
@@ -41,11 +41,11 @@ namespace HSCFiscalRegistrar.Controllers
         public async Task<IActionResult> Post([FromBody] CheckOperationRequest checkOperationRequest)
         {
             var _logger = _loggerFactory.CreateLogger("Check|Post");
-            
+
             try
             {
                 _logger.LogInformation($"Информация по чеку: {checkOperationRequest.Token}");
-                
+
                 var error = _helper.TokenValidator(_applicationContext, checkOperationRequest.Token);
                 return await (error == null ? Response(checkOperationRequest, _logger) : throw error);
             }
@@ -61,6 +61,8 @@ namespace HSCFiscalRegistrar.Controllers
             var user = _userManager.FindByIdAsync(_helper.ParseId(checkOperationRequest.Token));
             var oper = _applicationContext.Operators.FirstOrDefault(op => op.UserId == user.Result.Id);
             if (oper == null) return NotFound("Operator not found");
+            var shift = await GetShift(oper);
+            
             var kkm = oper.Kkm;
             var check = new OfdCheckOperation();
             try
@@ -69,21 +71,56 @@ namespace HSCFiscalRegistrar.Controllers
                 var checkNumber = GeneratorFiscalSign.GenerateFiscalSign();
                 var date = DateTime.Now;
                 var qr = GetUrl(kkm, checkNumber.ToString(), sum, date);
-                var operation = GetOperation(checkOperationRequest, checkNumber, date, qr, oper);
-                var kkmResponse = GetKkmResponse(operation);
+                var operation = GetOperation(shift, checkOperationRequest, checkNumber, date, qr, oper);
+                var kkmResponse = GetKkmResponse(operation, shift);
                 await UpdateDatabaseFields(kkm, operation);
                 check.OfdRequest(operation, checkOperationRequest);
+
                 return Ok(JsonConvert.SerializeObject(kkmResponse));
             }
             catch (Exception e)
             {
                 _logger.LogError(e.ToString());
                 _logger.LogError($"Ошибка авторизации пользователя: {checkOperationRequest.Token}");
-                return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.UNKNOWN_ERROR));
+                return Ok(_errorHelper.GetErrorRequest((int) ErrorEnums.UNKNOWN_ERROR));
             }
         }
 
-        private KkmResponse GetKkmResponse(Operation operation)
+        private async Task<Shift> GetShift(Operator oper)
+        {
+            Shift shift;
+            if (!_applicationContext.Shifts.Any())
+            {
+                shift = new Shift
+                {
+                    OpenDate = DateTime.Now,
+                    KkmId = oper.KkmId,
+                    Number = 1,
+                    OperatorId = oper.Id,
+                    SaldoBegin = 0
+                };
+                await _applicationContext.Shifts.AddAsync(shift);
+                await _applicationContext.SaveChangesAsync();
+            }
+            else if (_applicationContext.Shifts.Last().CloseDate != DateTime.MinValue)
+            {
+                shift = new Shift
+                {
+                    OpenDate = DateTime.Now,
+                    KkmId = oper.KkmId,
+                    Number = _applicationContext.Shifts.Last().Number + 1,
+                    OperatorId = oper.Id,
+                    SaldoBegin = _applicationContext.Shifts.Last().SaldoEnd
+                };
+                await _applicationContext.Shifts.AddAsync(shift);
+                await _applicationContext.SaveChangesAsync();
+            }
+
+            shift = _applicationContext.Shifts.Last();
+            return shift;
+        }
+
+        private KkmResponse GetKkmResponse(Operation operation, Shift shift)
         {
             return new KkmResponse
             {
@@ -97,18 +134,18 @@ namespace HSCFiscalRegistrar.Controllers
                         Address = operation.Kkm.Address,
                         IdentityNumber = operation.Kkm.DeviceId.ToString(),
                         UniqueNumber = operation.Kkm.SerialNumber,
-                        RegistrationNumber =operation.Kkm.FnsKkmId
+                        RegistrationNumber = operation.Kkm.FnsKkmId
                     },
                     CashboxOfflineMode = false,
-                    CheckOrderNumber =operation.Kkm.ReqNum,
-                    ShiftNumber = 55,
+                    CheckOrderNumber = operation.Kkm.ReqNum,
+                    ShiftNumber = shift.Number,
                     EmployeeName = operation.Operator.Name,
                     TicketUrl = operation.QR,
                 }
             };
         }
 
-        private Operation GetOperation(
+        private Operation GetOperation(Shift shift,
             CheckOperationRequest checkOperationRequest, int checkNumber, DateTime date, string qr, Operator oper)
         {
             var total = checkOperationRequest.Payments.Sum(p => p.Sum);
@@ -123,11 +160,12 @@ namespace HSCFiscalRegistrar.Controllers
                     .Where(p => p.PaymentType == PaymentTypeEnum.PAYMENT_CASH)
                     .Sum(p => p.Sum),
                 ChangeAmount = checkOperationRequest.Change,
-                CheckNumber = _applicationContext.Operations.Count() + 1,
+                CheckNumber = _applicationContext.Operations.Count(s => s.ShiftId == shift.Id) + 1,
                 CreationDate = date,
                 FiscalNumber = checkNumber,
                 IsOffline = false,
                 QR = qr,
+                ShiftId = shift.Id,
                 OperatorId = oper.Id,
                 OperationState = OperationStateEnum.New,
                 KkmId = oper.KkmId,
