@@ -6,13 +6,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HSCFiscalRegistrar.Controllers
 {
+    [Route("api/[controller]")]
     public class OperatorController : Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private ApplicationContext _context;
-        
+
+        public OperatorController(SignInManager<User> signInManager, UserManager<User> userManager, ApplicationContext context)
+        {
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _context = context;
+        }
+
         [HttpPost]
+        
         public async Task<IActionResult> Post()
         {
             try
@@ -22,7 +31,9 @@ namespace HSCFiscalRegistrar.Controllers
                     User user = new User
                     {
                         UserName = "admin@admin.com",
-                        PasswordHash = "_Aa123456"
+                        PasswordHash = "_Aa123456",
+                        Id = "3"
+                        
                     };
                     
                     var result = await _userManager.CreateAsync(user, user.PasswordHash);
@@ -30,16 +41,20 @@ namespace HSCFiscalRegistrar.Controllers
                     if (result.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, false);
-                        return Ok();
                     }
                     
                     Operator modelOperator = new Operator
                         
                     {
-                        UserId = user.Id
+                        UserId = user.Id,
+                        Name = "Ibragim",
+                        Code = 228,
+                        KkmId = "2",
+                        OrgId = "3"
                     };
 
                     _context.Operators.Add(modelOperator);
+                    await _context.SaveChangesAsync();
                 }
             }
             catch (Exception e)
