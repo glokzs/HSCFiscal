@@ -13,7 +13,7 @@ namespace HSCFiscalRegistrar.Controllers
         private ApplicationContext _context;
         
         [HttpPost]
-        public async Task<IActionResult> CreateOperator()
+        public async Task<IActionResult> Post()
         {
             try
             {
@@ -24,6 +24,7 @@ namespace HSCFiscalRegistrar.Controllers
                         UserName = "admin@admin.com",
                         PasswordHash = "_Aa123456"
                     };
+                    
                     var result = await _userManager.CreateAsync(user, user.PasswordHash);
 
                     if (result.Succeeded)
@@ -31,6 +32,14 @@ namespace HSCFiscalRegistrar.Controllers
                         await _signInManager.SignInAsync(user, false);
                         return Ok();
                     }
+                    
+                    Operator modelOperator = new Operator
+                        
+                    {
+                        UserId = user.Id
+                    };
+
+                    _context.Operators.Add(modelOperator);
                 }
             }
             catch (Exception e)
@@ -38,7 +47,6 @@ namespace HSCFiscalRegistrar.Controllers
                 Console.WriteLine(e);
                 throw;
             }
-            
 
             return Ok();
         }
