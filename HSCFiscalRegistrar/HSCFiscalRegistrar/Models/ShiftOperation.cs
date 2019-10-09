@@ -7,7 +7,7 @@ namespace HSCFiscalRegistrar.Models
         public string Id { get; set; }
         public OperationTypeEnum OperationType { get; set; }
         public decimal TotalAmount { get; set; }
-        public decimal Count { get; set; }
+        public int Count { get; set; }
         public decimal CashAmount { get; set; }
         public decimal CardAmount { get; set; }
         public string ShiftId { get; set; }
