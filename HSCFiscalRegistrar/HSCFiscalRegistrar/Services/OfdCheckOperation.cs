@@ -56,8 +56,7 @@ namespace HSCFiscalRegistrar.Services
                     OfflineTicketNumber = operation.CheckNumber
                 }
             }; 
-            await HttpService.Post(fiscalOfdRequest);
-            Console.WriteLine("fdsf");
+           // await HttpService.Post(fiscalOfdRequest);
 
         }
 

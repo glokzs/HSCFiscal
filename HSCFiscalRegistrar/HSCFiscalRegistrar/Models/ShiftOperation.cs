@@ -12,5 +12,6 @@ namespace HSCFiscalRegistrar.Models
         public decimal CardAmount { get; set; }
         public string ShiftId { get; set; }
         public virtual Shift Shift { get; set; }
+        public decimal Change { get; set; }
     }
 }
