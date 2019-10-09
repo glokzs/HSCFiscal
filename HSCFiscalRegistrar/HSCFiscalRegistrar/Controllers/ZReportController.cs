@@ -158,7 +158,7 @@ namespace HSCFiscalRegistrar.Controllers
                 CashAmount = operations
                     .Where(o => o.Type == type)
                     .Sum(o => o.CashAmount),
-                Count = operations.Count(),
+                Count = operations.Count(o => o.Type == type),
                 ShiftId = shift.Id,
                 TotalAmount = operations
                     .Where(o => o.Type == type)
