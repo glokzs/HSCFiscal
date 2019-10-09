@@ -1,15 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Castle.Core.Logging;
 using HSCFiscalRegistrar.DTO.XReport;
 using HSCFiscalRegistrar.DTO.XReport.KkmResponce;
 using HSCFiscalRegistrar.Enums;
-using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
 using HSCFiscalRegistrar.Models.APKInfo;
 using HSCFiscalRegistrar.Models.Operation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using DateTime = System.DateTime;
 
 namespace HSCFiscalRegistrar.Controllers
@@ -19,33 +19,41 @@ namespace HSCFiscalRegistrar.Controllers
     {
         private readonly ApplicationContext _applicationContext;
         private readonly UserManager<User> _userManager;
-        private readonly GenerateErrorHelper _errorHelper;
-        private readonly TokenValidationHelper _helper;
+        private readonly ILoggerFactory _loggerFactory;
 
-        public ZReportController(ApplicationContext applicationContext, UserManager<User> userManager,
-            GenerateErrorHelper errorHelper, TokenValidationHelper helper)
+        public ZReportController(ApplicationContext applicationContext, UserManager<User> userManager, ILoggerFactory loggerFactory)
         {
             _applicationContext = applicationContext;
             _userManager = userManager;
-            _errorHelper = errorHelper;
-            _helper = helper;
+            _loggerFactory = loggerFactory;
         }
 
         [HttpPost]
         public IActionResult Post([FromBody] KkmRequest request)
         {
-            var user = _userManager.Users.FirstOrDefault(u => u.UserToken == request.Token);
-            var oper = _applicationContext.Operators.FirstOrDefault(o => o.UserId == user.Id);
-            var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.Id == oper.KkmId);
-            var shift = _applicationContext.Shifts.Last(s => s.KkmId == kkm.Id);
-            var operations = _applicationContext.Operations.Where(o => o.ShiftId == shift.Id);
-            var org = _applicationContext.Orgs.FirstOrDefault(o => o.Id == oper.OrgId);
-            var shiftOperations = GetShiftOperations(operations, shift);
-            AddShiftProps(shift, operations);
-            var response = GetXReportKkmResponse(shiftOperations, operations, org, kkm, shift, oper);
-            _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
-            _applicationContext.SaveChangesAsync();
-            return Json(response);
+            var logger = _loggerFactory.CreateLogger("Check|Post");
+            try
+            {
+                logger.LogInformation($"Z-Отчет: {request.Token}");
+                var user = _userManager.Users.FirstOrDefault(u => u.UserToken == request.Token);
+                var oper = _applicationContext.Operators.FirstOrDefault(o => o.UserId == user.Id);
+                var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.Id == oper.KkmId);
+                var shift = _applicationContext.Shifts.Last(s => s.KkmId == kkm.Id);
+                var operations = _applicationContext.Operations.Where(o => o.ShiftId == shift.Id);
+                var org = _applicationContext.Orgs.FirstOrDefault(o => o.Id == oper.OrgId);
+                
+                var shiftOperations = GetShiftOperations(operations, shift);
+                AddShiftProps(shift, operations);
+                var response = GetXReportKkmResponse(shiftOperations, operations, org, kkm, shift, oper);
+                _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
+                _applicationContext.SaveChangesAsync();
+                return Json(response);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.ToString());
+                return Json(e.Message);
+            }
         }
 
         private void AddShiftProps(Shift shift, IQueryable<Operation> operations)
@@ -57,9 +65,23 @@ namespace HSCFiscalRegistrar.Controllers
             }
             else
             {
-                shift.CloseDate = DateTime.Now;
-                shift.SaldoEnd = operations.Sum(o => o.Amount);
+                if (shift != null)
+                {
+                    shift.CloseDate = DateTime.Now;
+                    shift.SaldoEnd = GetShiftSaldoEnd(operations, Ope);
+                }
             }
+        }
+
+        private static NonNullableApiModel GetShiftSaldoEnd(IQueryable<Operation> operations)
+        {
+            return new NonNullableApiModel
+            {
+                Buy = operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY).Sum(o => o.Amount),
+                Sell = operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY).Sum(o => o.Amount),
+                ReturnBuy = operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY).Sum(o => o.Amount),
+                ReturnSell = operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY).Sum(o => o.Amount),
+            };
         }
 
         private XReportKkmResponse GetXReportKkmResponse(List<ShiftOperation> shiftOperations, IQueryable<Operation> operations,
@@ -91,14 +113,8 @@ namespace HSCFiscalRegistrar.Controllers
                     OfflineMode = false,
                     ReportNumber = 1,
                     CashboxOfflineMode = false,
-                    EndNonNullable = new NonNullableApiModel()
-                    {
-                        Sell = shift.SaldoEnd
-                    },
-                    StartNonNullable = new NonNullableApiModel()
-                    {
-                        Sell = shift.SaldoBegin
-                    },
+                    EndNonNullable = shift.SaldoBegin,
+                    StartNonNullable = shift.SaldoBegin,
                     SumInCashbox = shift.KkmBalance,
                     PutMoneySum = 0,
                     TakeMoneySum = 0

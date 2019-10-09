@@ -68,11 +68,9 @@ namespace HSCFiscalRegistrar.Controllers
                         logger.LogError($"Неверный логин: {model.Login}");
                         return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.AUTHORIZATION_ERROR));
                     }
-                    else
-                    {
-                        logger.LogError($"Неверный формат логина: {model.Login}");
-                        return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.UNKNOWN_ERROR));
-                    }
+
+                    logger.LogError($"Неверный формат логина: {model.Login}");
+                    return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.UNKNOWN_ERROR));
                 }
 
                 logger.LogError($"Ошибка регистрации пользователя: {model.Login} {model.Password}");

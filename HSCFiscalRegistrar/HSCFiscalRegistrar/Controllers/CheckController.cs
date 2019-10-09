@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.Fiscalization;
 using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
+using HSCFiscalRegistrar.DTO.XReport.KkmResponce;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
+using Data = HSCFiscalRegistrar.DTO.Fiscalization.Data;
 using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 
 namespace HSCFiscalRegistrar.Controllers

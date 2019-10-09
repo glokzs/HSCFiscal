@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using HSCFiscalRegistrar.DTO.XReport.KkmResponce;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models.APKInfo;
 using Microsoft.AspNetCore.Identity;
