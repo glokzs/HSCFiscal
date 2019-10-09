@@ -100,7 +100,7 @@ namespace HSCFiscalRegistrar.Controllers
                     TaxPayerIN = org.Inn,
                     TaxPayerVATNumber = org.VATNumber,
                     TaxPayerVATSeria = org.VATSeria,
-                    CashboxIN = kkm.DeviceId,
+                    CashboxIN = kkm.ReqNum,
                     CashboxSN = kkm.SerialNumber,
                     CashboxRN = kkm.FnsKkmId,
                     StartOn = shift.OpenDate,
@@ -126,7 +126,7 @@ namespace HSCFiscalRegistrar.Controllers
         {
             return new OperationTypeSummaryApiModel
             {
-                Change = shiftOperations.Where(o => o.OperationType == type).Sum(o => o.Change),
+                Change = 0,
                 Taken = shiftOperations.Where(o => o.OperationType == type)
                     .Sum(o => o.TotalAmount),
                 VAT = 0,
@@ -162,7 +162,7 @@ namespace HSCFiscalRegistrar.Controllers
                 CashAmount = operations
                     .Where(o => o.Type == type)
                     .Sum(o => o.CashAmount),
-                Count = operations.Count(o => o.Type == type),
+                Count = operations.Count(),
                 ShiftId = shift.Id,
                 TotalAmount = operations
                     .Where(o => o.Type == type)
