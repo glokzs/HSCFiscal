@@ -68,21 +68,11 @@ namespace HSCFiscalRegistrar.Controllers
                 if (shift != null)
                 {
                     shift.CloseDate = DateTime.Now;
-                    shift.SaldoEnd = GetShiftSaldoEnd(operations, Ope);
+                    shift.SaldoEnd = operations.Sum(o => o.Amount);
                 }
             }
         }
-
-        private static NonNullableApiModel GetShiftSaldoEnd(IQueryable<Operation> operations)
-        {
-            return new NonNullableApiModel
-            {
-                Buy = operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY).Sum(o => o.Amount),
-                Sell = operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY).Sum(o => o.Amount),
-                ReturnBuy = operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY).Sum(o => o.Amount),
-                ReturnSell = operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY).Sum(o => o.Amount),
-            };
-        }
+        
 
         private XReportKkmResponse GetXReportKkmResponse(List<ShiftOperation> shiftOperations, IQueryable<Operation> operations,
             Org org, Kkm kkm, Shift shift, Operator oper)
@@ -100,7 +90,7 @@ namespace HSCFiscalRegistrar.Controllers
                     TaxPayerIN = org.Inn,
                     TaxPayerVATNumber = org.VATNumber,
                     TaxPayerVATSeria = org.VATSeria,
-                    CashboxIN = kkm.ReqNum,
+                    CashboxIN = kkm.DeviceId,
                     CashboxSN = kkm.SerialNumber,
                     CashboxRN = kkm.FnsKkmId,
                     StartOn = shift.OpenDate,
@@ -113,8 +103,14 @@ namespace HSCFiscalRegistrar.Controllers
                     OfflineMode = false,
                     ReportNumber = 1,
                     CashboxOfflineMode = false,
-                    EndNonNullable = shift.SaldoBegin,
-                    StartNonNullable = shift.SaldoBegin,
+                    EndNonNullable = new NonNullableApiModel()
+                    {
+                        Sell = shift.SaldoEnd
+                    },
+                    StartNonNullable = new NonNullableApiModel()
+                    {
+                        Sell = shift.SaldoBegin
+                    },
                     SumInCashbox = shift.KkmBalance,
                     PutMoneySum = 0,
                     TakeMoneySum = 0
