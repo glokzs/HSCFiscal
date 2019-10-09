@@ -6,98 +6,73 @@ using HSCFiscalRegistrar.DTO.XReport.KkmResponce;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
+using HSCFiscalRegistrar.Models.APKInfo;
+using HSCFiscalRegistrar.Models.Operation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using DateTime = System.DateTime;
 
 namespace HSCFiscalRegistrar.Controllers
 {
+    [Route("api/[controller]")]
     public class ZReportController : Controller
     {
         private readonly ApplicationContext _applicationContext;
         private readonly UserManager<User> _userManager;
-        private readonly ILoggerFactory _loggerFactory;
         private readonly GenerateErrorHelper _errorHelper;
         private readonly TokenValidationHelper _helper;
 
         public ZReportController(ApplicationContext applicationContext, UserManager<User> userManager,
-            ILoggerFactory loggerFactory, GenerateErrorHelper errorHelper, TokenValidationHelper helper)
+            GenerateErrorHelper errorHelper, TokenValidationHelper helper)
         {
             _applicationContext = applicationContext;
             _userManager = userManager;
-            _loggerFactory = loggerFactory;
             _errorHelper = errorHelper;
             _helper = helper;
         }
 
         [HttpPost]
-        public IActionResult Index(KkmRequest request)
+        public IActionResult Post([FromBody] KkmRequest request)
         {
             var user = _userManager.Users.FirstOrDefault(u => u.UserToken == request.Token);
             var oper = _applicationContext.Operators.FirstOrDefault(o => o.UserId == user.Id);
-            var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.SerialNumber == request.CashboxUniqueNumber);
-            var shift = _applicationContext.Shifts.FirstOrDefault(s => s.KkmId == kkm.Id);
-            shift.CloseDate = DateTime.Now;
-            _applicationContext.Update(shift);
-            _applicationContext.SaveChangesAsync();
-            var shiftOperations = _applicationContext.ShiftOperations.Where(s => s.ShiftId == shift.Id);
+            var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.Id == oper.KkmId);
+            var shift = _applicationContext.Shifts.Last(s => s.KkmId == kkm.Id);
+            var operations = _applicationContext.Operations.Where(o => o.ShiftId == shift.Id);
             var org = _applicationContext.Orgs.FirstOrDefault(o => o.Id == oper.OrgId);
-            var response = new XReportKkmResponse
+            var shiftOperations = GetShiftOperations(operations, shift);
+            AddShiftProps(shift, operations);
+            var response = GetXReportKkmResponse(shiftOperations, operations, org, kkm, shift, oper);
+            _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
+            _applicationContext.SaveChangesAsync();
+            return Json(response);
+        }
+
+        private void AddShiftProps(Shift shift, IQueryable<Operation> operations)
+        {
+            if (shift != null && shift.CloseDate == DateTime.MinValue)
+            {
+                shift.CloseDate = DateTime.Now;
+                shift.SaldoEnd = shift.SaldoBegin + operations.Sum(o => o.Amount);
+            }
+            else
+            {
+                shift.CloseDate = DateTime.Now;
+                shift.SaldoEnd = operations.Sum(o => o.Amount);
+            }
+        }
+
+        private XReportKkmResponse GetXReportKkmResponse(List<ShiftOperation> shiftOperations, IQueryable<Operation> operations,
+            Org org, Kkm kkm, Shift shift, Operator oper)
+        {
+            return new XReportKkmResponse
             {
                 Data = new Data
                 {
-                    Buy = new OperationTypeSummaryApiModel
-                    {
-                        Change = 0,
-                        Taken = shiftOperations.Where(o => o.OperationType == OperationTypeEnum.OPERATION_BUY)
-                            .Sum(o => o.TotalAmount),
-                        VAT = 0,
-                        TotalCount = shiftOperations.Where(o => o.OperationType == OperationTypeEnum.OPERATION_BUY)
-                            .Sum(o => o.Count),
-                        PaymentsByTypesApiModel = new List<PaymentsByTypesApiModel>(),
-                        Discount = 0,
-                        Markup = 0,
-                        Count = 0
-                    },
-                    Sell = new OperationTypeSummaryApiModel
-                    {
-                        Change = 0,
-                        Taken = shiftOperations.Where(o => o.OperationType == OperationTypeEnum.OPERATION_SELL)
-                            .Sum(o => o.TotalAmount),
-                        VAT = 0,
-                        TotalCount = shiftOperations.Where(o => o.OperationType == OperationTypeEnum.OPERATION_SELL)
-                            .Sum(o => o.Count),
-                        PaymentsByTypesApiModel = new List<PaymentsByTypesApiModel>(),
-                        Discount = 0,
-                        Markup = 0,
-                        Count = 0
-                    },
-                    ReturnBuy = new OperationTypeSummaryApiModel
-                    {
-                        Change = 0,
-                        Taken = shiftOperations.Where(o => o.OperationType == OperationTypeEnum.OPERATION_BUY_RETURN)
-                            .Sum(o => o.TotalAmount),
-                        VAT = 0,
-                        TotalCount = shiftOperations.Where(o => o.OperationType == OperationTypeEnum.OPERATION_BUY_RETURN)
-                            .Sum(o => o.Count),
-                        PaymentsByTypesApiModel = new List<PaymentsByTypesApiModel>(),
-                        Discount = 0,
-                        Markup = 0,
-                        Count = 0
-                    },
-                    ReturnSell = new OperationTypeSummaryApiModel
-                    {
-                        Change = 0,
-                        Taken = shiftOperations.Where(o => o.OperationType == OperationTypeEnum.OPERATION_SELL_RETURN)
-                            .Sum(o => o.TotalAmount),
-                        VAT = 0,
-                        TotalCount = shiftOperations.Where(o => o.OperationType == OperationTypeEnum.OPERATION_SELL_RETURN)
-                            .Sum(o => o.Count),
-                        PaymentsByTypesApiModel = new List<PaymentsByTypesApiModel>(),
-                        Discount = 0,
-                        Markup = 0,
-                        Count = 0
-                    },
+                    Buy = GetOperation(shiftOperations, OperationTypeEnum.OPERATION_BUY),
+                    Sell = GetOperation(shiftOperations, OperationTypeEnum.OPERATION_SELL),
+                    ReturnBuy = GetOperation(shiftOperations, OperationTypeEnum.OPERATION_BUY_RETURN),
+                    ReturnSell = GetOperation(shiftOperations, OperationTypeEnum.OPERATION_SELL_RETURN),
                     TaxPayerName = org.Name,
                     TaxPayerVAT = org.VAT,
                     TaxPayerIN = org.Inn,
@@ -112,24 +87,72 @@ namespace HSCFiscalRegistrar.Controllers
                     CashierCode = oper.Code,
                     ShiftNumber = shift.Number,
                     ControlSum = 1,
-                    DocumentCount = shiftOperations.Count(),
+                    DocumentCount = operations.Count(),
                     OfflineMode = false,
                     ReportNumber = 1,
                     CashboxOfflineMode = false,
                     EndNonNullable = new NonNullableApiModel()
                     {
-                        Buy = shift.SaldoEnd
+                        Sell = shift.SaldoEnd
                     },
                     StartNonNullable = new NonNullableApiModel()
                     {
-                        Buy = shift.SaldoEnd
+                        Sell = shift.SaldoBegin
                     },
                     SumInCashbox = shift.KkmBalance,
                     PutMoneySum = 0,
                     TakeMoneySum = 0
                 }
             };
-            return Json(response);
+        }
+
+        private OperationTypeSummaryApiModel GetOperation(List<ShiftOperation> shiftOperations,  OperationTypeEnum type)
+        {
+            return new OperationTypeSummaryApiModel
+            {
+                Change = 0,
+                Taken = shiftOperations.Where(o => o.OperationType == type)
+                    .Sum(o => o.TotalAmount),
+                VAT = 0,
+                TotalCount = shiftOperations.Where(o => o.OperationType == type)
+                    .Sum(o => o.Count),
+                PaymentsByTypesApiModel = new List<PaymentsByTypesApiModel>(),
+                Discount = 0,
+                Markup = 0,
+                Count = 0
+            };
+        }
+
+        private List<ShiftOperation> GetShiftOperations(IQueryable<Operation> operations, Shift shift)
+        {
+            var shiftOperations = new List<ShiftOperation>
+            {
+                GetShiftOperation(operations, shift, OperationTypeEnum.OPERATION_BUY),
+                GetShiftOperation(operations, shift, OperationTypeEnum.OPERATION_SELL),
+                GetShiftOperation(operations, shift, OperationTypeEnum.OPERATION_BUY_RETURN),
+                GetShiftOperation(operations, shift, OperationTypeEnum.OPERATION_SELL_RETURN)
+            };
+            return shiftOperations;
+        }
+
+        private ShiftOperation GetShiftOperation(IQueryable<Operation> operations, Shift shift, OperationTypeEnum type)
+        {
+            return new ShiftOperation
+            {
+                OperationType = type,
+                CardAmount = operations
+                    .Where(o => o.Type == type)
+                    .Sum(o => o.CardAmount),
+                CashAmount = operations
+                    .Where(o => o.Type == type)
+                    .Sum(o => o.CashAmount),
+                Count = operations.Count(),
+                ShiftId = shift.Id,
+                TotalAmount = operations
+                    .Where(o => o.Type == type)
+                    .Sum(o => o.Amount),
+                Change = operations.Where(o => o.Type == type).Sum(o => o.ChangeAmount)
+            };
         }
     }
 }
