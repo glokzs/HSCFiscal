@@ -98,7 +98,6 @@ namespace HSCFiscalRegistrar.Controllers
                     KkmId = oper.KkmId,
                     Number = 1,
                     OperatorId = oper.Id,
-                    SaldoBegin = 0
                 };
                 await _applicationContext.Shifts.AddAsync(shift);
                 await _applicationContext.SaveChangesAsync();
@@ -111,7 +110,10 @@ namespace HSCFiscalRegistrar.Controllers
                     KkmId = oper.KkmId,
                     Number = _applicationContext.Shifts.Last().Number + 1,
                     OperatorId = oper.Id,
-                    SaldoBegin = _applicationContext.Shifts.Last().SaldoEnd
+                    BuySaldoBegin = _applicationContext.Shifts.Last().BuySaldoEnd,
+                    SellSaldoBegin = _applicationContext.Shifts.Last().SellSaldoEnd,
+                    RetunBuySaldoBegin = _applicationContext.Shifts.Last().RetunBuySaldoEnd,
+                    RetunSellSaldoBegin = _applicationContext.Shifts.Last().RetunSellSaldoEnd,
                 };
                 await _applicationContext.Shifts.AddAsync(shift);
                 await _applicationContext.SaveChangesAsync();

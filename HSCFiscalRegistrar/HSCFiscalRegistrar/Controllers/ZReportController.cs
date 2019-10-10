@@ -21,7 +21,8 @@ namespace HSCFiscalRegistrar.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ILoggerFactory _loggerFactory;
 
-        public ZReportController(ApplicationContext applicationContext, UserManager<User> userManager, ILoggerFactory loggerFactory)
+        public ZReportController(ApplicationContext applicationContext, UserManager<User> userManager,
+            ILoggerFactory loggerFactory)
         {
             _applicationContext = applicationContext;
             _userManager = userManager;
@@ -38,10 +39,10 @@ namespace HSCFiscalRegistrar.Controllers
                 var user = _userManager.Users.FirstOrDefault(u => u.UserToken == request.Token);
                 var oper = _applicationContext.Operators.FirstOrDefault(o => o.UserId == user.Id);
                 var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.Id == oper.KkmId);
-                var shift = _applicationContext.Shifts.Last(s => s.KkmId == kkm.Id);
+                var shift = _applicationContext.Shifts.Last(s => s.KkmId == kkm.Id && s.CloseDate == DateTime.MinValue);
                 var operations = _applicationContext.Operations.Where(o => o.ShiftId == shift.Id);
                 var org = _applicationContext.Orgs.FirstOrDefault(o => o.Id == oper.OrgId);
-                
+
                 var shiftOperations = GetShiftOperations(operations, shift);
                 AddShiftProps(shift, operations);
                 var response = GetXReportKkmResponse(shiftOperations, operations, org, kkm, shift, oper);
@@ -58,23 +59,37 @@ namespace HSCFiscalRegistrar.Controllers
 
         private void AddShiftProps(Shift shift, IQueryable<Operation> operations)
         {
-            if (shift != null && shift.CloseDate == DateTime.MinValue)
+            if (shift.CloseDate == DateTime.MinValue)
             {
                 shift.CloseDate = DateTime.Now;
-                shift.SaldoEnd = shift.SaldoBegin + operations.Sum(o => o.Amount);
+                shift.BuySaldoEnd = shift.BuySaldoBegin +
+                                    operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY).Sum(o => o.Amount);
+                shift.SellSaldoEnd = shift.SellSaldoBegin +
+                                     operations.Where(o => o.Type == OperationTypeEnum.OPERATION_SELL)
+                                         .Sum(o => o.Amount);
+                shift.RetunSellSaldoEnd = shift.RetunSellSaldoBegin + operations
+                                              .Where(o => o.Type == OperationTypeEnum.OPERATION_SELL_RETURN)
+                                              .Sum(o => o.Amount);
+                shift.RetunBuySaldoEnd = shift.RetunBuySaldoBegin +
+                                         operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY)
+                                             .Sum(o => o.Amount);
             }
             else
             {
-                if (shift != null)
-                {
-                    shift.CloseDate = DateTime.Now;
-                    shift.SaldoEnd = operations.Sum(o => o.Amount);
-                }
+                shift.BuySaldoEnd = operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY)
+                    .Sum(o => o.Amount);
+                shift.SellSaldoEnd = operations.Where(o => o.Type == OperationTypeEnum.OPERATION_SELL)
+                    .Sum(o => o.Amount);
+                shift.RetunSellSaldoEnd = operations.Where(o => o.Type == OperationTypeEnum.OPERATION_SELL_RETURN)
+                    .Sum(o => o.Amount);
+                shift.RetunBuySaldoEnd = operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY)
+                    .Sum(o => o.Amount);
             }
         }
-        
 
-        private XReportKkmResponse GetXReportKkmResponse(List<ShiftOperation> shiftOperations, IQueryable<Operation> operations,
+
+        private XReportKkmResponse GetXReportKkmResponse(List<ShiftOperation> shiftOperations,
+            IQueryable<Operation> operations,
             Org org, Kkm kkm, Shift shift, Operator oper)
         {
             return new XReportKkmResponse
@@ -105,11 +120,17 @@ namespace HSCFiscalRegistrar.Controllers
                     CashboxOfflineMode = false,
                     EndNonNullable = new NonNullableApiModel()
                     {
-                        Sell = shift.SaldoEnd
+                        Sell = shift.SellSaldoEnd,
+                        Buy = shift.BuySaldoEnd,
+                        ReturnBuy = shift.RetunBuySaldoEnd,
+                        ReturnSell = shift.RetunSellSaldoEnd
                     },
                     StartNonNullable = new NonNullableApiModel()
                     {
-                        Sell = shift.SaldoBegin
+                        Sell = shift.SellSaldoBegin,
+                        Buy = shift.BuySaldoBegin,
+                        ReturnBuy = shift.RetunBuySaldoBegin,
+                        ReturnSell = shift.RetunSellSaldoBegin
                     },
                     SumInCashbox = shift.KkmBalance,
                     PutMoneySum = 0,
@@ -118,7 +139,7 @@ namespace HSCFiscalRegistrar.Controllers
             };
         }
 
-        private OperationTypeSummaryApiModel GetOperation(List<ShiftOperation> shiftOperations,  OperationTypeEnum type)
+        private OperationTypeSummaryApiModel GetOperation(List<ShiftOperation> shiftOperations, OperationTypeEnum type)
         {
             return new OperationTypeSummaryApiModel
             {
