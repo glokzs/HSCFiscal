@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.Fiscalization;
 using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
-using HSCFiscalRegistrar.DTO.XReport.KkmResponce;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
@@ -58,7 +57,7 @@ namespace HSCFiscalRegistrar.Controllers
             }
         }
 
-        private async Task<IActionResult> Response(CheckOperationRequest checkOperationRequest, ILogger _logger)
+        private async Task<IActionResult> Response(CheckOperationRequest checkOperationRequest, ILogger logger)
         {
             var user = _userManager.FindByIdAsync(_helper.ParseId(checkOperationRequest.Token));
             var oper = _applicationContext.Operators.FirstOrDefault(op => op.UserId == user.Result.Id);
@@ -81,8 +80,8 @@ namespace HSCFiscalRegistrar.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e.ToString());
-                _logger.LogError($"Ошибка авторизации пользователя: {checkOperationRequest.Token}");
+                logger.LogError(e.ToString());
+                logger.LogError($"Ошибка авторизации пользователя: {checkOperationRequest.Token}");
                 return Ok(_errorHelper.GetErrorRequest((int) ErrorEnums.UNKNOWN_ERROR));
             }
         }
@@ -131,7 +130,7 @@ namespace HSCFiscalRegistrar.Controllers
                 {
                     DateTime = operation.CreationDate,
                     CheckNumber = operation.CheckNumber.ToString(),
-                    OfflineMode = false,
+                    OfflineMode = true,
                     Cashbox = new Cashbox
                     {
                         Address = operation.Kkm.Address,
@@ -139,7 +138,7 @@ namespace HSCFiscalRegistrar.Controllers
                         UniqueNumber = operation.Kkm.SerialNumber,
                         RegistrationNumber = operation.Kkm.FnsKkmId
                     },
-                    CashboxOfflineMode = false,
+                    CashboxOfflineMode = true,
                     CheckOrderNumber = operation.Kkm.ReqNum,
                     ShiftNumber = shift.Number,
                     EmployeeName = operation.Operator.Name,
@@ -166,7 +165,7 @@ namespace HSCFiscalRegistrar.Controllers
                 CheckNumber = _applicationContext.Operations.Count(s => s.ShiftId == shift.Id) + 1,
                 CreationDate = date,
                 FiscalNumber = checkNumber,
-                IsOffline = false,
+                IsOffline = true,
                 QR = qr,
                 ShiftId = shift.Id,
                 OperatorId = oper.Id,

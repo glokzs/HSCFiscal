@@ -7,6 +7,7 @@ using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
 using HSCFiscalRegistrar.Models.APKInfo;
 using HSCFiscalRegistrar.Models.Operation;
+using DateTime = HSCFiscalRegistrar.DTO.DateAndTime.DateTime;
 using Service = HSCFiscalRegistrar.Models.APKInfo.Service;
 using Ticket = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Ticket;
 
@@ -55,8 +56,16 @@ namespace HSCFiscalRegistrar.Services
                     },
                     OfflineTicketNumber = operation.CheckNumber
                 }
-            }; 
-           // await HttpService.Post(fiscalOfdRequest);
+            };
+            try
+            {
+                await HttpService.Post(fiscalOfdRequest);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+          
 
         }
 
@@ -311,10 +320,10 @@ namespace HSCFiscalRegistrar.Services
             return payments;
         }
 
-        private HSCFiscalRegistrar.DTO.DateAndTime.DateTime GetDateTime(Operation operation)
+        private DateTime GetDateTime(Operation operation)
         {
             var date = operation.CreationDate;
-            return new HSCFiscalRegistrar.DTO.DateAndTime.DateTime()
+            return new DateTime()
             {
                 Date = new Date
                 {

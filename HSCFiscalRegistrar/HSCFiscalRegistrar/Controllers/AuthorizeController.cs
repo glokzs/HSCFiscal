@@ -68,16 +68,12 @@ namespace HSCFiscalRegistrar.Controllers
 
                         throw new DbUpdateException("Ошибка обновления дб");
                     }
-                    else
-                    {
-                        throw new UserNullException("пользователь не найден в бд по логину");
-                    }
+
+                    throw new UserNullException("пользователь не найден в бд по логину");
                 }
-                else
-                {
-                    logger.LogError($"Ошибка авторизации пользователя: {model.Login}");
-                    throw new AuthorizeException("Неверный логин или пароль");
-                }
+
+                logger.LogError($"Ошибка авторизации пользователя: {model.Login}");
+                throw new AuthorizeException("Неверный логин или пароль");
             }
             catch (Exception e)
             {

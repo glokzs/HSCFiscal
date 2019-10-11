@@ -45,7 +45,7 @@ namespace HSCFiscalRegistrar.Controllers
                 var error = _validationHelper.TokenValidator(_context, dtoToken.Token);
                 return error == null ? GetCashBoxesData() : throw error;
             }
-            catch (UserNullException e)
+            catch (UserNullException)
             {
                 return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.UNKNOWN_ERROR));
             }

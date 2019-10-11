@@ -1,6 +1,4 @@
-﻿using HSCFiscalRegistrar.DTO.Auth;
-
-namespace HSCFiscalRegistrar.DTO.TokenDto
+﻿namespace HSCFiscalRegistrar.DTO.TokenDto
 {
     public class WrapperToken
     {

@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using HSCFiscalRegistrar.DTO.ErrorsDTO;
-using HSCFiscalRegistrar.Enums;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace HSCFiscalRegistrar.Helpers
