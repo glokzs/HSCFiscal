@@ -10,6 +10,7 @@ using HSCFiscalRegistrar.Models.Operation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using DateTime = System.DateTime;
 
 namespace HSCFiscalRegistrar.Controllers
@@ -44,10 +45,10 @@ namespace HSCFiscalRegistrar.Controllers
                 var org = _applicationContext.Orgs.FirstOrDefault(o => o.Id == oper.OrgId);
                 var shiftOperations = GetShiftOperations(operations, shift);
                 AddShiftProps(shift, operations);
-                var response = GetZReportKkmResponse(shiftOperations, operations, org, kkm, shift, oper);
+                var response = new XReportKkmResponse(shiftOperations, operations, org, kkm, shift, oper);
                 _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
                 _applicationContext.SaveChangesAsync();
-                return Json(response);
+                return Ok(JsonConvert.SerializeObject(response));
             }
             catch (Exception e)
             {
@@ -72,6 +73,7 @@ namespace HSCFiscalRegistrar.Controllers
                 shift.RetunBuySaldoEnd = shift.RetunBuySaldoBegin +
                                          operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY)
                                              .Sum(o => o.Amount);
+                CalculateBalance(shift, operations);
             }
             else
             {
@@ -83,89 +85,26 @@ namespace HSCFiscalRegistrar.Controllers
                     .Sum(o => o.Amount);
                 shift.RetunBuySaldoEnd = operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY)
                     .Sum(o => o.Amount);
-                shift.KkmBalance = operations
-                                       .Where(o => o.Type == OperationTypeEnum.OPERATION_SELL)
-                                       .Sum(o => o.Amount) +
-                                   operations
-                                       .Where(o => o.Type == OperationTypeEnum.OPERATION_BUY_RETURN)
-                                       .Sum(o => o.Amount) +
-                                   shift.SellSaldoEnd +
-                                   shift.RetunBuySaldoEnd -
-                                   operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY)
-                                       .Sum(o => o.Amount) -
-                                   operations.Where(o => o.Type == OperationTypeEnum.OPERATION_SELL_RETURN)
-                                       .Sum(o => o.Amount) - shift.BuySaldoEnd - shift.RetunSellSaldoEnd;
+                CalculateBalance(shift, operations);
             }
         }
 
-
-        private XReportKkmResponse GetZReportKkmResponse(List<ShiftOperation> shiftOperations,
-            IQueryable<Operation> operations,
-            Org org, Kkm kkm, Shift shift, Operator oper)
+        private static void CalculateBalance(Shift shift, IQueryable<Operation> operations)
         {
-            return new XReportKkmResponse
-            {
-                Data = new Data
-                {
-                    Buy = GetOperation(shiftOperations, OperationTypeEnum.OPERATION_BUY),
-                    Sell = GetOperation(shiftOperations, OperationTypeEnum.OPERATION_SELL),
-                    ReturnBuy = GetOperation(shiftOperations, OperationTypeEnum.OPERATION_BUY_RETURN),
-                    ReturnSell = GetOperation(shiftOperations, OperationTypeEnum.OPERATION_SELL_RETURN),
-                    TaxPayerName = org.Name,
-                    TaxPayerVAT = org.VAT,
-                    TaxPayerIN = org.Inn,
-                    TaxPayerVATNumber = org.VATNumber,
-                    TaxPayerVATSeria = org.VATSeria,
-                    CashboxIN = kkm.DeviceId,
-                    CashboxSN = kkm.SerialNumber,
-                    CashboxRN = kkm.FnsKkmId,
-                    StartOn = shift.OpenDate,
-                    CloseOn = shift.CloseDate,
-                    ReportOn = DateTime.Now,
-                    CashierCode = oper.Code,
-                    ShiftNumber = shift.Number,
-                    ControlSum = 1,
-                    DocumentCount = operations.Count(),
-                    OfflineMode = false,
-                    ReportNumber = 1,
-                    CashboxOfflineMode = false,
-                    EndNonNullable = new NonNullableApiModel()
-                    {
-                        Sell = shift.SellSaldoEnd,
-                        Buy = shift.BuySaldoEnd,
-                        ReturnBuy = shift.RetunBuySaldoEnd,
-                        ReturnSell = shift.RetunSellSaldoEnd
-                    },
-                    StartNonNullable = new NonNullableApiModel()
-                    {
-                        Sell = shift.SellSaldoBegin,
-                        Buy = shift.BuySaldoBegin,
-                        ReturnBuy = shift.RetunBuySaldoBegin,
-                        ReturnSell = shift.RetunSellSaldoBegin
-                    },
-                    SumInCashbox = shift.KkmBalance,
-                    PutMoneySum = 0,
-                    TakeMoneySum = 0
-                }
-            };
+            shift.KkmBalance = operations
+                                   .Where(o => o.Type == OperationTypeEnum.OPERATION_SELL)
+                                   .Sum(o => o.Amount) +
+                               operations
+                                   .Where(o => o.Type == OperationTypeEnum.OPERATION_BUY_RETURN)
+                                   .Sum(o => o.Amount) +
+                               shift.SellSaldoBegin +
+                               shift.RetunBuySaldoBegin -
+                               operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY)
+                                   .Sum(o => o.Amount) -
+                               operations.Where(o => o.Type == OperationTypeEnum.OPERATION_SELL_RETURN)
+                                   .Sum(o => o.Amount) - shift.RetunBuySaldoBegin - shift.RetunSellSaldoBegin;
         }
-
-        private OperationTypeSummaryApiModel GetOperation(List<ShiftOperation> shiftOperations, OperationTypeEnum type)
-        {
-            return new OperationTypeSummaryApiModel
-            {
-                Change = 0,
-                Taken = shiftOperations.Where(o => o.OperationType == type)
-                    .Sum(o => o.TotalAmount),
-                VAT = 0,
-                TotalCount = shiftOperations.Where(o => o.OperationType == type)
-                    .Sum(o => o.Count),
-                PaymentsByTypesApiModel = new List<PaymentsByTypesApiModel>(),
-                Discount = 0,
-                Markup = 0,
-                Count = 0
-            };
-        }
+        
 
         private List<ShiftOperation> GetShiftOperations(IQueryable<Operation> operations, Shift shift)
         {
