@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Security.Authentication;
+using HSCFiscalRegistrar.Exceptions;
 using HSCFiscalRegistrar.Models;
 
 namespace HSCFiscalRegistrar.Helpers
@@ -26,7 +27,7 @@ namespace HSCFiscalRegistrar.Helpers
             }
             else
             {
-                return new NullReferenceException();
+                return new UserNullException("Юзер не найден в бд");
             }
 
             return null;
