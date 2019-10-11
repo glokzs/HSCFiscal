@@ -7,11 +7,12 @@ using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
 using HSCFiscalRegistrar.Models.APKInfo;
 using HSCFiscalRegistrar.Models.Operation;
+using HSCFiscalRegistrar.Services;
 using DateTime = HSCFiscalRegistrar.DTO.DateAndTime.DateTime;
 using Service = HSCFiscalRegistrar.Models.APKInfo.Service;
 using Ticket = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Ticket;
 
-namespace HSCFiscalRegistrar.Services
+namespace HSCFiscalRegistrar.OfdRequests
 {
     public class OfdCheckOperation
     {
@@ -19,7 +20,7 @@ namespace HSCFiscalRegistrar.Services
         {
             var fiscalOfdRequest = new FiscalOfdRequest
             {
-                Command = 1,
+                Command = CommandTypeEnum.COMMAND_TICKET,
                 Token = operation.Kkm.OfdToken,
                 Service = new Service
                 {

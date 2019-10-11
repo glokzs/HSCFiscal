@@ -6,6 +6,7 @@ using HSCFiscalRegistrar.DTO.XReport.KkmResponse;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
 using HSCFiscalRegistrar.Models.Operation;
+using HSCFiscalRegistrar.OfdRequests;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -32,7 +33,7 @@ namespace HSCFiscalRegistrar.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] KkmRequest request)
         {
-            var logger = _loggerFactory.CreateLogger("Check|Post");
+            var logger = _loggerFactory.CreateLogger("ZReport|Post");
             try
             {
                 logger.LogInformation($"Z-Отчет: {request.Token}");
@@ -47,6 +48,8 @@ namespace HSCFiscalRegistrar.Controllers
                 var response = new XReportKkmResponse(shiftOperations, operations, org, kkm, shift, oper);
                 _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
                 _applicationContext.SaveChangesAsync();
+                var ofdShiftClose = new OfdShiftClose();
+                ofdShiftClose.Request(kkm, org, shift.Number);
                 return Ok(JsonConvert.SerializeObject(response));
             }
             catch (Exception e)

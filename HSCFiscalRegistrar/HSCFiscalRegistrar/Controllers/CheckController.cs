@@ -8,6 +8,7 @@ using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
 using HSCFiscalRegistrar.Models.APKInfo;
 using HSCFiscalRegistrar.Models.Operation;
+using HSCFiscalRegistrar.OfdRequests;
 using HSCFiscalRegistrar.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -75,7 +76,7 @@ namespace HSCFiscalRegistrar.Controllers
                 var kkmResponse = new KkmResponse(operation, shift);
                 await UpdateDatabaseFields(kkm, operation);
                 check.OfdRequest(operation, checkOperationRequest);
-
+            
                 return Ok(JsonConvert.SerializeObject(kkmResponse));
             }
             catch (Exception e)

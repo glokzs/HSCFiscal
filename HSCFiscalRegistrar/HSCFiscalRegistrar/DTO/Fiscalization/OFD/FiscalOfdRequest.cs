@@ -1,3 +1,4 @@
+using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models.APKInfo;
 using Newtonsoft.Json;
 
@@ -6,7 +7,7 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization.OFD
     public class FiscalOfdRequest
     {
         [JsonProperty("Command")]
-        public int Command { get; set; }
+        public CommandTypeEnum Command { get; set; }
         [JsonProperty("DeviceId")]
         public int DeviceId { get; set; }
         [JsonProperty("ReqNum")]
