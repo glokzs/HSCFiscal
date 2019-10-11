@@ -42,10 +42,9 @@ namespace HSCFiscalRegistrar.Controllers
                 var shift = _applicationContext.Shifts.Last(s => s.KkmId == kkm.Id && s.CloseDate == DateTime.MinValue);
                 var operations = _applicationContext.Operations.Where(o => o.ShiftId == shift.Id);
                 var org = _applicationContext.Orgs.FirstOrDefault(o => o.Id == oper.OrgId);
-
                 var shiftOperations = GetShiftOperations(operations, shift);
                 AddShiftProps(shift, operations);
-                var response = GetXReportKkmResponse(shiftOperations, operations, org, kkm, shift, oper);
+                var response = GetZReportKkmResponse(shiftOperations, operations, org, kkm, shift, oper);
                 _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
                 _applicationContext.SaveChangesAsync();
                 return Json(response);
@@ -84,11 +83,23 @@ namespace HSCFiscalRegistrar.Controllers
                     .Sum(o => o.Amount);
                 shift.RetunBuySaldoEnd = operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY)
                     .Sum(o => o.Amount);
+                shift.KkmBalance = operations
+                                       .Where(o => o.Type == OperationTypeEnum.OPERATION_SELL)
+                                       .Sum(o => o.Amount) +
+                                   operations
+                                       .Where(o => o.Type == OperationTypeEnum.OPERATION_BUY_RETURN)
+                                       .Sum(o => o.Amount) +
+                                   shift.SellSaldoEnd +
+                                   shift.RetunBuySaldoEnd -
+                                   operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY)
+                                       .Sum(o => o.Amount) -
+                                   operations.Where(o => o.Type == OperationTypeEnum.OPERATION_SELL_RETURN)
+                                       .Sum(o => o.Amount) - shift.BuySaldoEnd - shift.RetunSellSaldoEnd;
             }
         }
 
 
-        private XReportKkmResponse GetXReportKkmResponse(List<ShiftOperation> shiftOperations,
+        private XReportKkmResponse GetZReportKkmResponse(List<ShiftOperation> shiftOperations,
             IQueryable<Operation> operations,
             Org org, Kkm kkm, Shift shift, Operator oper)
         {
