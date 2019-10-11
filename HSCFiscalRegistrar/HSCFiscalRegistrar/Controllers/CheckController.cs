@@ -57,7 +57,7 @@ namespace HSCFiscalRegistrar.Controllers
             }
         }
 
-        private async Task<IActionResult> Response(CheckOperationRequest checkOperationRequest, ILogger logger)
+        private async Task<IActionResult> Response(CheckOperationRequest checkOperationRequest, ILogger _logger)
         {
             var user = _userManager.FindByIdAsync(_helper.ParseId(checkOperationRequest.Token));
             var oper = _applicationContext.Operators.FirstOrDefault(op => op.UserId == user.Result.Id);
@@ -72,7 +72,7 @@ namespace HSCFiscalRegistrar.Controllers
                 var date = DateTime.Now;
                 var qr = GetUrl(kkm, checkNumber.ToString(), sum, date);
                 var operation = GetOperation(shift, checkOperationRequest, checkNumber, date, qr, oper);
-                var kkmResponse = GetKkmResponse(operation, shift);
+                var kkmResponse = new KkmResponse(operation, shift);
                 await UpdateDatabaseFields(kkm, operation);
                 check.OfdRequest(operation, checkOperationRequest);
 
@@ -80,8 +80,8 @@ namespace HSCFiscalRegistrar.Controllers
             }
             catch (Exception e)
             {
-                logger.LogError(e.ToString());
-                logger.LogError($"Ошибка авторизации пользователя: {checkOperationRequest.Token}");
+                _logger.LogError(e.ToString());
+                _logger.LogError($"Ошибка авторизации пользователя: {checkOperationRequest.Token}");
                 return Ok(_errorHelper.GetErrorRequest((int) ErrorEnums.UNKNOWN_ERROR));
             }
         }
@@ -120,31 +120,6 @@ namespace HSCFiscalRegistrar.Controllers
 
             shift = _applicationContext.Shifts.Last();
             return shift;
-        }
-
-        private KkmResponse GetKkmResponse(Operation operation, Shift shift)
-        {
-            return new KkmResponse
-            {
-                Data = new Data
-                {
-                    DateTime = operation.CreationDate,
-                    CheckNumber = operation.CheckNumber.ToString(),
-                    OfflineMode = true,
-                    Cashbox = new Cashbox
-                    {
-                        Address = operation.Kkm.Address,
-                        IdentityNumber = operation.Kkm.DeviceId.ToString(),
-                        UniqueNumber = operation.Kkm.SerialNumber,
-                        RegistrationNumber = operation.Kkm.FnsKkmId
-                    },
-                    CashboxOfflineMode = true,
-                    CheckOrderNumber = operation.Kkm.ReqNum,
-                    ShiftNumber = shift.Number,
-                    EmployeeName = operation.Operator.Name,
-                    TicketUrl = operation.QR,
-                }
-            };
         }
 
         private Operation GetOperation(Shift shift,

@@ -54,19 +54,16 @@ namespace HSCFiscalRegistrar.Controllers
                         appUser.UserToken = GenerateUserToken.Token(appUser.Id);
                         var response = await _userManager.UpdateAsync(appUser);
 
-                        if (response.Succeeded)
+                        if (!response.Succeeded) throw new DbUpdateException("Ошибка обновления дб");
+                        var dto = new AnswerServerAuth
                         {
-                            var dto = new AnswerServerAuth
+                            Data = new Data
                             {
-                                Data = new Data
-                                {
-                                    Token = appUser.UserToken
-                                }
-                            };
-                            return Ok(JsonConvert.SerializeObject(dto));
-                        }
+                                Token = appUser.UserToken
+                            }
+                        };
+                        return Ok(JsonConvert.SerializeObject(dto));
 
-                        throw new DbUpdateException("Ошибка обновления дб");
                     }
 
                     throw new UserNullException("пользователь не найден в бд по логину");

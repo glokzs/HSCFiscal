@@ -1,3 +1,5 @@
+using System.Linq;
+using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models.APKInfo;
 using DateTime = System.DateTime;
