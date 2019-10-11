@@ -53,8 +53,8 @@ namespace HSCFiscalRegistrar.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e.ToString());
-                return Json(e.StackTrace);
+                _logger.LogError(e.Message);
+                return Json(e.Message);
             }
         }
 
@@ -65,7 +65,7 @@ namespace HSCFiscalRegistrar.Controllers
             if (oper == null) return NotFound("Operator not found");
             var shift = await GetShift(oper);
             var kkm = oper.Kkm;
-            var check = new OfdCheckOperation();
+            var check = new OfdCheckOperation(_loggerFactory);
             try
             {
                 var sum = checkOperationRequest.Payments.Sum(paymentsType => paymentsType.Sum);
@@ -81,7 +81,7 @@ namespace HSCFiscalRegistrar.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e.ToString());
+                _logger.LogError(e.Message);
                 _logger.LogError($"Ошибка авторизации пользователя: {checkOperationRequest.Token}");
                 return Ok(_errorHelper.GetErrorRequest((int) ErrorEnums.UNKNOWN_ERROR));
             }

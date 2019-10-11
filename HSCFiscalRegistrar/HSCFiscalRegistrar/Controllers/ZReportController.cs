@@ -48,13 +48,13 @@ namespace HSCFiscalRegistrar.Controllers
                 var response = new XReportKkmResponse(shiftOperations, operations, org, kkm, shift, oper);
                 _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
                 _applicationContext.SaveChangesAsync();
-                var ofdShiftClose = new OfdShiftClose();
+                var ofdShiftClose = new OfdShiftClose(_loggerFactory);
                 ofdShiftClose.Request(kkm, org, shift.Number);
                 return Ok(JsonConvert.SerializeObject(response));
             }
             catch (Exception e)
             {
-                logger.LogError(e.ToString());
+                logger.LogError(e.Message);
                 return Json(e.Message);
             }
         }
