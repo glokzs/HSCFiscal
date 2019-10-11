@@ -31,9 +31,9 @@ namespace HSCFiscalRegistrar.Helpers
             _dictionary.Add(14, "Дублирующийся код системы источника ");
             _dictionary.Add(15, "Смена не найдена");
             _dictionary.Add(16, "Чек № <NNN> не зарегистрирован в рамках <NN> смены в MBK000000000 Кассе");
-            _dictionary.Add(17,
+            _dictionary.Add(18,
                 "Продолжительность работы в автономном режиме превышает 72 часа. Для продолжения работы с кассой необходимо подклюение к ОФД");
-            _dictionary.Add(18, "Данная смена открыта. Z-отчет отсутствует ");
+            _dictionary.Add(1014, "Данная смена открыта. Z-отчет отсутствует ");
         }
 
         public string GetErrorRequest(int key)
