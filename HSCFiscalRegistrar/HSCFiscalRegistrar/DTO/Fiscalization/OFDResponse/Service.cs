@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace HSCFiscalRegistrar.DTO.Fiscalization.OFDResponce
+namespace HSCFiscalRegistrar.DTO.Fiscalization.OFDResponse
 {
     public class Service
     {

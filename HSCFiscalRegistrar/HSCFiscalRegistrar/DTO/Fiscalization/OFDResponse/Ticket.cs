@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace HSCFiscalRegistrar.DTO.Fiscalization.OFDResponce
+namespace HSCFiscalRegistrar.DTO.Fiscalization.OFDResponse
 {
     public class Ticket
     {

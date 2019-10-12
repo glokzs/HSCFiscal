@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using HSCFiscalRegistrar.DTO.XReport.KkmResponce;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
 using HSCFiscalRegistrar.Models.APKInfo;
-using HSCFiscalRegistrar.Models.Operation;
 
 namespace HSCFiscalRegistrar.DTO.XReport.KkmResponse
 {

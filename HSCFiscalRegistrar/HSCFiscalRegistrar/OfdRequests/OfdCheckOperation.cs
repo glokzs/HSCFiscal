@@ -1,7 +1,7 @@
 using System;
 using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
 using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
-using HSCFiscalRegistrar.Models.Operation;
+using HSCFiscalRegistrar.Models;
 using HSCFiscalRegistrar.Services;
 using Microsoft.Extensions.Logging;
 

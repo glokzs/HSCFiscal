@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace HSCFiscalRegistrar.DTO.XReport.KkmResponce
+namespace HSCFiscalRegistrar.DTO.XReport.KkmResponse
 {
     public class OperationTypeSummaryApiModel
     {
