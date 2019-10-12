@@ -1,23 +1,18 @@
-﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using HSCFiscalRegistrar.DTO.XReport;
-using HSCFiscalRegistrar.DTO.XReport.KkmResponse;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
 using HSCFiscalRegistrar.Models.Operation;
-using HSCFiscalRegistrar.OfdRequests;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using DateTime = System.DateTime;
 
-namespace HSCFiscalRegistrar.Controllers
+namespace HSCFiscalRegistrar.Services
 {
     [Route("api/[controller]")]
-    public class XReportController : Controller
+    public class Report : Controller
     {
         private readonly ApplicationContext _applicationContext;
         private readonly UserManager<User> _userManager;
@@ -25,7 +20,7 @@ namespace HSCFiscalRegistrar.Controllers
         private readonly ILoggerFactory _loggerFactory;
         private readonly GenerateErrorHelper _errorHelper;
 
-        public XReportController(ApplicationContext applicationContext, UserManager<User> userManager,
+        public Report(ApplicationContext applicationContext, UserManager<User> userManager,
             ILoggerFactory loggerFactory, TokenValidationHelper helper, GenerateErrorHelper errorHelper)
         {
             _applicationContext = applicationContext;
@@ -35,36 +30,7 @@ namespace HSCFiscalRegistrar.Controllers
             _errorHelper = errorHelper;
         }
 
-        [HttpPost]
-        public IActionResult Post([FromBody] KkmRequest request)
-        {
-            var logger = _loggerFactory.CreateLogger("ZReport|Post");
-            try
-            {
-                logger.LogInformation($"Z-Отчет: {request.Token}");
-                var user = _userManager.Users.FirstOrDefault(u => u.UserToken == request.Token);
-                var oper = _applicationContext.Operators.FirstOrDefault(o => o.UserId == user.Id);
-                var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.Id == oper.KkmId);
-                var shift = _applicationContext.Shifts.Last(s => s.KkmId == kkm.Id && s.CloseDate == DateTime.MinValue);
-                var operations = _applicationContext.Operations.Where(o => o.ShiftId == shift.Id);
-                var org = _applicationContext.Orgs.FirstOrDefault(o => o.Id == oper.OrgId);
-                var shiftOperations = GetShiftOperations(operations, shift);
-                AddShiftProps(shift, operations);
-                var response = new XReportKkmResponse(shiftOperations, operations, org, kkm, shift, oper);
-                _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
-                _applicationContext.SaveChangesAsync();
-                var ofdShiftClose = new OfdShiftClose(_loggerFactory);
-                ofdShiftClose.Request(kkm, org, shift.Number);
-                return Ok(JsonConvert.SerializeObject(response));
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e.Message);
-                return Json(e.Message);
-            }
-        }
-
-        private void AddShiftProps(Shift shift, IQueryable<Operation> operations)
+        internal void AddShiftProps(Shift shift, IQueryable<Operation> operations)
         {
             shift.BuySaldoEnd = shift.BuySaldoBegin +
                                 operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY).Sum(o => o.Amount);
@@ -96,7 +62,7 @@ namespace HSCFiscalRegistrar.Controllers
                                    .Sum(o => o.Amount) - shift.RetunBuySaldoBegin - shift.RetunSellSaldoBegin;
         }
         
-        private List<ShiftOperation> GetShiftOperations(IQueryable<Operation> operations, Shift shift)
+        internal List<ShiftOperation> GetShiftOperations(IQueryable<Operation> operations, Shift shift)
         {
             var shiftOperations = new List<ShiftOperation>
             {
@@ -126,6 +92,14 @@ namespace HSCFiscalRegistrar.Controllers
                     .Sum(o => o.Amount),
                 Change = operations.Where(o => o.Type == type).Sum(o => o.ChangeAmount)
             };
+        }
+
+        internal void CloseShift(bool isClose, Shift shift)
+        {
+            if (isClose)
+            {
+                shift.CloseDate = DateTime.Now;
+            }
         }
     }
 }

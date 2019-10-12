@@ -38,9 +38,9 @@ namespace HSCFiscalRegistrar.DTO.XReport.KkmResponse
                 ShiftNumber = shift.Number,
                 ControlSum = 1,
                 DocumentCount = operations.Count(),
-                OfflineMode = false,
+                OfflineMode = true,
                 ReportNumber = 1,
-                CashboxOfflineMode = false,
+                CashboxOfflineMode = true,
                 EndNonNullable = new NonNullableApiModel()
                 {
                     Sell = shift.SellSaldoEnd,

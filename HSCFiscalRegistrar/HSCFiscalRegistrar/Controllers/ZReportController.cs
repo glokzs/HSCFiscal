@@ -4,6 +4,7 @@ using System.Linq;
 using HSCFiscalRegistrar.DTO.XReport;
 using HSCFiscalRegistrar.DTO.XReport.KkmResponse;
 using HSCFiscalRegistrar.Enums;
+using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
 using HSCFiscalRegistrar.Models.Operation;
 using HSCFiscalRegistrar.OfdRequests;
@@ -20,14 +21,18 @@ namespace HSCFiscalRegistrar.Controllers
     {
         private readonly ApplicationContext _applicationContext;
         private readonly UserManager<User> _userManager;
+        private readonly TokenValidationHelper _helper;
         private readonly ILoggerFactory _loggerFactory;
+        private readonly GenerateErrorHelper _errorHelper;
 
         public ZReportController(ApplicationContext applicationContext, UserManager<User> userManager,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory, TokenValidationHelper helper, GenerateErrorHelper errorHelper)
         {
             _applicationContext = applicationContext;
             _userManager = userManager;
             _loggerFactory = loggerFactory;
+            _helper = helper;
+            _errorHelper = errorHelper;
         }
 
         [HttpPost]
@@ -45,6 +50,7 @@ namespace HSCFiscalRegistrar.Controllers
                 var org = _applicationContext.Orgs.FirstOrDefault(o => o.Id == oper.OrgId);
                 var shiftOperations = GetShiftOperations(operations, shift);
                 AddShiftProps(shift, operations);
+                CloseShift(true, shift);
                 var response = new XReportKkmResponse(shiftOperations, operations, org, kkm, shift, oper);
                 _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
                 _applicationContext.SaveChangesAsync();
@@ -61,34 +67,18 @@ namespace HSCFiscalRegistrar.Controllers
 
         private void AddShiftProps(Shift shift, IQueryable<Operation> operations)
         {
-            if (shift.CloseDate == DateTime.MinValue)
-            {
-                shift.CloseDate = DateTime.Now;
-                shift.BuySaldoEnd = shift.BuySaldoBegin +
-                                    operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY).Sum(o => o.Amount);
-                shift.SellSaldoEnd = shift.SellSaldoBegin +
-                                     operations.Where(o => o.Type == OperationTypeEnum.OPERATION_SELL)
+            shift.BuySaldoEnd = shift.BuySaldoBegin +
+                                operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY).Sum(o => o.Amount);
+            shift.SellSaldoEnd = shift.SellSaldoBegin +
+                                 operations.Where(o => o.Type == OperationTypeEnum.OPERATION_SELL)
+                                     .Sum(o => o.Amount);
+            shift.RetunSellSaldoEnd = shift.RetunSellSaldoBegin + operations
+                                          .Where(o => o.Type == OperationTypeEnum.OPERATION_SELL_RETURN)
+                                          .Sum(o => o.Amount);
+            shift.RetunBuySaldoEnd = shift.RetunBuySaldoBegin +
+                                     operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY)
                                          .Sum(o => o.Amount);
-                shift.RetunSellSaldoEnd = shift.RetunSellSaldoBegin + operations
-                                              .Where(o => o.Type == OperationTypeEnum.OPERATION_SELL_RETURN)
-                                              .Sum(o => o.Amount);
-                shift.RetunBuySaldoEnd = shift.RetunBuySaldoBegin +
-                                         operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY)
-                                             .Sum(o => o.Amount);
-                CalculateBalance(shift, operations);
-            }
-            else
-            {
-                shift.BuySaldoEnd = operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY)
-                    .Sum(o => o.Amount);
-                shift.SellSaldoEnd = operations.Where(o => o.Type == OperationTypeEnum.OPERATION_SELL)
-                    .Sum(o => o.Amount);
-                shift.RetunSellSaldoEnd = operations.Where(o => o.Type == OperationTypeEnum.OPERATION_SELL_RETURN)
-                    .Sum(o => o.Amount);
-                shift.RetunBuySaldoEnd = operations.Where(o => o.Type == OperationTypeEnum.OPERATION_BUY)
-                    .Sum(o => o.Amount);
-                CalculateBalance(shift, operations);
-            }
+            CalculateBalance(shift, operations);
         }
 
         private static void CalculateBalance(Shift shift, IQueryable<Operation> operations)
@@ -107,7 +97,6 @@ namespace HSCFiscalRegistrar.Controllers
                                    .Sum(o => o.Amount) - shift.RetunBuySaldoBegin - shift.RetunSellSaldoBegin;
         }
         
-
         private List<ShiftOperation> GetShiftOperations(IQueryable<Operation> operations, Shift shift)
         {
             var shiftOperations = new List<ShiftOperation>
@@ -138,6 +127,14 @@ namespace HSCFiscalRegistrar.Controllers
                     .Sum(o => o.Amount),
                 Change = operations.Where(o => o.Type == type).Sum(o => o.ChangeAmount)
             };
+        }
+
+        private void CloseShift(bool isClose, Shift shift)
+        {
+            if (isClose)
+            {
+                shift.CloseDate = DateTime.Now;
+            }
         }
     }
 }
