@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using HSCFiscalRegistrar.DTO.Errors;
 using HSCFiscalRegistrar.DTO.Fiscalization;
 using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
 using HSCFiscalRegistrar.Enums;
@@ -24,15 +23,17 @@ namespace HSCFiscalRegistrar.Controllers
         private readonly ApplicationContext _applicationContext;
         private readonly UserManager<User> _userManager;
         private readonly ILoggerFactory _loggerFactory;
+        private readonly GenerateErrorHelper _errorHelper; 
         private readonly TokenValidationHelper _helper;
 
         public CheckController(ApplicationContext applicationContext, UserManager<User> userManager,
-            ILoggerFactory loggerFactory, TokenValidationHelper helper)
+            ILoggerFactory loggerFactory, TokenValidationHelper helper, GenerateErrorHelper errorHelper)
         {
             _applicationContext = applicationContext;
             _userManager = userManager;
             _loggerFactory = loggerFactory;
             _helper = helper;
+            _errorHelper = errorHelper;
         }
 
 
@@ -40,10 +41,11 @@ namespace HSCFiscalRegistrar.Controllers
         public async Task<IActionResult> Post([FromBody] CheckOperationRequest checkOperationRequest)
         {
             var _logger = _loggerFactory.CreateLogger("Check|Post");
-            _logger.LogInformation($"Информация по чеку: {checkOperationRequest.Token}");
-
+            
             try
             {
+                _logger.LogInformation($"Информация по чеку: {checkOperationRequest.Token}");
+                
                 var error = _helper.TokenValidator(_applicationContext, checkOperationRequest.Token);
                 return await Response(checkOperationRequest, _logger);
             }
@@ -67,41 +69,41 @@ namespace HSCFiscalRegistrar.Controllers
                 var checkNumber = GeneratorFiscalSign.GenerateFiscalSign();
                 var date = DateTime.Now;
                 var qr = GetUrl(kkm, checkNumber.ToString(), sum, date);
-                var kkmResponse = GetKkmResponse(date, checkNumber, kkm, qr, oper);
                 var operation = GetOperation(checkOperationRequest, checkNumber, date, qr, oper);
+                var kkmResponse = GetKkmResponse(operation);
                 await UpdateDatabaseFields(kkm, operation);
-                check.OfdRequest(checkNumber, oper, checkOperationRequest, kkm, sum);
+                check.OfdRequest(operation, checkOperationRequest);
                 return Ok(JsonConvert.SerializeObject(kkmResponse));
             }
             catch (Exception e)
             {
                 _logger.LogError(e.ToString());
                 _logger.LogError($"Ошибка авторизации пользователя: {checkOperationRequest.Token}");
-                return Ok(ErrorsAuth.LoginError());
+                return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.UNKNOWN_ERROR));
             }
         }
 
-        private KkmResponse GetKkmResponse(DateTime date, int checkNumber, Kkm kkm, string QR, Operator oper)
+        private KkmResponse GetKkmResponse(Operation operation)
         {
             return new KkmResponse
             {
                 Data = new Data
                 {
-                    DateTime = date,
-                    CheckNumber = checkNumber.ToString(),
+                    DateTime = operation.CreationDate,
+                    CheckNumber = operation.CheckNumber.ToString(),
                     OfflineMode = false,
                     Cashbox = new Cashbox
                     {
-                        Address = kkm.Address,
-                        IdentityNumber = kkm.DeviceId.ToString(),
-                        UniqueNumber = kkm.SerialNumber,
-                        RegistrationNumber = kkm.FnsKkmId
+                        Address = operation.Kkm.Address,
+                        IdentityNumber = operation.Kkm.DeviceId.ToString(),
+                        UniqueNumber = operation.Kkm.SerialNumber,
+                        RegistrationNumber =operation.Kkm.FnsKkmId
                     },
                     CashboxOfflineMode = false,
-                    CheckOrderNumber = kkm.ReqNum,
+                    CheckOrderNumber =operation.Kkm.ReqNum,
                     ShiftNumber = 55,
-                    EmployeeName = oper.Name,
-                    TicketUrl = QR,
+                    EmployeeName = operation.Operator.Name,
+                    TicketUrl = operation.QR,
                 }
             };
         }
@@ -128,7 +130,9 @@ namespace HSCFiscalRegistrar.Controllers
                 QR = qr,
                 OperatorId = oper.Id,
                 OperationState = OperationStateEnum.New,
-                KkmId = oper.KkmId
+                KkmId = oper.KkmId,
+                Operator = oper,
+                Kkm = oper.Kkm
             };
             return operation;
         }
@@ -137,7 +141,6 @@ namespace HSCFiscalRegistrar.Controllers
         {
             kkm.ReqNum += 1;
             _applicationContext.Update(kkm);
-            await _applicationContext.SaveChangesAsync();
             _applicationContext.Operations.Add(operation);
             await _applicationContext.SaveChangesAsync();
         }
@@ -146,12 +149,6 @@ namespace HSCFiscalRegistrar.Controllers
         {
             var dateString = $"{date.Year}{date.Month}{date.Day}T{date.Hour}{date.Minute}{date.Second}";
             return $"http://consumer.test-oofd.kz?i={checkNumber}&f={kkm.FnsKkmId}&s={sum}&t={dateString}";
-        }
-
-        private int GetCheckNumber()
-        {
-            var random = new Random();
-            return random.Next(999999999);
         }
     }
 }

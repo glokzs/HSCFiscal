@@ -34,6 +34,7 @@ namespace HSCFiscalRegistrar
                 .AddEntityFrameworkStores<ApplicationContext>();
 
             services.AddSingleton<TokenValidationHelper>();
+            services.AddSingleton<GenerateErrorHelper>();
 
             services.Configure<IdentityOptions>(options =>
             {

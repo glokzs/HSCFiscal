@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using HSCFiscalRegistrar.DTO.Errors;
 using HSCFiscalRegistrar.DTO.Registration;
+using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Identity;
@@ -18,19 +18,24 @@ namespace HSCFiscalRegistrar.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ILoggerFactory _loggerFactory;
+        private readonly GenerateErrorHelper _errorHelper;
 
-        public RegistrationController(UserManager<User> userManager, SignInManager<User> signInManager, ILoggerFactory loggerFactory)
+        public RegistrationController(UserManager<User> userManager, 
+            SignInManager<User> signInManager,
+            ILoggerFactory loggerFactory, 
+            GenerateErrorHelper errorHelper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _loggerFactory = loggerFactory;
+            _errorHelper = errorHelper;
         }
 
         [HttpPost]
-        public async Task<JsonResult> Post([FromBody] UserRegistration model)
+        public async Task<IActionResult> Post([FromBody] UserRegistration model)
         {
-            var _logger = _loggerFactory.CreateLogger("Registration|Post");
-            _logger.LogInformation($"Регистрация пользователя: {model}");
+            var logger = _loggerFactory.CreateLogger("Registration|Post");
+            logger.LogInformation($"Регистрация пользователя: {model}");
 
             try
             {
@@ -59,26 +64,26 @@ namespace HSCFiscalRegistrar.Controllers
 
                             return Json(answer);
                         }
-                        _logger.LogError($"Неверный логин: {model.Login}");
-                        return Json(ErrorsAuth.CheckLogin());
+
+                        logger.LogError($"Неверный логин: {model.Login}");
+                        return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.AUTHORIZATION_ERROR));
                     }
                     else
                     {
-                        _logger.LogError($"Неверный формат логина: {model.Login}");
-                        return Json(ErrorsAuth.RegisterError());
+                        logger.LogError($"Неверный формат логина: {model.Login}");
+                        return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.UNKNOWN_ERROR));
                     }
                 }
 
-                _logger.LogError($"Ошибка регистрации пользователя: {model.Login} {model.Password}");
-                return Json(ErrorsAuth.RegisterError());
+                logger.LogError($"Ошибка регистрации пользователя: {model.Login} {model.Password}");
+                return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.UNKNOWN_ERROR));
             }
             catch (Exception e)
             {
-                _logger.LogError(e.ToString());
+                logger.LogError(e.ToString());
                 var str = "Invalid Error";
                 return Json(str);
             }
-            
         }
     }
 }

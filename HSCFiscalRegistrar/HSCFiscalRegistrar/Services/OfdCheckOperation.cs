@@ -5,6 +5,7 @@ using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
 using HSCFiscalRegistrar.Models.APKInfo;
+using HSCFiscalRegistrar.Models.Operation;
 using DateTime = System.DateTime;
 using Service = HSCFiscalRegistrar.Models.APKInfo.Service;
 using Ticket = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Ticket;
@@ -13,38 +14,38 @@ namespace HSCFiscalRegistrar.Services
 {
     public class OfdCheckOperation
     {
-        public async void OfdRequest(int checkNumber, Operator oper, CheckOperationRequest checkOperationRequest, Kkm kkm, decimal sum)
+        public async void OfdRequest(Operation operation, CheckOperationRequest checkOperationRequest)
         {
             var fiscalOfdRequest = new FiscalOfdRequest
             {
                 Command = 1,
-                Token = kkm.OfdToken,
+                Token = operation.Kkm.OfdToken,
                 Service = new Service
                 {
                     RegInfo = new RegInfo()
                     {
-                        Kkm = oper.Kkm,
-                        Org = oper.Org,
+                        Kkm = operation.Kkm,
+                        Org = operation.Operator.Org,
                     }
                 },
-                DeviceId = kkm.DeviceId,
-                ReqNum = kkm.ReqNum,
+                DeviceId = operation.Kkm.DeviceId,
+                ReqNum = operation.Kkm.ReqNum,
                 Ticket = new Ticket
                 {
-                    Operation = checkOperationRequest.OperationType,
+                    Operation = operation.Type,
                     Operator = new Operator()
                     {
-                        Code = 1,
-                        Name = "OperName"
+                        Code = operation.Operator.Code,
+                        Name = operation.Operator.Name
                     },
-                    DateTime = GetDateTime(),
+                    DateTime = GetDateTime(operation),
                     Payments = GetPayments(checkOperationRequest),
                     Items = GetItems(checkOperationRequest),
                     Amounts = new Amount()
                     {
                         Total = new Sum()
                         {
-                            Bills = sum,
+                            Bills = operation.Amount,
                             Coins = 0
                         }
                     },
@@ -52,7 +53,7 @@ namespace HSCFiscalRegistrar.Services
                     {
                         Type = 0
                     },
-                    OfflineTicketNumber = checkNumber
+                    OfflineTicketNumber = operation.CheckNumber
                 }
             }; 
             await HttpService.Post(fiscalOfdRequest);
@@ -309,22 +310,22 @@ namespace HSCFiscalRegistrar.Services
             return payments;
         }
 
-        private HSCFiscalRegistrar.DTO.DateAndTime.DateTime GetDateTime()
+        private HSCFiscalRegistrar.DTO.DateAndTime.DateTime GetDateTime(Operation operation)
         {
-            var now = DateTime.Now;
+            var date = operation.CreationDate;
             return new HSCFiscalRegistrar.DTO.DateAndTime.DateTime()
             {
                 Date = new Date
                 {
-                    Day = now.Day,
-                    Month = now.Month,
-                    Year = now.Year
+                    Day = date.Day,
+                    Month = date.Month,
+                    Year = date.Year
                 },
                 Time = new Time
                 {
-                    Hour = now.Hour,
-                    Minute = now.Minute,
-                    Second = now.Second
+                    Hour = date.Hour,
+                    Minute = date.Minute,
+                    Second = date.Second
                 }
             };
         }
