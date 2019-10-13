@@ -20,14 +20,7 @@ namespace HSCFiscalRegistrar.Helpers
                 {
                     if (user.UserToken == token)
                     {
-                        if (DateTime.Now > user.ExpiryDate)
-                        {
-                            return ErrorEnums.SESSION_ERROR;
-                        }
-                        else
-                        {
-                            return ErrorEnums.GOOD_RES;
-                        }
+                        return DateTime.Now > user.ExpiryDate ? ErrorEnums.SESSION_ERROR : ErrorEnums.GOOD_RES;
                     }
                     else
                     {
