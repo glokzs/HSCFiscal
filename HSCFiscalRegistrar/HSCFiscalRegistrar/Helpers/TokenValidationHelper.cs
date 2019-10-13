@@ -3,27 +3,25 @@ using System.Data;
 using System.Security.Authentication;
 using Castle.Core.Logging;
 using HSCFiscalRegistrar.Models;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace HSCFiscalRegistrar.Helpers
 {
     public class TokenValidationHelper
     {
-        private readonly ILoggerFactory _loggerFactory;
-        public TokenValidationHelper(ILoggerFactory loggerFactory)
-        {
-            _loggerFactory = loggerFactory;
-        }
         public string TokenValidator(ApplicationContext context, string token)
         {
             try
             {
                 User user = context.Users.Find(ParseId(token));
+                
                 if (user != null)
                 {
                     if (user.UserToken == token)
                     {
                         if (DateTime.Now > user.ExpiryDate)
                         {
+                            
                         }
                     }
                     else

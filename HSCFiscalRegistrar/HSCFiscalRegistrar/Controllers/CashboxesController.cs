@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using HSCFiscalRegistrar.DTO.Cashboxes;
-using HSCFiscalRegistrar.DTO.Errors;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -30,7 +28,7 @@ namespace HSCFiscalRegistrar.Controllers
             _helper = helper;
             _loggerFactory = loggerFactory;
             _context = context;
-            Logger = this._loggerFactory.CreateLogger("Cashbox|Post");
+            Logger = _loggerFactory.CreateLogger("Cashbox");
         }
 
         [HttpPost]
@@ -39,7 +37,8 @@ namespace HSCFiscalRegistrar.Controllers
             try
             {
                 Logger.LogInformation($"Получение списка касс пользователя: {dtoToken.Token}");
-                var error = _helper.TokenValidator(_context, dtoToken.Token);
+                
+                _helper.TokenValidator(_context, dtoToken.Token);
 
                 return GetCashBoxesData();
             }
@@ -47,7 +46,7 @@ namespace HSCFiscalRegistrar.Controllers
             {
                 Logger = _loggerFactory.CreateLogger("Cashbox|Post");
                 Logger.LogError($"Неверный токен: {dtoToken.Token}");
-                return Ok(ErrorsAuth.TokenError());
+                return Ok();
             }
         }
 
