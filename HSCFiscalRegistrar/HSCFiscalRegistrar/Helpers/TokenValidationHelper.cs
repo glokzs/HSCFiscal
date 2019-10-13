@@ -2,6 +2,7 @@
 using System.Data;
 using System.Security.Authentication;
 using Castle.Core.Logging;
+using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
@@ -9,7 +10,7 @@ namespace HSCFiscalRegistrar.Helpers
 {
     public class TokenValidationHelper
     {
-        public string TokenValidator(ApplicationContext context, string token)
+        public ErrorEnums TokenValidator(ApplicationContext context, string token)
         {
             try
             {
@@ -21,11 +22,16 @@ namespace HSCFiscalRegistrar.Helpers
                     {
                         if (DateTime.Now > user.ExpiryDate)
                         {
-                            
+                            return ErrorEnums.SESSION_ERROR;
+                        }
+                        else
+                        {
+                            return ErrorEnums.GOOD_RES;
                         }
                     }
                     else
                     {
+                        return ErrorEnums.UNAUTHORIZED_ERROR;
                     }
                 }
             }
@@ -35,7 +41,7 @@ namespace HSCFiscalRegistrar.Helpers
                 throw;
             }
 
-            return null;
+            return ErrorEnums.UNKNOWN_ERROR;
         }
 
         public string ParseId(string token)
