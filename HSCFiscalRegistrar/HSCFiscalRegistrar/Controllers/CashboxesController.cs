@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using HSCFiscalRegistrar.DTO.Cashboxes;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Exceptions;
@@ -43,9 +44,9 @@ namespace HSCFiscalRegistrar.Controllers
             try
             {
                 var error = _validationHelper.TokenValidator(_context, dtoToken.Token);
-                return error == null ? GetCashBoxesData() : throw error;
+                return error == null ? GetCashBoxesData() : throw new Exception() ;
             }
-            catch (UserNullException)
+            catch (UserNullException e)
             {
                 return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.UNKNOWN_ERROR));
             }
