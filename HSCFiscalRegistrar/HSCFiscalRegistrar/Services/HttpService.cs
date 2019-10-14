@@ -12,7 +12,6 @@ namespace HSCFiscalRegistrar.Services
         [HttpPost]
         public static async Task<dynamic> Post([FromBody] object anyObject)
         {
-            var obj = JsonConvert.SerializeObject(anyObject);
             var x = await Url.PostJsonAsync(anyObject).ReceiveJson();
             return x;
         }

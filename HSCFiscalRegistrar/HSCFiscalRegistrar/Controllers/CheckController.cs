@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.Fiscalization;
 using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
 using HSCFiscalRegistrar.DTO.Fiscalization.KKMResponce;
+using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
+using HSCFiscalRegistrar.DTO.Fiscalization.OFDResponse;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
@@ -65,7 +67,6 @@ namespace HSCFiscalRegistrar.Controllers
             if (oper == null) return NotFound("Operator not found");
             var shift = await GetShift(oper);
             var kkm = oper.Kkm;
-            var check = new OfdCheckOperation(_loggerFactory);
             try
             {
                 var sum = checkOperationRequest.Payments.Sum(paymentsType => paymentsType.Sum);
@@ -74,9 +75,11 @@ namespace HSCFiscalRegistrar.Controllers
                 var qr = GetUrl(kkm, checkNumber.ToString(), sum, date);
                 var operation = GetOperation(shift, checkOperationRequest, checkNumber, date, qr, oper);
                 var kkmResponse = new KkmResponse(operation, shift);
+                var response = await OfdFiscalResponse(checkOperationRequest, operation);
+                operation.FiscalNumber = response.Ticket.TicketNumber;
+                operation.QR = response.Ticket.QrCode;
+                kkm.OfdToken = response.Token;
                 await UpdateDatabaseFields(kkm, operation);
-                check.OfdRequest(operation, checkOperationRequest);
-            
                 return Ok(JsonConvert.SerializeObject(kkmResponse));
             }
             catch (Exception e)
@@ -85,6 +88,15 @@ namespace HSCFiscalRegistrar.Controllers
                 _logger.LogError($"Ошибка авторизации пользователя: {checkOperationRequest.Token}");
                 return Ok(_errorHelper.GetErrorRequest((int) ErrorEnums.UNKNOWN_ERROR));
             }
+        }
+
+        private static async Task<OfdFiscalResponse> OfdFiscalResponse(CheckOperationRequest checkOperationRequest, Operation operation)
+        {
+            var fiscalOfdRequest = new FiscalOfdRequest(operation, checkOperationRequest);
+            var x = await HttpService.Post(fiscalOfdRequest);
+            string json = JsonConvert.SerializeObject(x);
+            var response = JsonConvert.DeserializeObject<OfdFiscalResponse>(json);
+            return response;
         }
 
         private async Task<Shift> GetShift(Operator oper)
@@ -140,7 +152,6 @@ namespace HSCFiscalRegistrar.Controllers
                 ChangeAmount = checkOperationRequest.Change,
                 CheckNumber = _applicationContext.Operations.Count(s => s.ShiftId == shift.Id) + 1,
                 CreationDate = date,
-                FiscalNumber = checkNumber,
                 IsOffline = true,
                 QR = qr,
                 ShiftId = shift.Id,

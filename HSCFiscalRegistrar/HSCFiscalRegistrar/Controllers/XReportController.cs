@@ -54,7 +54,7 @@ namespace HSCFiscalRegistrar.Controllers
                 _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
                 _applicationContext.SaveChangesAsync();
                 var xReportOfdRequest = new OfdXReport(_loggerFactory);
-                xReportOfdRequest.Request(kkm, org);
+                 xReportOfdRequest.Request(kkm, org);
                 return Ok(JsonConvert.SerializeObject(response));
             }
             catch (Exception e)

@@ -3,7 +3,6 @@ using HSCFiscalRegistrar.DTO.DateAndTime;
 using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
-using HSCFiscalRegistrar.Models.APKInfo;
 using Newtonsoft.Json;
 
 namespace HSCFiscalRegistrar.DTO.Fiscalization.OFD
@@ -64,7 +63,7 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization.OFD
                 {
                     Type = 0
                 },
-                OfflineTicketNumber = operation.CheckNumber
+                OfflineTicketNumber = operation.FiscalNumber
             };
         }
         
