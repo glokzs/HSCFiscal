@@ -50,7 +50,6 @@ namespace HSCFiscalRegistrar.Controllers
                 var org = _applicationContext.Orgs.FirstOrDefault(o => o.Id == oper.OrgId);
                 var shiftOperations = ZxReportService.GetShiftOperations(operations, shift);
                 ZxReportService.AddShiftProps(shift, operations);
-                ZxReportService.CloseShift(true, shift);
                 var response = new XReportKkmResponse(shiftOperations, operations, org, kkm, shift, oper);
                 _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
                 _applicationContext.SaveChangesAsync();
