@@ -20,7 +20,7 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization.KKMResponce
                     UniqueNumber = operation.Kkm.SerialNumber,
                     RegistrationNumber = operation.Kkm.FnsKkmId
                 },
-                CashboxOfflineMode = true,
+                CashboxOfflineMode = false,
                 CheckOrderNumber = operation.Kkm.ReqNum,
                 ShiftNumber = shift.Number,
                 EmployeeName = operation.Operator.Name,

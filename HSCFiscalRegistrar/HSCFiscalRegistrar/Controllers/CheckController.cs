@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.Fiscalization;
 using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
 using HSCFiscalRegistrar.DTO.Fiscalization.KKMResponce;
+using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
+using HSCFiscalRegistrar.DTO.Fiscalization.OFDResponse;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
@@ -74,9 +76,12 @@ namespace HSCFiscalRegistrar.Controllers
                 var qr = GetUrl(kkm, checkNumber.ToString(), sum, date);
                 var operation = GetOperation(shift, checkOperationRequest, checkNumber, date, qr, oper);
                 var kkmResponse = new KkmResponse(operation, shift);
+                var fiscalOfdRequest = new FiscalOfdRequest(operation, checkOperationRequest);
+                var x = await HttpService.Post(fiscalOfdRequest);
+                string json = JsonConvert.SerializeObject(x);
+                var response = JsonConvert.DeserializeObject<OfdFiscalResponse>(json);
+                kkm.OfdToken = response.Token;
                 await UpdateDatabaseFields(kkm, operation);
-                check.OfdRequest(operation, checkOperationRequest);
-            
                 return Ok(JsonConvert.SerializeObject(kkmResponse));
             }
             catch (Exception e)
