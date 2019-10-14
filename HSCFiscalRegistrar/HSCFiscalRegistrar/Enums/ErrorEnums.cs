@@ -2,6 +2,7 @@
 {
     public enum ErrorEnums
     {
+        GOOD_RES = 0,
         //неизвестная ошибка
         UNKNOWN_ERROR = -1,
         //ошибка авторизации - неверный логин и пароль

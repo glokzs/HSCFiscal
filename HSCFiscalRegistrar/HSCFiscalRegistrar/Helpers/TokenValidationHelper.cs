@@ -1,36 +1,40 @@
 ﻿using System;
 using System.Data;
 using System.Security.Authentication;
-using HSCFiscalRegistrar.Exceptions;
+using Castle.Core.Logging;
+using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace HSCFiscalRegistrar.Helpers
 {
     public class TokenValidationHelper
     {
-        public Exception TokenValidator(ApplicationContext context, string token)
+        public ErrorEnums TokenValidator(ApplicationContext context, string token)
         {
-            User user = context.Users.Find(ParseId(token));
-            if (user != null)
+            try
             {
-                if (user.UserToken == token)
+                User user = context.Users.Find(ParseId(token));
+                
+                if (user != null)
                 {
-                    if (DateTime.Now > user.ExpiryDate)
+                    if (user.UserToken == token)
                     {
-                        return new InvalidExpressionException();
+                        return DateTime.Now > user.ExpiryDate ? ErrorEnums.SESSION_ERROR : ErrorEnums.GOOD_RES;
+                    }
+                    else
+                    {
+                        return ErrorEnums.UNAUTHORIZED_ERROR;
                     }
                 }
-                else
-                {
-                    return new AuthenticationException();
-                }
             }
-            else
+            catch (Exception e)
             {
-                return new UserNullException("Юзер не найден в бд");
+                Console.WriteLine(e);
+                throw;
             }
 
-            return null;
+            return ErrorEnums.UNKNOWN_ERROR;
         }
 
         public string ParseId(string token)

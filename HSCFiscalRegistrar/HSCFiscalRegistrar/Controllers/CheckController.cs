@@ -49,7 +49,7 @@ namespace HSCFiscalRegistrar.Controllers
                 _logger.LogInformation($"Информация по чеку: {checkOperationRequest.Token}");
 
                 var error = _helper.TokenValidator(_applicationContext, checkOperationRequest.Token);
-                return await (error == null ? Response(checkOperationRequest, _logger) : throw error);
+                return await Response(checkOperationRequest, _logger);
             }
             catch (Exception e)
             {
