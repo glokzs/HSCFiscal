@@ -8,5 +8,6 @@ namespace HSCFiscalRegistrar.Models
         public string UserToken { get; set; }
         public DateTime DateTimeCreationToken { get; set; }
         public DateTime ExpiryDate { get; set; }
+        
     }
 }

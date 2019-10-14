@@ -21,9 +21,8 @@ namespace HSCFiscalRegistrar
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var userManager = services.GetRequiredService<UserManager<User>>();
                     var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                    await UserInitializer.InitializeAsync(userManager, rolesManager);
+                    await UserInitializer.InitializeAsync( rolesManager);
                 }
                 catch (Exception ex)
                 {

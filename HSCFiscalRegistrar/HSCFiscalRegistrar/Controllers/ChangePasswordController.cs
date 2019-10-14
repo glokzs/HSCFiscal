@@ -36,10 +36,11 @@ namespace HSCFiscalRegistrar.Controllers
         public async Task<OkObjectResult> Post([FromBody] UserChangePassword model)
         {
             var _logger = _loggerFactory.CreateLogger("ChangePassword|Post");
-            _logger.LogInformation($"Смена пароля: {model}");
+            
 
             try
             {
+                _logger.LogInformation($"Смена пароля: {model}");
                 var result = await _signInManager.PasswordSignInAsync(model.Login,
                     model.Password,
                     false,
