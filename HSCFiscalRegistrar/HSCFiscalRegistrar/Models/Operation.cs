@@ -13,7 +13,7 @@ namespace HSCFiscalRegistrar.Models
         public OperationStateEnum OperationState { get; set; }
         public bool IsOffline { get; set; }
         public int CheckNumber { get; set; }
-        public int FiscalNumber { get; set; }
+        public string FiscalNumber { get; set; }
         public DateTime CreationDate { get; set; }
         public string QR { get; set; }
         public decimal Amount { get; set; }

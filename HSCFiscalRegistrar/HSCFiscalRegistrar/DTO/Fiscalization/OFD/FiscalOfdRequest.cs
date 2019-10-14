@@ -63,7 +63,7 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization.OFD
                 {
                     Type = 0
                 },
-                OfflineTicketNumber = operation.CheckNumber
+                OfflineTicketNumber = operation.FiscalNumber
             };
         }
         
