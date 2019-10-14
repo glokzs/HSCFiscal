@@ -1,6 +1,8 @@
+using System;
 using HSCFiscalRegistrar.DTO.DateAndTime;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models.APKInfo;
+using DateTime = HSCFiscalRegistrar.DTO.DateAndTime.DateTime;
 
 namespace HSCFiscalRegistrar.DTO.CloseShift
 {
@@ -16,14 +18,7 @@ namespace HSCFiscalRegistrar.DTO.CloseShift
         public CloseShiftRequest(Kkm kkm, Org org, int shiftNumber)
         {
             Command = CommandTypeEnum.COMMAND_CLOSE_SHIFT;
-            Service = new Service
-            {
-                RegInfo = new RegInfo
-                {
-                    Kkm = kkm,
-                    Org = org
-                }
-            };
+            Service = new Service(new RegInfo(org, kkm));
             DeviceId = kkm.DeviceId;
             ReqNum = kkm.ReqNum;
             Token = kkm.OfdToken;

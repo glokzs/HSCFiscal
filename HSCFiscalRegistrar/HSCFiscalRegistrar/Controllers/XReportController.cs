@@ -6,7 +6,6 @@ using HSCFiscalRegistrar.DTO.XReport.KkmResponse;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
-using HSCFiscalRegistrar.Models.Operation;
 using HSCFiscalRegistrar.OfdRequests;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -53,8 +52,8 @@ namespace HSCFiscalRegistrar.Controllers
                 var response = new XReportKkmResponse(shiftOperations, operations, org, kkm, shift, oper);
                 _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
                 _applicationContext.SaveChangesAsync();
-                var ofdShiftClose = new OfdShiftClose(_loggerFactory);
-                ofdShiftClose.Request(kkm, org, shift.Number);
+                var xReportOfdRequest = new OfdXReport(_loggerFactory);
+                xReportOfdRequest.Request(kkm, org);
                 return Ok(JsonConvert.SerializeObject(response));
             }
             catch (Exception e)

@@ -1,4 +1,4 @@
-namespace HSCFiscalRegistrar.Models.APKInfo
+namespace HSCFiscalRegistrar.DTO
 {
     public class Request
     {

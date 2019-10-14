@@ -1,7 +1,6 @@
 ﻿using HSCFiscalRegistrar.Models;
-using HSCFiscalRegistrar.Models.Operation;
 
-namespace HSCFiscalRegistrar.DTO.Fiscalization
+namespace HSCFiscalRegistrar.DTO.Fiscalization.KKMResponce
 {
     public class KkmResponse
     {

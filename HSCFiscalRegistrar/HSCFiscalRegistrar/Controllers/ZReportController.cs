@@ -6,7 +6,6 @@ using HSCFiscalRegistrar.DTO.XReport.KkmResponse;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
-using HSCFiscalRegistrar.Models.Operation;
 using HSCFiscalRegistrar.OfdRequests;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

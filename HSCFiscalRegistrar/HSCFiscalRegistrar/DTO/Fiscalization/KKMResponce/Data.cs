@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HSCFiscalRegistrar.DTO.Fiscalization
+namespace HSCFiscalRegistrar.DTO.Fiscalization.KKMResponce
 {
     public class Data
     {

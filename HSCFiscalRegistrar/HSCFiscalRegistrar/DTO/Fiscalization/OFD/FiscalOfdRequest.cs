@@ -4,7 +4,6 @@ using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
 using HSCFiscalRegistrar.Models.APKInfo;
-using HSCFiscalRegistrar.Models.Operation;
 using Newtonsoft.Json;
 
 namespace HSCFiscalRegistrar.DTO.Fiscalization.OFD
@@ -45,7 +44,7 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization.OFD
             Ticket = new Ticket
             {
                 Operation = operation.Type,
-                Operator = new Operator()
+                Operator = new Operator
                 {
                     Code = operation.Operator.Code,
                     Name = operation.Operator.Name

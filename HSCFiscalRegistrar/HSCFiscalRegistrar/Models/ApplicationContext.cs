@@ -9,7 +9,7 @@ namespace HSCFiscalRegistrar.Models
         public DbSet<Kkm> Kkms { get; set; }
         public DbSet<Org> Orgs { get; set; }
         public DbSet<Shift> Shifts { get; set; }
-        public DbSet<Operation.Operation> Operations { get; set; }
+        public DbSet<Operation> Operations { get; set; }
         public DbSet<ShiftOperation> ShiftOperations { get; set; }
         public DbSet<Operator> Operators { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
