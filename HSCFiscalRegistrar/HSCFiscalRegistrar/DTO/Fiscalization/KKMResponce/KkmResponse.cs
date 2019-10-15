@@ -1,4 +1,4 @@
-﻿using HSCFiscalRegistrar.Models;
+﻿using Models;
 
 namespace HSCFiscalRegistrar.DTO.Fiscalization.KKMResponce
 {

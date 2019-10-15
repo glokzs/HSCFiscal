@@ -3,12 +3,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.Registration;
 using HSCFiscalRegistrar.DTO.UserModel;
-using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Helpers;
-using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Models;
+using Models.Enums;
 using Newtonsoft.Json;
 using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 

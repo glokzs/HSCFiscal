@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 
 namespace HSCFiscalRegistrar.Controllers
 {

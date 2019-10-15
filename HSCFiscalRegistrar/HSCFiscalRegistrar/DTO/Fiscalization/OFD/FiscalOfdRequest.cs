@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using HSCFiscalRegistrar.DTO.DateAndTime;
 using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
-using HSCFiscalRegistrar.Enums;
-using HSCFiscalRegistrar.Models;
+using Models;
+using Models.Enums;
 using Newtonsoft.Json;
 
 namespace HSCFiscalRegistrar.DTO.Fiscalization.OFD

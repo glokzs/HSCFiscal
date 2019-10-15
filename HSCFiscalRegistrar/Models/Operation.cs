@@ -1,8 +1,8 @@
-using HSCFiscalRegistrar.Enums;
-using HSCFiscalRegistrar.Models.APKInfo;
+using Models.APKInfo;
+using Models.Enums;
 using DateTime = System.DateTime;
 
-namespace HSCFiscalRegistrar.Models
+namespace Models
 {
     public class Operation
     {

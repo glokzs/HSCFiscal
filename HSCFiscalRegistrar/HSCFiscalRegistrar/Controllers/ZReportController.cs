@@ -7,13 +7,13 @@ using HSCFiscalRegistrar.DTO.Fiscalization.OFDResponse;
 using HSCFiscalRegistrar.DTO.XReport;
 using HSCFiscalRegistrar.DTO.XReport.KkmResponse;
 using HSCFiscalRegistrar.Helpers;
-using HSCFiscalRegistrar.Models;
-using HSCFiscalRegistrar.Models.APKInfo;
 using HSCFiscalRegistrar.OfdRequests;
 using HSCFiscalRegistrar.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Models;
+using Models.APKInfo;
 using Newtonsoft.Json;
 using DateTime = System.DateTime;
 

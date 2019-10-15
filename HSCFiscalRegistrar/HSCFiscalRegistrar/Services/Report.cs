@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
-using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Helpers;
-using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Models;
+using Models.Enums;
 using DateTime = System.DateTime;
 
 namespace HSCFiscalRegistrar.Services

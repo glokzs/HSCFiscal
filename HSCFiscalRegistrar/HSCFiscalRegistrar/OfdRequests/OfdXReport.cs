@@ -1,8 +1,8 @@
 using System;
 using HSCFiscalRegistrar.DTO.XReport.OfdRequest;
-using HSCFiscalRegistrar.Models.APKInfo;
 using HSCFiscalRegistrar.Services;
 using Microsoft.Extensions.Logging;
+using Models.APKInfo;
 
 namespace HSCFiscalRegistrar.OfdRequests
 {

@@ -3,12 +3,12 @@ using System.Linq;
 using HSCFiscalRegistrar.DTO.XReport;
 using HSCFiscalRegistrar.DTO.XReport.KkmResponse;
 using HSCFiscalRegistrar.Helpers;
-using HSCFiscalRegistrar.Models;
 using HSCFiscalRegistrar.OfdRequests;
 using HSCFiscalRegistrar.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Models;
 using Newtonsoft.Json;
 using DateTime = System.DateTime;
 

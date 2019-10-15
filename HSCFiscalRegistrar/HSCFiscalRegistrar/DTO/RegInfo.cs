@@ -1,4 +1,4 @@
-using HSCFiscalRegistrar.Models.APKInfo;
+using Models.APKInfo;
 
 namespace HSCFiscalRegistrar.DTO
 {

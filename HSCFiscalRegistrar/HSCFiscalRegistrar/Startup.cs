@@ -1,6 +1,5 @@
 ﻿using System;
 using HSCFiscalRegistrar.Helpers;
-using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Models;
 using NLog.Extensions.Logging;
 using NLog.Web;
 

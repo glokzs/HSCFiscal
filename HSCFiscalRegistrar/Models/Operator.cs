@@ -1,6 +1,6 @@
-using HSCFiscalRegistrar.Models.APKInfo;
+using Models.APKInfo;
 
-namespace HSCFiscalRegistrar.Models
+namespace Models
 {
     public class Operator
     {

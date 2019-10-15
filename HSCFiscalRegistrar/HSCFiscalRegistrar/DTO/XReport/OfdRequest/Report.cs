@@ -1,5 +1,5 @@
 ﻿using HSCFiscalRegistrar.DTO.DateAndTime;
-using HSCFiscalRegistrar.Enums;
+using Models.Enums;
 
 namespace HSCFiscalRegistrar.DTO.XReport.OfdRequest
 {

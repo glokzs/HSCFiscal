@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using HSCFiscalRegistrar.Enums;
+using Models.Enums;
 using Newtonsoft.Json;
 
 namespace HSCFiscalRegistrar.DTO.Fiscalization.KKM

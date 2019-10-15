@@ -1,5 +1,5 @@
 using HSCFiscalRegistrar.DTO.XReport.OfdResponse;
-using HSCFiscalRegistrar.Enums;
+using Models.Enums;
 using Newtonsoft.Json;
 
 namespace HSCFiscalRegistrar.DTO.CloseShift.OfdResponse

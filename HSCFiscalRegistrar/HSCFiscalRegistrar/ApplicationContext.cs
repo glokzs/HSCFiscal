@@ -1,8 +1,9 @@
-using HSCFiscalRegistrar.Models.APKInfo;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Models;
+using Models.APKInfo;
 
-namespace HSCFiscalRegistrar.Models
+namespace HSCFiscalRegistrar
 {
     public sealed class ApplicationContext : IdentityDbContext<User>
     {

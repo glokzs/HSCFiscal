@@ -1,5 +1,5 @@
 using HSCFiscalRegistrar.DTO.Fiscalization.OFDResponse;
-using HSCFiscalRegistrar.Enums;
+using Models.Enums;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 

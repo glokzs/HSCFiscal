@@ -1,4 +1,4 @@
-namespace HSCFiscalRegistrar.Enums
+namespace Models.Enums
 {
     public enum TaxationTypeEnum
     {

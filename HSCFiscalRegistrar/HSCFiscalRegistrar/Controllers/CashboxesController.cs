@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using HSCFiscalRegistrar.DTO.Cashboxes;
-using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Exceptions;
 using HSCFiscalRegistrar.Helpers;
-using HSCFiscalRegistrar.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Models;
+using Models.Enums;
 using Newtonsoft.Json;
 using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 

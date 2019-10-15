@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Identity;
 
-namespace HSCFiscalRegistrar.Models
+namespace Models
 {
     public class User : IdentityUser
     {

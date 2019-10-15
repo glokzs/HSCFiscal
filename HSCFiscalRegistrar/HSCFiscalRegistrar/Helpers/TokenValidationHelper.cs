@@ -1,6 +1,6 @@
 ﻿using System;
-using HSCFiscalRegistrar.Enums;
-using HSCFiscalRegistrar.Models;
+using Models;
+using Models.Enums;
 
 namespace HSCFiscalRegistrar.Helpers
 {

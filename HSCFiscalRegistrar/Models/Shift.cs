@@ -1,7 +1,7 @@
-﻿using DateTime = System.DateTime;
-using HSCFiscalRegistrar.Models.APKInfo;
+﻿using Models.APKInfo;
+using DateTime = System.DateTime;
 
-namespace HSCFiscalRegistrar.Models
+namespace Models
 {
     public class Shift
     {

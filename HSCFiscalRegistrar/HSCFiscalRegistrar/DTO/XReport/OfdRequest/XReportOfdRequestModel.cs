@@ -1,6 +1,6 @@
 ﻿using HSCFiscalRegistrar.DTO.DateAndTime;
-using HSCFiscalRegistrar.Enums;
-using HSCFiscalRegistrar.Models.APKInfo;
+using Models.APKInfo;
+using Models.Enums;
 
 namespace HSCFiscalRegistrar.DTO.XReport.OfdRequest
 {

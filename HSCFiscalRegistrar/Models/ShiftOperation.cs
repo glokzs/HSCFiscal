@@ -1,6 +1,6 @@
-using HSCFiscalRegistrar.Enums;
+using Models.Enums;
 
-namespace HSCFiscalRegistrar.Models
+namespace Models
 {
     public class ShiftOperation
     {

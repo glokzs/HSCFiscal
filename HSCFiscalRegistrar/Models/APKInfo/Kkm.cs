@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace HSCFiscalRegistrar.Models.APKInfo
+namespace Models.APKInfo
 {
     public class Kkm
     {
