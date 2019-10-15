@@ -49,6 +49,7 @@ namespace HSCFiscalRegistrar.Controllers
                 var shiftOperations = ZxReportService.GetShiftOperations(operations, shift);
                 ZxReportService.AddShiftProps(shift, operations);
                 var response = new XReportKkmResponse(shiftOperations, operations, org, kkm, shift, oper);
+                kkm.ReqNum += 1;
                 _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
                 _applicationContext.SaveChangesAsync();
                 var xReportOfdRequest = new OfdXReport(_loggerFactory);

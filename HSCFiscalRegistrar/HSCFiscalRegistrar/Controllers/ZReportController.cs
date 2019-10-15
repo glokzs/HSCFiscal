@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.CloseShift;
+using HSCFiscalRegistrar.DTO.CloseShift.OfdResponse;
 using HSCFiscalRegistrar.DTO.Fiscalization.OFDResponse;
 using HSCFiscalRegistrar.DTO.XReport;
 using HSCFiscalRegistrar.DTO.XReport.KkmResponse;
@@ -53,8 +54,10 @@ namespace HSCFiscalRegistrar.Controllers
                 var shiftOperations = ZxReportService.GetShiftOperations(operations, shift);
                 ZxReportService.AddShiftProps(shift, operations);
                 ZxReportService.CloseShift(true, shift);
-                var ofdShiftClose = OfdRequest(kkm, org, shift.Number);
-                if (kkm != null) kkm.OfdToken = ofdShiftClose.Result.Token;
+                var closeShiftOfdResponse = OfdRequest(kkm,org,shift.Number);
+                if (kkm == null) return NotFound("Kkm not found");
+                kkm.OfdToken = closeShiftOfdResponse.Result.Token;
+                kkm.ReqNum += 1;
                 var response = new XReportKkmResponse(shiftOperations, operations, org, kkm, shift, oper);
                 _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
                 _applicationContext.SaveChangesAsync();
@@ -65,9 +68,11 @@ namespace HSCFiscalRegistrar.Controllers
                 logger.LogError(e.Message);
                 return Json(e.Message);
             }
+
+            
         }
         
-        private async Task<OfdFiscalResponse> OfdRequest(Kkm kkm, Org org, int shiftNumber)
+        private async Task<CloseShiftOfdResponse> OfdRequest(Kkm kkm, Org org, int shiftNumber)
         {
             
             var logger = _loggerFactory.CreateLogger("OfdCloseShiftRequest|Post");
@@ -83,9 +88,8 @@ namespace HSCFiscalRegistrar.Controllers
             }
             var x = await HttpService.Post(closeShiftRequest);
             string json = JsonConvert.SerializeObject(x);
-            var response = JsonConvert.DeserializeObject<OfdFiscalResponse>(json);
+            var response = JsonConvert.DeserializeObject<CloseShiftOfdResponse>(json);
             return response;
-            
         }
 
         

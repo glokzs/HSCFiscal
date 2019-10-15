@@ -70,7 +70,7 @@ namespace HSCFiscalRegistrar.Controllers
                 var checkNumber = GeneratorFiscalSign.GenerateFiscalSign();
                 var date = DateTime.Now;
                 var qr = GetUrl(kkm, checkNumber.ToString(), sum, date);
-                var operation = GetOperation(shift, checkOperationRequest, checkNumber, date, qr, oper);
+                var operation = GetOperation(shift, checkOperationRequest, date, qr, oper);
                 var kkmResponse = new KkmResponse(operation, shift);
                 var response = await OfdFiscalResponse(checkOperationRequest, operation);
                 operation.FiscalNumber = response.Ticket.TicketNumber;
@@ -133,7 +133,7 @@ namespace HSCFiscalRegistrar.Controllers
         }
 
         private Operation GetOperation(Shift shift,
-            CheckOperationRequest checkOperationRequest, int checkNumber, DateTime date, string qr, Operator oper)
+            CheckOperationRequest checkOperationRequest, DateTime date, string qr, Operator oper)
         {
             var total = checkOperationRequest.Payments.Sum(p => p.Sum);
             var operation = new Operation
