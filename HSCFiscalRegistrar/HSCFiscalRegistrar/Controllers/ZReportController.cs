@@ -1,9 +1,13 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
+using HSCFiscalRegistrar.DTO.CloseShift;
+using HSCFiscalRegistrar.DTO.Fiscalization.OFDResponse;
 using HSCFiscalRegistrar.DTO.XReport;
 using HSCFiscalRegistrar.DTO.XReport.KkmResponse;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Models;
+using HSCFiscalRegistrar.Models.APKInfo;
 using HSCFiscalRegistrar.OfdRequests;
 using HSCFiscalRegistrar.Services;
 using Microsoft.AspNetCore.Identity;
@@ -49,11 +53,11 @@ namespace HSCFiscalRegistrar.Controllers
                 var shiftOperations = ZxReportService.GetShiftOperations(operations, shift);
                 ZxReportService.AddShiftProps(shift, operations);
                 ZxReportService.CloseShift(true, shift);
+                var ofdShiftClose = OfdRequest(kkm, org, shift.Number);
+                if (kkm != null) kkm.OfdToken = ofdShiftClose.Result.Token;
                 var response = new XReportKkmResponse(shiftOperations, operations, org, kkm, shift, oper);
                 _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
                 _applicationContext.SaveChangesAsync();
-                var ofdShiftClose = new OfdShiftClose(_loggerFactory);
-                ofdShiftClose.Request(kkm, org, shift.Number);
                 return Ok(JsonConvert.SerializeObject(response));
             }
             catch (Exception e)
@@ -61,6 +65,27 @@ namespace HSCFiscalRegistrar.Controllers
                 logger.LogError(e.Message);
                 return Json(e.Message);
             }
+        }
+        
+        private async Task<OfdFiscalResponse> OfdRequest(Kkm kkm, Org org, int shiftNumber)
+        {
+            
+            var logger = _loggerFactory.CreateLogger("OfdCloseShiftRequest|Post");
+            var closeShiftRequest = new CloseShiftRequest(kkm, org, shiftNumber);
+            try
+            {
+                logger.LogInformation("Отправка запроса на закрытие смены в ОФД");
+                await HttpService.Post(closeShiftRequest);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message);
+            }
+            var x = await HttpService.Post(closeShiftRequest);
+            string json = JsonConvert.SerializeObject(x);
+            var response = JsonConvert.DeserializeObject<OfdFiscalResponse>(json);
+            return response;
+            
         }
 
         

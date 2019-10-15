@@ -36,10 +36,10 @@ namespace HSCFiscalRegistrar.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] KkmRequest request)
         {
-            var logger = _loggerFactory.CreateLogger("ZReport|Post");
+            var logger = _loggerFactory.CreateLogger("XReport|Post");
             try
             {
-                logger.LogInformation($"Z-Отчет: {request.Token}");
+                logger.LogInformation($"X-Отчет: {request.Token}");
                 var user = _userManager.Users.FirstOrDefault(u => u.UserToken == request.Token);
                 var oper = _applicationContext.Operators.FirstOrDefault(o => o.UserId == user.Id);
                 var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.Id == oper.KkmId);
