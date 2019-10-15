@@ -1,5 +1,4 @@
 using System;
-using HSCFiscalRegistrar.DTO.CloseShift;
 using HSCFiscalRegistrar.DTO.XReport.OfdRequest;
 using HSCFiscalRegistrar.Models.APKInfo;
 using HSCFiscalRegistrar.Services;

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Data;
-using System.Security.Authentication;
-using Castle.Core.Logging;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Models;
-using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace HSCFiscalRegistrar.Helpers
 {

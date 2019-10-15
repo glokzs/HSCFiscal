@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using HSCFiscalRegistrar.DTO.Cashboxes;
 using HSCFiscalRegistrar.Enums;
 using HSCFiscalRegistrar.Exceptions;

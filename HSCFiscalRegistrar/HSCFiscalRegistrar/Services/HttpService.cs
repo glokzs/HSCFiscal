@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using Flurl.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace HSCFiscalRegistrar.Services
 {

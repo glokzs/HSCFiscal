@@ -1,6 +1,4 @@
 using System;
-using System.Net;
-using System.Threading.Tasks;
 using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
 using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
 using HSCFiscalRegistrar.DTO.Fiscalization.OFDResponse;

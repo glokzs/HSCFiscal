@@ -10,7 +10,7 @@ namespace HSCFiscalRegistrar.Controllers
     public class OperatorController : Controller
     {
         private readonly UserManager<User> _userManager;
-        private ApplicationContext _context;
+        private readonly ApplicationContext _context;
 
         public OperatorController( UserManager<User> userManager, ApplicationContext context)
         {
