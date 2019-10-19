@@ -35,7 +35,7 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization.OFD
                 RegInfo = new RegInfo
                 {
                     Kkm = operation.Kkm,
-                    Org = operation.Operator.Org
+                    Org = operation.User
                 }
             };
             DeviceId = operation.Kkm.DeviceId;
@@ -43,10 +43,10 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization.OFD
             Ticket = new Ticket
             {
                 Operation = operation.Type,
-                Operator = new Operator
+                Operator = new User()
                 {
-                    Code = operation.Operator.Code,
-                    Name = operation.Operator.Name
+                    Code = operation.User.Code,
+                    Name = operation.User.Name
                 },
                 DateTime = GetDateTime(operation),
                 Payments = GetPayments(checkOperationRequest),

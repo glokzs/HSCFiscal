@@ -18,48 +18,47 @@ namespace HSCFiscalRegistrar.Controllers
     [ApiController]
     public class CashboxesController : Controller
     {
-        private static UserManager<User> _userManager;
-        private readonly ApplicationContext _context;
+        private readonly UserManager<User> _userManager;
         private readonly TokenValidationHelper _validationHelper;
         private readonly GenerateErrorHelper _errorHelper;
         private readonly ILoggerFactory _loggerFactory;
 
-        public CashboxesController(UserManager<User> userManager, TokenValidationHelper helper,
-            ILoggerFactory loggerFactory, ApplicationContext context, GenerateErrorHelper errorHelper)
+        public CashboxesController(TokenValidationHelper helper,
+            ILoggerFactory loggerFactory, GenerateErrorHelper errorHelper, UserManager<User> userManager)
         {
-            _userManager = userManager;
             _validationHelper = helper;
             _loggerFactory = loggerFactory;
-            _context = context;
             _errorHelper = errorHelper;
+            _userManager = userManager;
         }
 
         [HttpPost]
         public ActionResult Get([FromBody] DtoToken dtoToken)
         {
             var logger = _loggerFactory.CreateLogger("Cashbox|Post");
-            
-
             try
             {
                 logger.LogInformation($"Получение списка касс пользователя: {dtoToken.Token}");
-                var error = _validationHelper.TokenValidator(_context, dtoToken.Token);
-                return error == null ? GetCashBoxesData() : throw new Exception() ;
+
+                var caseError = _validationHelper.TokenValidator(_userManager, dtoToken.Token);
+
+                if (caseError == 0) return GetCashBoxesData();
+                return Json(_errorHelper.GetErrorRequest((int) caseError));
             }
-            catch (UserNullException e)
+            catch (UserNullException)
             {
-                return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.UNKNOWN_ERROR));
+                return Ok(_errorHelper.GetErrorRequest((int) ErrorEnums.UNKNOWN_ERROR));
             }
             catch (Exception e)
             {
                 logger.LogError($"Неизвестная ошибка: {e.StackTrace}");
-                return Ok(_errorHelper.GetErrorRequest((int)ErrorEnums.UNKNOWN_ERROR));
+                return Ok(_errorHelper.GetErrorRequest((int) ErrorEnums.UNKNOWN_ERROR));
             }
         }
 
         private OkObjectResult GetCashBoxesData()
         {
-            Wrapper wrapper = new Wrapper
+            var wrapper = new Wrapper
             {
                 Data = new Data
                 {

@@ -21,9 +21,35 @@ namespace Models
         public decimal CashAmount { get; set; }
         public decimal CardAmount { get; set; }
         public decimal CashAmountFromClient { get; set; }
-        public string OperatorId { get; set; }
-        public virtual Operator Operator { get; set; }
+        public string UserId { get; set; }
+        public virtual User User { get; set; }
         public string KkmId { get; set; }
         public virtual Kkm Kkm { get; set; }
+
+        public Operation( OperationTypeEnum type, string shiftId,
+            OperationStateEnum operationState, bool isOffline,
+            DateTime creationDate, string qr, decimal amount, decimal changeAmount, decimal cashAmount,
+            decimal cardAmount, string userId, string kkmId, User user, Kkm kkm, int checkNumber)
+        {
+            CheckNumber = checkNumber;
+            Kkm = kkm;
+            User = user;
+            Type = type;
+            ShiftId = shiftId;
+            OperationState = operationState;
+            IsOffline = isOffline;
+            CreationDate = creationDate;
+            QR = qr;
+            Amount = amount;
+            ChangeAmount = changeAmount;
+            CashAmount = cashAmount;
+            CardAmount = cardAmount;
+            UserId = userId;
+            KkmId = kkmId;
+        }
+
+        public Operation()
+        {
+        }
     }
 }

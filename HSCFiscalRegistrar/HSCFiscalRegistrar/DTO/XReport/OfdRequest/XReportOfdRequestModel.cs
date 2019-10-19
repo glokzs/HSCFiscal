@@ -1,4 +1,5 @@
 ﻿using HSCFiscalRegistrar.DTO.DateAndTime;
+using Models;
 using Models.APKInfo;
 using Models.Enums;
 
@@ -13,13 +14,13 @@ namespace HSCFiscalRegistrar.DTO.XReport.OfdRequest
         public Service Service { get; set; }
         public Report Report { get; set; }
 
-        public XReportOfdRequestModel(Kkm kkm, Org org)
+        public XReportOfdRequestModel(Kkm kkm, User user)
         {
             Command = CommandTypeEnum.COMMAND_REPORT;
             DeviceId = kkm.DeviceId;
             ReqNum = kkm.ReqNum;
             Token = kkm.OfdToken;
-            var regInfo = new RegInfo(org, kkm);
+            var regInfo = new RegInfo(user, kkm);
             Service = new Service(regInfo);
             Report = new Report(ReportTypeEnum.REPORT_X, GetDateTime(), false);
         }

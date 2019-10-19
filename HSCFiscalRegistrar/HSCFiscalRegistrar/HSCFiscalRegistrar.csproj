@@ -5,6 +5,7 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <UserSecretsId>c712c6b8-7dd9-4f5b-85eb-e2328a238e1e</UserSecretsId>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -49,6 +50,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Models\Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Release\NLog.config" />
+    <_ContentIncludedByDefault Remove="Release\web.config" />
+    <_ContentIncludedByDefault Remove="Release\appsettings.Development.json" />
+    <_ContentIncludedByDefault Remove="Release\appsettings.json" />
+    <_ContentIncludedByDefault Remove="Release\Directories\ReferenceUnits.json" />
+    <_ContentIncludedByDefault Remove="Release\DTO\Fiscalization\KKM\responce.json" />
+    <_ContentIncludedByDefault Remove="Release\DTO\Fiscalization\OFD\fisc.json" />
+    <_ContentIncludedByDefault Remove="Release\HSCFiscalRegistrar.deps.json" />
+    <_ContentIncludedByDefault Remove="Release\HSCFiscalRegistrar.runtimeconfig.json" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity;
 using Models;
 using Models.Enums;
 
@@ -6,22 +7,20 @@ namespace HSCFiscalRegistrar.Helpers
 {
     public class TokenValidationHelper
     {
-        public ErrorEnums TokenValidator(ApplicationContext context, string token)
+        
+        public ErrorEnums TokenValidator(UserManager<User> context, string token)
         {
             try
             {
-                User user = context.Users.Find(ParseId(token));
+                var user = context.FindByIdAsync(ParseId(token));
                 
                 if (user != null)
                 {
-                    if (user.UserToken == token)
+                    if (user.Result.UserToken == token)
                     {
-                        return DateTime.Now > user.ExpiryDate ? ErrorEnums.SESSION_ERROR : ErrorEnums.GOOD_RES;
+                        return DateTime.Now > user.Result.ExpiryDate ? ErrorEnums.SESSION_ERROR : ErrorEnums.GOOD_RES;
                     }
-                    else
-                    {
-                        return ErrorEnums.UNAUTHORIZED_ERROR;
-                    }
+                    return ErrorEnums.UNAUTHORIZED_ERROR;
                 }
             }
             catch (Exception e)
@@ -35,7 +34,7 @@ namespace HSCFiscalRegistrar.Helpers
 
         public string ParseId(string token)
         {
-            string[] tokenArray = token.Split('%');
+            var tokenArray = token.Split('%');
             return tokenArray[0];
         }
     }

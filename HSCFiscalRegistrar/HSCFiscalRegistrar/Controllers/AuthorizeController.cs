@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 using Models;
+using Models.Enums;
 using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 
 namespace HSCFiscalRegistrar.Controllers
@@ -47,7 +48,6 @@ namespace HSCFiscalRegistrar.Controllers
                 if (result.Succeeded)
                 {
                     var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Login);
-
                     if (appUser != null)
                     {
                         appUser.DateTimeCreationToken = GenerateUserToken.TimeCreation();
@@ -64,10 +64,7 @@ namespace HSCFiscalRegistrar.Controllers
                             }
                         };
                         return Ok(JsonConvert.SerializeObject(dto));
-
                     }
-
-                    throw new UserNullException("пользователь не найден в бд по логину");
                 }
 
                 logger.LogError($"Ошибка авторизации пользователя: {model.Login}");

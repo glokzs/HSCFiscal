@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HSCFiscalRegistrar", "HSCFiscalRegistrar\HSCFiscalRegistrar.csproj", "{88EAF232-49BB-49B0-91CC-859223D86DF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HSCFiscalRegistrar", "HSCFiscalRegistrar\HSCFiscalRegistrar.csproj", "{88EAF232-49BB-49B0-91CC-859223D86DF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{92ECB61D-1835-4C36-BEA1-B9BF66871C7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{92ECB61D-1835-4C36-BEA1-B9BF66871C7A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC-Fiscal", "MVC-Fiscal\MVC-Fiscal.csproj", "{29529D7B-5062-4CE4-B4FF-7FE7CE15D59B}"
 EndProject

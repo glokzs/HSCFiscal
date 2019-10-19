@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using HSCFiscalRegistrar.DTO.ErrorsDTO;
 using HSCFiscalRegistrar.DTO.XReport;
 using HSCFiscalRegistrar.DTO.XReport.KkmResponse;
 using HSCFiscalRegistrar.Helpers;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Models;
+using Models.Enums;
 using Newtonsoft.Json;
 using DateTime = System.DateTime;
 
@@ -41,19 +43,19 @@ namespace HSCFiscalRegistrar.Controllers
             {
                 logger.LogInformation($"X-Отчет: {request.Token}");
                 var user = _userManager.Users.FirstOrDefault(u => u.UserToken == request.Token);
-                var oper = _applicationContext.Operators.FirstOrDefault(o => o.UserId == user.Id);
-                var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.Id == oper.KkmId);
+                var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.Id == user.KkmId);
                 var shift = _applicationContext.Shifts.Last(s => s.KkmId == kkm.Id && s.CloseDate == DateTime.MinValue);
                 var operations = _applicationContext.Operations.Where(o => o.ShiftId == shift.Id);
-                var org = _applicationContext.Orgs.FirstOrDefault(o => o.Id == oper.OrgId);
                 var shiftOperations = ZxReportService.GetShiftOperations(operations, shift);
                 ZxReportService.AddShiftProps(shift, operations);
-                var response = new XReportKkmResponse(shiftOperations, operations, org, kkm, shift, oper);
+                var response = new XReportKkmResponse(shiftOperations, operations, user, kkm, shift);
+                if (kkm == null) return Json( _errorHelper.GetErrorRequest((int) ErrorEnums.NO_ACCESS_TO_CASH));
                 kkm.ReqNum += 1;
                 _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
                 _applicationContext.SaveChangesAsync();
                 var xReportOfdRequest = new OfdXReport(_loggerFactory);
-                 xReportOfdRequest.Request(kkm, org);
+                xReportOfdRequest.Request(kkm, user);
+
                 return Ok(JsonConvert.SerializeObject(response));
             }
             catch (Exception e)

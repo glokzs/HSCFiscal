@@ -1,4 +1,5 @@
 using HSCFiscalRegistrar.DTO.DateAndTime;
+using Models;
 using Models.APKInfo;
 using Models.Enums;
 using DateTime = HSCFiscalRegistrar.DTO.DateAndTime.DateTime;
@@ -14,7 +15,7 @@ namespace HSCFiscalRegistrar.DTO.CloseShift
         public CloseShift CloseShift { get; set; }
         public Service Service { get; set; }
 
-        public CloseShiftRequest(Kkm kkm, Org org, int shiftNumber)
+        public CloseShiftRequest(Kkm kkm, User org, int shiftNumber)
         {
             Command = CommandTypeEnum.COMMAND_CLOSE_SHIFT;
             Service = new Service(new RegInfo(org, kkm));

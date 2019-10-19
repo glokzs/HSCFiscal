@@ -41,18 +41,17 @@ namespace HSCFiscalRegistrar.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CheckOperationRequest checkOperationRequest)
         {
-            var _logger = _loggerFactory.CreateLogger("Check|Post");
+            var logger = _loggerFactory.CreateLogger("Check|Post");
 
             try
             {
-                _logger.LogInformation($"Информация по чеку: {checkOperationRequest.Token}");
-
-                var error = _helper.TokenValidator(_applicationContext, checkOperationRequest.Token);
-                return await Response(checkOperationRequest, _logger);
+                logger.LogInformation($"Информация по чеку: {checkOperationRequest.Token}");
+                _helper.TokenValidator(_userManager, checkOperationRequest.Token);
+                return await Response(checkOperationRequest, logger);
             }
             catch (Exception e)
             {
-                _logger.LogError(e.Message);
+                logger.LogError(e.Message);
                 return Json(e.Message);
             }
         }
@@ -60,17 +59,16 @@ namespace HSCFiscalRegistrar.Controllers
         private async Task<IActionResult> Response(CheckOperationRequest checkOperationRequest, ILogger _logger)
         {
             var user = _userManager.FindByIdAsync(_helper.ParseId(checkOperationRequest.Token));
-            var oper = _applicationContext.Operators.FirstOrDefault(op => op.UserId == user.Result.Id);
-            if (oper == null) return NotFound("Operator not found");
-            var shift = await GetShift(oper);
-            var kkm = oper.Kkm;
+            if (user == null) return NotFound("Operator not found");
+            var shift = await GetShift(user.Result);
+            var kkm = user.Result.Kkm;
             try
             {
                 var sum = checkOperationRequest.Payments.Sum(paymentsType => paymentsType.Sum);
                 var checkNumber = GeneratorFiscalSign.GenerateFiscalSign();
                 var date = DateTime.Now;
                 var qr = GetUrl(kkm, checkNumber.ToString(), sum, date);
-                var operation = GetOperation(shift, checkOperationRequest, date, qr, oper);
+                var operation = GetOperation(shift, checkOperationRequest, date, qr, user.Result);
                 var kkmResponse = new KkmResponse(operation, shift);
                 var response = await OfdFiscalResponse(checkOperationRequest, operation);
                 operation.FiscalNumber = response.Ticket.TicketNumber;
@@ -87,7 +85,8 @@ namespace HSCFiscalRegistrar.Controllers
             }
         }
 
-        private static async Task<OfdFiscalResponse> OfdFiscalResponse(CheckOperationRequest checkOperationRequest, Operation operation)
+        private static async Task<OfdFiscalResponse> OfdFiscalResponse(CheckOperationRequest checkOperationRequest,
+            Operation operation)
         {
             var fiscalOfdRequest = new FiscalOfdRequest(operation, checkOperationRequest);
             var x = await HttpService.Post(fiscalOfdRequest);
@@ -96,7 +95,7 @@ namespace HSCFiscalRegistrar.Controllers
             return response;
         }
 
-        private async Task<Shift> GetShift(Operator oper)
+        private async Task<Shift> GetShift(User oper)
         {
             Shift shift;
             if (!_applicationContext.Shifts.Any())
@@ -106,7 +105,6 @@ namespace HSCFiscalRegistrar.Controllers
                     OpenDate = DateTime.Now,
                     KkmId = oper.KkmId,
                     Number = 1,
-                    OperatorId = oper.Id,
                 };
                 await _applicationContext.Shifts.AddAsync(shift);
                 await _applicationContext.SaveChangesAsync();
@@ -117,8 +115,8 @@ namespace HSCFiscalRegistrar.Controllers
                 {
                     OpenDate = DateTime.Now,
                     KkmId = oper.KkmId,
+                    UserId =  oper.Id,
                     Number = _applicationContext.Shifts.Last().Number + 1,
-                    OperatorId = oper.Id,
                     BuySaldoBegin = _applicationContext.Shifts.Last().BuySaldoEnd,
                     SellSaldoBegin = _applicationContext.Shifts.Last().SellSaldoEnd,
                     RetunBuySaldoBegin = _applicationContext.Shifts.Last().RetunBuySaldoEnd,
@@ -133,31 +131,20 @@ namespace HSCFiscalRegistrar.Controllers
         }
 
         private Operation GetOperation(Shift shift,
-            CheckOperationRequest checkOperationRequest, DateTime date, string qr, Operator oper)
+            CheckOperationRequest checkOperationRequest, DateTime date, string qr, User oper)
         {
             var total = checkOperationRequest.Payments.Sum(p => p.Sum);
-            var operation = new Operation
-            {
-                Amount = total,
-                Type = checkOperationRequest.OperationType,
-                CardAmount = checkOperationRequest.Payments
-                    .Where(p => p.PaymentType == PaymentTypeEnum.PAYMENT_CARD)
-                    .Sum(p => p.Sum),
-                CashAmount = checkOperationRequest.Payments
-                    .Where(p => p.PaymentType == PaymentTypeEnum.PAYMENT_CASH)
-                    .Sum(p => p.Sum),
-                ChangeAmount = checkOperationRequest.Change,
-                CheckNumber = _applicationContext.Operations.Count(s => s.ShiftId == shift.Id) + 1,
-                CreationDate = date,
-                IsOffline = true,
-                QR = qr,
-                ShiftId = shift.Id,
-                OperatorId = oper.Id,
-                OperationState = OperationStateEnum.New,
-                KkmId = oper.KkmId,
-                Operator = oper,
-                Kkm = oper.Kkm
-            };
+            var cardAmount = checkOperationRequest.Payments
+                .Where(p => p.PaymentType == PaymentTypeEnum.PAYMENT_CARD)
+                .Sum(p => p.Sum);
+            var cashAmount = checkOperationRequest.Payments
+                .Where(p => p.PaymentType == PaymentTypeEnum.PAYMENT_CASH)
+                .Sum(p => p.Sum);
+            var checkNumber = _applicationContext.Operations.Count(s => s.ShiftId == shift.Id) + 1;
+            var operation = new Operation(checkOperationRequest.OperationType, shift.Id, OperationStateEnum.New, false,
+                date,
+                qr, total, checkOperationRequest.Change, cashAmount, cardAmount, oper.Id, oper.KkmId, oper, oper.Kkm,
+                checkNumber);
             return operation;
         }
 
