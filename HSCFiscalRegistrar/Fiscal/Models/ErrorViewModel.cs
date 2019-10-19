@@ -1,6 +1,6 @@
 using System;
 
-namespace MVC_Fiscal.Models
+namespace Fiscal.Models
 {
     public class ErrorViewModel
     {
