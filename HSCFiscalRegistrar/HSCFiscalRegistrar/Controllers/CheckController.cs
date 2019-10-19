@@ -1,10 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
-using HSCFiscalRegistrar.DTO.Fiscalization.KKMResponce;
-using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
-using HSCFiscalRegistrar.DTO.Fiscalization.OFDResponse;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Services;
 using Microsoft.AspNetCore.Identity;
@@ -13,6 +9,10 @@ using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 using Models;
 using Models.APKInfo;
+using Models.DTO.Fiscalization.KKM;
+using Models.DTO.Fiscalization.KKMResponce;
+using Models.DTO.Fiscalization.OFD;
+using Models.DTO.Fiscalization.OFDResponse;
 using Models.Enums;
 using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 
@@ -56,7 +56,7 @@ namespace HSCFiscalRegistrar.Controllers
             }
         }
 
-        private async Task<IActionResult> Response(CheckOperationRequest checkOperationRequest, ILogger _logger)
+        private async Task<IActionResult> Response(CheckOperationRequest checkOperationRequest, ILogger logger)
         {
             var user = _userManager.FindByIdAsync(_helper.ParseId(checkOperationRequest.Token));
             if (user == null) return NotFound("Operator not found");
@@ -79,8 +79,8 @@ namespace HSCFiscalRegistrar.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e.Message);
-                _logger.LogError($"Ошибка авторизации пользователя: {checkOperationRequest.Token}");
+                logger.LogError(e.Message);
+                logger.LogError($"Ошибка авторизации пользователя: {checkOperationRequest.Token}");
                 return Ok(_errorHelper.GetErrorRequest((int) ErrorEnums.UNKNOWN_ERROR));
             }
         }
