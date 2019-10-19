@@ -27,14 +27,14 @@ namespace Fiscal.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public IActionResult RegisterMerch()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> RegisterMerch(RegisterViewModel model)
         {
             if (ModelState.IsValid)
