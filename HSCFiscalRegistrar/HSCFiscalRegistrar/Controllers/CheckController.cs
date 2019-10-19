@@ -1,10 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
-using HSCFiscalRegistrar.DTO.Fiscalization.KKMResponce;
-using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
-using HSCFiscalRegistrar.DTO.Fiscalization.OFDResponse;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Services;
 using Microsoft.AspNetCore.Identity;
@@ -13,6 +9,10 @@ using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 using Models;
 using Models.APKInfo;
+using Models.DTO.Fiscalization.KKM;
+using Models.DTO.Fiscalization.KKMResponce;
+using Models.DTO.Fiscalization.OFD;
+using Models.DTO.Fiscalization.OFDResponse;
 using Models.Enums;
 using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 

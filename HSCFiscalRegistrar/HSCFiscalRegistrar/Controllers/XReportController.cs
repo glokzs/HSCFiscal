@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Linq;
-using HSCFiscalRegistrar.DTO.ErrorsDTO;
-using HSCFiscalRegistrar.DTO.XReport;
-using HSCFiscalRegistrar.DTO.XReport.KkmResponse;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.OfdRequests;
 using HSCFiscalRegistrar.Services;
@@ -10,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Models;
+using Models.DTO.XReport;
+using Models.DTO.XReport.KkmResponse;
 using Models.Enums;
 using Newtonsoft.Json;
 using DateTime = System.DateTime;

@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using HSCFiscalRegistrar.DTO.Cashboxes;
 using HSCFiscalRegistrar.Exceptions;
 using HSCFiscalRegistrar.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Models;
+using Models.DTO.Cashboxes;
 using Models.Enums;
 using Newtonsoft.Json;
 using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
-
 
 namespace HSCFiscalRegistrar.Controllers
 {
