@@ -67,10 +67,7 @@ namespace Fiscal.Controllers
 
                     var subject = "Fiscal Autorize";
 
-                    var message = $"Добрый день, {model.FIO} \n" +
-                                  $"ссылка: https://localhost:5001/Account/Login \n" +
-                                  $" Login: {model.Email}, Password: {model.Password} \n" +
-                                  $"Обязательно поменяйте парольпосле авторизации!";
+                    var message = $"<table><tr><td>Дорогой, {model.FIO}</td></tr><tr><td>ссылка для входа:<span>https://localhost:5001/account/login</span></td></tr><tr><td>Логин: {model.Email}</td></tr><tr><td>Пароль: {model.Password}</td></tr><tr><td>с уважением, ваша команда ~Fiscal~</td></tr></table>";
 
                     await _emailSender.SendEmailAsync(email, subject, message);
 
