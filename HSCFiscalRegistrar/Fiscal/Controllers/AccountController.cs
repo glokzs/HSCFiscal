@@ -24,10 +24,17 @@ namespace Fiscal.Controllers
         {
             return View();
         }
+        
+        [HttpGet]
+        [Authorize]
+        public IActionResult RegisterMerch()
+        {
+            return View();
+        }
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> RegisterMerch(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {

@@ -7,12 +7,13 @@ namespace Models
 {
     public class User : IdentityUser
     {
-        public int Code { get; set; }
+        public int OperatorCode { get; set; }
         public string UserToken { get; set; }
         public DateTime DateTimeCreationToken { get; set; }
         public DateTime ExpiryDate { get; set; }
-        public virtual Kkm Kkm { get; set; }
         public string KkmId { get; set; }
+        public virtual Kkm Kkm { get; set; }
+        
         public string Okved { get; set; }
         public TaxationTypeEnum TaxationType { get; set; }
         public string Inn { get; set; }
@@ -21,6 +22,6 @@ namespace Models
         public bool VAT { get; set; }
         public string VATSeria { get; set; }
         public string VATNumber { get; set; }
-        public Enum UserType { get; set; }
+        public UserTypeEnum UserType { get; set; }
     }
 }

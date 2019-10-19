@@ -32,7 +32,7 @@ namespace HSCFiscalRegistrar.DTO.XReport.KkmResponse
                 StartOn = shift.OpenDate,
                 CloseOn = shift.CloseDate,
                 ReportOn = DateTime.Now,
-                CashierCode = org.Code,
+                CashierCode = org.OperatorCode,
                 ShiftNumber = shift.Number,
                 ControlSum = 1,
                 DocumentCount = operations.Count(),

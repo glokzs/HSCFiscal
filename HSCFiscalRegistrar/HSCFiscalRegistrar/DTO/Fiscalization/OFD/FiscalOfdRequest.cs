@@ -45,7 +45,7 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization.OFD
                 Operation = operation.Type,
                 Operator = new User()
                 {
-                    Code = operation.User.Code,
+                    OperatorCode = operation.User.OperatorCode,
                     UserName = operation.User.UserName
                 },
                 DateTime = GetDateTime(operation),
