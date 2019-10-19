@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+@{
+    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+}
+
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>
@@ -36,13 +42,26 @@
                                 <button class="btn btn-secondary dropdown-toggle mr-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     @User.Identity.Name
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" asp-controller="Account" asp-action="RegisterMerch">Создать организацию</a>
-                                    <a class="dropdown-item" href="#">Управление организациями</a>
-                                    <a class="dropdown-item" href="#">Изменить пароль</a>
-                                </div>
+                                @if (User.IsInRole("admin"))
+                                {
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" asp-controller="Account" asp-action="RegisterMerch">Создать организацию</a>
+                                        <a class="dropdown-item" href="#">Управление организациями</a>
+                                        <a class="dropdown-item" asp-action="ChangePassword" asp-controller="Account" asp-route-id="@userId">Изменить пароль</a>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" asp-controller="Account" asp-action="RegisterMerch">Добавить оператора</a>
+                                        <a class="dropdown-item" href="#">Управление операторами</a>
+                                        <a class="dropdown-item" asp-action="ChangePassword" asp-controller="Account" asp-route-id="@userId">Изменить пароль</a>
+                                    </div>
+                                }
+
                             </div>
                         </li>
+
                         <li>
                             <form method="post" asp-controller="Account" asp-action="LogOff">
                                 <input class="btn btn-outline-secondary" type="submit" value="Выход"/>

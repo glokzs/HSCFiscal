@@ -1,4 +1,6 @@
 ﻿using System.Threading.Tasks;
+using Fiscal.Interface;
+using Fiscal.Serves;
 using Fiscal.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,11 +14,13 @@ namespace Fiscal.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IEmailSender _emailSender;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailSender = emailSender;
         }
 
         [HttpGet]
@@ -59,8 +63,18 @@ namespace Fiscal.Controllers
                 
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
+                    var email = model.Email;
+
+                    var subject = "Fiscal Autorize";
+
+                    var message = $"Добрый день, {model.FIO} \n" +
+                                  $"ссылка: https://localhost:5001/Account/Login \n" +
+                                  $" Login: {model.Email}, Password: {model.Password} \n" +
+                                  $"Обязательно поменяйте парольпосле авторизации!";
+
+                    await _emailSender.SendEmailAsync(email, subject, message);
+
+                    return RedirectToAction("index", "Home");
                 }
                 else
                 {
@@ -71,9 +85,29 @@ namespace Fiscal.Controllers
                 }
             }
 
-            return View(model);
+            return View();
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return View("Error");
+            }
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return View("Error");
+            }
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if(result.Succeeded)
+                return RedirectToAction("Index", "Home");
+            else
+                return View("Error");
+        }
+        
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
@@ -115,6 +149,61 @@ namespace Fiscal.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+        
+        
+        public async Task<IActionResult> ChangePassword(string id)
+        {
+            User user = await _userManager.FindByIdAsync(id);
+            
+            if (user == null)
+            {
+                return NotFound();
+            }
+            
+            ChangePasswordViewModel model = new ChangePasswordViewModel { Id = user.Id, Email = user.Email};
+            
+            return View(model);
+        }
+ 
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = await _userManager.FindByIdAsync(model.Id);
+                if (user != null)
+                {
+                    var passwordValidator = 
+                        HttpContext.RequestServices.GetService(typeof(IPasswordValidator<User>)) as IPasswordValidator<User>;
+                    var passwordHasher =
+                        HttpContext.RequestServices.GetService(typeof(IPasswordHasher<User>)) as IPasswordHasher<User>;
+
+                    if (passwordValidator != null)
+                    {
+                        IdentityResult result = 
+                            await passwordValidator?.ValidateAsync(_userManager, user, model.NewPassword);
+                        if(result.Succeeded)
+                        {
+                            user.PasswordHash = passwordHasher?.HashPassword(user, model.NewPassword);
+                            await _userManager.UpdateAsync(user);
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            foreach (var error in result.Errors)
+                            {
+                                ModelState.AddModelError(string.Empty, error.Description);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Пользователь не найден");
+                }
+            }
+            return View(model);
         }
     }
 }
