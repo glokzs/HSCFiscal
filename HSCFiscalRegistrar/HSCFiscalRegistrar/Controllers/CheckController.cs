@@ -142,8 +142,7 @@ namespace HSCFiscalRegistrar.Controllers
                 .Sum(p => p.Sum);
             var checkNumber = _applicationContext.Operations.Count(s => s.ShiftId == shift.Id) + 1;
             var operation = new Operation(checkOperationRequest.OperationType, shift.Id, OperationStateEnum.New, false,
-                date,
-                qr, total, checkOperationRequest.Change, cashAmount, cardAmount, oper.Id, oper.KkmId, oper, oper.Kkm,
+                date, qr, total, checkOperationRequest.Change, cashAmount, cardAmount, oper.Id, oper.KkmId, oper, oper.Kkm,
                 checkNumber);
             return operation;
         }
