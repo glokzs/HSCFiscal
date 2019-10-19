@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using HSCFiscalRegistrar.DTO.Auth;
-using HSCFiscalRegistrar.DTO.UserModel;
 using HSCFiscalRegistrar.Exceptions;
 using HSCFiscalRegistrar.Helpers;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 using Models;
-using Models.Enums;
+using Models.DTO.Auth;
+using Models.DTO.UserModel;
 using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 
 namespace HSCFiscalRegistrar.Controllers
