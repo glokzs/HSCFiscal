@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Models.Enums;
 
 namespace Fiscal.Controllers
 {
@@ -24,7 +25,7 @@ namespace Fiscal.Controllers
         {
             return View();
         }
-        
+
         [HttpGet]
         [Authorize]
         public IActionResult RegisterMerch()
@@ -38,9 +39,24 @@ namespace Fiscal.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User {Email = model.Email, UserName = model.Email};
-                
+                User user = new User
+                {
+                    Inn = model.IIN,
+                    Title = model.Title,
+                    Address = model.Adres,
+                    UserName = model.Email,
+                    TaxationType = model.TaxationType,
+                    VAT = model.VAT,
+                    VATNumber = model.VATNumber,
+                    VATSeria = model.VATSeria,
+                    Fio = model.FIO,
+                    PhoneNumber = model.PhoneNumberUser,
+                    Email = model.Email,
+                    UserType = UserTypeEnum.TYPE_MERCHANT
+                };
+
                 var result = await _userManager.CreateAsync(user, model.Password);
+                
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, false);
@@ -57,20 +73,20 @@ namespace Fiscal.Controllers
 
             return View(model);
         }
-        
+
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
-            return View(new LoginViewModel { ReturnUrl = returnUrl });
+            return View(new LoginViewModel {ReturnUrl = returnUrl});
         }
- 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = 
+                var result =
                     await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
@@ -88,9 +104,10 @@ namespace Fiscal.Controllers
                     ModelState.AddModelError("", "Неправильный логин и (или) пароль");
                 }
             }
+
             return View(model);
         }
- 
+
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]

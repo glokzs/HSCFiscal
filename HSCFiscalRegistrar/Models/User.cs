@@ -23,5 +23,6 @@ namespace Models
         public string VATSeria { get; set; }
         public string VATNumber { get; set; }
         public UserTypeEnum UserType { get; set; }
+        public string Fio { get; set; }
     }
 }

@@ -1,4 +1,10 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
+﻿
+$("#inactivelist").change(function () {
+    if (this.checked) {
+        $('#VATNumber').removeAttr("disabled");
+        $('#VATSeria').removeAttr("disabled");
+    } else {
+        $('#VATNumber').attr('disabled', 'disabled');
+        $('#VATSeria').attr('disabled', 'disabled');
+    }
+});
