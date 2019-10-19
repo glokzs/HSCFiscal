@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HSCFiscalRegistrar", "HSCFi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{92ECB61D-1835-4C36-BEA1-B9BF66871C7A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC-Fiscal", "MVC-Fiscal\MVC-Fiscal.csproj", "{29529D7B-5062-4CE4-B4FF-7FE7CE15D59B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{92ECB61D-1835-4C36-BEA1-B9BF66871C7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92ECB61D-1835-4C36-BEA1-B9BF66871C7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92ECB61D-1835-4C36-BEA1-B9BF66871C7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29529D7B-5062-4CE4-B4FF-7FE7CE15D59B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29529D7B-5062-4CE4-B4FF-7FE7CE15D59B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29529D7B-5062-4CE4-B4FF-7FE7CE15D59B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29529D7B-5062-4CE4-B4FF-7FE7CE15D59B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
