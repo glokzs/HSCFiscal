@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Models;
 using Models.APKInfo;
+using Models.Enums;
 using Newtonsoft.Json;
 using DateTime = System.DateTime;
 
@@ -46,19 +47,17 @@ namespace HSCFiscalRegistrar.Controllers
             {
                 logger.LogInformation($"Z-Отчет: {request.Token}");
                 var user = _userManager.Users.FirstOrDefault(u => u.UserToken == request.Token);
-                var oper = _applicationContext.Operators.FirstOrDefault(o => o.UserId == user.Id);
-                var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.Id == oper.KkmId);
+                var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.Id == user.KkmId);
                 var shift = _applicationContext.Shifts.Last(s => s.KkmId == kkm.Id && s.CloseDate == DateTime.MinValue);
                 var operations = _applicationContext.Operations.Where(o => o.ShiftId == shift.Id);
-                var org = _applicationContext.Orgs.FirstOrDefault(o => o.Id == oper.OrgId);
                 var shiftOperations = ZxReportService.GetShiftOperations(operations, shift);
                 ZxReportService.AddShiftProps(shift, operations);
                 ZxReportService.CloseShift(true, shift);
-                var closeShiftOfdResponse = OfdRequest(kkm,org,shift.Number);
-                if (kkm == null) return NotFound("Kkm not found");
+                var closeShiftOfdResponse = OfdRequest(kkm,user,shift.Number);
+                if (kkm == null) return Json(_errorHelper.GetErrorRequest((int) ErrorEnums.NO_ACCESS_TO_CASH));
                 kkm.OfdToken = closeShiftOfdResponse.Result.Token;
                 kkm.ReqNum += 1;
-                var response = new XReportKkmResponse(shiftOperations, operations, org, kkm, shift, oper);
+                var response = new XReportKkmResponse(shiftOperations, operations, user, kkm, shift);
                 _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
                 _applicationContext.SaveChangesAsync();
                 return Ok(JsonConvert.SerializeObject(response));
@@ -72,7 +71,7 @@ namespace HSCFiscalRegistrar.Controllers
             
         }
         
-        private async Task<CloseShiftOfdResponse> OfdRequest(Kkm kkm, Org org, int shiftNumber)
+        private async Task<CloseShiftOfdResponse> OfdRequest(Kkm kkm, User org, int shiftNumber)
         {
             
             var logger = _loggerFactory.CreateLogger("OfdCloseShiftRequest|Post");

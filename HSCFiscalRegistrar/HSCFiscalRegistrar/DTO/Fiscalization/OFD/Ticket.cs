@@ -10,7 +10,7 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization.OFD
         [JsonProperty("Operation")]
         public OperationTypeEnum Operation { get; set; }
         [JsonProperty("Operator")]
-        public Operator Operator { get; set; }
+        public User Operator { get; set; }
         [JsonProperty("DateTime")]
         public DateAndTime.DateTime DateTime { get; set; }
         [JsonProperty("Amounts")]

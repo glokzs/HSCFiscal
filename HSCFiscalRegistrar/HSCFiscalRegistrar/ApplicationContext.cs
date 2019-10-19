@@ -8,11 +8,9 @@ namespace HSCFiscalRegistrar
     public sealed class ApplicationContext : IdentityDbContext<User>
     {
         public DbSet<Kkm> Kkms { get; set; }
-        public DbSet<Org> Orgs { get; set; }
         public DbSet<Shift> Shifts { get; set; }
         public DbSet<Operation> Operations { get; set; }
         public DbSet<ShiftOperation> ShiftOperations { get; set; }
-        public DbSet<Operator> Operators { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
@@ -39,7 +37,7 @@ namespace HSCFiscalRegistrar
                 ReqNum = 100,
                 Address = "135 Amangeldi street"
             });
-            builder.Entity<Org>().HasData(new Org()
+            builder.Entity<User>().HasData(new User
             {
                 Id = "3",
                 Okved = "",
@@ -51,13 +49,12 @@ namespace HSCFiscalRegistrar
                 VATNumber = "1231212",
                 VATSeria = "32132"
             });
-            builder.Entity<Operator>().HasData(new Operator
+            builder.Entity<User>().HasData(new User
             {
                 Id = "1",
                 Name = "Ibragim",
                 Code = 228,
                 KkmId = "2",
-                OrgId = "3"
             });
         }
     }

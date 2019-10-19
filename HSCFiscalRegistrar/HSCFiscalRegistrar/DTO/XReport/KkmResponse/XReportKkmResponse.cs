@@ -13,7 +13,7 @@ namespace HSCFiscalRegistrar.DTO.XReport.KkmResponse
 
         public XReportKkmResponse(List<ShiftOperation> shiftOperations,
             IQueryable<Operation> operations,
-            Org org, Kkm kkm, Shift shift, Operator oper)
+            User org, Kkm kkm, Shift shift)
         {
             Data = new Data
             {
@@ -32,7 +32,7 @@ namespace HSCFiscalRegistrar.DTO.XReport.KkmResponse
                 StartOn = shift.OpenDate,
                 CloseOn = shift.CloseDate,
                 ReportOn = DateTime.Now,
-                CashierCode = oper.Code,
+                CashierCode = org.Code,
                 ShiftNumber = shift.Number,
                 ControlSum = 1,
                 DocumentCount = operations.Count(),

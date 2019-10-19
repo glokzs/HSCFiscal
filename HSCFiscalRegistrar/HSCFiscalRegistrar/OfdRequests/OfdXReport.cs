@@ -2,6 +2,7 @@ using System;
 using HSCFiscalRegistrar.DTO.XReport.OfdRequest;
 using HSCFiscalRegistrar.Services;
 using Microsoft.Extensions.Logging;
+using Models;
 using Models.APKInfo;
 
 namespace HSCFiscalRegistrar.OfdRequests
@@ -15,10 +16,10 @@ namespace HSCFiscalRegistrar.OfdRequests
             _loggerFactory = loggerFactory;
         }
 
-        public async void Request(Kkm kkm, Org org)
+        public async void Request(Kkm kkm, User user)
         {
             var logger = _loggerFactory.CreateLogger("OfdXReport|Post");
-            var request = new XReportOfdRequestModel(kkm, org);
+            var request = new XReportOfdRequestModel(kkm, user);
             try
             {
                 logger.LogInformation("Отправка запроса на Х-Отчет в ОФД");

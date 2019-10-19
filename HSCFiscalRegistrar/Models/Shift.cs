@@ -11,8 +11,8 @@ namespace Models
         public DateTime CloseDate { get; set; }
         public string KkmId { get; set; }
         public virtual Kkm Kkm { get; set; }
-        public string OperatorId { get; set; }
-        public virtual Operator Operator{ get; set; }
+        public string UserId { get; set; }
+        public virtual User User{ get; set; }
         public decimal BuySaldoBegin { get; set; }
         public decimal SellSaldoBegin { get; set; }
         public decimal RetunSellSaldoBegin { get; set; }
