@@ -46,7 +46,7 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization.OFD
                 Operator = new User()
                 {
                     Code = operation.User.Code,
-                    Name = operation.User.Name
+                    UserName = operation.User.UserName
                 },
                 DateTime = GetDateTime(operation),
                 Payments = GetPayments(checkOperationRequest),

@@ -1,0 +1,34 @@
+﻿@model Fiscal.ViewModels.LoginViewModel
+
+@{
+    ViewBag.Title = "Вход";
+    Layout = "_Layout";
+}
+
+<div class="container d-flex justify-content-center align-items-center flex-column">
+    <div class="text-center mt-sm-5 mb-2 border-bottom">
+       <h2>Вход в приложение</h2>
+    </div>
+    
+    <form style="width: 350px" class="mt-4" asp-antiforgery="true" method="post" asp-controller="Account" asp-action="Login"
+          asp-route-returnUrl="@Model.ReturnUrl">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div>
+            <label asp-for="Email"></label><br/>
+            <input class="form-control" asp-for="Email"/>
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password"></label><br/>
+            <input class="form-control" asp-for="Password"/>
+            <span asp-validation-for="Password"></span>
+        </div>
+        <div class="form-check d-flex justify-content-center align-items-center">
+            <label class="m-0 mr-2" asp-for="RememberMe"></label><br/>
+            <input class="form-check-label" asp-for="RememberMe"/>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Войти"/>
+        </div>
+    </form>
+</div>

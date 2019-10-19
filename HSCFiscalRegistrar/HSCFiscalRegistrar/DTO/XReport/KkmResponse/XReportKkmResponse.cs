@@ -21,7 +21,7 @@ namespace HSCFiscalRegistrar.DTO.XReport.KkmResponse
                 Sell = GetOperation(shiftOperations, OperationTypeEnum.OPERATION_SELL),
                 ReturnBuy = GetOperation(shiftOperations, OperationTypeEnum.OPERATION_BUY_RETURN),
                 ReturnSell = GetOperation(shiftOperations, OperationTypeEnum.OPERATION_SELL_RETURN),
-                TaxPayerName = org.Name,
+                TaxPayerName = org.UserName,
                 TaxPayerVAT = org.VAT,
                 TaxPayerIN = org.Inn,
                 TaxPayerVATNumber = org.VATNumber,

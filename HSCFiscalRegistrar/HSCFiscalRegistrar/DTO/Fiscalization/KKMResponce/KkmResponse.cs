@@ -23,7 +23,7 @@ namespace HSCFiscalRegistrar.DTO.Fiscalization.KKMResponce
                 CashboxOfflineMode = false,
                 CheckOrderNumber = operation.Kkm.ReqNum,
                 ShiftNumber = shift.Number,
-                EmployeeName = operation.User.Name,
+                EmployeeName = operation.User.UserName,
                 TicketUrl = operation.QR,
             };
         }
