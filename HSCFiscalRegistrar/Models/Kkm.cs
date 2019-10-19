@@ -1,10 +1,13 @@
+using System;
 using Newtonsoft.Json;
 
-namespace Models.APKInfo
+namespace Models
 {
     public class Kkm
     {
         public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public string SerialNumber { get; set; }
         [JsonProperty("PointOfPaymentNumber")]
         public string PointOfPayment { get; set; }
@@ -14,5 +17,16 @@ namespace Models.APKInfo
         public int OfdToken { get; set; }
         public int ReqNum { get; set; }
         public string Address { get; set; }
+        public string CurrentStatus { get; set; }
+        public DateTime LastDateOperation { get; set; }
+        public string Mode { get; set; }
+        public string UserId { get; set; }
+
+        public virtual User User { get; set; }
+
+        public Kkm()
+        {
+            LastDateOperation = DateTime.Now;
+        }
     }
 }

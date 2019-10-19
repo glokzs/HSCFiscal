@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Models;
-using Models.APKInfo;
 using Models.DTO.CloseShift;
 using Models.DTO.CloseShift.OfdResponse;
 using Models.DTO.XReport;
 using Models.DTO.XReport.KkmResponse;
 using Models.Enums;
+using Models.Services;
 using Newtonsoft.Json;
 using DateTime = System.DateTime;
 
@@ -45,7 +45,7 @@ namespace HSCFiscalRegistrar.Controllers
             {
                 logger.LogInformation($"Z-Отчет: {request.Token}");
                 var user = _userManager.Users.FirstOrDefault(u => u.UserToken == request.Token);
-                var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.Id == user.KkmId);
+                var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.UserId == user.Id);
                 var shift = _applicationContext.Shifts.Last(s => s.KkmId == kkm.Id && s.CloseDate == DateTime.MinValue);
                 var operations = _applicationContext.Operations.Where(o => o.ShiftId == shift.Id);
                 var shiftOperations = ZxReportService.GetShiftOperations(operations, shift);

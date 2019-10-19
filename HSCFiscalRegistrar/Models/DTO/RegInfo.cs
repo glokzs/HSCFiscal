@@ -1,5 +1,3 @@
-using Models.APKInfo;
-
 namespace Models.DTO
 {
     public class RegInfo

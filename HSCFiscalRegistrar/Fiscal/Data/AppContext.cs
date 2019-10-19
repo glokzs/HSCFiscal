@@ -6,6 +6,7 @@ namespace Fiscal.Data
 {
     public class AppContext : IdentityDbContext<User>
     {
+        public DbSet<Kkm> Kkms { get; set; }
         public AppContext(DbContextOptions<AppContext> options)
             : base(options)
         {

@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 using Models;
-using Models.APKInfo;
 using Models.DTO.Fiscalization.KKM;
 using Models.DTO.Fiscalization.KKMResponce;
 using Models.DTO.Fiscalization.OFD;
 using Models.DTO.Fiscalization.OFDResponse;
 using Models.Enums;
+using Models.Services;
 using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 
 namespace HSCFiscalRegistrar.Controllers
@@ -59,16 +59,17 @@ namespace HSCFiscalRegistrar.Controllers
         private async Task<IActionResult> Response(CheckOperationRequest checkOperationRequest, ILogger _logger)
         {
             var user = _userManager.FindByIdAsync(_helper.ParseId(checkOperationRequest.Token));
+            var kkm = _applicationContext.Kkms.FirstOrDefault(i => i.UserId == user.Result.Id);
             if (user == null) return NotFound("Operator not found");
-            var shift = await GetShift(user.Result);
-            var kkm = user.Result.Kkm;
+            var shift = await GetShift(user.Result, kkm);
+            
             try
             {
                 var sum = checkOperationRequest.Payments.Sum(paymentsType => paymentsType.Sum);
                 var checkNumber = GeneratorFiscalSign.GenerateFiscalSign();
                 var date = DateTime.Now;
                 var qr = GetUrl(kkm, checkNumber.ToString(), sum, date);
-                var operation = GetOperation(shift, checkOperationRequest, date, qr, user.Result);
+                var operation = GetOperation(shift, checkOperationRequest, date, qr, user.Result, kkm);
                 var kkmResponse = new KkmResponse(operation, shift);
                 var response = await OfdFiscalResponse(checkOperationRequest, operation);
                 operation.FiscalNumber = response.Ticket.TicketNumber;
@@ -95,7 +96,7 @@ namespace HSCFiscalRegistrar.Controllers
             return response;
         }
 
-        private async Task<Shift> GetShift(User oper)
+        private async Task<Shift> GetShift(User oper, Kkm kkm)
         {
             Shift shift;
             if (!_applicationContext.Shifts.Any())
@@ -103,7 +104,7 @@ namespace HSCFiscalRegistrar.Controllers
                 shift = new Shift
                 {
                     OpenDate = DateTime.Now,
-                    KkmId = oper.KkmId,
+                    KkmId = kkm.Id,
                     Number = 1,
                 };
                 await _applicationContext.Shifts.AddAsync(shift);
@@ -114,7 +115,7 @@ namespace HSCFiscalRegistrar.Controllers
                 shift = new Shift
                 {
                     OpenDate = DateTime.Now,
-                    KkmId = oper.KkmId,
+                    KkmId = kkm.Id,
                     UserId =  oper.Id,
                     Number = _applicationContext.Shifts.Last().Number + 1,
                     BuySaldoBegin = _applicationContext.Shifts.Last().BuySaldoEnd,
@@ -131,7 +132,7 @@ namespace HSCFiscalRegistrar.Controllers
         }
 
         private Operation GetOperation(Shift shift,
-            CheckOperationRequest checkOperationRequest, DateTime date, string qr, User oper)
+            CheckOperationRequest checkOperationRequest, DateTime date, string qr, User oper, Kkm kkm)
         {
             var total = checkOperationRequest.Payments.Sum(p => p.Sum);
             var cardAmount = checkOperationRequest.Payments
@@ -143,7 +144,7 @@ namespace HSCFiscalRegistrar.Controllers
             var checkNumber = _applicationContext.Operations.Count(s => s.ShiftId == shift.Id) + 1;
             var operation = new Operation(checkOperationRequest.OperationType, shift.Id, OperationStateEnum.New, false,
                 date,
-                qr, total, checkOperationRequest.Change, cashAmount, cardAmount, oper.Id, oper.KkmId, oper, oper.Kkm,
+                qr, total, checkOperationRequest.Change, cashAmount, cardAmount, oper.Id, kkm.Id, oper, kkm,
                 checkNumber);
             return operation;
         }
