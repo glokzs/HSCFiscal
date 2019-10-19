@@ -65,7 +65,7 @@ namespace Fiscal.Controllers
                 {
                     var email = model.Email;
 
-                    var subject = "Fiscal Autorize";
+                    var subject = "Fiscal Team";
 
                     var message = $"<table><tr><td>Дорогой, {model.FIO}</td></tr><tr><td>ссылка для входа:<span>https://localhost:5001/account/login</span></td></tr><tr><td>Логин: {model.Email}</td></tr><tr><td>Пароль: {model.Password}</td></tr><tr><td>с уважением, ваша команда ~Fiscal~</td></tr></table>";
 
