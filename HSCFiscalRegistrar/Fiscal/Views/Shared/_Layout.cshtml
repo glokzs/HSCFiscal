@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+@{
+    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+}
+
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>
@@ -41,10 +47,10 @@
                                     <a class="dropdown-item" href="#">Удалить пользователя</a>
                                     <a class="dropdown-item" href="#">Изменить пароль</a>
                                     <a class="dropdown-item" asp-controller="Initialization" asp-action="AllCashDesk">Кассы</a>
-                                    
                                 </div>
                             </div>
                         </li>
+
                         <li>
                             <form method="post" asp-controller="Account" asp-action="LogOff">
                                 <input class="btn btn-outline-secondary" type="submit" value="Выход"/>

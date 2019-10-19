@@ -6,7 +6,7 @@ namespace Models
 {
     public class User : IdentityUser
     {
-        public int Code { get; set; }
+        public int OperatorCode { get; set; }
         public string UserToken { get; set; }
         public DateTime DateTimeCreationToken { get; set; }
         public DateTime ExpiryDate { get; set; }
@@ -19,5 +19,6 @@ namespace Models
         public string VATSeria { get; set; }
         public string VATNumber { get; set; }
         public UserTypeEnum UserType { get; set; }
+        public string Fio { get; set; }
     }
 }

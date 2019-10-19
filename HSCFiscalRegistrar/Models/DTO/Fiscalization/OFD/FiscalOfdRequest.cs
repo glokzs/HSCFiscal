@@ -29,14 +29,7 @@ namespace Models.DTO.Fiscalization.OFD
         {
             Command = CommandTypeEnum.COMMAND_TICKET;
             Token = operation.Kkm.OfdToken;
-            Service = new Service
-            {
-                RegInfo = new RegInfo
-                {
-                    Kkm = operation.Kkm,
-                    Org = operation.User
-                }
-            };
+            Service = new Service(new RegInfo(operation.User, operation.Kkm));
             DeviceId = operation.Kkm.DeviceId;
             ReqNum = operation.Kkm.ReqNum;
             Ticket = new Ticket
@@ -44,7 +37,7 @@ namespace Models.DTO.Fiscalization.OFD
                 Operation = operation.Type,
                 Operator = new User()
                 {
-                    Code = operation.User.Code,
+                    OperatorCode = operation.User.OperatorCode,
                     UserName = operation.User.UserName
                 },
                 DateTime = GetDateTime(operation),

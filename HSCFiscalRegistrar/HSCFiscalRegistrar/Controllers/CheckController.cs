@@ -56,7 +56,7 @@ namespace HSCFiscalRegistrar.Controllers
             }
         }
 
-        private async Task<IActionResult> Response(CheckOperationRequest checkOperationRequest, ILogger _logger)
+        private async Task<IActionResult> Response(CheckOperationRequest checkOperationRequest, ILogger logger)
         {
             var user = _userManager.FindByIdAsync(_helper.ParseId(checkOperationRequest.Token));
             var kkm = _applicationContext.Kkms.FirstOrDefault(i => i.UserId == user.Result.Id);
@@ -80,8 +80,8 @@ namespace HSCFiscalRegistrar.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e.Message);
-                _logger.LogError($"Ошибка авторизации пользователя: {checkOperationRequest.Token}");
+                logger.LogError(e.Message);
+                logger.LogError($"Ошибка авторизации пользователя: {checkOperationRequest.Token}");
                 return Ok(_errorHelper.GetErrorRequest((int) ErrorEnums.UNKNOWN_ERROR));
             }
         }

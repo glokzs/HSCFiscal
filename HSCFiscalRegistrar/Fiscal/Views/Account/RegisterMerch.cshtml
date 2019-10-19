@@ -1,0 +1,96 @@
+﻿@model Fiscal.ViewModels.RegisterViewModel
+
+@{
+    ViewBag.Title = "Регистрация организации";
+    Layout = "_Layout";
+}
+
+<div class="container d-flex justify-content-center align-items-center flex-column">
+    <form method="post" asp-controller="Account" asp-action="RegisterMerch" class="w-100">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="d-flex justify-content-center">
+            <div id="form_block_right" class="form_block_right mx-3" style="width: 50%">
+                <div class="form-group">
+                    <label asp-for="IIN"></label>
+                    <input class="form-control" asp-for="IIN"/>
+                    <span asp-validation-for="IIN"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Title"></label>
+                    <input class="form-control" asp-for="Title"/>
+                    <span asp-validation-for="Title"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Adres"></label>
+                    <input class="form-control" asp-for="Adres"/>
+                    <span asp-validation-for="Adres"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="TaxationType"></label>
+                    <select asp-for="TaxationType" class="form-control" id="exampleFormControlSelect1">
+                        <option value="100">УСН</option>
+                        <option value="101">ОСН</option>
+                        <option value="102">Налоговый режим для крестьянских и фермерских хозяйств</option>
+                        <option value="103">Налоговый режим для малых предприятий на основе патента</option>
+                    </select>
+                </div>
+
+                <div class="form-check d-flex justify-content-start align-items-center p-0 my-2">
+                    <label class="m-0 mr-2" asp-for="VAT"></label><br/>
+                    <input type="checkbox" id='inactivelist' asp-for="VAT"/>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="VATSeria"></label>
+                    <input id="VATSeria" class="form-control" asp-for="VATSeria" disabled="disabled"/>
+                    <span asp-validation-for="VATSeria"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="VATNumber"></label>
+                    <input id="VATNumber" class="form-control" asp-for="VATNumber" disabled="disabled"/>
+                    <span asp-validation-for="VATNumber"></span>
+                </div>
+
+
+            </div>
+            <div class="form_block_left mx-5" style="width: 50%">
+                <div class="form-group">
+                    <label asp-for="FIO"></label>
+                    <br/>
+                    <input class="form-control" asp-for="FIO"/>
+                    <span asp-validation-for="FIO"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhoneNumberUser"></label>
+                    <br/>
+                    <input class="form-control" asp-for="PhoneNumberUser"/>
+                    <span asp-validation-for="PhoneNumberUser"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <br/>
+                    <input class="form-control" asp-for="Email"/>
+                    <span asp-validation-for="Email"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <br/>
+                    <input class="form-control" asp-for="Password"/>
+                    <span asp-validation-for="Password"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PasswordConfirm"></label>
+                    <br/>
+                    <input class="form-control" asp-for="PasswordConfirm"/>
+                    <span asp-validation-for="PasswordConfirm"></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group d-flex justify-content-end">
+            <input class="btn btn-primary mr-3" type="submit" value="Зарегистрировать"/>
+            <a class="btn btn-primary text-white">Отмена</a>
+        </div>
+    </form>
+</div>

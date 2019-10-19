@@ -65,6 +65,8 @@
     <_ContentIncludedByDefault Remove="Release\DTO\Fiscalization\OFD\fisc.json" />
     <_ContentIncludedByDefault Remove="Release\HSCFiscalRegistrar.deps.json" />
     <_ContentIncludedByDefault Remove="Release\HSCFiscalRegistrar.runtimeconfig.json" />
+    <_ContentIncludedByDefault Remove="DTO\Fiscalization\KKM\responce.json" />
+    <_ContentIncludedByDefault Remove="DTO\Fiscalization\OFD\fisc.json" />
   </ItemGroup>
 
 </Project>

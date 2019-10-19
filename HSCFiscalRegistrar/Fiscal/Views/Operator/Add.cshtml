@@ -1,4 +1,4 @@
-﻿@model Fiscal.ViewModels.RegisterViewModel
+@model Fiscal.ViewModels.RegisterOperatorViewModel
 
 @{
     ViewBag.Title = "Вход";
@@ -6,11 +6,17 @@
 }
 
 <div class="container d-flex justify-content-center align-items-center flex-column">
-<div class="text-center mt-sm-5">
-    <h2>Регистрация нового пользователя</h2>
-</div>
-    <form style="width: 350px" method="post" asp-controller="Account" asp-action="RegisterMerch">
+    <div class="text-center mt-sm-5">
+        <h2>Регистрация нового кассира</h2>
+    </div>
+    <form style="width: 350px" method="post" asp-controller="Operator" asp-action="Add">
         <div asp-validation-summary="ModelOnly"></div>
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <br/>
+            <input class="form-control" asp-for="Name"/>
+            <span asp-validation-for="Name"></span>
+        </div>
         <div class="form-group">
             <label asp-for="Email"></label>
             <br/>
@@ -33,5 +39,4 @@
             <input class="btn btn-primary" type="submit" value="Регистрация"/>
         </div>
     </form>
-    </div>
-
+</div>
