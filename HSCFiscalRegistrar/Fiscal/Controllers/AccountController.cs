@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Fiscal.Interface;
 using Fiscal.Serves;
 using Fiscal.ViewModels;
@@ -42,44 +41,45 @@ namespace Fiscal.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> RegisterMerch(RegisterViewModel model)
         {
-            if (!ModelState.IsValid) return View();
-            var user = new User
+            if (ModelState.IsValid)
             {
-                OperatorCode = _userManager.Users.Count() + 1,
-                Inn = model.IIN,
-                Title = model.Title,
-                Address = model.Adres,
-                UserName = model.Email,
-                TaxationType = model.TaxationType,
-                VAT = model.VAT,
-                VATNumber = model.VATNumber,
-                VATSeria = model.VATSeria,
-                Fio = model.FIO,
-                PhoneNumber = model.PhoneNumberUser,
-                Email = model.Email,
-                UserType = UserTypeEnum.TYPE_MERCHANT
-            };
+                User user = new User
+                {
+                    Inn = model.IIN,
+                    Title = model.Title,
+                    Address = model.Adres,
+                    UserName = model.Email,
+                    TaxationType = model.TaxationType,
+                    VAT = model.VAT,
+                    VATNumber = model.VATNumber,
+                    VATSeria = model.VATSeria,
+                    Fio = model.FIO,
+                    PhoneNumber = model.PhoneNumberUser,
+                    Email = model.Email,
+                    UserType = UserTypeEnum.TYPE_MERCHANT
+                };
 
-            var result = await _userManager.CreateAsync(user, model.Password);
+                var result = await _userManager.CreateAsync(user, model.Password);
                 
-            if (result.Succeeded)
-            {
-                var email = model.Email;
+                if (result.Succeeded)
+                {
+                    var email = model.Email;
 
-                var subject = "Fiscal Autorize";
+                    var subject = "Fiscal Autorize";
 
-                var message = $"Добрый день, {model.FIO} \n" +
-                              $"ссылка: https://localhost:5001/Account/Login \n" +
-                              $" Login: {model.Email}, Password: {model.Password} \n" +
-                              $"Обязательно поменяйте парольпосле авторизации!";
+                    var message = $"<table><tr><td>Дорогой, {model.FIO}</td></tr><tr><td>ссылка для входа:<span>https://localhost:5001/account/login</span></td></tr><tr><td>Логин: {model.Email}</td></tr><tr><td>Пароль: {model.Password}</td></tr><tr><td>с уважением, ваша команда ~Fiscal~</td></tr></table>";
 
-                await _emailSender.SendEmailAsync(email, subject, message);
+                    await _emailSender.SendEmailAsync(email, subject, message);
 
-                return RedirectToAction("index", "Home");
-            }
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
+                    return RedirectToAction("index", "Home");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
             }
 
             return View();
