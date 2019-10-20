@@ -20,6 +20,7 @@ namespace Fiscal.ViewModels
         [Display(Name = "Номер телефона")]
         public string PhoneNumberUser { get; set; }
         
+        [MaxLength(12, ErrorMessage = "Длина ИИН должна составлять 12 цифр")]
         [StringLength(12, MinimumLength = 12, ErrorMessage = "Длина ИИН должна составлять 12 цифр")]
         [Required(ErrorMessage = "Это поле обязательно!")]
         [Display(Name = "ИИН")]
