@@ -1,7 +1,6 @@
-﻿@using Fiscal
-@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
 @using Models
-@model Fiscal.ViewModels.RegisterCashDesckViewModel
+@model Fiscal.ViewModels.RegisterCashDeskViewModel
 @inject UserManager<User> UserManager
 @inject Fiscal.Data.AppContext Context
 @{
@@ -17,9 +16,22 @@
 
 <div>
     <form method="post" enctype="multipart/form-data" asp-controller="Initialization" asp-action="RegisterCashDesk">
+        <div asp-validation-summary="ModelOnly"></div>
         <input type="hidden" asp-for="UserId" value="@user.Id" />
-        <input asp-for="CashDesckName" />
-        <textarea class="form-control" asp-for="Description" placeholder="Enter description"></textarea>
+        <div class="form-group">
+            <label asp-for="Name">Name</label>
+            <input asp-for="Name" />
+            <span asp-validation-for="Name"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description">Description</label>
+            <textarea asp-for="Description" class="form-control" placeholder="Enter description"></textarea>
+            <span asp-validation-for="Description"></span>
+        </div>
         <input type="submit" class="btn btn-success" value="Submit new place" />
     </form>
 </div>
+
+@section scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
