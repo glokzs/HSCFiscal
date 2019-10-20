@@ -42,23 +42,12 @@
                                 <button class="btn btn-secondary dropdown-toggle mr-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     @User.Identity.Name
                                 </button>
-                                @if (User.IsInRole("admin"))
-                                {
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" asp-controller="Account" asp-action="RegisterMerch">Создать организацию</a>
-                                        <a class="dropdown-item" href="#">Управление организациями</a>
-                                        <a class="dropdown-item" asp-action="ChangePassword" asp-controller="Account" asp-route-id="@userId">Изменить пароль</a>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" asp-controller="Operator" asp-action="Add">Добавить оператора</a>
-                                        <a class="dropdown-item" href="#">Управление операторами</a>
-                                        <a class="dropdown-item" asp-action="ChangePassword" asp-controller="Account" asp-route-id="@userId">Изменить пароль</a>
-                                    </div>
-                                }
-
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Создать организацию</a>
+                                    <a class="dropdown-item" href="#">Удалить пользователя</a>
+                                    <a class="dropdown-item" href="#">Изменить пароль</a>
+                                    <a class="dropdown-item" asp-controller="Initialization" asp-action="AllCashDesk">Кассы</a>
+                                </div>
                             </div>
                         </li>
 

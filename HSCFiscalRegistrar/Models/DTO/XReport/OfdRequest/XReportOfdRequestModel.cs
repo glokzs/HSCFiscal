@@ -1,5 +1,4 @@
-﻿using Models.APKInfo;
-using Models.DTO.DateAndTime;
+﻿using Models.DTO.DateAndTime;
 using Models.Enums;
 
 namespace Models.DTO.XReport.OfdRequest
