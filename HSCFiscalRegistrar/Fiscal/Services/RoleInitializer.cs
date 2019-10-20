@@ -20,6 +20,10 @@ namespace Fiscal.Serves
             {
                 await roleManager.CreateAsync(new IdentityRole("user"));
             }
+            if (await roleManager.FindByNameAsync("operator") == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole("operator"));
+            }
             if (await userManager.FindByNameAsync(adminEmail) == null)
             {
                 User admin = new User() { Email = adminEmail, 

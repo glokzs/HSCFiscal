@@ -1,0 +1,66 @@
+﻿@using Fiscal.ViewModels
+@model System.Collections.Generic.List<Models.User>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+
+<link rel="stylesheet" href="~/css/dataTables.bootstrap4.min.css"/>
+<link rel="stylesheet" href="~/css/jquery.dataTables.min.css"/>
+
+<style>
+    td {
+        text-align: center;
+        vertical-align: middle;
+    }
+    
+    .form-control {
+        margin: 5px;
+    }
+    
+    #myDataTable_wrapper {
+        display: flex;
+        justify-content: center;
+    }
+</style>
+
+<div class="container d-flex justify-content-center">
+    <table style="font-size: .7em" class="table table-striped table-bordered table-hover w-100" id="myDataTable">
+        <thead>
+        <tr>
+            <th>Логин</th>
+            <th>ФИО</th>
+            <th>Тип пользователя</th>
+            <th>Организация</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@user.Fio</td>
+                <td>@user.UserType</td>
+                <td>@user.Title</td>
+                <td class="d-flex justify-content-end">
+                    <a class="btn btn-sm btn-primary mr-2" asp-action="Edit" asp-route-userid="@user.Id">Права доступа</a>
+                    <a class="btn btn-sm btn-primary" asp-action="ChangePassword" asp-controller="Account" asp-route-id="@user.Id">Изменить пароль</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+<table class="table">
+    <tr>
+        <td></td>
+        <td class="d-flex justify-content-end">
+            <div class="d-flex justify-content-end">
+                <a class="btn btn-primary" asp-action="Index" asp-controller="Home">Назад</a>
+            </div>
+        </td>
+    </tr>
+</table>

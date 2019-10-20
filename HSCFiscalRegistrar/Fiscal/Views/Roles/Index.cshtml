@@ -1,0 +1,37 @@
+﻿@using Fiscal.ViewModels
+@using Microsoft.AspNetCore.Identity
+@using Models
+@model List<Microsoft.AspNetCore.Identity.IdentityRole>
+
+@{
+    ViewBag.Title = "Добавление ролей";
+    Layout = "_Layout";
+}
+
+<h2>Список ролей</h2>
+<table class="table">
+    @foreach (var role in Model)
+    {
+        <tr>
+            <td>@role.Name</td>
+            <td class="d-flex justify-content-end">
+                <form asp-action="Delete" asp-route-id="@role.Id" method="post">
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        Удалить
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+    <tr>
+        <td></td>
+        <td class="d-flex justify-content-end">
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#exampleModal">Добавить роль</button>
+                <a class="btn btn-primary" asp-action="Index" asp-controller="Home">Назад</a>
+            </div>
+        </td>
+    </tr>
+</table>
+
+@{ await Html.RenderPartialAsync("addRoleForm", new AddRoleViewModel()); }

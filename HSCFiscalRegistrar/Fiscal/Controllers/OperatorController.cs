@@ -33,11 +33,12 @@ namespace Fiscal.Controllers
                 Email = model.Email,
                 OperatorCode = _userManager.Users.Count() + 1,
                 Fio = model.Name,
-                UserType = UserTypeEnum.TYPE_OPERATOR,
+                UserType = UserTypeEnum.TYPE_OPERATOR
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
+                await _userManager.AddToRoleAsync(user, "operator");
                 return RedirectToAction("index", "Home");
             }
             foreach (var error in result.Errors)
