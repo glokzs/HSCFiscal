@@ -18,6 +18,7 @@
                 <th>Организация</th>
                 <th>ИИН/БИН</th>
                 <th>Адрес кассы</th>
+                <th></th>
             </tr>
             <tbody>
             @foreach (var item in @Model)
@@ -32,6 +33,19 @@
                     <td>@item.User.Title</td>
                     <td>@item.User.Inn</td>
                     <td>@item.Address</td>
+                    @if (item.OfdToken == 0)
+                    {
+                        <td>
+                            @{ await Html.RenderPartialAsync("Activition", item); }
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @{ await Html.RenderPartialAsync("change_token", item); }
+                        </td>
+                    }
+
                 </tr>
             }
             </tbody>

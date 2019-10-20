@@ -63,6 +63,8 @@ namespace Fiscal.Controllers
                 
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "user");
+                    
                     var email = model.Email;
 
                     var subject = "Fiscal Team";

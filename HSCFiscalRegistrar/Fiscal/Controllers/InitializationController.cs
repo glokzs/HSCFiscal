@@ -8,11 +8,13 @@ using Models;
 using Models.DTO;
 using Newtonsoft.Json;
 using Fiscal.Data;
+using Microsoft.AspNetCore.Authorization;
 using Models.DTO.InitializeCashDesk.WebRequest;
 
 
 namespace Fiscal.Controllers
 {
+    [Authorize]
     public class InitializationController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -25,6 +27,7 @@ namespace Fiscal.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public IActionResult AllCashDesk()
         {
             var res = _context.Kkms.ToList();
@@ -45,6 +48,7 @@ namespace Fiscal.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "user")]
         public IActionResult RegisterCashDesk(RegisterCashDeskViewModel model)
         {
             var pattern = "SWK";
@@ -71,9 +75,8 @@ namespace Fiscal.Controllers
             }
 
             _context.SaveChanges();
-
-
-            return RedirectToAction("AllCashDesk");
+            
+            return RedirectToAction("GetCashDesk", "Initialization", new {id = model.UserId});
         }
 
         public IActionResult CheckName(RegisterCashDeskViewModel model)
@@ -110,6 +113,11 @@ namespace Fiscal.Controllers
 
 
             return Ok(JsonConvert.SerializeObject(requestOfd));
+        }
+
+        public IActionResult GetCashDesk(string id)
+        {
+            return View(_context.Kkms.Where(p => p.UserId == id).ToList());
         }
     }
 }
