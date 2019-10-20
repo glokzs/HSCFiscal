@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 using Models.Enums;
 
 namespace Fiscal.ViewModels
@@ -19,7 +20,8 @@ namespace Fiscal.ViewModels
         [Display(Name = "Номер телефона")]
         public string PhoneNumberUser { get; set; }
         
-        [StringLength(12, MinimumLength = 12, ErrorMessage = "Недопустимая длина имени")]
+        [MaxLength(12, ErrorMessage = "Длина ИИН должна составлять 12 цифр")]
+        [StringLength(12, MinimumLength = 12, ErrorMessage = "Длина ИИН должна составлять 12 цифр")]
         [Required(ErrorMessage = "Это поле обязательно!")]
         [Display(Name = "ИИН")]
         public string IIN { get; set; }

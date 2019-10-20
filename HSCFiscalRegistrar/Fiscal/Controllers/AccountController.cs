@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Fiscal.Interface;
 using Fiscal.Serves;
 using Fiscal.ViewModels;
+using HSCFiscalRegistrar;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +17,14 @@ namespace Fiscal.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
-
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IEmailSender emailSender)
+        private readonly ApplicationContext _context;
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, 
+            IEmailSender emailSender, ApplicationContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _context = context;
         }
 
         [HttpGet]
@@ -203,6 +207,26 @@ namespace Fiscal.Controllers
                 }
             }
             return View(model);
+        }
+        public IActionResult CheckName(RegisterCashDeskViewModel model)
+        {
+            var kkm = new Kkm
+            {
+                Name = model.Name,
+                Description = model.Description,
+            };
+
+            if (_context.Kkms.Any(u => string.Equals(u.Name.Trim(), model.Name) && u.Id == kkm.Id))
+            {
+                return Ok(true);
+            }
+            else if (_context.Kkms.Any(u => string.Equals(u.Name.Trim(), model.Name)))
+            {
+                return Ok(false);
+            }
+
+            return Ok(true);
+
         }
     }
 }
