@@ -1,4 +1,6 @@
 ﻿using Fiscal.Data;
+using Fiscal.Interface;
+using Fiscal.Serves;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,6 +35,11 @@ namespace Fiscal
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<AppContext>();
+            
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+            services.AddSingleton<IEmailSender, EmailSender>();
+
+
             
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();

@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Models.Kkm>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<div>
+    <div>
+        <a class="btn btn-success" asp-controller="Initialization" asp-action="RegisterCashDesk">Добавить кассу</a>
+    </div>
+    <div>
+        <table>
+            <tr>
+            <th>Название кассы</th>
+            <th>Серийный номер</th>
+            <th>Описание</th>
+            <th>Текущий статус</th>
+            <th>Дата последней операции</th>
+            <th>Режим</th>
+            <th>Организация</th>
+            <th>ИИН/БИН</th>
+            <th>Адрес кассы</th>
+            <th>Действия</th>
+            </tr>
+            <tbody>
+            @foreach (var item in @Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.SerialNumber</td>
+                    <td>@item.Description</td>
+                    <td>@item.CurrentStatus</td>
+                    <td>@item.LastDateOperation</td>
+                    <td>@item.Mode</td>
+                    <td>@item.User.Title</td>
+                    <td>@item.User.Inn</td>
+                    <td>@item.Address</td>
+                    @if (item.OfdToken == 0)
+                    {
+                        <td><a asp-controller="Initialization" asp-action="ActivateKkm" asp-rout-id="@item.Id">Активировать в ОФД</a></td>
+                    }
+                    else
+                    {
+                        <td><a href="#">Сменить токен</a></td>
+                    }
+                </tr>
+            }
+            </tbody>
+
+        </table>
+    </div>
+    
+</div>

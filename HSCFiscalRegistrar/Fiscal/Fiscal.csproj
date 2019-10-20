@@ -7,23 +7,27 @@
 
 
     <ItemGroup>
+        <PackageReference Include="MailKit" Version="2.3.2" />
         <PackageReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.4" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.4" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.4" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.4" />
     </ItemGroup>
 
 
     <ItemGroup>
+      <ProjectReference Include="..\HSCFiscalRegistrar\HSCFiscalRegistrar.csproj" />
       <ProjectReference Include="..\Models\Models.csproj" />
     </ItemGroup>
 
 
     <ItemGroup>
       <Folder Include="Pages" />
+      <Folder Include="Release" />
     </ItemGroup>
 
 </Project>

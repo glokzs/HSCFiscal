@@ -1,8 +1,9 @@
+using System;
 using System.Threading.Tasks;
 using Flurl.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HSCFiscalRegistrar.Services
+namespace Models.Services
 {
     public static class HttpService
     {

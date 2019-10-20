@@ -59,8 +59,6 @@ namespace HSCFiscalRegistrar
         }
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ApplicationContext context)
         {
-            context.Database.EnsureCreated();
-            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
