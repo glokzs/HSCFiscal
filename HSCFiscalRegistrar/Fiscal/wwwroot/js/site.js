@@ -1,4 +1,5 @@
 ﻿
+
 $("#inactivelist").change(function () {
     if (this.checked) {
         $('#VATNumber').removeAttr("disabled");

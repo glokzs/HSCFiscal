@@ -5,6 +5,7 @@ namespace Fiscal.ViewModels
 {
     public class RegisterViewModel
     {
+        [EmailAddress]
         [Required(ErrorMessage = "Это поле обязательно!")]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -13,11 +14,12 @@ namespace Fiscal.ViewModels
         [Display(Name = "ФИО")]
         public string FIO { get; set; }
         
+        [Phone(ErrorMessage = "Введите корректный номер телефона")]
         [Required(ErrorMessage = "Это поле обязательно!")]
         [Display(Name = "Номер телефона")]
         public string PhoneNumberUser { get; set; }
         
-        
+        [StringLength(12, MinimumLength = 12, ErrorMessage = "Недопустимая длина имени")]
         [Required(ErrorMessage = "Это поле обязательно!")]
         [Display(Name = "ИИН")]
         public string IIN { get; set; }
@@ -34,15 +36,12 @@ namespace Fiscal.ViewModels
         [Display(Name = "Налоговый режим")]
         public TaxationTypeEnum TaxationType { get; set; }
         
-        [Required(ErrorMessage = "Это поле обязательно!")]
         [Display(Name = "Плательщик НДС")]
         public bool VAT { get; set; }
         
-        [Required(ErrorMessage = "Это поле обязательно!")]
         [Display(Name = "Серия НДС")]
         public string VATSeria { get; set; }
         
-        [Required(ErrorMessage = "Это поле обязательно!")]
         [Display(Name = "Номер НДС")]
         public string VATNumber { get; set; }
 
