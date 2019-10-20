@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Fiscal.Data;
 using Fiscal.Interface;
 using Fiscal.Serves;
 using Fiscal.ViewModels;
@@ -17,9 +18,9 @@ namespace Fiscal.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
-        private readonly ApplicationContext _context;
+        private readonly AppContext _context;
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, 
-            IEmailSender emailSender, ApplicationContext context)
+            IEmailSender emailSender, AppContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
