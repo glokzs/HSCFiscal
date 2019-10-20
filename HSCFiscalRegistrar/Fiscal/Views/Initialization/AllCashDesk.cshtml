@@ -12,16 +12,16 @@
     <div>
         <table>
             <tr>
-            <th>Название кассы</th>
-            <th>Серийный номер</th>
-            <th>Описание</th>
-            <th>Текущий статус</th>
-            <th>Дата последней операции</th>
-            <th>Режим</th>
-            <th>Организация</th>
-            <th>ИИН/БИН</th>
-            <th>Адрес кассы</th>
-            <th>Действия</th>
+                <th>Название кассы</th>
+                <th>Серийный номер</th>
+                <th>Описание</th>
+                <th>Текущий статус</th>
+                <th>Дата последней операции</th>
+                <th>Режим</th>
+                <th>Организация</th>
+                <th>ИИН/БИН</th>
+                <th>Адрес кассы</th>
+                <th></th>
             </tr>
             <tbody>
             @foreach (var item in @Model)
@@ -38,17 +38,22 @@
                     <td>@item.Address</td>
                     @if (item.OfdToken == 0)
                     {
-                        <td><a asp-controller="Initialization" asp-action="ActivateKkm" asp-rout-id="@item.Id">Активировать в ОФД</a></td>
+                        <td>
+                            @{await Html.RenderPartialAsync("Activition", item);}
+                        </td>
                     }
                     else
                     {
-                        <td><a href="#">Сменить токен</a></td>
+                        <td>
+                            @{await Html.RenderPartialAsync("change_token", item);}
+                        </td>
                     }
+                    
                 </tr>
             }
             </tbody>
 
         </table>
     </div>
-    
+
 </div>

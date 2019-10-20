@@ -23,6 +23,8 @@ namespace Models
         public string Mode { get; set; }
         public string UserId { get; set; }
 
+        public string IdentificationNumber { get; set; }
+
         public virtual User User { get; set; }
 
         public Kkm()
