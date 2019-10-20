@@ -45,7 +45,7 @@ namespace Fiscal.Controllers
         }
 
         [HttpPost]
-        public IActionResult RegisterCashDesk(RegisterCashDesckViewModel model)
+        public IActionResult RegisterCashDesk(RegisterCashDeskViewModel model)
         {
             var pattern = "SWK";
             var number = 10000000 + _context.Kkms.Count() + 1;
@@ -58,7 +58,7 @@ namespace Fiscal.Controllers
             {
                 Kkm kkm = new Kkm
                 {
-                    Name = model.CashDesckName,
+                    Name = model.Name,
                     Description = model.Description,
                     SerialNumber = serialNumber,
                     UserId = user.Id,
@@ -76,6 +76,26 @@ namespace Fiscal.Controllers
             return RedirectToAction("AllCashDesk");
         }
 
+        public IActionResult CheckName(RegisterCashDeskViewModel model)
+        {
+            var kkm = new Kkm
+            {
+                Name = model.Name,
+                Description = model.Description,
+            };
+
+            if (_context.Kkms.Any(u => string.Equals(u.Name.Trim(), model.Name) && u.Id == kkm.Id))
+            {
+                return Ok(true);
+            }
+            else if (_context.Kkms.Any(u => string.Equals(u.Name.Trim(), model.Name)))
+            {
+                return Ok(false);
+            }
+
+            return Ok(true);
+            
+        }
 
         [HttpPost]
         public IActionResult Post([FromBody] WebRequest model)
@@ -87,7 +107,6 @@ namespace Fiscal.Controllers
                 ReqNum = 1,
                 Service = new Service(new RegInfo())
             };
-
 
 
             return Ok(JsonConvert.SerializeObject(requestOfd));
