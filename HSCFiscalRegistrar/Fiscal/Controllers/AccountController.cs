@@ -219,8 +219,11 @@ namespace Fiscal.Controllers
             if (ModelState.IsValid)
             {
                 User user = await _userManager.FindByIdAsync(model.Id);
+                
                 if (user != null)
                 {
+                    
+                    
                     var passwordValidator = 
                         HttpContext.RequestServices.GetService(typeof(IPasswordValidator<User>)) as IPasswordValidator<User>;
                     var passwordHasher =
@@ -228,6 +231,10 @@ namespace Fiscal.Controllers
 
                     if (passwordValidator != null)
                     {
+
+                        
+                        
+                        
                         IdentityResult result = 
                             await passwordValidator?.ValidateAsync(_userManager, user, model.NewPassword);
                         if(result.Succeeded)
