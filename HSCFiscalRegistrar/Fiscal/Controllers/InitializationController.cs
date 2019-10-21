@@ -30,6 +30,11 @@ namespace Fiscal.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult AllCashDesk()
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             var res = _context.Kkms.ToList();
             return View(res);
         }
@@ -38,12 +43,22 @@ namespace Fiscal.Controllers
         [HttpGet]
         public IActionResult RegisterCashDesk()
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             return View();
         }
 
         [HttpGet]
         public IActionResult ActivateKkm()
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             return View();
         }
 
@@ -51,6 +66,11 @@ namespace Fiscal.Controllers
         [Authorize(Roles = "user")]
         public IActionResult RegisterCashDesk(RegisterCashDeskViewModel model)
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             var pattern = "SWK";
             var number = 10000000 + _context.Kkms.Count() + 1;
             string res = number.ToString().Substring(1);
@@ -81,6 +101,11 @@ namespace Fiscal.Controllers
 
         public IActionResult CheckName(RegisterCashDeskViewModel model)
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             var kkm = new Kkm
             {
                 Name = model.Name,
@@ -103,6 +128,16 @@ namespace Fiscal.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] WebRequest model)
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             Request requestOfd = new Request
             {
                 Command = 5,
@@ -117,6 +152,11 @@ namespace Fiscal.Controllers
 
         public IActionResult GetCashDesk(string id)
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             return View(_context.Kkms.Where(p => p.UserId == id).ToList());
         }
     }

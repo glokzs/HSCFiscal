@@ -20,12 +20,25 @@ namespace Fiscal.Controllers
 
         [HttpGet]
         [Authorize]
-        public IActionResult Add(string id) => View(new RegisterOperatorViewModel(){OwnerId = id});
+        public IActionResult Add(string id)
+        {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
+            return View(new RegisterOperatorViewModel(){OwnerId = id});
+        } 
         
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Add(RegisterOperatorViewModel model)
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             if (!ModelState.IsValid) return View();
 
             var owner = _userManager.Users.FirstOrDefault(u => u.Id == model.OwnerId);
