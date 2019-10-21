@@ -16,15 +16,15 @@ namespace Fiscal.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
-        private readonly AppContext _context;
+        private readonly AppDataFiscalContext _dataFiscalContext;
 
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager,
-            IEmailSender emailSender, AppContext context)
+            IEmailSender emailSender, AppDataFiscalContext dataFiscalContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
-            _context = context;
+            _dataFiscalContext = dataFiscalContext;
         }
 
         [HttpGet]
@@ -252,17 +252,17 @@ namespace Fiscal.Controllers
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
 
-            var kkm = new Kkm
+            var kkm = new Kkm()
             {
                 Name = model.Name,
                 Description = model.Description,
             };
 
-            if (_context.Kkms.Any(u => string.Equals(u.Name.Trim(), model.Name) && u.Id == kkm.Id))
+            if (_dataFiscalContext.Kkms.Any(u => string.Equals(u.Name.Trim(), model.Name) && u.Id == kkm.Id))
             {
                 return Ok(true);
             }
-            else if (_context.Kkms.Any(u => string.Equals(u.Name.Trim(), model.Name)))
+            else if (_dataFiscalContext.Kkms.Any(u => string.Equals(u.Name.Trim(), model.Name)))
             {
                 return Ok(false);
             }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Fiscal.Data;
 using Fiscal.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +17,9 @@ namespace Fiscal.Controllers
     public class InitializeCashDeskController : Controller
     {
         private readonly UserManager<User> _userManager;
-        private readonly Data.AppContext _context;
+        private readonly AppDataFiscalContext _context;
 
-        public InitializeCashDeskController(UserManager<User> userManager, Data.AppContext context)
+        public InitializeCashDeskController(UserManager<User> userManager, AppDataFiscalContext context)
         {
             _userManager = userManager;
             _context = context;

@@ -1,3 +1,4 @@
+@using Models
 @model Fiscal.ViewModels.RegisterOperatorViewModel
 
 @{
@@ -7,7 +8,7 @@
 
 <div class="container d-flex justify-content-center align-items-center flex-column">
     <div class="text-center mt-sm-5">
-        <h2>Регистрация нового кассира</h2>
+        <h2>Регистрация оператора</h2>
     </div>
     <form style="width: 350px" method="post" asp-controller="Operator" asp-action="Add">
         <div asp-validation-summary="ModelOnly"></div>
@@ -23,6 +24,15 @@
             <br/>
             <input class="form-control" asp-for="Email"/>
             <span asp-validation-for="Email"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="KKMId">Выберете кассу</label>
+            <select class="form-control">
+                @foreach (Kkm kkm in ViewBag.Kkms)
+                {
+                    <option value="@kkm.Id">@kkm.Name</option>
+                }
+            </select>
         </div>
         <div class="form-group">
             <label asp-for="Password"></label>

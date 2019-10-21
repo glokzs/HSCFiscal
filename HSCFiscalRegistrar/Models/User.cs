@@ -13,7 +13,6 @@ namespace Models
         public string Okved { get; set; }
         public TaxationTypeEnum TaxationType { get; set; }
         public string Inn { get; set; }
-
         public string OwnerId { get; set; }
         public string Title { get; set; }
         public string Address { get; set; }
@@ -22,5 +21,7 @@ namespace Models
         public string VATNumber { get; set; }
         public UserTypeEnum UserType { get; set; }
         public string Fio { get; set; }
+
+        public string KkmId { get; set; }
     }
 }

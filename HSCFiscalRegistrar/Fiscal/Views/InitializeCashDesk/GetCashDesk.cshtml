@@ -36,7 +36,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var item in @Model)
+        @foreach (var item in Model)
         {
             <tr>
                 <td>@item.Name</td>
@@ -45,8 +45,8 @@
                 <td>@item.CurrentStatus</td>
                 <td>@item.LastDateOperation</td>
                 <td>@item.Mode</td>
-                <td>@item.User.Title</td>
-                <td>@item.User.Inn</td>
+                <td>@item.NameOrg</td>
+                <td>@item.Iin</td>
                 <td>@item.Address</td>
                 @if (item.OfdToken == 0)
                 {

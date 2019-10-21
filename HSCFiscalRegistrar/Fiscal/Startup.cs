@@ -30,11 +30,11 @@ namespace Fiscal
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<AppContext>(options =>
+            services.AddDbContext<AppDataFiscalContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<AppContext>();
+                .AddEntityFrameworkStores<AppDataFiscalContext>();
             
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
             services.AddSingleton<IEmailSender, EmailSender>();
@@ -51,9 +51,9 @@ namespace Fiscal
         public void Configure(
             IApplicationBuilder app,
             IHostingEnvironment env,
-            AppContext context)
+            AppDataFiscalContext dataFiscalContext)
         {
-            context.Database.EnsureCreated();
+            dataFiscalContext.Database.EnsureCreated();
             
             if (env.IsDevelopment())
             {

@@ -2,7 +2,7 @@
 @using Models
 @model Fiscal.ViewModels.RegisterCashDeskViewModel
 @inject UserManager<User> UserManager
-@inject Fiscal.Data.AppContext Context
+@inject Fiscal.Data.AppDataFiscalContext DataFiscalContext
 @{
     var user = await UserManager.FindByNameAsync(User.Identity.Name);
 }

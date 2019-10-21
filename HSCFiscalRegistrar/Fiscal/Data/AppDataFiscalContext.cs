@@ -4,14 +4,14 @@ using Models;
 
 namespace Fiscal.Data
 {
-    public class AppContext : IdentityDbContext<User>
+    public class AppDataFiscalContext : IdentityDbContext<User>
     {
         public DbSet<Kkm> Kkms { get; set; }
         public DbSet<Shift> Shifts { get; set; }
         public DbSet<Operation> Operations { get; set; }
         public DbSet<ShiftOperation> ShiftOperations { get; set; }
         
-        public AppContext(DbContextOptions<AppContext> options)
+        public AppDataFiscalContext(DbContextOptions<AppDataFiscalContext> options)
             : base(options)
         {
         }
