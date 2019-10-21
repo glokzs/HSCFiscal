@@ -51,7 +51,7 @@ namespace HSCFiscalRegistrar.Controllers
                 ZxReportService.AddShiftProps(shift, operations);
                 ZxReportService.CloseShift(true, shift);
                 var merch = _userManager.Users.FirstOrDefault(u => u.Id == kkm.UserId);
-                var closeShiftOfdResponse = OfdRequest(kkm,merch,shift.Number);
+                var closeShiftOfdResponse = OfdRequest(kkm, merch, shift.Number);
                 if (kkm == null) return Json(_errorHelper.GetErrorRequest((int) ErrorEnums.NO_ACCESS_TO_CASH));
                 kkm.OfdToken = closeShiftOfdResponse.Result.Token;
                 kkm.ReqNum += 1;
@@ -65,13 +65,10 @@ namespace HSCFiscalRegistrar.Controllers
                 logger.LogError(e.Message);
                 return Json(e.Message);
             }
-
-            
         }
-        
+
         private async Task<CloseShiftOfdResponse> OfdRequest(Kkm kkm, User org, int shiftNumber)
         {
-            
             var logger = _loggerFactory.CreateLogger("OfdCloseShiftRequest|Post");
             var closeShiftRequest = new CloseShiftRequest(kkm, org, shiftNumber);
             try
@@ -83,12 +80,11 @@ namespace HSCFiscalRegistrar.Controllers
             {
                 logger.LogError(e.Message);
             }
+
             var x = await HttpService.Post(closeShiftRequest);
             string json = JsonConvert.SerializeObject(x);
             var response = JsonConvert.DeserializeObject<CloseShiftOfdResponse>(json);
             return response;
         }
-
-        
     }
 }

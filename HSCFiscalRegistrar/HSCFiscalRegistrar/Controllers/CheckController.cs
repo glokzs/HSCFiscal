@@ -62,13 +62,13 @@ namespace HSCFiscalRegistrar.Controllers
             var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.SerialNumber == checkOperationRequest.CashboxUniqueNumber);
             if (user == null) return NotFound("Operator not found");
             var shift = await GetShift(user.Result, kkm);
-            var merch = _userManager.Users.FirstOrDefault(u => u.Id == kkm.UserId);
+            var merchant = _userManager.Users.FirstOrDefault(u => u.Id == kkm.UserId);
             var org = new Org
             {
-                Inn = merch.Inn,
+                Inn = merchant.Inn,
                 Okved = "OKVED",
-                TaxationType = merch.TaxationType,
-                Title = merch.Title
+                TaxationType = merchant.TaxationType,
+                Title = merchant.Title
             };
             try
             {
@@ -112,6 +112,7 @@ namespace HSCFiscalRegistrar.Controllers
                     OpenDate = DateTime.Now,
                     KkmId = kkm.Id,
                     Number = 1,
+                    UserId = oper.Id
                 };
                 await _applicationContext.Shifts.AddAsync(shift);
                 await _applicationContext.SaveChangesAsync();
