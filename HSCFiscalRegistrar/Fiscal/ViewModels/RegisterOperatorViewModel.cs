@@ -7,6 +7,8 @@ namespace Fiscal.ViewModels
         [Required(ErrorMessage = "Это поле обязательно!")]
         [Display(Name = "ФИО")]
         public string Name { get; set; }
+        
+        public string OwnerId { get; set; }
 
         [Required(ErrorMessage = "Это поле обязательно!")]
         [DataType(DataType.Password)]

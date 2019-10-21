@@ -13,6 +13,8 @@ namespace Models
         public string Okved { get; set; }
         public TaxationTypeEnum TaxationType { get; set; }
         public string Inn { get; set; }
+
+        public string OwnerId { get; set; }
         public string Title { get; set; }
         public string Address { get; set; }
         public bool VAT { get; set; }
