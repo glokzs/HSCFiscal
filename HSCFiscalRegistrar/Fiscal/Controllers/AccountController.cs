@@ -154,7 +154,7 @@ namespace Fiscal.Controllers
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
 
-            if (User.IsInRole("admin") || User.IsInRole("operator"))
+            if (User.IsInRole("admin") || User.IsInRole("user"))
             {
                 if (ModelState.IsValid)
                 {
