@@ -2,13 +2,10 @@
 using System.Threading.Tasks;
 using Fiscal.Data;
 using Fiscal.Interface;
-using Fiscal.Serves;
 using Fiscal.ViewModels;
-using HSCFiscalRegistrar;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Models;
 using Models.Enums;
 
@@ -149,39 +146,27 @@ namespace Fiscal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (User.IsInRole("blocked"))
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("BlockPage", "BlockedUser");
-            }
-
-            if (User.IsInRole("admin") || User.IsInRole("user"))
-            {
-                if (ModelState.IsValid)
+                var result =
+                    await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                if (result.Succeeded)
                 {
-                    var result =
-                        await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
-                    if (result.Succeeded)
+                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     {
-                        if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
-                        {
-                            return Redirect(model.ReturnUrl);
-                        }
-                        else
-                        {
-                            return RedirectToAction("Index", "Home");
-                        }
+                        return Redirect(model.ReturnUrl);
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                        return RedirectToAction("Index", "Home");
                     }
                 }
+                else
+                {
+                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                }
             }
-            else
-            {
-                ModelState.AddModelError("", "Вы заходите под оператором!! зайдите под логином организации");
-            }
-            
+
             return View(model);
         }
 
@@ -304,6 +289,7 @@ namespace Fiscal.Controllers
 
             return Ok(true);
         }
+
         public IActionResult CheckTitle(RegisterMerchViewModel model)
         {
             if (_userManager.Users.Any(u => string.Equals(u.Title.Trim(), model.Title.Trim())))

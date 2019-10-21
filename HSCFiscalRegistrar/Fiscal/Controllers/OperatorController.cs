@@ -22,7 +22,7 @@ namespace Fiscal.Controllers
         [Authorize]
         public IActionResult Add(string id)
         {
-            if (User.IsInRole("blocked"))
+            if (User.IsInRole("blocked") || User.IsInRole("operator"))
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
@@ -34,7 +34,7 @@ namespace Fiscal.Controllers
         [Authorize]
         public async Task<IActionResult> Add(RegisterOperatorViewModel model)
         {
-            if (User.IsInRole("blocked"))
+            if (User.IsInRole("blocked") || User.IsInRole("operator"))
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Fiscal.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.DTO;
 using Newtonsoft.Json;
-using Fiscal.Data;
 using Microsoft.AspNetCore.Authorization;
 using Models.DTO.InitializeCashDesk.WebRequest;
 
@@ -30,7 +27,7 @@ namespace Fiscal.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult AllCashDesk()
         {
-            if (User.IsInRole("blocked"))
+            if (User.IsInRole("blocked") || User.IsInRole("operator"))
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
@@ -43,7 +40,7 @@ namespace Fiscal.Controllers
         [HttpGet]
         public IActionResult RegisterCashDesk()
         {
-            if (User.IsInRole("blocked"))
+            if (User.IsInRole("blocked") || User.IsInRole("operator"))
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
@@ -54,7 +51,7 @@ namespace Fiscal.Controllers
         [HttpGet]
         public IActionResult ActivateKkm()
         {
-            if (User.IsInRole("blocked"))
+            if (User.IsInRole("blocked") || User.IsInRole("operator"))
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
@@ -66,7 +63,7 @@ namespace Fiscal.Controllers
         [Authorize(Roles = "user")]
         public IActionResult RegisterCashDesk(RegisterCashDeskViewModel model)
         {
-            if (User.IsInRole("blocked"))
+            if (User.IsInRole("blocked") || User.IsInRole("operator"))
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
@@ -101,7 +98,7 @@ namespace Fiscal.Controllers
 
         public IActionResult CheckName(RegisterCashDeskViewModel model)
         {
-            if (User.IsInRole("blocked"))
+            if (User.IsInRole("blocked") || User.IsInRole("operator"))
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
@@ -128,12 +125,7 @@ namespace Fiscal.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] WebRequest model)
         {
-            if (User.IsInRole("blocked"))
-            {
-                return RedirectToAction("BlockPage", "BlockedUser");
-            }
-            
-            if (User.IsInRole("blocked"))
+            if (User.IsInRole("blocked") || User.IsInRole("operator"))
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
@@ -152,11 +144,10 @@ namespace Fiscal.Controllers
 
         public IActionResult GetCashDesk(string id)
         {
-            if (User.IsInRole("blocked"))
+            if (User.IsInRole("blocked") || User.IsInRole("operator"))
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
-            
             return View(_context.Kkms.Where(p => p.UserId == id).ToList());
         }
     }

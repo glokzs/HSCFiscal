@@ -14,7 +14,6 @@ using Models.DTO.XReport.KkmResponse;
 using Models.Enums;
 using Models.Services;
 using Newtonsoft.Json;
-using DateTime = System.DateTime;
 
 namespace HSCFiscalRegistrar.Controllers
 {

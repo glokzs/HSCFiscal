@@ -14,17 +14,17 @@ namespace Fiscal.Controllers
     {
         public IActionResult Index()
         {
-            if (User.IsInRole("blocked"))
+            if (User.IsInRole("blocked") || User.IsInRole("operator"))
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
-            
+
             return View();
         }
 
         public IActionResult Privacy()
         {
-            if (User.IsInRole("blocked"))
+            if (User.IsInRole("blocked") || User.IsInRole("operator"))
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
@@ -35,7 +35,7 @@ namespace Fiscal.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            if (User.IsInRole("blocked"))
+            if (User.IsInRole("blocked") || User.IsInRole("operator"))
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
