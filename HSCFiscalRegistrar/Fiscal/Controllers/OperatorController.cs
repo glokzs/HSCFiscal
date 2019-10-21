@@ -20,21 +20,27 @@ namespace Fiscal.Controllers
 
         [HttpGet]
         [Authorize]
-        public IActionResult Add() => View();
+        public IActionResult Add(string id) => View(new RegisterOperatorViewModel(){OwnerId = id});
         
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Add(RegisterOperatorViewModel model)
         {
             if (!ModelState.IsValid) return View();
+
+            var owner = _userManager.Users.FirstOrDefault(u => u.Id == model.OwnerId);
+
             var user = new User
             {
                 UserName = model.Email,
                 Email = model.Email,
                 OperatorCode = _userManager.Users.Count() + 1,
                 Fio = model.Name,
-                UserType = UserTypeEnum.TYPE_OPERATOR
+                UserType = UserTypeEnum.TYPE_OPERATOR,
+                OwnerId = model.OwnerId,
+                Title = owner.Title
             };
+            
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
