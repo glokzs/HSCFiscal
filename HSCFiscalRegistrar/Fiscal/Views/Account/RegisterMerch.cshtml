@@ -1,4 +1,4 @@
-﻿@model Fiscal.ViewModels.RegisterViewModel
+﻿@model Fiscal.ViewModels.RegisterMerchViewModel
 
 @{
     ViewBag.Title = "Регистрация организации";
@@ -12,17 +12,17 @@
             <div id="form_block_right" class="form_block_right mx-3" style="width: 50%">
                 <div class="form-group">
                     <label asp-for="IIN"></label>
-                    <input maxlength="12" class="form-control" asp-for="IIN"/>
+                    <input maxlength="12" class="form-control" asp-for="IIN" />
                     <span asp-validation-for="IIN"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Title"></label>
-                    <input class="form-control" asp-for="Title"/>
+                    <input class="form-control" asp-for="Title" />
                     <span asp-validation-for="Title"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Adres"></label>
-                    <input class="form-control" asp-for="Adres"/>
+                    <input class="form-control" asp-for="Adres" />
                     <span asp-validation-for="Adres"></span>
                 </div>
 
@@ -37,19 +37,19 @@
                 </div>
 
                 <div class="form-check d-flex justify-content-start align-items-center p-0 my-2">
-                    <label class="m-0 mr-2" asp-for="VAT"></label><br/>
-                    <input type="checkbox" id='inactivelist' asp-for="VAT"/>
+                    <label class="m-0 mr-2" asp-for="VAT"></label><br />
+                    <input type="checkbox" id='inactivelist' asp-for="VAT" />
                 </div>
 
                 <div class="form-group">
                     <label asp-for="VATSeria"></label>
-                    <input value="0" id="VATSeria" class="form-control" asp-for="VATSeria" disabled="disabled"/>
+                    <input value="0" id="VATSeria" class="form-control" asp-for="VATSeria" disabled="disabled" />
                     <span asp-validation-for="VATSeria"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="VATNumber"></label>
-                    <input value="0"  id="VATNumber" class="form-control" asp-for="VATNumber" disabled="disabled"/>
+                    <input value="0" id="VATNumber" class="form-control" asp-for="VATNumber" disabled="disabled" />
                     <span asp-validation-for="VATNumber"></span>
                 </div>
 
@@ -58,39 +58,43 @@
             <div class="form_block_left mx-5" style="width: 50%">
                 <div class="form-group">
                     <label asp-for="FIO"></label>
-                    <br/>
-                    <input class="form-control" asp-for="FIO"/>
+                    <br />
+                    <input class="form-control" asp-for="FIO" />
                     <span asp-validation-for="FIO"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="PhoneNumberUser"></label>
-                    <br/>
-                    <input type="number" class="form-control" asp-for="PhoneNumberUser"/>
+                    <br />
+                    <input type="number" class="form-control" asp-for="PhoneNumberUser" />
                     <span asp-validation-for="PhoneNumberUser"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Email"></label>
-                    <br/>
-                    <input class="form-control" asp-for="Email"/>
+                    <br />
+                    <input class="form-control" asp-for="Email" />
                     <span asp-validation-for="Email"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Password"></label>
-                    <br/>
-                    <input class="form-control" asp-for="Password"/>
+                    <br />
+                    <input class="form-control" asp-for="Password" />
                     <span asp-validation-for="Password"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="PasswordConfirm"></label>
-                    <br/>
-                    <input class="form-control" asp-for="PasswordConfirm"/>
+                    <br />
+                    <input class="form-control" asp-for="PasswordConfirm" />
                     <span asp-validation-for="PasswordConfirm"></span>
                 </div>
             </div>
         </div>
         <div class="form-group d-flex justify-content-end">
-            <input class="btn btn-primary mr-3" type="submit" value="Зарегистрировать"/>
+            <input class="btn btn-primary mr-3" type="submit" value="Зарегистрировать" />
             <a class="btn btn-primary text-white">Отмена</a>
         </div>
     </form>
 </div>
+
+@section scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

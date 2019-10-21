@@ -14,17 +14,32 @@ namespace Fiscal.Controllers
     {
         public IActionResult Index()
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             return View();
         }
 
         public IActionResult Privacy()
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
     }

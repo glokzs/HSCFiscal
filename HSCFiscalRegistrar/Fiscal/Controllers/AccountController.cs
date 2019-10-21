@@ -33,6 +33,11 @@ namespace Fiscal.Controllers
         [Authorize]
         public IActionResult Register()
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             return View();
         }
 
@@ -40,13 +45,23 @@ namespace Fiscal.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult RegisterMerch()
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             return View();
         }
 
         [HttpPost]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> RegisterMerch(RegisterViewModel model)
+        public async Task<IActionResult> RegisterMerch(RegisterMerchViewModel model)
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             if (!ModelState.IsValid) return View();
             User user = new User
             {
@@ -95,6 +110,11 @@ namespace Fiscal.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             if (userId == null || code == null)
             {
                 return View("Error");
@@ -113,6 +133,11 @@ namespace Fiscal.Controllers
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             return View(new LoginViewModel {ReturnUrl = returnUrl});
         }
 
@@ -120,6 +145,11 @@ namespace Fiscal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             if (ModelState.IsValid)
             {
                 var result =
@@ -149,6 +179,11 @@ namespace Fiscal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOff()
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
@@ -156,6 +191,11 @@ namespace Fiscal.Controllers
         
         public async Task<IActionResult> ChangePassword(string id)
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             User user = await _userManager.FindByIdAsync(id);
             
             if (user == null)
@@ -171,6 +211,11 @@ namespace Fiscal.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             if (ModelState.IsValid)
             {
                 User user = await _userManager.FindByIdAsync(model.Id);
@@ -209,6 +254,11 @@ namespace Fiscal.Controllers
         }
         public IActionResult CheckName(RegisterCashDeskViewModel model)
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             var kkm = new Kkm
             {
                 Name = model.Name,
@@ -226,6 +276,35 @@ namespace Fiscal.Controllers
 
             return Ok(true);
 
+        }
+
+        public IActionResult CheckEmail(RegisterMerchViewModel model)
+        {
+            if (_userManager.Users.Any(u => string.Equals(u.Email.Trim(), model.Email.Trim())))
+            {
+                return Ok(false);
+            }
+
+            return Ok(true);
+        }
+
+        public IActionResult CheckIin(RegisterMerchViewModel model)
+        {
+            if (_userManager.Users.Any(u => string.Equals(u.Inn.Trim(), model.IIN.Trim())))
+            {
+                return Ok(false);
+            }
+
+            return Ok(true);
+        }
+        public IActionResult CheckTitle(RegisterMerchViewModel model)
+        {
+            if (_userManager.Users.Any(u => string.Equals(u.Title.Trim(), model.Title.Trim())))
+            {
+                return Ok(false);
+            }
+
+            return Ok(true);
         }
     }
 }

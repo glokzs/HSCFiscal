@@ -4,11 +4,12 @@ using Models.Enums;
 
 namespace Fiscal.ViewModels
 {
-    public class RegisterViewModel
+    public class RegisterMerchViewModel
     {
         [EmailAddress]
         [Required(ErrorMessage = "Это поле обязательно!")]
         [Display(Name = "Email")]
+        [Remote("CheckEmail", "Account", ErrorMessage = "Эта почта уже зарегистрирована", AdditionalFields = "Id")]
         public string Email { get; set; }
         
         [Required(ErrorMessage = "Это поле обязательно!")]
@@ -24,10 +25,12 @@ namespace Fiscal.ViewModels
         [StringLength(12, MinimumLength = 12, ErrorMessage = "Длина ИИН должна составлять 12 цифр")]
         [Required(ErrorMessage = "Это поле обязательно!")]
         [Display(Name = "ИИН")]
+        [Remote("CheckIin", "Account", ErrorMessage = "Этот иин уже зарегистрирован", AdditionalFields = "Id")]
         public string IIN { get; set; }
         
         [Required(ErrorMessage = "Это поле обязательно!")]
         [Display(Name = "Наименование компании")]
+        [Remote("CheckTitle", "Account", ErrorMessage = "Это название уже занято", AdditionalFields = "Id")]
         public string Title { get; set; }
         
         [Required(ErrorMessage = "Это поле обязательно!")]
