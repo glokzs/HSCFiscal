@@ -42,7 +42,7 @@ namespace HSCFiscalRegistrar.Controllers
             {
                 logger.LogInformation($"X-Отчет: {request.Token}");
                 var user = _userManager.Users.FirstOrDefault(u => u.UserToken == request.Token);
-                var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.UserId == user.Id);
+                var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.SerialNumber == request.CashboxUniqueNumber);
                 var shift = _applicationContext.Shifts.Last(s => s.KkmId == kkm.Id && s.CloseDate == DateTime.MinValue);
                 var operations = _applicationContext.Operations.Where(o => o.ShiftId == shift.Id);
                 var shiftOperations = ZxReportService.GetShiftOperations(operations, shift);
@@ -50,10 +50,11 @@ namespace HSCFiscalRegistrar.Controllers
                 var response = new XReportKkmResponse(shiftOperations, operations, user, kkm, shift);
                 if (kkm == null) return Json( _errorHelper.GetErrorRequest((int) ErrorEnums.NO_ACCESS_TO_CASH));
                 kkm.ReqNum += 1;
+                var merch = _userManager.Users.FirstOrDefault(u => u.Id == kkm.UserId);
                 _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
                 _applicationContext.SaveChangesAsync();
                 var xReportOfdRequest = new OfdXReport(_loggerFactory);
-                xReportOfdRequest.Request(kkm, user);
+                xReportOfdRequest.Request(kkm, merch);
 
                 return Ok(JsonConvert.SerializeObject(response));
             }
