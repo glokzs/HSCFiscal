@@ -49,7 +49,7 @@ namespace Models.DTO.CloseShift
             return new Org
             {
                 Inn = user.Inn,
-                Okved = user.Okved,
+                Okved = "",
                 TaxationType = user.TaxationType,
                 Title = user.Title
             };

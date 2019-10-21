@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using HSCFiscalRegistrar.Exceptions;
 using HSCFiscalRegistrar.Helpers;
 using Microsoft.AspNetCore.Identity;
@@ -17,18 +18,21 @@ namespace HSCFiscalRegistrar.Controllers
     [ApiController]
     public class CashboxesController : Controller
     {
+        private readonly ApplicationContext _applicationContext;
         private readonly UserManager<User> _userManager;
         private readonly TokenValidationHelper _validationHelper;
         private readonly GenerateErrorHelper _errorHelper;
         private readonly ILoggerFactory _loggerFactory;
 
         public CashboxesController(TokenValidationHelper helper,
-            ILoggerFactory loggerFactory, GenerateErrorHelper errorHelper, UserManager<User> userManager)
+            ILoggerFactory loggerFactory, GenerateErrorHelper errorHelper, UserManager<User> userManager,
+            ApplicationContext applicationContext)
         {
             _validationHelper = helper;
             _loggerFactory = loggerFactory;
             _errorHelper = errorHelper;
             _userManager = userManager;
+            _applicationContext = applicationContext;
         }
 
         [HttpPost]
@@ -57,6 +61,13 @@ namespace HSCFiscalRegistrar.Controllers
 
         private OkObjectResult GetCashBoxesData()
         {
+            var user = _userManager.GetUserAsync(User);
+            var kkm = _applicationContext.Kkms.First(k => k.UserId == user.Result.Id);
+            var shiftNumber = 1;
+            if (_applicationContext.Shifts.Any(s => s.KkmId == kkm.Id))
+            {
+                shiftNumber = _applicationContext.Shifts.Last().Number;
+            }
             var wrapper = new Wrapper
             {
                 Data = new Data
@@ -65,13 +76,13 @@ namespace HSCFiscalRegistrar.Controllers
                     {
                         new List
                         {
-                            UniqueNumber = "SWK00030767",
-                            RegistrationNumber = "240820180008",
-                            IdentificationNumber = "2405",
-                            Name = "Касса - 212408",
+                            UniqueNumber = kkm.SerialNumber,
+                            RegistrationNumber = kkm.FnsKkmId,
+                            IdentificationNumber = kkm.DeviceId.ToString(),
+                            Name = kkm.Name,
                             IsOffline = false,
                             CurrentStatus = 1,
-                            Shift = 59
+                            Shift = shiftNumber
                         }
                     }
                 }
