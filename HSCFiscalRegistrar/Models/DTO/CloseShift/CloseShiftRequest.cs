@@ -1,4 +1,6 @@
 using Models.DTO.DateAndTime;
+using Models.DTO.RequestOfd;
+using Models.DTO.RequestOperatorOfd;
 using Models.Enums;
 using DateTime = Models.DTO.DateAndTime.DateTime;
 
@@ -16,7 +18,7 @@ namespace Models.DTO.CloseShift
         public CloseShiftRequest(Kkm kkm, User org, int shiftNumber)
         {
             Command = CommandTypeEnum.COMMAND_CLOSE_SHIFT;
-            Service = new Service(new RegInfo(org, kkm));
+            Service = new Service(new RegInfo(GetOrg(org), GetKkm(kkm)));
             DeviceId = kkm.DeviceId;
             ReqNum = kkm.ReqNum;
             Token = kkm.OfdToken;
@@ -39,6 +41,28 @@ namespace Models.DTO.CloseShift
                         Second = System.DateTime.Now.Second
                     }
                 }
+            };
+        }
+        
+        private Org GetOrg(User user)
+        {
+            return new Org
+            {
+                Inn = user.Inn,
+                Okved = user.Okved,
+                TaxationType = user.TaxationType,
+                Title = user.Title
+            };
+        }
+
+        private OfdKkm GetKkm(Kkm kkm)
+        {
+            return new OfdKkm
+            {
+                FnsKkmId = kkm.FnsKkmId,
+                PointOfPaymentNumber = kkm.PointOfPayment,
+                SerialNumber = kkm.SerialNumber,
+                TerminalNumber = kkm.TerminalNumber
             };
         }
     }

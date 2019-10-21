@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using Models.DTO.XReport.OfdResponse;
 using Newtonsoft.Json;
 
 namespace Models
@@ -9,8 +11,6 @@ namespace Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string SerialNumber { get; set; }
-        
-        [JsonProperty("PointOfPaymentNumber")]
         public string PointOfPayment { get; set; }
         public string FnsKkmId { get; set; }
         public string TerminalNumber { get; set; }

@@ -12,7 +12,7 @@
             <div id="form_block_right" class="form_block_right mx-3" style="width: 50%">
                 <div class="form-group">
                     <label asp-for="IIN"></label>
-                    <input class="form-control" asp-for="IIN"/>
+                    <input maxlength="12" class="form-control" asp-for="IIN"/>
                     <span asp-validation-for="IIN"></span>
                 </div>
                 <div class="form-group">
@@ -43,13 +43,13 @@
 
                 <div class="form-group">
                     <label asp-for="VATSeria"></label>
-                    <input id="VATSeria" class="form-control" asp-for="VATSeria" disabled="disabled"/>
+                    <input value="0" id="VATSeria" class="form-control" asp-for="VATSeria" disabled="disabled"/>
                     <span asp-validation-for="VATSeria"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="VATNumber"></label>
-                    <input id="VATNumber" class="form-control" asp-for="VATNumber" disabled="disabled"/>
+                    <input value="0"  id="VATNumber" class="form-control" asp-for="VATNumber" disabled="disabled"/>
                     <span asp-validation-for="VATNumber"></span>
                 </div>
 
@@ -65,7 +65,7 @@
                 <div class="form-group">
                     <label asp-for="PhoneNumberUser"></label>
                     <br/>
-                    <input class="form-control" asp-for="PhoneNumberUser"/>
+                    <input type="number" class="form-control" asp-for="PhoneNumberUser"/>
                     <span asp-validation-for="PhoneNumberUser"></span>
                 </div>
                 <div class="form-group">

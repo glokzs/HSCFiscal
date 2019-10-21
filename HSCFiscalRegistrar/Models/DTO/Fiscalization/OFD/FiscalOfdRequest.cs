@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Models.DTO.DateAndTime;
 using Models.DTO.Fiscalization.KKM;
+using Models.DTO.RequestOfd;
+using Models.DTO.RequestOperatorOfd;
 using Models.Enums;
 using Newtonsoft.Json;
 
@@ -25,20 +27,20 @@ namespace Models.DTO.Fiscalization.OFD
         {
         }
 
-        public FiscalOfdRequest(Operation operation, CheckOperationRequest checkOperationRequest)
+        public FiscalOfdRequest(Operation operation, CheckOperationRequest checkOperationRequest, Kkm kkm, Org org)
         {
             Command = CommandTypeEnum.COMMAND_TICKET;
-            Token = operation.Kkm.OfdToken;
-            Service = new Service(new RegInfo(operation.User, operation.Kkm));
-            DeviceId = operation.Kkm.DeviceId;
-            ReqNum = operation.Kkm.ReqNum;
+            Token = kkm.OfdToken;
+            Service = new Service(new RegInfo(org, GetKkm(kkm)));
+            DeviceId = kkm.DeviceId;
+            ReqNum = kkm.ReqNum + 15;
             Ticket = new Ticket
             {
                 Operation = operation.Type,
-                Operator = new User()
+                Operator = new Operator
                 {
-                    OperatorCode = operation.User.OperatorCode,
-                    UserName = operation.User.UserName
+                    Code = operation.User.OperatorCode,
+                    Name = operation.User.UserName
                 },
                 DateTime = GetDateTime(operation),
                 Payments = GetPayments(checkOperationRequest),
@@ -55,9 +57,9 @@ namespace Models.DTO.Fiscalization.OFD
                 {
                     Type = 0
                 },
-                OfflineTicketNumber = operation.FiscalNumber
             };
         }
+        
         
          private List<Item> GetItems(CheckOperationRequest checkOperationRequest)
         {
@@ -69,6 +71,17 @@ namespace Models.DTO.Fiscalization.OFD
 
             return items;
         }
+         
+         private OfdKkm GetKkm(Kkm kkm)
+         {
+             return new OfdKkm
+             {
+                 FnsKkmId = kkm.FnsKkmId,
+                 PointOfPaymentNumber = kkm.PointOfPayment,
+                 SerialNumber = kkm.SerialNumber,
+                 TerminalNumber = kkm.TerminalNumber
+             };
+         }
 
         private Item GetItem(PositionType positionType)
         {

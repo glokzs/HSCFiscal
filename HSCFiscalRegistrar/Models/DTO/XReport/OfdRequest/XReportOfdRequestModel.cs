@@ -1,4 +1,6 @@
 ﻿using Models.DTO.DateAndTime;
+using Models.DTO.RequestOfd;
+using Models.DTO.RequestOperatorOfd;
 using Models.Enums;
 
 namespace Models.DTO.XReport.OfdRequest
@@ -18,11 +20,32 @@ namespace Models.DTO.XReport.OfdRequest
             DeviceId = kkm.DeviceId;
             ReqNum = kkm.ReqNum;
             Token = kkm.OfdToken;
-            var regInfo = new RegInfo(user, kkm);
+            var regInfo = new RegInfo(GetOrg(user), GetKkm(kkm));
             Service = new Service(regInfo);
             Report = new Report(ReportTypeEnum.REPORT_X, GetDateTime(), false);
         }
 
+        private OfdKkm GetKkm(Kkm kkm)
+        {
+            return new OfdKkm
+            {
+                FnsKkmId = kkm.FnsKkmId,
+                PointOfPaymentNumber = kkm.PointOfPayment,
+                SerialNumber = kkm.SerialNumber,
+                TerminalNumber = kkm.TerminalNumber
+            };
+        }
+        
+        private Org GetOrg(User user)
+        {
+            return new Org
+            {
+                Inn = user.Inn,
+                Okved = user.Okved,
+                TaxationType = user.TaxationType,
+                Title = user.Title
+            };
+        }
         private DateTime GetDateTime()
         {
             return new DateTime

@@ -7,6 +7,10 @@ namespace Fiscal.Data
     public class AppContext : IdentityDbContext<User>
     {
         public DbSet<Kkm> Kkms { get; set; }
+        public DbSet<Shift> Shifts { get; set; }
+        public DbSet<Operation> Operations { get; set; }
+        public DbSet<ShiftOperation> ShiftOperations { get; set; }
+        
         public AppContext(DbContextOptions<AppContext> options)
             : base(options)
         {

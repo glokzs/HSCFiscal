@@ -8,6 +8,7 @@ using HSCFiscalRegistrar;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Models;
 using Models.Enums;
 
@@ -46,46 +47,44 @@ namespace Fiscal.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> RegisterMerch(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View();
+            User user = new User
             {
-                User user = new User
-                {
-                    Inn = model.IIN,
-                    Title = model.Title,
-                    Address = model.Adres,
-                    UserName = model.Email,
-                    TaxationType = model.TaxationType,
-                    VAT = model.VAT,
-                    VATNumber = model.VATNumber,
-                    VATSeria = model.VATSeria,
-                    Fio = model.FIO,
-                    PhoneNumber = model.PhoneNumberUser,
-                    Email = model.Email,
-                    UserType = UserTypeEnum.TYPE_MERCHANT
-                };
+                Inn = model.IIN,
+                Title = model.Title,
+                Address = model.Adres,
+                UserName = model.Email,
+                TaxationType = model.TaxationType,
+                VAT = model.VAT,
+                VATNumber = model.VATNumber,
+                VATSeria = model.VATSeria,
+                Fio = model.FIO,
+                PhoneNumber = model.PhoneNumberUser,
+                Email = model.Email,
+                UserType = UserTypeEnum.TYPE_MERCHANT
+            };
 
-                var result = await _userManager.CreateAsync(user, model.Password);
+            var result = await _userManager.CreateAsync(user, model.Password);
                 
-                if (result.Succeeded)
-                {
-                    await _userManager.AddToRoleAsync(user, "user");
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "user");
                     
-                    var email = model.Email;
+                var email = model.Email;
 
-                    var subject = "Fiscal Team";
+                var subject = "Fiscal Team";
 
-                    var message = $"<table><tr><td>Дорогой, {model.FIO}</td></tr><tr><td>ссылка для входа:<span>https://localhost:5001/account/login</span></td></tr><tr><td>Логин: {model.Email}</td></tr><tr><td>Пароль: {model.Password}</td></tr><tr><td>с уважением, ваша команда ~Fiscal~</td></tr></table>";
+                var message = $"<table><tr><td>Дорогой, {model.FIO}</td></tr><tr><td>ссылка для входа:<span>https://localhost:5001/account/login</span></td></tr><tr><td>Логин: {model.Email}</td></tr><tr><td>Пароль: {model.Password}</td></tr><tr><td>с уважением, ваша команда ~Fiscal~</td></tr></table>";
 
-                    await _emailSender.SendEmailAsync(email, subject, message);
+                await _emailSender.SendEmailAsync(email, subject, message);
 
-                    return RedirectToAction("index", "Home");
-                }
-                else
+                return RedirectToAction("index", "Home");
+            }
+            else
+            {
+                foreach (var error in result.Errors)
                 {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
+                    ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
 
@@ -108,8 +107,7 @@ namespace Fiscal.Controllers
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if(result.Succeeded)
                 return RedirectToAction("Index", "Home");
-            else
-                return View("Error");
+            return View("Error");
         }
         
         [HttpGet]

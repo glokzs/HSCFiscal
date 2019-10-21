@@ -12,6 +12,7 @@ using Models.DTO.Fiscalization.KKM;
 using Models.DTO.Fiscalization.KKMResponce;
 using Models.DTO.Fiscalization.OFD;
 using Models.DTO.Fiscalization.OFDResponse;
+using Models.DTO.RequestOperatorOfd;
 using Models.Enums;
 using Models.Services;
 using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
@@ -59,10 +60,17 @@ namespace HSCFiscalRegistrar.Controllers
         private async Task<IActionResult> Response(CheckOperationRequest checkOperationRequest, ILogger logger)
         {
             var user = _userManager.FindByIdAsync(_helper.ParseId(checkOperationRequest.Token));
-            var kkm = _applicationContext.Kkms.FirstOrDefault(i => i.UserId == user.Result.Id);
+            var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.SerialNumber == checkOperationRequest.CashboxUniqueNumber);
             if (user == null) return NotFound("Operator not found");
             var shift = await GetShift(user.Result, kkm);
-            
+            var merch = _userManager.Users.FirstOrDefault(u => u.Id == kkm.UserId);
+            var org = new Org
+            {
+                Inn = merch.Inn,
+                Okved = "OKVED",
+                TaxationType = merch.TaxationType,
+                Title = merch.Title
+            };
             try
             {
                 var sum = checkOperationRequest.Payments.Sum(paymentsType => paymentsType.Sum);
@@ -71,7 +79,7 @@ namespace HSCFiscalRegistrar.Controllers
                 var qr = GetUrl(kkm, checkNumber.ToString(), sum, date);
                 var operation = GetOperation(shift, checkOperationRequest, date, qr, user.Result, kkm);
                 var kkmResponse = new KkmResponse(operation, shift);
-                var response = await OfdFiscalResponse(checkOperationRequest, operation);
+                var response = await OfdFiscalResponse(checkOperationRequest, operation, kkm, org);
                 operation.FiscalNumber = response.Ticket.TicketNumber;
                 operation.QR = response.Ticket.QrCode;
                 kkm.OfdToken = response.Token;
@@ -87,15 +95,14 @@ namespace HSCFiscalRegistrar.Controllers
         }
 
         private static async Task<OfdFiscalResponse> OfdFiscalResponse(CheckOperationRequest checkOperationRequest,
-            Operation operation)
+            Operation operation, Kkm kkm, Org org)
         {
-            var fiscalOfdRequest = new FiscalOfdRequest(operation, checkOperationRequest);
+            var fiscalOfdRequest = new FiscalOfdRequest(operation, checkOperationRequest, kkm, org);
             var x = await HttpService.Post(fiscalOfdRequest);
             string json = JsonConvert.SerializeObject(x);
             var response = JsonConvert.DeserializeObject<OfdFiscalResponse>(json);
             return response;
         }
-
         private async Task<Shift> GetShift(User oper, Kkm kkm)
         {
             Shift shift;

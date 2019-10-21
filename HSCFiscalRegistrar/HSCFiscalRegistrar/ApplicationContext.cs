@@ -10,7 +10,6 @@ namespace HSCFiscalRegistrar
         public DbSet<Shift> Shifts { get; set; }
         public DbSet<Operation> Operations { get; set; }
         public DbSet<ShiftOperation> ShiftOperations { get; set; }
-
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {

@@ -1,11 +1,16 @@
+using Models.DTO.RequestOfd;
+using Models.DTO.RequestOperatorOfd;
+using Newtonsoft.Json;
+
 namespace Models.DTO
 {
     public class RegInfo
     {
-        public User Org { get; set; }
-        public Kkm Kkm { get; set; }
+        public Org Org { get; set; }
+        [JsonProperty("Kkm")]
+        public OfdKkm Kkm { get; set; }
 
-        public RegInfo(User org, Kkm kkm)
+        public RegInfo(Org org, OfdKkm kkm)
         {
             Org = org;
             Kkm = kkm;
