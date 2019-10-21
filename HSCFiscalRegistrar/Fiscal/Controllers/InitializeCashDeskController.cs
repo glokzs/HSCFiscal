@@ -15,12 +15,12 @@ using Models.DTO.InitializeCashDesk.WebRequest;
 namespace Fiscal.Controllers
 {
     [Authorize]
-    public class InitializationController : Controller
+    public class InitializeCashDeskController : Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly Data.AppContext _context;
 
-        public InitializationController(UserManager<User> userManager, Data.AppContext context)
+        public InitializeCashDeskController(UserManager<User> userManager, Data.AppContext context)
         {
             _userManager = userManager;
             _context = context;
@@ -96,7 +96,7 @@ namespace Fiscal.Controllers
 
             _context.SaveChanges();
             
-            return RedirectToAction("GetCashDesk", "Initialization", new {id = model.UserId});
+            return RedirectToAction("GetCashDesk", "InitializeCashDesk", new {id = model.UserId});
         }
 
         public IActionResult CheckName(RegisterCashDeskViewModel model)
