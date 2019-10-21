@@ -69,4 +69,8 @@
     <_ContentIncludedByDefault Remove="DTO\Fiscalization\OFD\fisc.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Release" />
+  </ItemGroup>
+
 </Project>
