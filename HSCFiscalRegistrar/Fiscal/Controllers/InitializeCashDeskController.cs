@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Fiscal.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -102,24 +103,18 @@ namespace Fiscal.Controllers
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
-            
-            var kkm = new Kkm
-            {
-                Name = model.Name,
-                Description = model.Description,
-            };
 
-            if (_context.Kkms.Any(u => string.Equals(u.Name.Trim(), model.Name) && u.Id == kkm.Id))
-            {
-                return Ok(true);
-            }
-            else if (_context.Kkms.Any(u => string.Equals(u.Name.Trim(), model.Name)))
+            List<Kkm> reskkm = _context.Kkms.Where(u => u.UserId == model.UserId).ToList();
+
+            var res = reskkm.FirstOrDefault(i => i.Name == model.Name);
+
+            if (res != null)
             {
                 return Ok(false);
             }
 
             return Ok(true);
-            
+
         }
 
         [HttpPost]

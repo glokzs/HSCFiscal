@@ -7,7 +7,7 @@ namespace Fiscal.ViewModels
     {
         [Required]
         [Display(Name = "Name")]
-        [Remote("CheckName", "InitializeCashDesk", ErrorMessage = "Это имя уже занято", AdditionalFields = "Id")]
+        [Remote("CheckName", "InitializeCashDesk", ErrorMessage = "Это имя уже занято", AdditionalFields = "UserId")]
         public string Name { get; set; }
         public string Description { get; set; }
         public string UserId { get; set; }
