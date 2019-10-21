@@ -87,7 +87,8 @@ namespace Fiscal.Controllers
                     CurrentStatus = "Создана",
                     Address = user.Address,
                     Mode = "Режим отправки в ОФД",
-                    
+                    NameOrg = user.Title,
+                    Iin = user.Inn
                 };
                 _context.Kkms.Add(kkm);
             }

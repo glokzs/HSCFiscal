@@ -1,4 +1,10 @@
-﻿@model Models.Kkm
+﻿@using Microsoft.AspNetCore.Identity
+@using Models
+@model Models.Kkm
+@inject UserManager<User> UserManager
+@{
+    var user = await UserManager.FindByNameAsync(User.Identity.Name);
+}
 
 <a class="btn btn-primary btn-sm text-white" data-toggle="modal" data-target="#exampleModal">Активировать кассу</a>
 
@@ -12,7 +18,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form method="post" asp-controller="InitializeCashDesk" asp-action="ActivateKkm">
+                    <input type="hidden" asp-for="UserId" value="@user.Id" />
                     <div class="form-group">
                         <label asp-for="IdentificationNumber" class="col-form-label">Идентификационный номер:</label>
                         <input type="text" class="form-control" asp-for="IdentificationNumber" required="required">

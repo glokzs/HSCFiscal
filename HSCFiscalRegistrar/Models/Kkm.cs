@@ -18,6 +18,8 @@ namespace Models
         public int OfdToken { get; set; }
         public int ReqNum { get; set; }
         public string Address { get; set; }
+        public string Iin { get; set; }
+        public string NameOrg { get; set; }
         public string CurrentStatus { get; set; }
         public DateTime LastDateOperation { get; set; }
         public string Mode { get; set; }

@@ -15,7 +15,7 @@
 <h2>Создать кассу</h2>
 
 <div>
-    <form method="post" enctype="multipart/form-data" asp-controller="InitializeCashDesk" asp-action="RegisterCashDesk">
+    <form method="post" asp-controller="InitializeCashDesk" asp-action="RegisterCashDesk">
         <div asp-validation-summary="ModelOnly"></div>
         <input type="hidden" asp-for="UserId" value="@user.Id" />
         <div class="form-group">
