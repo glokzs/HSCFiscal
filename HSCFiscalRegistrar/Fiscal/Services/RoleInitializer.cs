@@ -11,27 +11,35 @@ namespace Fiscal.Serves
         {
             string adminEmail = "admin@gmail.com";
             string password = "_Aa123456";
-            
+
             if (await roleManager.FindByNameAsync("admin") == null)
             {
                 await roleManager.CreateAsync(new IdentityRole("admin"));
             }
+
             if (await roleManager.FindByNameAsync("user") == null)
             {
                 await roleManager.CreateAsync(new IdentityRole("user"));
             }
+
             if (await roleManager.FindByNameAsync("operator") == null)
             {
                 await roleManager.CreateAsync(new IdentityRole("operator"));
             }
+
             if (await userManager.FindByNameAsync(adminEmail) == null)
             {
-                User admin = new User() { Email = adminEmail, 
-                    UserName = adminEmail, 
-                    UserType = UserTypeEnum.TYPE_ADMIN};
-                
+                User admin = new User()
+                {
+                    Email = adminEmail,
+                    UserName = adminEmail,
+                    UserType = UserTypeEnum.TYPE_ADMIN,
+                    Title = "admin",
+                    Fio = "admin"
+                };
+
                 IdentityResult result = await userManager.CreateAsync(admin, password);
-                
+
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(admin, "admin");

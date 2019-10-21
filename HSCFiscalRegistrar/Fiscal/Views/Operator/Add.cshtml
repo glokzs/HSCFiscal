@@ -11,7 +11,7 @@
     </div>
     <form style="width: 350px" method="post" asp-controller="Operator" asp-action="Add">
         <div asp-validation-summary="ModelOnly"></div>
-        <input hidden="hidden" asp-for="OwnerId"/>
+        <input hidden="hidden" asp-for="OwnerId" value="@Model.OwnerId"/>
         <div class="form-group">
             <label asp-for="Name"></label>
             <br/>
