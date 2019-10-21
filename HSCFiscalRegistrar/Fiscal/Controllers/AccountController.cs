@@ -56,7 +56,7 @@ namespace Fiscal.Controllers
 
         [HttpPost]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> RegisterMerch(RegisterViewModel model)
+        public async Task<IActionResult> RegisterMerch(RegisterMerchViewModel model)
         {
             if (User.IsInRole("blocked"))
             {
@@ -278,6 +278,35 @@ namespace Fiscal.Controllers
                 return Ok(true);
             }
             else if (_context.Kkms.Any(u => string.Equals(u.Name.Trim(), model.Name)))
+            {
+                return Ok(false);
+            }
+
+            return Ok(true);
+        }
+
+        public IActionResult CheckEmail(RegisterMerchViewModel model)
+        {
+            if (_userManager.Users.Any(u => string.Equals(u.Email.Trim(), model.Email.Trim())))
+            {
+                return Ok(false);
+            }
+
+            return Ok(true);
+        }
+
+        public IActionResult CheckIin(RegisterMerchViewModel model)
+        {
+            if (_userManager.Users.Any(u => string.Equals(u.Inn.Trim(), model.IIN.Trim())))
+            {
+                return Ok(false);
+            }
+
+            return Ok(true);
+        }
+        public IActionResult CheckTitle(RegisterMerchViewModel model)
+        {
+            if (_userManager.Users.Any(u => string.Equals(u.Title.Trim(), model.Title.Trim())))
             {
                 return Ok(false);
             }

@@ -46,12 +46,13 @@ namespace HSCFiscalRegistrar.Controllers
                 logger.LogInformation($"Z-Отчет: {request.Token}");
                 var user = _userManager.Users.FirstOrDefault(u => u.UserToken == request.Token);
                 var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.UserId == user.Id);
-                var shift = _applicationContext.Shifts.Last(s => s.KkmId == kkm.Id && s.CloseDate == DateTime.MinValue);
+                var shift = _applicationContext.Shifts.Last(s => s.KkmId == kkm.Id);
                 var operations = _applicationContext.Operations.Where(o => o.ShiftId == shift.Id);
                 var shiftOperations = ZxReportService.GetShiftOperations(operations, shift);
                 ZxReportService.AddShiftProps(shift, operations);
                 ZxReportService.CloseShift(true, shift);
-                var closeShiftOfdResponse = OfdRequest(kkm,user,shift.Number);
+                var merch = _userManager.Users.FirstOrDefault(u => u.Id == kkm.UserId);
+                var closeShiftOfdResponse = OfdRequest(kkm,merch,shift.Number);
                 if (kkm == null) return Json(_errorHelper.GetErrorRequest((int) ErrorEnums.NO_ACCESS_TO_CASH));
                 kkm.OfdToken = closeShiftOfdResponse.Result.Token;
                 kkm.ReqNum += 1;
