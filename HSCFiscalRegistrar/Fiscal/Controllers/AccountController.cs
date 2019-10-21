@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Fiscal.Data;
 using Fiscal.Interface;
+using Fiscal.Services;
 using Fiscal.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -55,6 +56,7 @@ namespace Fiscal.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> RegisterMerch(RegisterMerchViewModel model)
         {
+            model.Email = Helper.SpaceCutter(model.Email);
             if (User.IsInRole("blocked"))
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
@@ -146,6 +148,7 @@ namespace Fiscal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+            model.Email = Helper.SpaceCutter(model.Email); 
             if (ModelState.IsValid)
             {
                 var result =
