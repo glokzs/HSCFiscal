@@ -27,11 +27,13 @@
             </div>
             <div class="modal-body">
                 <form method="post" asp-controller="InitializeCashDesk" asp-action="ChangeToken">
-                    <input type="hidden" asp-for="UserId" value="@user.Id" />
-                    <input type="hidden" asp-for="Id" value="@Model.Id" />
+                    <div asp-validation-summary="ModelOnly"></div>
+
+                    <input type="hidden" asp-for="UserId" value="@user.Id"/>
+                    <input type="hidden" asp-for="Id" value="@Model.Id"/>
                     <div class="form-group">
                         <label style="min-width: 160px" asp-for="OfdToken" class="col-form-label justify-content-start">Сменить токен:</label>
-                        <input style="min-width: 250px" class="form-control" asp-for="OfdToken" required="required" placeholder="Введите токен ОФД" />
+                        <input style="min-width: 250px" class="form-control" asp-for="OfdToken" required="required" placeholder="Введите токен ОФД"/>
                     </div>
 
                     <div class="modal-footer">
