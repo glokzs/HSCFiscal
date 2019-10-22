@@ -13,17 +13,17 @@
                 <div class="form-group">
                     <label asp-for="IIN"></label>
                     <input maxlength="12" class="form-control" asp-for="IIN" placeholder="введите ИИН" />
-                    <span asp-validation-for="IIN"></span>
+                    <span asp-validation-for="IIN" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Title"></label>
                     <input class="form-control" asp-for="Title" placeholder="Введите название организации" />
-                    <span asp-validation-for="Title"></span>
+                    <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Adres"></label>
                     <input class="form-control" asp-for="Adres" placeholder="Введите адрес" />
-                    <span asp-validation-for="Adres"></span>
+                    <span asp-validation-for="Adres" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
@@ -44,13 +44,13 @@
                 <div class="form-group">
                     <label asp-for="VATSeria"></label>
                     <input value="0" id="VATSeria" class="form-control" asp-for="VATSeria" disabled="disabled" />
-                    <span asp-validation-for="VATSeria"></span>
+                    <span asp-validation-for="VATSeria" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="VATNumber"></label>
                     <input value="0" id="VATNumber" class="form-control" asp-for="VATNumber" disabled="disabled" />
-                    <span asp-validation-for="VATNumber"></span>
+                    <span asp-validation-for="VATNumber" class="text-danger"></span>
                 </div>
 
 
@@ -60,31 +60,31 @@
                     <label asp-for="FIO"></label>
                     <br />
                     <input class="form-control" asp-for="FIO" placeholder="Введите Ф.И.О" />
-                    <span asp-validation-for="FIO"></span>
+                    <span asp-validation-for="FIO" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="PhoneNumberUser"></label>
                     <br />
-                    <input autofocus type="tel" id="phone" class="form-control eyescript" asp-for="PhoneNumberUser" placeholder="Введите номер телефона" />
-                    <span asp-validation-for="PhoneNumberUser"></span>
+                    <input autofocus placeholder="+7 (___) ___ __ __" type="tel" id="phone" class="form-control eyescript" asp-for="PhoneNumberUser" placeholder="Введите номер телефона" />
+                    <span asp-validation-for="PhoneNumberUser" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Email"></label>
                     <br />
                     <input class="form-control" asp-for="Email" placeholder="Введите почтовой адрес" />
-                    <span asp-validation-for="Email"></span>
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Password"></label>
                     <br />
                     <input class="form-control" asp-for="Password" placeholder="Введите пароль" />
-                    <span asp-validation-for="Password"></span>
+                    <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="PasswordConfirm"></label>
                     <br />
                     <input class="form-control" asp-for="PasswordConfirm" placeholder="Введите повторно пароль" />
-                    <span asp-validation-for="PasswordConfirm"></span>
+                    <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
                 </div>
             </div>
         </div>
