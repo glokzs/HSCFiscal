@@ -6,6 +6,14 @@
     var user = await UserManager.FindByNameAsync(User.Identity.Name);
 }
 
+
+<style>
+    ::placeholder {
+        font-size: 11px;
+    }
+</style>
+
+
 <a class="btn btn-primary btn-sm text-white" data-toggle="modal" data-target="#exampleModal">Активировать кассу</a>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -22,17 +30,17 @@
                     <input type="hidden" asp-for="UserId" value="@user.Id" />
                     
                     <div class="form-group jus">
-                        <label style="min-width: 160px" asp-for="DeviceId" class="col-form-label justify-content-start">Идентификационный номер:</label>
-                        <input style="min-width: 250px" type="text" class="form-control" asp-for="DeviceId" required="required">
+                        <label style="min-width: 160px" asp-for="IdentificationNumber" class="col-form-label justify-content-start">Идентификационный номер:</label>
+                        <input id="inputLessPlaceholder" style="min-width: 250px" type="text" class="form-control" asp-for="IdentificationNumber" required="required" placeholder="Введите идентификационный номер кассы ">
                     </div>
                     
                     <div class="form-group">
-                        <label style="min-width: 160px" asp-for="FnsKkmId" class="col-form-label justify-content-start">Регистрационный номер:</label>
-                        <input style="min-width: 250px" class="form-control" asp-for="FnsKkmId" required="required"/>
+                        <label style="min-width: 160px" asp-for="ReqNum" class="col-form-label justify-content-start">Регистрационный номер:</label>
+                        <input style="min-width: 250px" class="form-control" asp-for="ReqNum" required="required" placeholder="Введите регистрационный номер кассы"/>
                     </div>
                     <div class="form-group">
-                        <label style="min-width: 160px" asp-for="OfdToken" class="col-form-label justify-content-start">Токен:</label>
-                        <input style="min-width: 250px" class="form-control" asp-for="OfdToken" required="required"/>
+                        <label style="min-width: 160px" asp-for="OfdToken" class="col-form-label justify-content-start">Токен ОФД:</label>
+                        <input style="min-width: 250px" class="form-control" asp-for="OfdToken" required="required" placeholder="Введите токен ОФД"/>
                     </div>
 
                     <div class="modal-footer">

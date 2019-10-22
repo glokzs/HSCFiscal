@@ -40,10 +40,10 @@
         @foreach (var user in Model)
         {
             <tr>
-                <td>@user.Email</td>
-                <td>@user.Fio</td>
-                <td>@user.UserType</td>
-                <td>@user.Title</td>
+                <td style="vertical-align: middle">@user.Email</td>
+                <td style="vertical-align: middle">@user.Fio</td>
+                <td style="vertical-align: middle">@user.UserType</td>
+                <td style="vertical-align: middle">@user.Title</td>
                 <td class="d-flex justify-content-end">
                     <a class="btn btn-sm btn-primary mr-2" asp-action="Edit" asp-route-userid="@user.Id">Права доступа</a>
                     <a class="btn btn-sm btn-primary" asp-action="ChangePassword" asp-controller="Account" asp-route-id="@user.Id">Изменить пароль</a>

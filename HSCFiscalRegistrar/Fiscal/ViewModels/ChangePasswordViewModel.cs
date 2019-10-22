@@ -8,16 +8,16 @@ namespace Fiscal.ViewModels
     {
         public string Id { get; set; }
         public string Email { get; set; }
-        
-        [Required]
+
+        [Required(ErrorMessage = "Введите новый пароль")]
         [Display(Name= "Новый пароль")]
         [DataType(DataType.Password)]
         public string NewPassword { get; set; }
         
-        [Required]
+        [Required(ErrorMessage = "Пароли должны совпадать")]
         [Display(Name= "Повторите пароль")]
         [DataType(DataType.Password)]
-        [Compare("NewPassword", ErrorMessage = "Пароли не совпадают!")]
+        [Compare("NewPassword", ErrorMessage = "Пароли должны совпадать")]
         public string PasswordConfirm { get; set; }
     }
 }

@@ -12,23 +12,23 @@
             <div id="form_block_right" class="form_block_right mx-3" style="width: 50%">
                 <div class="form-group">
                     <label asp-for="IIN"></label>
-                    <input maxlength="12" class="form-control" asp-for="IIN" />
+                    <input maxlength="12" class="form-control" asp-for="IIN" placeholder="введите ИИН"/>
                     <span asp-validation-for="IIN"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Title"></label>
-                    <input class="form-control" asp-for="Title" />
+                    <input class="form-control" asp-for="Title" placeholder="Введите название организации"/>
                     <span asp-validation-for="Title"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Adres"></label>
-                    <input class="form-control" asp-for="Adres" />
+                    <input class="form-control" asp-for="Adres" placeholder="Введите адрес"/>
                     <span asp-validation-for="Adres"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="TaxationType"></label>
-                    <select asp-for="TaxationType" class="form-control" id="exampleFormControlSelect1">
+                    <select asp-for="TaxationType" class="form-control">
                         <option value="100">УСН</option>
                         <option value="101">ОСН</option>
                         <option value="102">Налоговый режим для крестьянских и фермерских хозяйств</option>
@@ -38,7 +38,7 @@
 
                 <div class="form-check d-flex justify-content-start align-items-center p-0 my-2">
                     <label class="m-0 mr-2" asp-for="VAT"></label><br />
-                    <input type="checkbox" id='inactivelist' asp-for="VAT" />
+                    <input type="checkbox" id='inactivelist' asp-for="VAT" placeholder="" />
                 </div>
 
                 <div class="form-group">
@@ -59,31 +59,31 @@
                 <div class="form-group">
                     <label asp-for="FIO"></label>
                     <br />
-                    <input class="form-control" asp-for="FIO" />
+                    <input class="form-control" asp-for="FIO" placeholder="Введите Ф.И.О" />
                     <span asp-validation-for="FIO"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="PhoneNumberUser"></label>
                     <br />
-                    <input type="number" class="form-control" asp-for="PhoneNumberUser" />
+                    <input type="number" class="form-control" asp-for="PhoneNumberUser" placeholder="Введите номер телефона"/>
                     <span asp-validation-for="PhoneNumberUser"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Email"></label>
                     <br />
-                    <input class="form-control" asp-for="Email" />
+                    <input class="form-control" asp-for="Email" placeholder="Введите почтовой адрес" />
                     <span asp-validation-for="Email"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Password"></label>
                     <br />
-                    <input class="form-control" asp-for="Password" />
+                    <input class="form-control" asp-for="Password" placeholder="Введите пароль"/>
                     <span asp-validation-for="Password"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="PasswordConfirm"></label>
                     <br />
-                    <input class="form-control" asp-for="PasswordConfirm" />
+                    <input class="form-control" asp-for="PasswordConfirm" placeholder="Введите повторно пароль"/>
                     <span asp-validation-for="PasswordConfirm"></span>
                 </div>
             </div>
