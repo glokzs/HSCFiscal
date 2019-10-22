@@ -14,13 +14,13 @@
 </style>
 
 
-<a class="btn btn-primary btn-sm text-white" data-toggle="modal" data-target="#tokenChangeModal">Сменить токен</a>
+<a class="btn btn-primary btn-sm text-white" data-toggle="modal" data-target="#_modal_@Model.Id">Сменить токен</a>
 
-<div class="modal fade" id="tokenChangeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="_modal_@Model.Id" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Активировать кассы @Model.SerialNumber</h5>
+                <h5 class="modal-title">Активировать кассы @Model.SerialNumber</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
