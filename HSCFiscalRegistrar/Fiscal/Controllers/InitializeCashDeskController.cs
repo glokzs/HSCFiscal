@@ -123,23 +123,21 @@ namespace Fiscal.Controllers
 
                     _context.Kkms.Update(kkm);
                     _context.SaveChanges();
-
-                    var response = RequestOfd(kkm, tokenOfd);
-
-                    if (response.Result.Result.ResultCode == 0)
-                    {
-                        ResponseWeb(response);
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, "Некорректный запрос, попробуйте снова");
-                    }
                 }
                 
-                return RedirectToAction("GetCashDesk", "InitializeCashDesk", new {id = kkmActivate.UserId});
-            }
+                var response = RequestOfd(kkm, tokenOfd);
 
-            return View(new Kkm());
+                if (response.Result.Result.ResultCode == 0)
+                {
+                    ResponseWeb(response);
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Некорректный запрос, попробуйте снова");
+                }
+            }
+            
+            return RedirectToAction("GetCashDesk", "InitializeCashDesk", new {id = kkmActivate.UserId});
         }
 
         private Task<ResponseOfdCheckDesk> RequestOfd(Kkm kkmModel, int tokenOfd)
