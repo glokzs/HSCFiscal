@@ -62,7 +62,7 @@
                                 {
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" asp-controller="Operator" asp-action="Add" asp-route-id="@userId">Добавить оператора</a>
-                                        <a class="dropdown-item" href="#">Управление операторами</a>
+                                        <a class="dropdown-item" asp-controller="Operator" asp-action="GetOperators" asp-route-id="@userId">Управление операторами</a>
                                         <a class="dropdown-item" asp-action="ChangePassword" asp-controller="Account" asp-route-id="@userId">Изменить пароль</a>
                                         <a class="dropdown-item" asp-controller="InitializeCashDesk" asp-action="GetCashDesk" asp-route-id="@userId">Мои кассы</a>
                                     </div>

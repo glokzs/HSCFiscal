@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Fiscal.Data;
@@ -57,14 +58,16 @@ namespace Fiscal.Controllers
                 Fio = model.Name,
                 UserType = UserTypeEnum.TYPE_OPERATOR,
                 OwnerId = model.OwnerId,
-                KkmId = model.KKMId
+                KkmId = model.KKMId,
+                Address = _context.Kkms.FirstOrDefault(u => u.UserId == model.OwnerId)?.Address
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "operator");
-                return RedirectToAction("index", "Home");
+                
+                return RedirectToAction("GetOperators", "Operator", new {id = model.OwnerId});
             }
 
             foreach (var error in result.Errors)
@@ -73,6 +76,39 @@ namespace Fiscal.Controllers
             }
             
             return View();
+        }
+        
+        
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetOperators(string id)
+        {
+            if (User.IsInRole("blocked") || User.IsInRole("operator"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+
+            return View(_context.Users.Where( p => p.OwnerId == id));
+        }
+        
+        
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> Delete(string OwnerID, string UserId)
+        {
+            if (User.IsInRole("blocked") || User.IsInRole("operator"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
+            User user = await _userManager.FindByIdAsync(UserId);
+            
+            if (user != null)
+            {
+                IdentityResult result = await _userManager.DeleteAsync(user);
+            }
+            
+            return RedirectToAction("GetOperators", "Operator", new {id = OwnerID});
         }
     }
 }
