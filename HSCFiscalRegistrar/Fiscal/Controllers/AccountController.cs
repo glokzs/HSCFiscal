@@ -2,11 +2,13 @@
 using System.Threading.Tasks;
 using Fiscal.Data;
 using Fiscal.Interface;
-using Fiscal.Services;
+using Fiscal.Serves;
 using Fiscal.ViewModels;
+using HSCFiscalRegistrar;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Models;
 using Models.Enums;
 
@@ -17,15 +19,14 @@ namespace Fiscal.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
-        private readonly AppDataFiscalContext _dataFiscalContext;
-
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager,
-            IEmailSender emailSender, AppDataFiscalContext dataFiscalContext)
+        private readonly AppContext _context;
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, 
+            IEmailSender emailSender, AppContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
-            _dataFiscalContext = dataFiscalContext;
+            _context = context;
         }
 
         [HttpGet]
@@ -36,7 +37,7 @@ namespace Fiscal.Controllers
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
-
+            
             return View();
         }
 
@@ -48,7 +49,7 @@ namespace Fiscal.Controllers
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
-
+            
             return View();
         }
 
@@ -56,12 +57,11 @@ namespace Fiscal.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> RegisterMerch(RegisterMerchViewModel model)
         {
-            model.Email = Helper.SpaceCutter(model.Email);
             if (User.IsInRole("blocked"))
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
-
+            
             if (!ModelState.IsValid) return View();
             User user = new User
             {
@@ -80,17 +80,16 @@ namespace Fiscal.Controllers
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
-
+                
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "user");
-
+                    
                 var email = model.Email;
 
                 var subject = "Fiscal Team";
 
-                var message =
-                    $"<table><tr><td>Дорогой, {model.FIO}</td></tr><tr><td>ссылка для входа:<span>https://localhost:5001/account/login</span></td></tr><tr><td>Логин: {model.Email}</td></tr><tr><td>Пароль: {model.Password}</td></tr><tr><td>с уважением, ваша команда ~Fiscal~</td></tr></table>";
+                var message = $"<table><tr><td>Дорогой, {model.FIO}</td></tr><tr><td>ссылка для входа:<span>https://localhost:5001/account/login</span></td></tr><tr><td>Логин: {model.Email}</td></tr><tr><td>Пароль: {model.Password}</td></tr><tr><td>с уважением, ваша команда ~Fiscal~</td></tr></table>";
 
                 await _emailSender.SendEmailAsync(email, subject, message);
 
@@ -115,24 +114,22 @@ namespace Fiscal.Controllers
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
-
+            
             if (userId == null || code == null)
             {
                 return View("Error");
             }
-
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 return View("Error");
             }
-
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            if (result.Succeeded)
+            if(result.Succeeded)
                 return RedirectToAction("Index", "Home");
             return View("Error");
         }
-
+        
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
@@ -140,7 +137,7 @@ namespace Fiscal.Controllers
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
-
+            
             return View(new LoginViewModel {ReturnUrl = returnUrl});
         }
 
@@ -148,7 +145,11 @@ namespace Fiscal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            model.Email = Helper.SpaceCutter(model.Email); 
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             if (ModelState.IsValid)
             {
                 var result =
@@ -178,29 +179,35 @@ namespace Fiscal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOff()
         {
+            if (User.IsInRole("blocked"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+            
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
-
+        
+        
         public async Task<IActionResult> ChangePassword(string id)
         {
             if (User.IsInRole("blocked"))
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
-
+            
             User user = await _userManager.FindByIdAsync(id);
-
+            
             if (user == null)
             {
                 return NotFound();
             }
-
-            ChangePasswordViewModel model = new ChangePasswordViewModel {Id = user.Id, Email = user.Email};
-
+            
+            ChangePasswordViewModel model = new ChangePasswordViewModel { Id = user.Id, Email = user.Email};
+            
             return View(model);
         }
-
+ 
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
@@ -208,23 +215,29 @@ namespace Fiscal.Controllers
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
-
+            
             if (ModelState.IsValid)
             {
                 User user = await _userManager.FindByIdAsync(model.Id);
+                
                 if (user != null)
                 {
-                    var passwordValidator =
-                        HttpContext.RequestServices.GetService(typeof(IPasswordValidator<User>)) as
-                            IPasswordValidator<User>;
+                    
+                    
+                    var passwordValidator = 
+                        HttpContext.RequestServices.GetService(typeof(IPasswordValidator<User>)) as IPasswordValidator<User>;
                     var passwordHasher =
                         HttpContext.RequestServices.GetService(typeof(IPasswordHasher<User>)) as IPasswordHasher<User>;
 
                     if (passwordValidator != null)
                     {
-                        IdentityResult result =
+
+                        
+                        
+                        
+                        IdentityResult result = 
                             await passwordValidator?.ValidateAsync(_userManager, user, model.NewPassword);
-                        if (result.Succeeded)
+                        if(result.Succeeded)
                         {
                             user.PasswordHash = passwordHasher?.HashPassword(user, model.NewPassword);
                             await _userManager.UpdateAsync(user);
@@ -244,33 +257,32 @@ namespace Fiscal.Controllers
                     ModelState.AddModelError(string.Empty, "Пользователь не найден");
                 }
             }
-
             return View(model);
         }
-
         public IActionResult CheckName(RegisterCashDeskViewModel model)
         {
             if (User.IsInRole("blocked"))
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
-
-            var kkm = new Kkm()
+            
+            var kkm = new Kkm
             {
                 Name = model.Name,
                 Description = model.Description,
             };
 
-            if (_dataFiscalContext.Kkms.Any(u => string.Equals(u.Name.Trim(), model.Name) && u.Id == kkm.Id))
+            if (_context.Kkms.Any(u => string.Equals(u.Name.Trim(), model.Name) && u.Id == kkm.Id))
             {
                 return Ok(true);
             }
-            else if (_dataFiscalContext.Kkms.Any(u => string.Equals(u.Name.Trim(), model.Name)))
+            else if (_context.Kkms.Any(u => string.Equals(u.Name.Trim(), model.Name)))
             {
                 return Ok(false);
             }
 
             return Ok(true);
+
         }
 
         public IActionResult CheckEmail(RegisterMerchViewModel model)
@@ -292,7 +304,6 @@ namespace Fiscal.Controllers
 
             return Ok(true);
         }
-
         public IActionResult CheckTitle(RegisterMerchViewModel model)
         {
             if (_userManager.Users.Any(u => string.Equals(u.Title.Trim(), model.Title.Trim())))
