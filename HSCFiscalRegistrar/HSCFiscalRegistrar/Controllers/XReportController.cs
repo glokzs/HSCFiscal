@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using Models;
 using Models.DTO.XReport;
 using Models.DTO.XReport.KkmResponse;
-using Models.Enums;
 using Newtonsoft.Json;
 using DateTime = System.DateTime;
 
@@ -20,17 +19,15 @@ namespace HSCFiscalRegistrar.Controllers
     {
         private readonly ApplicationContext _applicationContext;
         private readonly UserManager<User> _userManager;
-        private readonly TokenValidationHelper _helper;
         private readonly ILoggerFactory _loggerFactory;
         private readonly GenerateErrorHelper _errorHelper;
 
         public XReportController(ApplicationContext applicationContext, UserManager<User> userManager,
-            ILoggerFactory loggerFactory, TokenValidationHelper helper, GenerateErrorHelper errorHelper)
+            ILoggerFactory loggerFactory, GenerateErrorHelper errorHelper)
         {
             _applicationContext = applicationContext;
             _userManager = userManager;
             _loggerFactory = loggerFactory;
-            _helper = helper;
             _errorHelper = errorHelper;
         }
 
@@ -48,7 +45,7 @@ namespace HSCFiscalRegistrar.Controllers
                 var shiftOperations = ZxReportService.GetShiftOperations(operations, shift);
                 ZxReportService.AddShiftProps(shift, operations);
                 var response = new XReportKkmResponse(shiftOperations, operations, user, kkm, shift);
-                if (kkm == null) return Json( _errorHelper.GetErrorRequest((int) ErrorEnums.NO_ACCESS_TO_CASH));
+                if (kkm == null) return Json( _errorHelper.GetErrorRequest(3));
                 kkm.ReqNum += 1;
                 var merch = _userManager.Users.FirstOrDefault(u => u.Id == kkm.UserId);
                 _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);

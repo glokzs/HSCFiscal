@@ -63,10 +63,11 @@ namespace HSCFiscalRegistrar.Controllers
             if (user == null) return NotFound("Operator not found");
             var shift = await GetShift(user.Result, kkm);
             var merchant = _userManager.Users.FirstOrDefault(u => u.Id == kkm.UserId);
+            if (merchant == null) return Ok(JsonConvert.SerializeObject(_errorHelper.GetErrorRequest(3)));
             var org = new Org
             {
                 Inn = merchant.Inn,
-                Okved = "OKVED",
+                Okved = "o",
                 TaxationType = merchant.TaxationType,
                 Title = merchant.Title
             };
@@ -81,8 +82,10 @@ namespace HSCFiscalRegistrar.Controllers
                 var response = await OfdFiscalResponse(checkOperationRequest, operation, kkm, org);
                 operation.FiscalNumber = response.Ticket.TicketNumber;
                 operation.QR = response.Ticket.QrCode;
+                if (kkm == null) return Ok(JsonConvert.SerializeObject(_errorHelper.GetErrorRequest(6)));
                 kkm.OfdToken = response.Token;
                 await UpdateDatabaseFields(kkm, operation);
+
                 return Ok(JsonConvert.SerializeObject(kkmResponse));
             }
             catch (Exception e)
