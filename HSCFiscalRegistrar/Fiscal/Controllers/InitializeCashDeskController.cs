@@ -86,18 +86,45 @@ namespace Fiscal.Controllers
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
 
-            int tokenOfd = kkmChange.OfdToken;
-            var kkm = _context.Kkms.FirstOrDefault(i => i.Id == kkmChange.Id);
-
-            if (kkm != null)
+            try
             {
-                kkm.ReqNum += 1;
+                if (ModelState.IsValid)
+                {
+                    int tokenOfd = kkmChange.OfdToken;
+                    var kkm = _context.Kkms.FirstOrDefault(i => i.Id == kkmChange.Id);
 
-                _context.Kkms.Update(kkm);
-                _context.SaveChanges();
+                    if (kkm != null)
+                    {
+                        kkm.ReqNum += 1;
 
-                RequestOfd(kkm, tokenOfd);
+                        _context.Kkms.Update(kkm);
+                        _context.SaveChanges();
+
+                        RequestOfd(kkm, tokenOfd);
+                    }
+
+                    var response = RequestOfd(kkm, tokenOfd);
+
+                    if (response.Result.Result.ResultCode == 0)
+                    {
+                        ResponseWeb(response);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Некорректный запрос, попробуйте снова");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Некорректный запрос, попробуйте снова");
+                }
             }
+            catch (Exception)
+            {
+                ModelState.AddModelError(string.Empty, "Некорректный запрос, попробуйте снова");
+            }
+
+            
 
             return RedirectToAction("GetCashDesk", "InitializeCashDesk", new {id = kkmChange.UserId});
         }
@@ -111,32 +138,46 @@ namespace Fiscal.Controllers
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
 
-            if (ModelState.IsValid)
+
+            try
             {
-                int tokenOfd = kkmActivate.OfdToken;
-
-                var kkm = _context.Kkms.FirstOrDefault(i => i.Id == kkmActivate.Id);
-
-                if (kkm != null)
+                if (ModelState.IsValid)
                 {
-                    kkm.ReqNum += 1;
+                    int tokenOfd = kkmActivate.OfdToken;
 
-                    _context.Kkms.Update(kkm);
-                    _context.SaveChanges();
-                }
-                
-                var response = RequestOfd(kkm, tokenOfd);
+                    var kkm = _context.Kkms.FirstOrDefault(i => i.Id == kkmActivate.Id);
 
-                if (response.Result.Result.ResultCode == 0)
-                {
-                    ResponseWeb(response);
+                    if (kkm != null)
+                    {
+                        kkm.ReqNum += 1;
+
+                        _context.Kkms.Update(kkm);
+                        _context.SaveChanges();
+                    }
+
+                    var response = RequestOfd(kkm, tokenOfd);
+
+                    if (response.Result.Result.ResultCode == 0)
+                    {
+                        ResponseWeb(response);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Некорректный запрос, попробуйте снова");
+                    }
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Некорректный запрос, попробуйте снова");
+
                 }
             }
+            catch (Exception)
+            {
+                ModelState.AddModelError(string.Empty, "Некорректный запрос, попробуйте снова");
+            }
             
+
             return RedirectToAction("GetCashDesk", "InitializeCashDesk", new {id = kkmActivate.UserId});
         }
 

@@ -27,6 +27,7 @@
             </div>
             <div class="modal-body">
                 <form method="post" asp-controller="InitializeCashDesk" asp-action="ChangeToken">
+                    <div asp-validation-summary="ModelOnly"></div>
                     <input type="hidden" asp-for="UserId" value="@user.Id" />
                     <input type="hidden" asp-for="Id" value="@Model.Id" />
                     <div class="form-group">
@@ -44,3 +45,7 @@
         </div>
     </div>
 </div>
+
+@section scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
