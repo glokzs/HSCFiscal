@@ -237,7 +237,8 @@ namespace Fiscal.Controllers
             {
                 return Ok(false);
             }
-
+            var org = new global::Models.DTO.RequestOperatorOfd.Org();
+            
             return Ok(true);
 
         }
