@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Fiscal.Models.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Models.Enums;
 
@@ -6,6 +7,7 @@ namespace Fiscal.ViewModels
 {
     public class RegisterMerchViewModel
     {
+        [Trimer]
         [EmailAddress]
         [Required(ErrorMessage = "Это поле обязательно!")]
         [Display(Name = "Email")]

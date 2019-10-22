@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Fiscal.Models.Attributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace Fiscal.ViewModels
 {
     public class LoginViewModel
     {
+        [Trimer]
         [Required]
         [Display(Name = "Почтовой адрес")]
         public string Email { get; set; }
