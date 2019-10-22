@@ -23,8 +23,9 @@ namespace Models
         public string CurrentStatus { get; set; }
         public DateTime LastDateOperation { get; set; }
         public string Mode { get; set; }
+        public string OperatorId { get; set; }
         public string UserId { get; set; }
-
+        public string IdentificationNumber { get; set; }
         public virtual User User { get; set; }
 
         public Kkm()

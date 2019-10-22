@@ -9,6 +9,7 @@ namespace Fiscal.ViewModels
         public string Name { get; set; }
         
         public string OwnerId { get; set; }
+        public string KKMId { get; set; }
 
         [Required(ErrorMessage = "Это поле обязательно!")]
         [DataType(DataType.Password)]

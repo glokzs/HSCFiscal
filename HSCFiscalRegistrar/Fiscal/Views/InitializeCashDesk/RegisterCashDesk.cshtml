@@ -2,35 +2,41 @@
 @using Models
 @model Fiscal.ViewModels.RegisterCashDeskViewModel
 @inject UserManager<User> UserManager
-@inject Fiscal.Data.AppContext Context
+@inject Fiscal.Data.AppDataFiscalContext DataFiscalContext
+
 @{
     var user = await UserManager.FindByNameAsync(User.Identity.Name);
 }
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Добавление кассы";
     Layout = "_Layout";
 }
 
-<h2>Создать кассу</h2>
+<h3 class="my-3 py-3 border-bottom text-center">Форма добавление кассы</h3>
 
-<div>
-    <form method="post" asp-controller="InitializeCashDesk" asp-action="RegisterCashDesk">
-        <div asp-validation-summary="ModelOnly"></div>
-        <input type="hidden" asp-for="UserId" value="@user.Id" />
-        <div class="form-group">
-            <label asp-for="Name">Name</label>
-            <input asp-for="Name" />
-            <span asp-validation-for="Name"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Description">Description</label>
-            <textarea asp-for="Description" class="form-control" placeholder="Enter description"></textarea>
-            <span asp-validation-for="Description"></span>
-        </div>
-        <input type="submit" class="btn btn-success" value="Submit new place" />
-    </form>
+<div class="d-flex justify-content-center align-items-center">
+    <div class="w-50">
+        <form method="post" asp-controller="InitializeCashDesk" asp-action="RegisterCashDesk">
+            <div asp-validation-summary="ModelOnly"></div>
+            <input type="hidden" asp-for="UserId" value="@user.Id"/>
+            <div class="form-group">
+                <label asp-for="Name">Название кассы</label>
+                <input class="form-control" asp-for="Name" placeholder="Введите название кассы"/>
+                <span asp-validation-for="Name"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description">Описание кассы</label>
+                <textarea asp-for="Description" class="form-control" placeholder="Опишите кассу"></textarea>
+                <span asp-validation-for="Description"></span>
+            </div>
+            <div class="text-center">
+                <input type="submit" class="btn btn-success" value="Добавить" style="min-width: 140px"/>
+            </div>
+        </form>
+    </div>
 </div>
+
 
 @section scripts{
     @await Html.PartialAsync("_ValidationScriptsPartial")
