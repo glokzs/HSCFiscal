@@ -7,7 +7,7 @@ namespace HSCFiscalRegistrar.Helpers
 {
     public class GenerateErrorHelper
     {
-        private Dictionary<int, string> _dictionary = new Dictionary<int, string>();
+        private readonly Dictionary<int, string> _dictionary = new Dictionary<int, string>();
 
         public GenerateErrorHelper() => CreateDictionary();
 
@@ -38,19 +38,7 @@ namespace HSCFiscalRegistrar.Helpers
 
         public string GetErrorRequest(int key)
         {
-            KeyValuePair<int, string> error = _dictionary.FirstOrDefault(p => p.Key == key);
-            
-            ErrorsWrapper errors = new ErrorsWrapper
-            {
-                Errors   = new []
-                {
-                    new Error
-                    {
-                        Code = error.Key,
-                        Text = error.Value
-                    } 
-                }
-            };
+            var error = _dictionary.FirstOrDefault(p => p.Key == key);
 
             return JsonConvert.SerializeObject(error);
         }
