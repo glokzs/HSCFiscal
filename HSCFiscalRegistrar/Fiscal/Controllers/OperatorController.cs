@@ -48,9 +48,7 @@ namespace Fiscal.Controllers
             }
 
             if (!ModelState.IsValid) return View();
-
-            var owner = _userManager.Users.FirstOrDefault(u => u.Id == model.OwnerId);
-
+            
             var user = new User
             {
                 UserName = model.Email,
@@ -59,7 +57,6 @@ namespace Fiscal.Controllers
                 Fio = model.Name,
                 UserType = UserTypeEnum.TYPE_OPERATOR,
                 OwnerId = model.OwnerId,
-                Title = owner.Title,
                 KkmId = model.KKMId
             };
 

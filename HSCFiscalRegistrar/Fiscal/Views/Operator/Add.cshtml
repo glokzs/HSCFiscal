@@ -27,7 +27,7 @@
         </div>
         <div class="form-group">
             <label asp-for="KKMId">Выберете кассу</label>
-            <select class="form-control">
+            <select class="form-control" asp-for="KKMId">
                 @foreach (Kkm kkm in ViewBag.Kkms)
                 {
                     <option value="@kkm.Id">@kkm.Name</option>
