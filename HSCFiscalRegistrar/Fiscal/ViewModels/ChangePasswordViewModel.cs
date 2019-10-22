@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+
+
+using System.ComponentModel.DataAnnotations;
 
 namespace Fiscal.ViewModels
 {
@@ -14,13 +16,8 @@ namespace Fiscal.ViewModels
         
         [Required]
         [Display(Name= "Повторите пароль")]
-        [Compare("Password", ErrorMessage = "Пароли не совпадают")]
         [DataType(DataType.Password)]
+        [Compare("NewPassword", ErrorMessage = "Пароли не совпадают!")]
         public string PasswordConfirm { get; set; }
-        
-        [Required]
-        [Display(Name= "Старый пароль")]
-        public string OldPassword { get; set; }
-        
     }
 }
