@@ -20,13 +20,14 @@
             <div class="modal-body">
                 <form method="post" asp-controller="InitializeCashDesk" asp-action="ActivateKkm">
                     <input type="hidden" asp-for="UserId" value="@user.Id" />
+                    <input type="hidden" asp-for="Id" value="@Model.Id" />
                     <div class="form-group">
-                        <label asp-for="IdentificationNumber" class="col-form-label">Идентификационный номер:</label>
-                        <input type="text" class="form-control" asp-for="IdentificationNumber" required="required">
+                        <label asp-for="DeviceId" class="col-form-label">Идентификационный номер:</label>
+                        <input type="text" class="form-control" asp-for="DeviceId" required="required">
                     </div>
                     <div class="form-group">
-                        <label asp-for="ReqNum" class="col-form-label">Регистрационный номер:</label>
-                        <textarea class="form-control" asp-for="ReqNum" required="required"></textarea>
+                        <label asp-for="FnsKkmId" class="col-form-label">Регистрационный номер:</label>
+                        <textarea class="form-control" asp-for="FnsKkmId" required="required"></textarea>
                     </div>
                     <div class="form-group">
                         <label asp-for="OfdToken" class="col-form-label">Токен:</label>
