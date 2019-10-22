@@ -19,9 +19,9 @@ namespace Fiscal.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
-        private readonly AppContext _context;
+        private readonly AppDataFiscalContext _context;
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, 
-            IEmailSender emailSender, AppContext context)
+            IEmailSender emailSender, AppDataFiscalContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -187,8 +187,7 @@ namespace Fiscal.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
-        
-        
+
         public async Task<IActionResult> ChangePassword(string id)
         {
             if (User.IsInRole("blocked"))
@@ -284,7 +283,6 @@ namespace Fiscal.Controllers
             return Ok(true);
 
         }
-
         public IActionResult CheckEmail(RegisterMerchViewModel model)
         {
             if (_userManager.Users.Any(u => string.Equals(u.Email.Trim(), model.Email.Trim())))
@@ -294,7 +292,6 @@ namespace Fiscal.Controllers
 
             return Ok(true);
         }
-
         public IActionResult CheckIin(RegisterMerchViewModel model)
         {
             if (_userManager.Users.Any(u => string.Equals(u.Inn.Trim(), model.IIN.Trim())))

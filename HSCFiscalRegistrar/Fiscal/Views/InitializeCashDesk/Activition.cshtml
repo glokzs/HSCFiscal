@@ -20,17 +20,19 @@
             <div class="modal-body">
                 <form method="post" asp-controller="InitializeCashDesk" asp-action="ActivateKkm">
                     <input type="hidden" asp-for="UserId" value="@user.Id" />
+                    
+                    <div class="form-group justify-content-start">
+                        <label style="min-width: 160px" asp-for="IdentificationNumber" class="col-form-label justify-content-start">Идентификационный номер:</label>
+                        <input style="min-width: 250px" type="text" class="form-control" asp-for="IdentificationNumber" required="required">
+                    </div>
+                    
                     <div class="form-group">
-                        <label asp-for="IdentificationNumber" class="col-form-label">Идентификационный номер:</label>
-                        <input type="text" class="form-control" asp-for="IdentificationNumber" required="required">
+                        <label style="min-width: 160px" asp-for="ReqNum" class="col-form-label justify-content-start">Регистрационный номер:</label>
+                        <input style="min-width: 250px" class="form-control" asp-for="ReqNum" required="required"/>
                     </div>
                     <div class="form-group">
-                        <label asp-for="ReqNum" class="col-form-label">Регистрационный номер:</label>
-                        <textarea class="form-control" asp-for="ReqNum" required="required"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="OfdToken" class="col-form-label">Токен:</label>
-                        <textarea class="form-control" asp-for="OfdToken" required="required"></textarea>
+                        <label style="min-width: 160px" asp-for="OfdToken" class="col-form-label justify-content-start">Токен:</label>
+                        <input style="min-width: 250px" class="form-control" asp-for="OfdToken" required="required"/>
                     </div>
 
                     <div class="modal-footer">
