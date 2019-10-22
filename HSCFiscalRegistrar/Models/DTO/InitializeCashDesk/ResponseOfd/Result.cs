@@ -6,5 +6,7 @@ namespace Models.DTO.InitializeCashDesk.ResponseOfd
     {
         [JsonProperty("result_code")]
         public int ResultCode { get; set; }
+        [JsonProperty("result_text")]
+        public string ResultText { get; set; }
     }
 }

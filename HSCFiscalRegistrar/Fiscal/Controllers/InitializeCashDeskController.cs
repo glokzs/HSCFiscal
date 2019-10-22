@@ -81,11 +81,17 @@ namespace Fiscal.Controllers
         [HttpPost]
         public IActionResult ChangeToken(Kkm kkmChange)
         {
+            int tokenOfd = kkmChange.OfdToken;
             var kkm = _context.Kkms.FirstOrDefault(i => i.Id == kkmChange.Id);
 
             if (kkm != null)
             {
-                RequestOfd(kkm);
+                kkm.ReqNum += 1;
+
+                _context.Kkms.Update(kkm);
+                _context.SaveChanges();
+
+                RequestOfd(kkm, tokenOfd);
             }
 
             return RedirectToAction("GetCashDesk", "InitializeCashDesk", new { id = kkmChange.UserId });
@@ -95,26 +101,24 @@ namespace Fiscal.Controllers
         [Authorize(Roles = "user")]
         public IActionResult ActivateKkm(Kkm kkmActivate)
         {
+            int tokenOfd = kkmActivate.OfdToken;
             var kkm = _context.Kkms.FirstOrDefault(i => i.Id == kkmActivate.Id);
 
             if (kkm != null)
             {
-                kkm.DeviceId = kkmActivate.DeviceId;
-                kkm.FnsKkmId = kkmActivate.FnsKkmId;
-                kkm.OfdToken = kkmActivate.OfdToken;
                 kkm.ReqNum += 1;
 
-                _context.Kkms.Update(kkm ?? throw new InvalidOperationException());
+                _context.Kkms.Update(kkm);
                 _context.SaveChanges();
 
-                RequestOfd(kkm);
+                RequestOfd(kkm, tokenOfd);
             }
 
             return RedirectToAction("GetCashDesk", "InitializeCashDesk", new { id = kkmActivate.UserId });
         }
 
 
-        private void RequestOfd(Kkm kkmModel)
+        private void RequestOfd(Kkm kkmModel, int tokenOfd)
         {
             var kkm = new OfdKkm
             {
@@ -136,14 +140,22 @@ namespace Fiscal.Controllers
             {
                 Command = 5,
                 DeviceId = kkmModel.DeviceId,
-                ReqNum = kkmModel.ReqNum,
-                Token = kkmModel.OfdToken,
+                ReqNum = kkmModel.ReqNum++,
+                Token = tokenOfd,
                 Service = new Service(new RegInfo(org, kkm))
             };
 
             Task<ResponseOfdCheckDesk> res = GetResponse(requestOfd);
 
-            ResponseWeb(res);
+
+            if (res.Result.Result.ResultCode == 0)
+            {
+                ResponseWeb(res);
+            }
+            else
+            {
+            }
+            
         }
 
         private void ResponseWeb(Task<ResponseOfdCheckDesk> res)
