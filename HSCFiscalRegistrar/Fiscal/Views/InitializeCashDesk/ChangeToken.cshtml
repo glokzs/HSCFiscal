@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Models
+@model Models.Kkm
+@inject UserManager<User> UserManager
+@{
+    var user = await UserManager.FindByNameAsync(User.Identity.Name);
+}
+
+
+<style>
+    ::placeholder {
+        font-size: 11px;
+    }
+</style>
+
+
+<a class="btn btn-primary btn-sm text-white" data-toggle="modal" data-target="#exampleModal">Сменить токен</a>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Активировать кассы @Model.SerialNumber</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-controller="InitializeCashDesk" asp-action="ChangeToken">
+                    <input type="hidden" asp-for="UserId" value="@user.Id" />
+                    <input type="hidden" asp-for="Id" value="@Model.Id" />
+                    <div class="form-group">
+                        <label style="min-width: 160px" asp-for="OfdToken" class="col-form-label justify-content-start">Сменить токен:</label>
+                        <input style="min-width: 250px" class="form-control" asp-for="OfdToken" required="required" placeholder="Введите токен ОФД" />
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-primary">Отправить</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

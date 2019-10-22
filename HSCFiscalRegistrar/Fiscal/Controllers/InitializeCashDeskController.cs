@@ -67,6 +67,30 @@ namespace Fiscal.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult ChangeToken()
+        {
+            if (User.IsInRole("blocked") || User.IsInRole("operator"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ChangeToken(Kkm kkmChange)
+        {
+            var kkm = _context.Kkms.FirstOrDefault(i => i.Id == kkmChange.Id);
+
+            if (kkm != null)
+            {
+                RequestOfd(kkm);
+            }
+
+            return RedirectToAction("GetCashDesk", "InitializeCashDesk", new { id = kkmChange.UserId });
+        }
+
         [HttpPost]
         [Authorize(Roles = "user")]
         public IActionResult ActivateKkm(Kkm kkmActivate)
@@ -79,13 +103,13 @@ namespace Fiscal.Controllers
                 kkm.FnsKkmId = kkmActivate.FnsKkmId;
                 kkm.OfdToken = kkmActivate.OfdToken;
                 kkm.ReqNum += 1;
+
+                _context.Kkms.Update(kkm ?? throw new InvalidOperationException());
+                _context.SaveChanges();
+
+                RequestOfd(kkm);
             }
 
-            _context.Kkms.Update(kkm ?? throw new InvalidOperationException());
-            _context.SaveChanges();
-
-            RequestOfd(kkm);
-            
             return RedirectToAction("GetCashDesk", "InitializeCashDesk", new { id = kkmActivate.UserId });
         }
 
