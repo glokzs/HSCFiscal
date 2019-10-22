@@ -39,7 +39,7 @@ namespace Fiscal.Controllers
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
-            
+
             var res = _context.Kkms.ToList();
             return View(res);
         }
@@ -52,7 +52,7 @@ namespace Fiscal.Controllers
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
-            
+
             return View();
         }
 
@@ -63,7 +63,7 @@ namespace Fiscal.Controllers
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
-            
+
             return View();
         }
 
@@ -81,6 +81,11 @@ namespace Fiscal.Controllers
         [HttpPost]
         public IActionResult ChangeToken(Kkm kkmChange)
         {
+            if (User.IsInRole("blocked") || User.IsInRole("operator"))
+            {
+                return RedirectToAction("BlockPage", "BlockedUser");
+            }
+
             int tokenOfd = kkmChange.OfdToken;
             var kkm = _context.Kkms.FirstOrDefault(i => i.Id == kkmChange.Id);
 
@@ -94,31 +99,50 @@ namespace Fiscal.Controllers
                 RequestOfd(kkm, tokenOfd);
             }
 
-            return RedirectToAction("GetCashDesk", "InitializeCashDesk", new { id = kkmChange.UserId });
+            return RedirectToAction("GetCashDesk", "InitializeCashDesk", new {id = kkmChange.UserId});
         }
 
         [HttpPost]
         [Authorize(Roles = "user")]
         public IActionResult ActivateKkm(Kkm kkmActivate)
         {
-            int tokenOfd = kkmActivate.OfdToken;
-            var kkm = _context.Kkms.FirstOrDefault(i => i.Id == kkmActivate.Id);
-
-            if (kkm != null)
+            if (User.IsInRole("blocked") || User.IsInRole("operator"))
             {
-                kkm.ReqNum += 1;
-
-                _context.Kkms.Update(kkm);
-                _context.SaveChanges();
-
-                RequestOfd(kkm, tokenOfd);
+                return RedirectToAction("BlockPage", "BlockedUser");
             }
 
-            return RedirectToAction("GetCashDesk", "InitializeCashDesk", new { id = kkmActivate.UserId });
+            if (ModelState.IsValid)
+            {
+                int tokenOfd = kkmActivate.OfdToken;
+
+                var kkm = _context.Kkms.FirstOrDefault(i => i.Id == kkmActivate.Id);
+
+                if (kkm != null)
+                {
+                    kkm.ReqNum += 1;
+
+                    _context.Kkms.Update(kkm);
+                    _context.SaveChanges();
+
+                    var response = RequestOfd(kkm, tokenOfd);
+
+                    if (response.Result.Result.ResultCode == 0)
+                    {
+                        ResponseWeb(response);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Некорректный запрос, попробуйте снова");
+                    }
+                }
+                
+                return RedirectToAction("GetCashDesk", "InitializeCashDesk", new {id = kkmActivate.UserId});
+            }
+
+            return View(new Kkm());
         }
 
-
-        private void RequestOfd(Kkm kkmModel, int tokenOfd)
+        private Task<ResponseOfdCheckDesk> RequestOfd(Kkm kkmModel, int tokenOfd)
         {
             var kkm = new OfdKkm
             {
@@ -147,15 +171,7 @@ namespace Fiscal.Controllers
 
             Task<ResponseOfdCheckDesk> res = GetResponse(requestOfd);
 
-
-            if (res.Result.Result.ResultCode == 0)
-            {
-                ResponseWeb(res);
-            }
-            else
-            {
-            }
-            
+            return res;
         }
 
         private void ResponseWeb(Task<ResponseOfdCheckDesk> res)
@@ -204,7 +220,7 @@ namespace Fiscal.Controllers
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
-            
+
             var pattern = "SWK";
             var number = 10000000 + _context.Kkms.Count() + 1;
             string res = number.ToString().Substring(1);
@@ -230,7 +246,7 @@ namespace Fiscal.Controllers
             }
 
             _context.SaveChanges();
-            
+
             return RedirectToAction("GetCashDesk", "InitializeCashDesk", new {id = model.UserId});
         }
 
@@ -249,10 +265,10 @@ namespace Fiscal.Controllers
             {
                 return Ok(false);
             }
-            var org = new global::Models.DTO.RequestOperatorOfd.Org();
-            
-            return Ok(true);
 
+            var org = new global::Models.DTO.RequestOperatorOfd.Org();
+
+            return Ok(true);
         }
 
         public IActionResult GetCashDesk(string id)
@@ -261,6 +277,7 @@ namespace Fiscal.Controllers
             {
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
+
             return View(_context.Kkms.Where(p => p.UserId == id).ToList());
         }
     }
