@@ -5,7 +5,6 @@ using HSCFiscalRegistrar.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Microsoft.Extensions.Logging;
 using Models;
 using Models.DTO.Fiscalization.KKM;
 using Models.DTO.Fiscalization.KKMResponce;
@@ -15,8 +14,6 @@ using Models.DTO.RequestOperatorOfd;
 using Models.Enums;
 using Models.Services;
 using Serilog;
-using ILogger = Microsoft.Extensions.Logging.ILogger;
-using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 
 namespace HSCFiscalRegistrar.Controllers
 {
