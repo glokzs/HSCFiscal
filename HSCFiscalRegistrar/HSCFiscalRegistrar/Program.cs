@@ -26,6 +26,7 @@ namespace HSCFiscalRegistrar
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .Enrich.FromLogContext()
                 .WriteTo.File("Logs/log.txt")
+//                .WriteTo.Seq("http://localhost:6001")
                 .CreateLogger();
 
             try

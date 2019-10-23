@@ -11,13 +11,32 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Models;
+using Serilog;
+using Serilog.Events;
 
 namespace Fiscal
 {
     public class Program
     {
+        public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile(
+                $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json",
+                optional: true)
+            .AddEnvironmentVariables()
+            .Build();
+        
         public static async Task Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .Enrich.FromLogContext()
+                .WriteTo.File("Logs/log.txt")
+//                .WriteTo.Seq("http://localhost:6001")
+                .CreateLogger();
+            
             var host = CreateWebHostBuilder(args).Build();
             
             using (var scope = host.Services.CreateScope())
@@ -25,14 +44,16 @@ namespace Fiscal
                 var services = scope.ServiceProvider;
                 try
                 {
+                    Log.Information("Starting Fiscal");
+                    
                     var userManager = services.GetRequiredService<UserManager<User>>();
                     var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                     await RoleInitializer.InitializeAsync(userManager, rolesManager);
                 }
                 catch (Exception ex)
                 {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred while seeding the database.");
+                    
+                    Log.Error(ex, "An error occurred while seeding the database.");
                 }
             }
  
