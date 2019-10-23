@@ -85,13 +85,13 @@ namespace Fiscal.Controllers
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "user");
-                
+
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                
+
                 var callbackUrl = Url.Action(
                     "ConfirmEmail",
                     "Account",
-                    new { userId = user.Id, code = code },
+                    new {userId = user.Id, code = code},
                     protocol: HttpContext.Request.Scheme);
 
                 var email = model.Email;
@@ -120,11 +120,6 @@ namespace Fiscal.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
-            if (User.IsInRole("blocked"))
-            {
-                return RedirectToAction("BlockPage", "BlockedUser");
-            }
-
             if (userId == null || code == null)
             {
                 return View("Error");
@@ -137,8 +132,10 @@ namespace Fiscal.Controllers
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
+            
             if (result.Succeeded)
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "Account");
+            
             return View("Error");
         }
 
