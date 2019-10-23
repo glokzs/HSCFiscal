@@ -6,11 +6,10 @@ using HSCFiscalRegistrar.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Microsoft.Extensions.Logging;
 using Models;
 using Models.DTO.Auth;
 using Models.DTO.UserModel;
-using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
+using Serilog;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -20,24 +19,21 @@ namespace HSCFiscalRegistrar.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly ILoggerFactory _loggerFactory;
 
-        public AuthorizeController(UserManager<User> userManager, ILoggerFactory loggerFactory,
+        public AuthorizeController(UserManager<User> userManager, 
             SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _loggerFactory = loggerFactory;
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] UserDTO model)
         {
-            var logger = _loggerFactory.CreateLogger("Autorize|Post");
-            
             try
             {
-                logger.LogInformation($"Авторизация пользователя: {model}");
+                Log.Information("Autorize|Post");
+                Log.Information($"Авторизация пользователя: {model}");
                 
                 var result = await _signInManager.PasswordSignInAsync(model.Login,
                     model.Password,
@@ -66,12 +62,12 @@ namespace HSCFiscalRegistrar.Controllers
                     }
                 }
 
-                logger.LogError($"Ошибка авторизации пользователя: {model.Login}");
+                Log.Error($"Ошибка авторизации пользователя: {model.Login}");
                 throw new AuthorizeException("Неверный логин или пароль");
             }
             catch (Exception e)
             {
-                logger.LogError(e.ToString());
+                Log.Error(e.ToString());
                 return Ok(e.Message);
             }
 

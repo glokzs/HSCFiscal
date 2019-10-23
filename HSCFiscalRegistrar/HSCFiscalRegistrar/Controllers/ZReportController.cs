@@ -5,7 +5,6 @@ using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Models;
 using Models.DTO.CloseShift;
 using Models.DTO.CloseShift.OfdResponse;
@@ -13,6 +12,7 @@ using Models.DTO.XReport;
 using Models.DTO.XReport.KkmResponse;
 using Models.Services;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -21,25 +21,23 @@ namespace HSCFiscalRegistrar.Controllers
     {
         private readonly ApplicationContext _applicationContext;
         private readonly UserManager<User> _userManager;
-        private readonly ILoggerFactory _loggerFactory;
         private readonly GenerateErrorHelper _errorHelper;
 
-        public ZReportController(ApplicationContext applicationContext, UserManager<User> userManager,
-            ILoggerFactory loggerFactory, GenerateErrorHelper errorHelper)
+        public ZReportController(ApplicationContext applicationContext, UserManager<User> userManager, GenerateErrorHelper errorHelper)
         {
             _applicationContext = applicationContext;
             _userManager = userManager;
-            _loggerFactory = loggerFactory;
             _errorHelper = errorHelper;
         }
 
         [HttpPost]
         public IActionResult Post([FromBody] KkmRequest request)
         {
-            var logger = _loggerFactory.CreateLogger("ZReport|Post");
             try
             {
-                logger.LogInformation($"Z-Отчет: {request.Token}");
+                Log.Information("ZReport|Post");
+                Log.Information($"Z-Отчет: {request.Token}");
+                
                 var user = _userManager.Users.FirstOrDefault(u => u.UserToken == request.Token);
                 var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.UserId == user.Id);
                 var shift = _applicationContext.Shifts.Last(s => s.KkmId == kkm.Id);
@@ -59,23 +57,24 @@ namespace HSCFiscalRegistrar.Controllers
             }
             catch (Exception e)
             {
-                logger.LogError(e.Message);
+                Log.Error(e.Message);
                 return Json(e.Message);
             }
         }
 
         private async Task<CloseShiftOfdResponse> OfdRequest(Kkm kkm, User org, int shiftNumber)
         {
-            var logger = _loggerFactory.CreateLogger("OfdCloseShiftRequest|Post");
+            
             var closeShiftRequest = new CloseShiftRequest(kkm, org, shiftNumber);
             try
             {
-                logger.LogInformation("Отправка запроса на закрытие смены в ОФД");
+                Log.Information("OfdCloseShiftRequest|Post");
+                Log.Information("Отправка запроса на закрытие смены в ОФД");
                 await HttpService.Post(closeShiftRequest);
             }
             catch (Exception e)
             {
-                logger.LogError(e.Message);
+                Log.Error(e.Message);
             }
 
             var x = await HttpService.Post(closeShiftRequest);
