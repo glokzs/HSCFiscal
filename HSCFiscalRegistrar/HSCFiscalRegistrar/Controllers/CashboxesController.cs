@@ -41,7 +41,7 @@ namespace HSCFiscalRegistrar.Controllers
                 
                 var caseError = _validationHelper.TokenValidator(_userManager, dtoToken.Token);
 
-                if (caseError == 0) return GetCashBoxesData();
+                if (caseError == 0) return GetCashBoxesData(dtoToken);
                 return Json(_errorHelper.GetErrorRequest((int) caseError));
             }
             catch (UserNullException)
@@ -55,10 +55,10 @@ namespace HSCFiscalRegistrar.Controllers
             }
         }
 
-        private OkObjectResult GetCashBoxesData()
+        private OkObjectResult GetCashBoxesData(DtoToken dtoToken)
         {
-            var user = _userManager.GetUserAsync(User);
-            var kkm = _applicationContext.Kkms.First(k => k.UserId == user.Result.Id);
+            var user = _userManager.Users.FirstOrDefault(i => i.UserToken == dtoToken.Token);
+            var kkm = _applicationContext.Kkms.First(k => k.Id == user.KkmId);
             var shiftNumber = 1;
             if (_applicationContext.Shifts.Any(s => s.KkmId == kkm.Id))
             {
