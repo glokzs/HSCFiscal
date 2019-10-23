@@ -39,15 +39,15 @@ namespace HSCFiscalRegistrar.Controllers
             {
                 logger.LogInformation($"X-Отчет: {request.Token}");
                 var user = _userManager.Users.FirstOrDefault(u => u.UserToken == request.Token);
-                var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.SerialNumber == request.CashboxUniqueNumber);
+                var kkm = _applicationContext.Kkms.First(k => k.Id == user.KkmId);
                 var shift = _applicationContext.Shifts.Last(s => s.KkmId == kkm.Id && s.CloseDate == DateTime.MinValue);
                 var operations = _applicationContext.Operations.Where(o => o.ShiftId == shift.Id);
                 var shiftOperations = ZxReportService.GetShiftOperations(operations, shift);
                 ZxReportService.AddShiftProps(shift, operations);
-                var response = new XReportKkmResponse(shiftOperations, operations, user, kkm, shift);
+                var merch = _userManager.Users.FirstOrDefault(u => u.Id == kkm.UserId);
+                var response = new XReportKkmResponse(shiftOperations, operations, merch, kkm, shift);
                 if (kkm == null) return Json( _errorHelper.GetErrorRequest(3));
                 kkm.ReqNum += 1;
-                var merch = _userManager.Users.FirstOrDefault(u => u.Id == kkm.UserId);
                 _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
                 _applicationContext.SaveChangesAsync();
                 var xReportOfdRequest = new OfdXReport(_loggerFactory);
