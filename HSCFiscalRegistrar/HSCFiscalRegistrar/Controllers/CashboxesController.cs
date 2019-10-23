@@ -45,7 +45,7 @@ namespace HSCFiscalRegistrar.Controllers
 
                 var caseError = _validationHelper.TokenValidator(_userManager, dtoToken.Token);
 
-                if (caseError == 0) return GetCashBoxesData();
+                if (caseError == 0) return Ok(JsonConvert.SerializeObject(GetCashBoxesData()));
                 return Json(_errorHelper.GetErrorRequest((int) caseError));
             }
             catch (UserNullException)
@@ -59,10 +59,10 @@ namespace HSCFiscalRegistrar.Controllers
             }
         }
 
-        private OkObjectResult GetCashBoxesData()
+        private Wrapper GetCashBoxesData()
         {
             var user = _userManager.GetUserAsync(User);
-            var kkm = _applicationContext.Kkms.First(k => k.UserId == user.Result.Id);
+            var kkm = _applicationContext.Kkms.First(k => k.Id == user.Result.KkmId);
             var shiftNumber = 1;
             if (_applicationContext.Shifts.Any(s => s.KkmId == kkm.Id))
             {
@@ -78,7 +78,7 @@ namespace HSCFiscalRegistrar.Controllers
                         {
                             UniqueNumber = kkm.SerialNumber,
                             RegistrationNumber = kkm.FnsKkmId,
-                            IdentificationNumber = kkm.DeviceId.ToString(),
+                            IdentificationNumber = kkm.IdentificationNumber,
                             Name = kkm.Name,
                             IsOffline = false,
                             CurrentStatus = 1,
@@ -87,7 +87,7 @@ namespace HSCFiscalRegistrar.Controllers
                     }
                 }
             };
-            return Ok(JsonConvert.SerializeObject(wrapper));
+            return wrapper;
         }
     }
 }

@@ -197,9 +197,9 @@ namespace Fiscal.Controllers
             var kkm = new OfdKkm
             {
                 SerialNumber = kkmRequest.SerialNumber,
-                PointOfPaymentNumber = "",
+                PointOfPaymentNumber = "1",
                 FnsKkmId = kkmRequest.FnsKkmId,
-                TerminalNumber = ""
+                TerminalNumber = "1"
             };
 
             var org = new global::Models.DTO.RequestOperatorOfd.Org
