@@ -4,12 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Fiscal.Data;
 using Fiscal.ViewModels;
+using HSCFiscalRegistrar.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.DTO;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
+using Models.DTO.InitializeCashDesk.RequestOfd;
 using Models.DTO.InitializeCashDesk.ResponseOfd;
 using Models.DTO.RequestOfd;
 using Models.Services;
@@ -88,28 +91,32 @@ namespace Fiscal.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    int tokenOfd = kkmChange.OfdToken;
                     var kkm = _context.Kkms.FirstOrDefault(i => i.Id == kkmChange.Id);
 
                     if (kkm != null)
                     {
-                        kkm.ReqNum += 1;
+                        RequestOfdCashDesk kkmRequest = new RequestOfdCashDesk
+                        {
+                            FnsKkmId = kkm.FnsKkmId,
+                            DeviceId = kkm.DeviceId,
+                            TokenOfd = kkmChange.OfdToken,
+                            SerialNumber = kkm.SerialNumber,
+                            Iin = kkm.Iin,
+                            NameOrg = kkm.NameOrg,
+                            ReqNum = 56
+                        };
 
-                        _context.Kkms.Update(kkm);
-                        _context.SaveChanges();
+                        var response = RequestOfd(kkmRequest);
 
-                        RequestOfd(kkm, tokenOfd);
-                    }
-
-                    var response = RequestOfd(kkm, tokenOfd);
-
-                    if (response.Result.Result.ResultCode == 0)
-                    {
-                        ResponseWeb(response);
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, "Некорректный запрос, попробуйте снова");
+                        if (response.Result.Result.ResultCode == 0)
+                        {
+                            ResponseWeb(response, kkm.Id);
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, "Некорректный запрос, попробуйте снова");
+                            return View(new Kkm() { Id = kkmChange.Id });
+                        }
                     }
                 }
                 else
@@ -141,28 +148,34 @@ namespace Fiscal.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    int tokenOfd = kkmActivate.OfdToken;
-
                     var kkm = _context.Kkms.FirstOrDefault(i => i.Id == kkmActivate.Id);
 
                     if (kkm != null)
                     {
-                        kkm.ReqNum += 1;
+                        RequestOfdCashDesk kkmRequest = new RequestOfdCashDesk
+                        {
+                            FnsKkmId = kkmActivate.FnsKkmId,
+                            DeviceId = kkmActivate.DeviceId,
+                            TokenOfd = kkmActivate.OfdToken,
+                            SerialNumber = kkm.SerialNumber,
+                            Iin = kkm.Iin,
+                            NameOrg = kkm.NameOrg,
+                            ReqNum = kkm.ReqNum
+                        };
 
-                        _context.Kkms.Update(kkm);
-                        _context.SaveChanges();
+                        var response = RequestOfd(kkmRequest);
+
+                        if (response.Result.Result.ResultCode == 0)
+                        {
+                            ResponseWeb(response, kkm.Id);
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, "Некорректный запрос, попробуйте снова");
+                        }
                     }
 
-                    var response = RequestOfd(kkm, tokenOfd);
-
-                    if (response.Result.Result.ResultCode == 0)
-                    {
-                        ResponseWeb(response);
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, "Некорректный запрос, попробуйте снова");
-                    }
+                    
                 }
                 else
                 {
@@ -179,30 +192,30 @@ namespace Fiscal.Controllers
             return RedirectToAction("GetCashDesk", "InitializeCashDesk", new {id = kkmActivate.UserId});
         }
 
-        private Task<ResponseOfdCheckDesk> RequestOfd(Kkm kkmModel, int tokenOfd)
+        private Task<ResponseOfdCheckDesk> RequestOfd(RequestOfdCashDesk kkmRequest)
         {
             var kkm = new OfdKkm
             {
-                SerialNumber = kkmModel.SerialNumber,
+                SerialNumber = kkmRequest.SerialNumber,
                 PointOfPaymentNumber = "",
-                FnsKkmId = kkmModel.FnsKkmId,
+                FnsKkmId = kkmRequest.FnsKkmId,
                 TerminalNumber = ""
             };
 
             var org = new global::Models.DTO.RequestOperatorOfd.Org
             {
-                Inn = kkmModel.Iin,
+                Inn = kkmRequest.Iin,
                 Okved = "",
                 TaxationType = 0,
-                Title = kkmModel.NameOrg
+                Title = kkmRequest.NameOrg
             };
 
             Request requestOfd = new Request
             {
                 Command = 5,
-                DeviceId = kkmModel.DeviceId,
-                ReqNum = kkmModel.ReqNum++,
-                Token = tokenOfd,
+                DeviceId = kkmRequest.DeviceId,
+                ReqNum = kkmRequest.ReqNum++,
+                Token = kkmRequest.TokenOfd,
                 Service = new Service(new RegInfo(org, kkm))
             };
 
@@ -211,13 +224,13 @@ namespace Fiscal.Controllers
             return res;
         }
 
-        private void ResponseWeb(Task<ResponseOfdCheckDesk> res)
+        private void ResponseWeb(Task<ResponseOfdCheckDesk> res, string kkmId)
         {
-            string kkmId = res.Result.ServiceOfdDesk.RegInfoOfdDesk.Kkm.KkmId;
+            string kkmIdOfd = res.Result.ServiceOfdDesk.RegInfoOfdDesk.Kkm.KkmIdOfd;
 
-            int intKkmId = int.Parse(kkmId);
+            int intKkmId = int.Parse(kkmIdOfd);
 
-            var resKkm = _context.Kkms.FirstOrDefault(d => d.DeviceId == intKkmId);
+            var resKkm = _context.Kkms.FirstOrDefault(d => d.Id == kkmId);
 
             if (resKkm != null)
             {

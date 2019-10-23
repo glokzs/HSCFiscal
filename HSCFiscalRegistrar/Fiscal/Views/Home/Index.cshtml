@@ -15,50 +15,24 @@
         </div>
     </div>
     <div class="row d-flex justify-content-around align-items-stretch">
-        <div class="col-sm-5 border py-4 ml-3">
+        <div class="col-sm-12 border py-4">
             <form class="form-inline my-3">
                 <div class="form-group">
-                    <select style="max-width: 294px" class="form-control">
-                        <option>9</option>
-                        <option>8</option>
-                        <option>8</option>
-                        <option>9</option>
-                        <option>5</option>
-                    </select>
+                    <label for="shiftInput" class="mr-2">Номер смены</label>
+                    <input id="shiftInput" type="text" class="form-control" placeholder="Введите номер смены" required="required">
                 </div>
                 <button type="submit" class="btn btn-primary ml-2">Получить отчет</button>
             </form>
 
             <ul class="list-group">
-                <li class="list-group-item active">X - Report</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Morbi leo risus</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
+                <li style="cursor: pointer" class="list-group-item active" data-toggle="tooltip" data-placement="top"
+                    title="Отчет выгружается по номеру введенный смены">
+                    Отчет по смене
+                </li>
+                <li class="list-group-item">Дата открытия: </li>
+                <li class="list-group-item">Дата закрытия: </li>
+                <li class="list-group-item"></li>
                 <li class="list-group-item">Vestibulum at eros</li>
-                <li class="list-group-item">Morbi leo risus</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
-                <li class="list-group-item">Vestibulum at eros</li>
-            </ul>
-        </div>
-
-        <div class="col-sm-5 border py-4 mr-3">
-
-            <form class="form-inline my-3">
-                <div class="form-group">
-                    <select style="max-width: 294px" class="form-control">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary ml-2">Получить отчет</button>
-            </form>
-
-            <ul class="list-group">
-                <li class="list-group-item active">Z - Report</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
                 <li class="list-group-item">Morbi leo risus</li>
                 <li class="list-group-item">Porta ac consectetur ac</li>
                 <li class="list-group-item">Vestibulum at eros</li>
