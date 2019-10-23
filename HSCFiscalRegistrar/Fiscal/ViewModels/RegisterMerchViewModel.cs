@@ -63,5 +63,10 @@ namespace Fiscal.ViewModels
         [DataType(DataType.Password)]
         [Display(Name = "Подтвердить пароль")]
         public string PasswordConfirm { get; set; }
+        
+        public override string ToString()
+        {
+            return $"{Email}:{Password}";
+        }
     }
 }

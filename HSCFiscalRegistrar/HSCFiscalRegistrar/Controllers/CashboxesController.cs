@@ -5,12 +5,11 @@ using HSCFiscalRegistrar.Exceptions;
 using HSCFiscalRegistrar.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Models;
 using Models.DTO.Cashboxes;
 using Models.Enums;
 using Newtonsoft.Json;
-using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
+using Serilog;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -22,14 +21,11 @@ namespace HSCFiscalRegistrar.Controllers
         private readonly UserManager<User> _userManager;
         private readonly TokenValidationHelper _validationHelper;
         private readonly GenerateErrorHelper _errorHelper;
-        private readonly ILoggerFactory _loggerFactory;
 
-        public CashboxesController(TokenValidationHelper helper,
-            ILoggerFactory loggerFactory, GenerateErrorHelper errorHelper, UserManager<User> userManager,
+        public CashboxesController(TokenValidationHelper helper, GenerateErrorHelper errorHelper, UserManager<User> userManager,
             ApplicationContext applicationContext)
         {
             _validationHelper = helper;
-            _loggerFactory = loggerFactory;
             _errorHelper = errorHelper;
             _userManager = userManager;
             _applicationContext = applicationContext;
@@ -38,11 +34,11 @@ namespace HSCFiscalRegistrar.Controllers
         [HttpPost]
         public ActionResult Get([FromBody] DtoToken dtoToken)
         {
-            var logger = _loggerFactory.CreateLogger("Cashbox|Post");
             try
             {
-                logger.LogInformation($"Получение списка касс пользователя: {dtoToken.Token}");
-
+                Log.Information("Cashbox|Post");
+                Log.Information($"Получение списка касс пользователя: {_userManager}");
+                
                 var caseError = _validationHelper.TokenValidator(_userManager, dtoToken.Token);
 
                 if (caseError == 0) return GetCashBoxesData(dtoToken);
@@ -54,7 +50,7 @@ namespace HSCFiscalRegistrar.Controllers
             }
             catch (Exception e)
             {
-                logger.LogError($"Неизвестная ошибка: {e.StackTrace}");
+                Log.Error($"Неизвестная ошибка: {e.StackTrace}");
                 return Ok(_errorHelper.GetErrorRequest((int) ErrorEnums.UNKNOWN_ERROR));
             }
         }

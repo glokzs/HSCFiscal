@@ -5,11 +5,11 @@ using HSCFiscalRegistrar.OfdRequests;
 using HSCFiscalRegistrar.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Models;
 using Models.DTO.XReport;
 using Models.DTO.XReport.KkmResponse;
 using Newtonsoft.Json;
+using Serilog;
 using DateTime = System.DateTime;
 
 namespace HSCFiscalRegistrar.Controllers
@@ -19,25 +19,23 @@ namespace HSCFiscalRegistrar.Controllers
     {
         private readonly ApplicationContext _applicationContext;
         private readonly UserManager<User> _userManager;
-        private readonly ILoggerFactory _loggerFactory;
         private readonly GenerateErrorHelper _errorHelper;
 
-        public XReportController(ApplicationContext applicationContext, UserManager<User> userManager,
-            ILoggerFactory loggerFactory, GenerateErrorHelper errorHelper)
+        public XReportController(ApplicationContext applicationContext, UserManager<User> userManager, GenerateErrorHelper errorHelper)
         {
             _applicationContext = applicationContext;
             _userManager = userManager;
-            _loggerFactory = loggerFactory;
             _errorHelper = errorHelper;
         }
 
         [HttpPost]
         public IActionResult Post([FromBody] KkmRequest request)
         {
-            var logger = _loggerFactory.CreateLogger("XReport|Post");
             try
             {
-                logger.LogInformation($"X-Отчет: {request.Token}");
+                Log.Information("XReport|Post");
+                Log.Information($"X-Отчет: {request.Token}");
+                
                 var user = _userManager.Users.FirstOrDefault(u => u.UserToken == request.Token);
                 var kkm = _applicationContext.Kkms.First(k => k.Id == user.KkmId);
                 var shift = _applicationContext.Shifts.Last(s => s.KkmId == kkm.Id && s.CloseDate == DateTime.MinValue);
@@ -50,14 +48,14 @@ namespace HSCFiscalRegistrar.Controllers
                 kkm.ReqNum += 1;
                 _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
                 _applicationContext.SaveChangesAsync();
-                var xReportOfdRequest = new OfdXReport(_loggerFactory);
+                var xReportOfdRequest = new OfdXReport();
                 xReportOfdRequest.Request(kkm, merch);
 
                 return Ok(JsonConvert.SerializeObject(response));
             }
             catch (Exception e)
             {
-                logger.LogError(e.Message);
+                Log.Error(e.Message);
                 return Json(e.Message);
             }
         }

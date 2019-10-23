@@ -5,7 +5,6 @@ using HSCFiscalRegistrar.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Microsoft.Extensions.Logging;
 using Models;
 using Models.DTO.Fiscalization.KKM;
 using Models.DTO.Fiscalization.KKMResponce;
@@ -14,7 +13,7 @@ using Models.DTO.Fiscalization.OFDResponse;
 using Models.DTO.RequestOperatorOfd;
 using Models.Enums;
 using Models.Services;
-using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
+using Serilog;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -23,16 +22,13 @@ namespace HSCFiscalRegistrar.Controllers
     {
         private readonly ApplicationContext _applicationContext;
         private readonly UserManager<User> _userManager;
-        private readonly ILoggerFactory _loggerFactory;
         private readonly GenerateErrorHelper _errorHelper;
         private readonly TokenValidationHelper _helper;
 
-        public CheckController(ApplicationContext applicationContext, UserManager<User> userManager,
-            ILoggerFactory loggerFactory, TokenValidationHelper helper, GenerateErrorHelper errorHelper)
+        public CheckController(ApplicationContext applicationContext, UserManager<User> userManager, TokenValidationHelper helper, GenerateErrorHelper errorHelper)
         {
             _applicationContext = applicationContext;
             _userManager = userManager;
-            _loggerFactory = loggerFactory;
             _helper = helper;
             _errorHelper = errorHelper;
         }
@@ -41,22 +37,24 @@ namespace HSCFiscalRegistrar.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CheckOperationRequest checkOperationRequest)
         {
-            var logger = _loggerFactory.CreateLogger("Check|Post");
-
+            
             try
             {
-                logger.LogInformation($"Информация по чеку: {checkOperationRequest.Token}");
+                Log.Information("Check|Post");
+                Log.Information($"Получение списка касс пользователя: {_userManager}");
+                
+                Log.Information($"Информация по чеку: {checkOperationRequest.Token}");
                 _helper.TokenValidator(_userManager, checkOperationRequest.Token);
-                return await Response(checkOperationRequest, logger);
+                return await Response(checkOperationRequest);
             }
             catch (Exception e)
             {
-                logger.LogError(e.Message);
+                Log.Error(e.Message);
                 return Json(e.Message);
             }
         }
 
-        private async Task<IActionResult> Response(CheckOperationRequest checkOperationRequest, ILogger logger)
+        private async Task<IActionResult> Response(CheckOperationRequest checkOperationRequest)
         {
             var user = _userManager.FindByIdAsync(_helper.ParseId(checkOperationRequest.Token));
             var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.SerialNumber == checkOperationRequest.CashboxUniqueNumber);
@@ -90,8 +88,8 @@ namespace HSCFiscalRegistrar.Controllers
             }
             catch (Exception e)
             {
-                logger.LogError(e.Message);
-                logger.LogError($"Ошибка авторизации пользователя: {checkOperationRequest.Token}");
+                Log.Error(e.Message);
+                Log.Error($"Ошибка авторизации пользователя: {checkOperationRequest.Token}");
                 return Ok(_errorHelper.GetErrorRequest((int) ErrorEnums.UNKNOWN_ERROR));
             }
         }

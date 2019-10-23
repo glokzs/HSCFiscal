@@ -7,10 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Models;
-using NLog.Extensions.Logging;
-using NLog.Web;
 
 namespace HSCFiscalRegistrar
 {
@@ -57,7 +54,7 @@ namespace HSCFiscalRegistrar
                 options.User.RequireUniqueEmail = false;
             });
         }
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ApplicationContext context)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ApplicationContext context)
         {
             if (env.IsDevelopment())
             {
@@ -67,8 +64,6 @@ namespace HSCFiscalRegistrar
             {
                 app.UseHsts();
             }
-            loggerFactory.AddNLog();
-            app.AddNLogWeb();
             app.UseHttpsRedirection();
             app.UseAuthentication();
 
