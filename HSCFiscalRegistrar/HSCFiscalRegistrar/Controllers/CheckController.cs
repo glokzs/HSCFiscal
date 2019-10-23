@@ -1,20 +1,19 @@
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using HSCFiscalRegistrar.DTO.DateAndTime;
-using HSCFiscalRegistrar.DTO.Fiscalization;
-using HSCFiscalRegistrar.DTO.Fiscalization.KKM;
-using HSCFiscalRegistrar.DTO.Fiscalization.OFD;
-using HSCFiscalRegistrar.DTO.Fiscalization.OFDResponce;
-using HSCFiscalRegistrar.Enums;
-using HSCFiscalRegistrar.Models;
-using HSCFiscalRegistrar.Models.APKInfo;
-using HSCFiscalRegistrar.Services;
+using HSCFiscalRegistrar.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using DateTime = HSCFiscalRegistrar.DTO.DateAndTime.DateTime;
-using Ticket = HSCFiscalRegistrar.DTO.Fiscalization.OFD.Ticket;
+using Models;
+using Models.DTO.Fiscalization.KKM;
+using Models.DTO.Fiscalization.KKMResponce;
+using Models.DTO.Fiscalization.OFD;
+using Models.DTO.Fiscalization.OFDResponse;
+using Models.DTO.RequestOperatorOfd;
+using Models.Enums;
+using Models.Services;
+using Serilog;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -22,377 +21,154 @@ namespace HSCFiscalRegistrar.Controllers
     public class CheckController : Controller
     {
         private readonly ApplicationContext _applicationContext;
-        private UserManager<User> _userManager;
+        private readonly UserManager<User> _userManager;
+        private readonly GenerateErrorHelper _errorHelper;
+        private readonly TokenValidationHelper _helper;
 
-        public CheckController(ApplicationContext applicationContext, UserManager<User> userManager)
+        public CheckController(ApplicationContext applicationContext, UserManager<User> userManager, TokenValidationHelper helper, GenerateErrorHelper errorHelper)
         {
             _applicationContext = applicationContext;
             _userManager = userManager;
+            _helper = helper;
+            _errorHelper = errorHelper;
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CheckOperationRequest checkOperationRequest)
         {
-            decimal sum = 0;
-            foreach (var paymentsType in checkOperationRequest.Payments)
+            
+            try
             {
-                sum += paymentsType.Sum;
+                Log.Information("Check|Post");
+                Log.Information($"Получение списка касс пользователя: {_userManager}");
+                
+                Log.Information($"Информация по чеку: {checkOperationRequest.Token}");
+                _helper.TokenValidator(_userManager, checkOperationRequest.Token);
+                return await Response(checkOperationRequest);
             }
-            var request = _applicationContext.Requests.FirstOrDefault(r => r.Id == "7");
-            if (request != null)
+            catch (Exception e)
             {
-                var fiscalOfdRequest = new FiscalOfdRequest
-                {
-                    Command = 1,
-                    Token = request.Token,
-                    DeviceId = request.DeviceId,
-                    ReqNum = request.ReqNum,
-                    Service = request.Service,
-                    Ticket = new Ticket
-                    {
-                        Operation = checkOperationRequest.OperationType,
-                        Operator = new Operator()
-                        {
-                            Code = 1,
-                            Name = "OperName"
-                        },
-                        DateTime = GetDateTime(),
-                        Payments = GetPayments(checkOperationRequest),
-                        Items = GetItems(checkOperationRequest),
-                        Amounts = new Amount()
-                        {
-                            Total = new Sum()
-                            {
-                                Bills = sum,
-                                Coins = 0
-                            }
-                        },
-                        Domain = new Domain
-                        {
-                            Type = 0
-                        }
-                    }
-                };
-                var resp = await HttpService.Post(fiscalOfdRequest);
-                var ofdResp = GetOfdResponse(ref resp);
-                KkmResponse kkmResponse = new KkmResponse
-                {
-                    Data = new Data
-                        {
-                            DateTime = System.DateTime.Now.Date,
-                            CheckNumber = ofdResp.Ticket.TicketNumber,
-                            OfflineMode = false,
-                            Cashbox = GetCashbox(checkOperationRequest),
-                            CashboxOfflineMode = false,
-                            CheckOrderNumber = request.ReqNum,
-                            ShiftNumber = 54,
-                            EmployeeName = fiscalOfdRequest.Ticket.Operator.Name,
-                            TicketUrl = ofdResp.Ticket.QrCode,
-                    
-                        },
-                };
-                await UpdateDatabaseFields(request, ofdResp);
+                Log.Error(e.Message);
+                return Json(e.Message);
+            }
+        }
+
+        private async Task<IActionResult> Response(CheckOperationRequest checkOperationRequest)
+        {
+            var user = _userManager.FindByIdAsync(_helper.ParseId(checkOperationRequest.Token));
+            var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.SerialNumber == checkOperationRequest.CashboxUniqueNumber);
+            if (user == null) return NotFound("Operator not found");
+            var shift = await GetShift(user.Result, kkm);
+            var merchant = _userManager.Users.FirstOrDefault(u => u.Id == kkm.UserId);
+            if (merchant == null) return Ok(JsonConvert.SerializeObject(_errorHelper.GetErrorRequest(3)));
+            var org = new Org
+            {
+                Inn = merchant.Inn,
+                Okved = "o",
+                TaxationType = merchant.TaxationType,
+                Title = merchant.Title
+            };
+            try
+            {
+                var sum = checkOperationRequest.Payments.Sum(paymentsType => paymentsType.Sum);
+                var checkNumber = GeneratorFiscalSign.GenerateFiscalSign();
+                var date = DateTime.Now;
+                var qr = GetUrl(kkm, checkNumber.ToString(), sum, date);
+                var operation = GetOperation(shift, checkOperationRequest, date, qr, user.Result, kkm);
+                var kkmResponse = new KkmResponse(operation, shift);
+                var response = await OfdFiscalResponse(checkOperationRequest, operation, kkm, org);
+                operation.FiscalNumber = response.Ticket.TicketNumber;
+                operation.QR = response.Ticket.QrCode;
+                if (kkm == null) return Ok(JsonConvert.SerializeObject(_errorHelper.GetErrorRequest(6)));
+                kkm.OfdToken = response.Token;
+                await UpdateDatabaseFields(kkm, operation);
+
                 return Ok(JsonConvert.SerializeObject(kkmResponse));
             }
-
-            return NotFound();
-        }
-        
-        private Cashbox GetCashbox(CheckOperationRequest checkOperationRequest)
-        {
-            return new Cashbox
+            catch (Exception e)
             {
-                UniqueNumber = checkOperationRequest.CashboxUniqueNumber,
-                RegistrationNumber = "240820180008",
-                IdentityNumber = "2405",
-                Address = "asana"
-            };
+                Log.Error(e.Message);
+                Log.Error($"Ошибка авторизации пользователя: {checkOperationRequest.Token}");
+                return Ok(_errorHelper.GetErrorRequest((int) ErrorEnums.UNKNOWN_ERROR));
+            }
         }
 
-        private List<Item> GetItems(CheckOperationRequest checkOperationRequest)
+        private static async Task<OfdFiscalResponse> OfdFiscalResponse(CheckOperationRequest checkOperationRequest,
+            Operation operation, Kkm kkm, Org org)
         {
-            var items = new List<Item>();
-            foreach (var positionType in checkOperationRequest.Positions)
+            var fiscalOfdRequest = new FiscalOfdRequest(operation, checkOperationRequest, kkm, org);
+            var x = await HttpService.Post(fiscalOfdRequest);
+            string json = JsonConvert.SerializeObject(x);
+            var response = JsonConvert.DeserializeObject<OfdFiscalResponse>(json);
+            return response;
+        }
+        private async Task<Shift> GetShift(User oper, Kkm kkm)
+        {
+            Shift shift;
+            if (!_applicationContext.Shifts.Any())
             {
-                items.Add(GetItem(positionType));
+                shift = new Shift
+                {
+                    OpenDate = DateTime.Now,
+                    KkmId = kkm.Id,
+                    Number = 1,
+                    UserId = oper.Id
+                };
+                await _applicationContext.Shifts.AddAsync(shift);
+                await _applicationContext.SaveChangesAsync();
+            }
+            else if (_applicationContext.Shifts.Last().CloseDate != DateTime.MinValue)
+            {
+                shift = new Shift
+                {
+                    OpenDate = DateTime.Now,
+                    KkmId = kkm.Id,
+                    UserId =  oper.Id,
+                    Number = _applicationContext.Shifts.Last().Number + 1,
+                    BuySaldoBegin = _applicationContext.Shifts.Last().BuySaldoEnd,
+                    SellSaldoBegin = _applicationContext.Shifts.Last().SellSaldoEnd,
+                    RetunBuySaldoBegin = _applicationContext.Shifts.Last().RetunBuySaldoEnd,
+                    RetunSellSaldoBegin = _applicationContext.Shifts.Last().RetunSellSaldoEnd,
+                };
+                await _applicationContext.Shifts.AddAsync(shift);
+                await _applicationContext.SaveChangesAsync();
             }
 
-            return items;
+            shift = _applicationContext.Shifts.Last();
+            return shift;
         }
 
-        private Item GetItem(PositionType positionType)
+        private Operation GetOperation(Shift shift,
+            CheckOperationRequest checkOperationRequest, DateTime date, string qr, User oper, Kkm kkm)
         {
-            return new Item
-            {
-                Type = ItemTypeEnum.ITEM_TYPE_COMMODITY,
-                Commodity = GetCommodity(positionType),
-                StornoCommodity = GetStornoCommodity(positionType),
-                Markup = GetMarkup(),
-                StornoMarkup = GetStornoMarkup(),
-                Discount = GetDiscount(),
-                StornoDiscount = GetStornoDiscount()
-            };
+            var total = checkOperationRequest.Payments.Sum(p => p.Sum);
+            var cardAmount = checkOperationRequest.Payments
+                .Where(p => p.PaymentType == PaymentTypeEnum.PAYMENT_CARD)
+                .Sum(p => p.Sum);
+            var cashAmount = checkOperationRequest.Payments
+                .Where(p => p.PaymentType == PaymentTypeEnum.PAYMENT_CASH)
+                .Sum(p => p.Sum);
+            var checkNumber = _applicationContext.Operations.Count(s => s.ShiftId == shift.Id) + 1;
+            var operation = new Operation(checkOperationRequest.OperationType, shift.Id, OperationStateEnum.New, false,
+                date,
+                qr, total, checkOperationRequest.Change, cashAmount, cardAmount, oper.Id, kkm.Id, oper, kkm,
+                checkNumber);
+            return operation;
         }
 
-        private StornoDiscount GetStornoDiscount()
+        private async Task UpdateDatabaseFields(Kkm kkm, Operation operation)
         {
-            return new StornoDiscount
-            {
-                Name = "отмена скидки",
-                Sum = new Sum
-                {
-                    Bills = 5,
-                    Coins = 10
-                },
-                Taxes = new List<Tax>
-                {
-                    new Tax
-                    {
-                        Type = 0,
-                        TaxationType = 0,
-                        Percent = 12,
-                        Sum = new Sum
-                        {
-                            Bills = 5,
-                            Coins = 10
-                        },
-                        IsInTotalSum = true
-                    }
-                }
-            };
-        }
-
-        private Discount GetDiscount()
-        {
-            return new Discount
-            {
-                Name = "скидка",
-                Sum = new Sum
-                {
-                    Bills = 5,
-                    Coins = 10
-                },
-                Taxes = new List<Tax>
-                {
-                    new Tax
-                    {
-                        Type = 0,
-                        TaxationType = 0,
-                        Percent = 12,
-                        Sum = new Sum
-                        {
-                            Bills = 5,
-                            Coins = 10
-                        },
-                        IsInTotalSum = true
-                    }
-                }
-            };
-        }
-
-        private StornoMarkup GetStornoMarkup()
-        {
-            return new StornoMarkup
-            {
-                Name = "отмена наценки",
-                Sum = new Sum()
-                {
-                    Bills = 5,
-                    Coins = 10
-                },
-                Taxes = new List<Tax>
-                {
-                    new Tax
-                    {
-                        Type = 0,
-                        TaxationType = 0,
-                        Percent = 12,
-                        Sum = new Sum
-                        {
-                            Bills = 5,
-                            Coins = 10
-                        },
-                        IsInTotalSum = true
-                    }
-                }
-            };
-        }
-
-        private Markup GetMarkup()
-        {
-            return new Markup
-            {
-                Name = "наценка",
-                Sum = new Sum
-                {
-                    Bills = 5,
-                    Coins = 10
-                },
-                Taxes = new List<Tax>
-                {
-                    new Tax
-                    {
-                        Type = 0,
-                        TaxationType = 0,
-                        Percent = 12,
-                        Sum = new Sum
-                        {
-                            Bills = 5,
-                            Coins = 10
-                        },
-                        IsInTotalSum = true
-                    }
-                }
-            };
-        }
-
-        private StornoCommodity GetStornoCommodity(PositionType positionType)
-        {
-            return new StornoCommodity
-            {
-                Quantity = (int) positionType.Count,
-                Name = positionType.PositionName,
-                Sum = new Sum
-                {
-                    Bills = positionType.Price * (int)positionType.Count,
-                    Coins = 0
-                },
-                Price = new Sum
-                {
-                    Bills = positionType.Price,
-                    Coins = 0
-                },
-                SectionCode = positionType.PositionCode,
-                Taxes = new List<Tax>
-                {
-                    new Tax
-                    {
-                        Type = 0,
-                        TaxationType = 0,
-                        Percent = 12,
-                        Sum = new Sum
-                        {
-                            Bills = 5,
-                            Coins = 10
-                        },
-                        IsInTotalSum = true
-                    },
-                    new Tax
-                    {
-                        Type = 0,
-                        TaxationType = 0,
-                        Percent = 12,
-                        Sum = new Sum
-                        {
-                            Bills = 1,
-                            Coins = 10
-                        },
-                        IsInTotalSum = true
-                    }
-                }
-            };
-        }
-
-        private Commodity GetCommodity(PositionType positionType)
-        {
-            return new Commodity
-            {
-                Quantity = (int) positionType.Count,
-                Name = positionType.PositionName,
-                Code = positionType.UnitCode,
-                Sum = new Sum
-                {
-                    Bills = positionType.Price * (int)positionType.Count,
-                    Coins = 0
-                },
-                Price = new Sum
-                {
-                    Bills = positionType.Price,
-                    Coins = 0
-                },
-                SectionCode = positionType.PositionCode,
-                Taxes = new List<Tax>
-                {
-                    new Tax
-                    {
-                        Type = 0,
-                        TaxationType = 0,
-                        Percent = 12,
-                        Sum = new Sum
-                        {
-                            Bills = 5,
-                            Coins = 10
-                        },
-                        IsInTotalSum = true
-                    },
-                    new Tax
-                    {
-                        Type = 0,
-                        TaxationType = 0,
-                        Percent = 12,
-                        Sum = new Sum
-                        {
-                            Bills = 1,
-                            Coins = 10
-                        },
-                        IsInTotalSum = true
-                    }
-                }
-            };
-        }
-
-        private List<Payment> GetPayments(CheckOperationRequest checkOperationRequest)
-        {
-            List<Payment> payments = new List<Payment>();
-            foreach (var paymentsType in checkOperationRequest.Payments)
-            {
-                payments.Add(new Payment
-                {
-                    Sum = new Sum
-                    {
-                        Bills = paymentsType.Sum,
-                        Coins = 0
-                    },
-                    Type = paymentsType.PaymentType
-                });
-            }
-
-            return payments;
-        }
-
-        private DateTime GetDateTime()
-        {
-            System.DateTime now = System.DateTime.Now;
-            return new DateTime
-            {
-                Date = new Date
-                {
-                    Day = now.Day,
-                    Month = now.Month,
-                    Year = now.Year
-                },
-                Time = new Time
-                {
-                    Hour = now.Hour,
-                    Minute = now.Minute,
-                    Second = now.Second
-                }
-            };
-        }
-
-        private async Task UpdateDatabaseFields(Request request, Response ofdResp)
-        {
-            request.ReqNum += 1;
-            request.Token = ofdResp.Token;
-            _applicationContext.Update(request);
+            kkm.ReqNum += 1;
+            _applicationContext.Update(kkm);
+            _applicationContext.Operations.Add(operation);
             await _applicationContext.SaveChangesAsync();
         }
 
-        private Response GetOfdResponse(ref dynamic resp)
+        private string GetUrl(Kkm kkm, string checkNumber, decimal sum, DateTime date)
         {
-            resp = JsonConvert.SerializeObject(resp);
-            Response ofdResp = JsonConvert.DeserializeObject<Response>(resp);
-            return ofdResp;
+            var dateString = $"{date.Year}{date.Month}{date.Day}T{date.Hour}{date.Minute}{date.Second}";
+            return $"http://consumer.test-oofd.kz?i={checkNumber}&f={kkm.FnsKkmId}&s={sum}&t={dateString}";
         }
     }
 }

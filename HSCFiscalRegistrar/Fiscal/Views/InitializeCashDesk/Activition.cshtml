@@ -1,0 +1,57 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Models
+@model Models.Kkm
+@inject UserManager<User> UserManager
+@{
+    var user = await UserManager.FindByNameAsync(User.Identity.Name);
+}
+
+
+<style>
+    ::placeholder {
+        font-size: 11px;
+    }
+</style>
+
+
+<a class="btn btn-primary btn-sm text-white" data-toggle="modal" data-target="#_ex_@Model.Id">Активировать кассу</a>
+
+<div class="modal fade" id="_ex_@Model.Id" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Активировать кассы @Model.SerialNumber</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-controller="InitializeCashDesk" asp-action="ActivateKkm">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <input type="hidden" asp-for="UserId" value="@user.Id"/>
+                    <input type="hidden" asp-for="Id" value="@Model.Id"/>
+
+                    <div class="form-group jus">
+                        <label style="min-width: 160px" asp-for="DeviceId" class="col-form-label justify-content-start">Идентификационный номер:</label>
+                        <input id="inputLessPlaceholder" style="min-width: 250px" type="text" class="form-control" asp-for="DeviceId" required="required" placeholder="Введите идентификационный номер кассы ">
+                    </div>
+
+                    <div class="form-group">
+                        <label style="min-width: 160px" asp-for="FnsKkmId" class="col-form-label justify-content-start">Регистрационный номер:</label>
+                        <input style="min-width: 250px" class="form-control" asp-for="FnsKkmId" required="required" placeholder="Введите регистрационный номер кассы"/>
+                    </div>
+                    <div class="form-group">
+                        <label style="min-width: 160px" asp-for="OfdToken" class="col-form-label justify-content-start">Токен ОФД:</label>
+                        <input style="min-width: 250px" class="form-control" asp-for="OfdToken" required="required" placeholder="Введите токен ОФД"/>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-primary">Отправить</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

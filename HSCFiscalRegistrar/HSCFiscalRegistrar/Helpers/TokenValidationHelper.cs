@@ -1,19 +1,41 @@
-﻿using HSCFiscalRegistrar.Models;
+﻿using System;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
-using System.Threading.Tasks;
+using Models;
+using Models.Enums;
 
 namespace HSCFiscalRegistrar.Helpers
 {
-    public class TokenValidationHelper 
+    public class TokenValidationHelper
     {
-       public static async Task<bool> TokenValidator(
-           ClaimsPrincipal user, 
-            UserManager<User> userManager, 
-            string token)
+        
+        public ErrorEnums TokenValidator(UserManager<User> context, string token)
         {
-            User tokenOwner = await userManager.GetUserAsync(user);
-            return tokenOwner.UserToken.ToString() == token;
+            try
+            {
+                var user = context.FindByIdAsync(ParseId(token));
+                
+                if (user != null)
+                {
+                    if (user.Result.UserToken == token)
+                    {
+                        return DateTime.Now > user.Result.ExpiryDate ? ErrorEnums.SESSION_ERROR : ErrorEnums.GOOD_RES;
+                    }
+                    return ErrorEnums.UNAUTHORIZED_ERROR;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return ErrorEnums.UNKNOWN_ERROR;
+        }
+
+        public string ParseId(string token)
+        {
+            var tokenArray = token.Split('%');
+            return tokenArray[0];
         }
     }
 }

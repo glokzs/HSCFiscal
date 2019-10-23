@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    </PropertyGroup>
+
+
+    <ItemGroup>
+        <PackageReference Include="MailKit" Version="2.3.2" />
+        <PackageReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.4" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.4" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.4" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.4" />
+        <PackageReference Include="Serilog.AspNetCore" Version="3.1.0" />
+        <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.0.4" />
+        <PackageReference Include="Serilog.Sinks.Seq" Version="4.0.0" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\HSCFiscalRegistrar\HSCFiscalRegistrar.csproj" />
+      <ProjectReference Include="..\Models\Models.csproj" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Release\NLog.config" />
+      <_ContentIncludedByDefault Remove="Release\Release\NLog.config" />
+      <_ContentIncludedByDefault Remove="Release\Release\web.config" />
+      <_ContentIncludedByDefault Remove="Release\web.config" />
+      <_ContentIncludedByDefault Remove="Release\appsettings.Development.json" />
+      <_ContentIncludedByDefault Remove="Release\appsettings.json" />
+      <_ContentIncludedByDefault Remove="Release\Directories\ReferenceUnits.json" />
+      <_ContentIncludedByDefault Remove="Release\DTO\Fiscalization\KKM\responce.json" />
+      <_ContentIncludedByDefault Remove="Release\DTO\Fiscalization\OFD\fisc.json" />
+      <_ContentIncludedByDefault Remove="Release\Fiscal.deps.json" />
+      <_ContentIncludedByDefault Remove="Release\Fiscal.runtimeconfig.json" />
+      <_ContentIncludedByDefault Remove="Release\Release\appsettings.Development.json" />
+      <_ContentIncludedByDefault Remove="Release\Release\appsettings.json" />
+      <_ContentIncludedByDefault Remove="Release\Release\Directories\ReferenceUnits.json" />
+      <_ContentIncludedByDefault Remove="Release\Release\DTO\Fiscalization\KKM\responce.json" />
+      <_ContentIncludedByDefault Remove="Release\Release\DTO\Fiscalization\OFD\fisc.json" />
+      <_ContentIncludedByDefault Remove="Release\Release\HSCFiscalRegistrar.deps.json" />
+      <_ContentIncludedByDefault Remove="Release\Release\HSCFiscalRegistrar.runtimeconfig.json" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <Folder Include="Release" />
+    </ItemGroup>
+
+</Project>

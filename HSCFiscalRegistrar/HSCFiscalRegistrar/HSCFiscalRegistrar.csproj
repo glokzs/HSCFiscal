@@ -5,7 +5,15 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <UserSecretsId>c712c6b8-7dd9-4f5b-85eb-e2328a238e1e</UserSecretsId>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\OfdControllers\**" />
+    <Content Remove="Controllers\OfdControllers\**" />
+    <EmbeddedResource Remove="Controllers\OfdControllers\**" />
+    <None Remove="Controllers\OfdControllers\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Migrations\20190823154646_AddNewMigration.cs" />
@@ -19,22 +27,62 @@
     <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.4.10" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="NLog" Version="4.6.6" />
-    <PackageReference Include="NLog.Config" Version="4.6.6" />
 
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.4" />
+
+    <PackageReference Include="Quartz" Version="3.0.7" />
+
+    <PackageReference Include="Serilog.AspNetCore" Version="3.1.0" />
+
+    <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.0.4" />
+
+    <PackageReference Include="Serilog.Sinks.Seq" Version="4.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="C:\Users\sadyk\.nuget\packages\nlog.config\4.6.6\contentFiles\any\any\NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Models\Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Release\NLog.config" />
+    <_ContentIncludedByDefault Remove="Release\web.config" />
+    <_ContentIncludedByDefault Remove="Release\appsettings.Development.json" />
+    <_ContentIncludedByDefault Remove="Release\appsettings.json" />
+    <_ContentIncludedByDefault Remove="Release\Directories\ReferenceUnits.json" />
+    <_ContentIncludedByDefault Remove="Release\DTO\Fiscalization\KKM\responce.json" />
+    <_ContentIncludedByDefault Remove="Release\DTO\Fiscalization\OFD\fisc.json" />
+    <_ContentIncludedByDefault Remove="Release\HSCFiscalRegistrar.deps.json" />
+    <_ContentIncludedByDefault Remove="Release\HSCFiscalRegistrar.runtimeconfig.json" />
+    <_ContentIncludedByDefault Remove="DTO\Fiscalization\KKM\responce.json" />
+    <_ContentIncludedByDefault Remove="DTO\Fiscalization\OFD\fisc.json" />
+    <_ContentIncludedByDefault Remove="Release\Release\NLog.config" />
+    <_ContentIncludedByDefault Remove="Release\Release\web.config" />
+    <_ContentIncludedByDefault Remove="Release\Release\appsettings.Development.json" />
+    <_ContentIncludedByDefault Remove="Release\Release\appsettings.json" />
+    <_ContentIncludedByDefault Remove="Release\Release\Directories\ReferenceUnits.json" />
+    <_ContentIncludedByDefault Remove="Release\Release\DTO\Fiscalization\KKM\responce.json" />
+    <_ContentIncludedByDefault Remove="Release\Release\DTO\Fiscalization\OFD\fisc.json" />
+    <_ContentIncludedByDefault Remove="Release\Release\HSCFiscalRegistrar.deps.json" />
+    <_ContentIncludedByDefault Remove="Release\Release\HSCFiscalRegistrar.runtimeconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Release" />
   </ItemGroup>
 
 </Project>

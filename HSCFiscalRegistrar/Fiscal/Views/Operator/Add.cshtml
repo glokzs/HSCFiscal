@@ -1,0 +1,53 @@
+@using Models
+@model Fiscal.ViewModels.RegisterOperatorViewModel
+
+@{
+    ViewBag.Title = "Регистрация оператора";
+    Layout = "_Layout";
+}
+
+<div class="container d-flex justify-content-center align-items-center flex-column">
+    <div class="text-center mt-sm-5">
+        <h2>Регистрация оператора</h2>
+    </div>
+    <form style="width: 350px" method="post" asp-controller="Operator" asp-action="Add">
+        <div asp-validation-summary="ModelOnly"></div>
+        <input hidden="hidden" asp-for="OwnerId" value="@Model.OwnerId"/>
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <br/>
+            <input class="form-control" asp-for="Name" placeholder="Введите Ф.И.О"/>
+            <span asp-validation-for="Name"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <br/>
+            <input class="form-control" asp-for="Email" placeholder="Введите почтовый адрес"/>
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="KKMId">Выберете кассу</label>
+            <select class="form-control" asp-for="KKMId">
+                @foreach (Kkm kkm in ViewBag.Kkms)
+                {
+                    <option value="@kkm.Id">@kkm.Name</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <br/>
+            <input class="form-control" asp-for="Password" placeholder="Введите пароль"/>
+            <span asp-validation-for="Password"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PasswordConfirm"></label>
+            <br/>
+            <input class="form-control" asp-for="PasswordConfirm" placeholder="Введите повторно пароль"/>
+            <span asp-validation-for="PasswordConfirm"></span>
+        </div>
+        <div class="form-group">
+            <input class="btn btn-primary" type="submit" value="Регистрация"/>
+        </div>
+    </form>
+</div>

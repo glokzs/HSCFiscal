@@ -1,5 +1,5 @@
 ﻿using System;
-using HSCFiscalRegistrar.Models;
+using HSCFiscalRegistrar.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Models;
 
 namespace HSCFiscalRegistrar
 {
@@ -17,7 +18,7 @@ namespace HSCFiscalRegistrar
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -28,6 +29,9 @@ namespace HSCFiscalRegistrar
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>();
+
+            services.AddSingleton<TokenValidationHelper>();
+            services.AddSingleton<GenerateErrorHelper>();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -50,10 +54,8 @@ namespace HSCFiscalRegistrar
                 options.User.RequireUniqueEmail = false;
             });
         }
-
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ApplicationContext context)
         {
-            context.Database.EnsureCreated();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -62,7 +64,6 @@ namespace HSCFiscalRegistrar
             {
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseAuthentication();
 
