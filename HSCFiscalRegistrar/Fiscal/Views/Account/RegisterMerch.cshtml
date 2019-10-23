@@ -12,7 +12,7 @@
             <div id="form_block_right" class="form_block_right mx-3" style="width: 50%">
                 <div class="form-group">
                     <label asp-for="IIN"></label>
-                    <input maxlength="12" class="form-control" asp-for="IIN" placeholder="введите ИИН" />
+                    <input autofocus="autofocus" maxlength="12" class="form-control" asp-for="IIN" placeholder="введите ИИН" />
                     <span asp-validation-for="IIN" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -65,13 +65,13 @@
                 <div class="form-group">
                     <label asp-for="PhoneNumberUser"></label>
                     <br />
-                    <input autofocus placeholder="+7 (___) ___ __ __" type="tel" id="phone" class="form-control eyescript" asp-for="PhoneNumberUser" placeholder="Введите номер телефона" />
+                    <input placeholder="+7 (___) ___ __ __" type="tel" id="phone" class="form-control eyescript" asp-for="PhoneNumberUser" placeholder="Введите номер телефона" />
                     <span asp-validation-for="PhoneNumberUser" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Email"></label>
                     <br />
-                    <input class="form-control" asp-for="Email" placeholder="Введите почтовой адрес" />
+                    <input class="form-control" asp-for="Email" placeholder="Введите почтовый адрес" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
