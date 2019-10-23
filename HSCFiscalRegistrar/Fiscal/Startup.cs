@@ -34,7 +34,8 @@ namespace Fiscal
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<AppDataFiscalContext>();
+                .AddEntityFrameworkStores<AppDataFiscalContext>()
+                .AddDefaultTokenProviders();
             
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
             services.AddSingleton<IEmailSender, EmailSender>();
