@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using HSCFiscalRegistrar.Helpers;
 using HSCFiscalRegistrar.OfdRequests;
 using HSCFiscalRegistrar.Services;
@@ -9,7 +10,7 @@ using Models;
 using Models.DTO.XReport;
 using Models.DTO.XReport.KkmResponse;
 using Newtonsoft.Json;
-using Serilog;
+using Npgsql.EntityFrameworkCore.PostgreSQL.ValueGeneration.Internal;
 using DateTime = System.DateTime;
 
 namespace HSCFiscalRegistrar.Controllers
@@ -29,25 +30,30 @@ namespace HSCFiscalRegistrar.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] KkmRequest request)
+        public async Task<IActionResult> Post([FromBody] KkmRequest request)
         {
             try
             {
-                Log.Information("XReport|Post");
-                Log.Information($"X-Отчет: {request.Token}");
-                
                 var user = _userManager.Users.FirstOrDefault(u => u.UserToken == request.Token);
-                var kkm = _applicationContext.Kkms.First(k => k.Id == user.KkmId);
-                var shift = _applicationContext.Shifts.Last(s => s.KkmId == kkm.Id && s.CloseDate == DateTime.MinValue);
+                var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.Id == user.KkmId);
+                var merch = _userManager.Users.FirstOrDefault(u => user.OwnerId == u.Id);
+                Shift shift;
+                try
+                {
+                    shift = _applicationContext.Shifts.Last(s => s.KkmId == kkm.Id && s.CloseDate == DateTime.MinValue);
+                }
+                catch (Exception)
+                {
+                    shift = await GetShift(user,kkm);
+                }
                 var operations = _applicationContext.Operations.Where(o => o.ShiftId == shift.Id);
                 var shiftOperations = ZxReportService.GetShiftOperations(operations, shift);
                 ZxReportService.AddShiftProps(shift, operations);
-                var merch = _userManager.Users.FirstOrDefault(u => u.Id == kkm.UserId);
                 var response = new XReportKkmResponse(shiftOperations, operations, merch, kkm, shift);
                 if (kkm == null) return Json( _errorHelper.GetErrorRequest(3));
                 kkm.ReqNum += 1;
-                _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
-                _applicationContext.SaveChangesAsync();
+                await _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
+                await _applicationContext.SaveChangesAsync();
                 var xReportOfdRequest = new OfdXReport();
                 xReportOfdRequest.Request(kkm, merch);
 
@@ -55,9 +61,45 @@ namespace HSCFiscalRegistrar.Controllers
             }
             catch (Exception e)
             {
-                Log.Error(e.Message);
                 return Json(e.Message);
             }
         }
+        
+        private async Task<Shift> GetShift(User oper, Kkm kkm)
+        {
+            Shift shift;
+            if (!_applicationContext.Shifts.Any())
+            {
+                shift = new Shift
+                {
+                    OpenDate = DateTime.Now,
+                    KkmId = kkm.Id,
+                    Number = 1,
+                    UserId = oper.Id
+                };
+                await _applicationContext.Shifts.AddAsync(shift);
+                await _applicationContext.SaveChangesAsync();
+            }
+            else if (_applicationContext.Shifts.Last().CloseDate != DateTime.MinValue)
+            {
+                shift = new Shift
+                {
+                    OpenDate = DateTime.Now,
+                    KkmId = kkm.Id,
+                    UserId =  oper.Id,
+                    Number = _applicationContext.Shifts.Last().Number + 1,
+                    BuySaldoBegin = _applicationContext.Shifts.Last().BuySaldoEnd,
+                    SellSaldoBegin = _applicationContext.Shifts.Last().SellSaldoEnd,
+                    RetunBuySaldoBegin = _applicationContext.Shifts.Last().RetunBuySaldoEnd,
+                    RetunSellSaldoBegin = _applicationContext.Shifts.Last().RetunSellSaldoEnd,
+                };
+                await _applicationContext.Shifts.AddAsync(shift);
+                await _applicationContext.SaveChangesAsync();
+            }
+
+            shift = _applicationContext.Shifts.Last();
+            return shift;
+        }
+
     }
 }

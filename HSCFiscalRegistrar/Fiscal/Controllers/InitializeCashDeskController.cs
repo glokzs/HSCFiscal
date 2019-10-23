@@ -197,9 +197,9 @@ namespace Fiscal.Controllers
             var kkm = new OfdKkm
             {
                 SerialNumber = kkmRequest.SerialNumber,
-                PointOfPaymentNumber = "",
+                PointOfPaymentNumber = "1",
                 FnsKkmId = kkmRequest.FnsKkmId,
-                TerminalNumber = ""
+                TerminalNumber = "1"
             };
 
             var org = new global::Models.DTO.RequestOperatorOfd.Org
@@ -242,6 +242,8 @@ namespace Fiscal.Controllers
                 resKkm.SerialNumber = res.Result.ServiceOfdDesk.RegInfoOfdDesk.Kkm.SerialNumber;
                 resKkm.FnsKkmId = res.Result.ServiceOfdDesk.RegInfoOfdDesk.Kkm.FnsKkmId;
                 resKkm.ReqNum += 1;
+                resKkm.PointOfPayment = "";
+                resKkm.TerminalNumber = "";
 
                 _context.Kkms.Update(resKkm);
                 _context.SaveChanges();

@@ -27,4 +27,31 @@
       <ProjectReference Include="..\Models\Models.csproj" />
     </ItemGroup>
 
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Release\NLog.config" />
+      <_ContentIncludedByDefault Remove="Release\Release\NLog.config" />
+      <_ContentIncludedByDefault Remove="Release\Release\web.config" />
+      <_ContentIncludedByDefault Remove="Release\web.config" />
+      <_ContentIncludedByDefault Remove="Release\appsettings.Development.json" />
+      <_ContentIncludedByDefault Remove="Release\appsettings.json" />
+      <_ContentIncludedByDefault Remove="Release\Directories\ReferenceUnits.json" />
+      <_ContentIncludedByDefault Remove="Release\DTO\Fiscalization\KKM\responce.json" />
+      <_ContentIncludedByDefault Remove="Release\DTO\Fiscalization\OFD\fisc.json" />
+      <_ContentIncludedByDefault Remove="Release\Fiscal.deps.json" />
+      <_ContentIncludedByDefault Remove="Release\Fiscal.runtimeconfig.json" />
+      <_ContentIncludedByDefault Remove="Release\Release\appsettings.Development.json" />
+      <_ContentIncludedByDefault Remove="Release\Release\appsettings.json" />
+      <_ContentIncludedByDefault Remove="Release\Release\Directories\ReferenceUnits.json" />
+      <_ContentIncludedByDefault Remove="Release\Release\DTO\Fiscalization\KKM\responce.json" />
+      <_ContentIncludedByDefault Remove="Release\Release\DTO\Fiscalization\OFD\fisc.json" />
+      <_ContentIncludedByDefault Remove="Release\Release\HSCFiscalRegistrar.deps.json" />
+      <_ContentIncludedByDefault Remove="Release\Release\HSCFiscalRegistrar.runtimeconfig.json" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <Folder Include="Release" />
+    </ItemGroup>
+
 </Project>

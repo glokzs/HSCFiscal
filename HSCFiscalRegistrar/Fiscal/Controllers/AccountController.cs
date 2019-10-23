@@ -76,7 +76,7 @@ namespace Fiscal.Controllers
 
             User user = new User
             {
-                Inn = model.IIN,
+                Inn = "111140010124",
                 Title = model.Title,
                 Address = model.Adres,
                 UserName = model.Email,
