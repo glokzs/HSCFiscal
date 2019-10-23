@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace HSCFiscalRegistrar.Controllers
 {
@@ -9,6 +10,7 @@ namespace HSCFiscalRegistrar.Controllers
         [HttpGet]
         public string Index()
         {
+            Log.Information("Serialog на старте!");
             return $"работает (╮°-°)┳┳  => не работает ( ╯°□°)╯┻┻";
         }
     }

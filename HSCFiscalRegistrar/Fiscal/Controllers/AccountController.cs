@@ -1,16 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Fiscal.Data;
 using Fiscal.Interface;
-using Fiscal.Serves;
 using Fiscal.ViewModels;
-using HSCFiscalRegistrar;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Models;
 using Models.Enums;
+using Serilog;
 
 namespace Fiscal.Controllers
 {
@@ -48,6 +47,7 @@ namespace Fiscal.Controllers
         {
             if (User.IsInRole("blocked"))
             {
+
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
 
@@ -58,12 +58,22 @@ namespace Fiscal.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> RegisterMerch(RegisterMerchViewModel model)
         {
+            try
+            {
+                Log.Information("RegisterMerch|Post");
+                Log.Information($"Регистрация нового предприятия {model.Email} {model.Password}");
+
             if (User.IsInRole("blocked"))
             {
+                Log.Information($"Роль заблокирована: {User.IsInRole("blocked")}");
                 return RedirectToAction("BlockPage", "BlockedUser");
             }
 
-            if (!ModelState.IsValid) return View();
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             User user = new User
             {
                 Inn = model.IIN,
@@ -89,7 +99,7 @@ namespace Fiscal.Controllers
                 var email = model.Email;
 
                 var subject = "Fiscal Team";
-
+               
                 var message =
                     $"<table><tr><td>Дорогой, {model.FIO}</td></tr><tr><td>ссылка для входа:<span>https://hsc-fiscal.ltestl.com/Account/Login</span></td></tr><tr><td>Логин: {model.Email}</td></tr><tr><td>Пароль: {model.Password}</td></tr><tr><td>с уважением, ваша команда ~Fiscal~</td></tr></table>";
 
@@ -99,6 +109,8 @@ namespace Fiscal.Controllers
             }
             else
             {
+                Log.Error($"Ошибка регистрации предприятия {user.Email}, {user.PasswordHash}");
+                
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
@@ -106,6 +118,13 @@ namespace Fiscal.Controllers
             }
 
             return View();
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.ToString());
+                throw;
+            }
+           
         }
 
         [HttpGet]
@@ -149,33 +168,46 @@ namespace Fiscal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (User.IsInRole("blocked"))
+            try
             {
-                return RedirectToAction("BlockPage", "BlockedUser");
-            }
-
-            if (ModelState.IsValid)
-            {
-                var result =
-                    await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
-                if (result.Succeeded)
+                Log.Information($"Login|Post");
+                Log.Information($"Авторизация пользователя {model.Email} {model.Password}");
+            
+                if (User.IsInRole("blocked"))
                 {
-                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+                    return RedirectToAction("BlockPage", "BlockedUser");
+                }
+
+                if (ModelState.IsValid)
+                {
+                    var result =
+                        await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                    if (result.Succeeded)
                     {
-                        return Redirect(model.ReturnUrl);
+                        if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+                        {
+                            return Redirect(model.ReturnUrl);
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        Log.Error($"Ошибка авторизации пользователя {model.Email}");
+                        ModelState.AddModelError("", "Неправильный логин и (или) пароль");
                     }
                 }
-                else
-                {
-                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
-                }
-            }
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.ToString());
+                throw;
+            }
+           
         }
 
         [HttpPost]
@@ -183,13 +215,26 @@ namespace Fiscal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOff()
         {
-            if (User.IsInRole("blocked"))
+            try
             {
-                return RedirectToAction("BlockPage", "BlockedUser");
-            }
+                Log.Information($"LogOff|POST");
+                Log.Information($"Logout пользователя");
+            
+                if (User.IsInRole("blocked"))
+                {
+                    Log.Information($"Роль заблокирована: {User.IsInRole("blocked")}");
+                    return RedirectToAction("BlockPage", "BlockedUser");
+                }
 
-            await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+                await _signInManager.SignOutAsync();
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.ToString());
+                throw;
+            }
+           
         }
 
         public async Task<IActionResult> ChangePassword(string id)
@@ -214,49 +259,66 @@ namespace Fiscal.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            if (User.IsInRole("blocked"))
+            try
             {
-                return RedirectToAction("BlockPage", "BlockedUser");
-            }
-
-            if (ModelState.IsValid)
-            {
-                User user = await _userManager.FindByIdAsync(model.Id);
-
-                if (user != null)
+                Log.Information($"ChangePassword|POST");
+                Log.Information($"Смена пароля пользователя {model.Email}");
+                
+                if (User.IsInRole("blocked"))
                 {
-                    var passwordValidator =
-                        HttpContext.RequestServices.GetService(typeof(IPasswordValidator<User>)) as
-                            IPasswordValidator<User>;
-                    var passwordHasher =
-                        HttpContext.RequestServices.GetService(typeof(IPasswordHasher<User>)) as IPasswordHasher<User>;
+                    Log.Information($"Роль заблокирована: {User.IsInRole("blocked")}");
+                    return RedirectToAction("BlockPage", "BlockedUser");
+                }
 
-                    if (passwordValidator != null)
+                if (ModelState.IsValid)
+                {
+                    User user = await _userManager.FindByIdAsync(model.Id);
+
+                    if (user != null)
                     {
-                        IdentityResult result =
-                            await passwordValidator?.ValidateAsync(_userManager, user, model.NewPassword);
-                        if (result.Succeeded)
+                        var passwordValidator =
+                            HttpContext.RequestServices.GetService(typeof(IPasswordValidator<User>)) as
+                                IPasswordValidator<User>;
+                        var passwordHasher =
+                            HttpContext.RequestServices.GetService(typeof(IPasswordHasher<User>)) as IPasswordHasher<User>;
+
+                        if (passwordValidator != null)
                         {
-                            user.PasswordHash = passwordHasher?.HashPassword(user, model.NewPassword);
-                            await _userManager.UpdateAsync(user);
-                            return RedirectToAction("Index", "Home");
-                        }
-                        else
-                        {
-                            foreach (var error in result.Errors)
+                            IdentityResult result =
+                                await passwordValidator?.ValidateAsync(_userManager, user, model.NewPassword);
+                            if (result.Succeeded)
                             {
-                                ModelState.AddModelError(string.Empty, error.Description);
+                                user.PasswordHash = passwordHasher?.HashPassword(user, model.NewPassword);
+                                await _userManager.UpdateAsync(user);
+                                return RedirectToAction("Index", "Home");
+                            }
+                            else
+                            {
+                                
+                                foreach (var error in result.Errors)
+                                {
+                                    ModelState.AddModelError(string.Empty, error.Description);
+                                }
                             }
                         }
                     }
+                    else
+                    {
+                        Log.Error($"Пользователь {model.Email} не найден.");
+                        ModelState.AddModelError(string.Empty, "Пользователь не найден");
+                    }
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Пользователь не найден");
-                }
-            }
 
-            return View(model);
+                return View(model);
+                
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.ToString());
+                throw;
+            }
+            
+           
         }
 
         public IActionResult CheckName(RegisterCashDeskViewModel model)

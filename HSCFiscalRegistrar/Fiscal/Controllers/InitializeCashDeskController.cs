@@ -240,6 +240,8 @@ namespace Fiscal.Controllers
                 resKkm.OfdToken = res.Result.TokenOfd;
                 resKkm.CurrentStatus = "Готова к работе";
                 resKkm.SerialNumber = res.Result.ServiceOfdDesk.RegInfoOfdDesk.Kkm.SerialNumber;
+                resKkm.FnsKkmId = res.Result.ServiceOfdDesk.RegInfoOfdDesk.Kkm.FnsKkmId;
+                resKkm.ReqNum += 1;
 
                 _context.Kkms.Update(resKkm);
                 _context.SaveChanges();
