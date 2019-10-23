@@ -4,7 +4,7 @@ using MimeKit;
 
 namespace Fiscal.Serves
 {
-    public class EmailService
+    public class mailService
     {
         public async Task SendEmailAsync(string email, string subject, string message)
         {
