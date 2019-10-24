@@ -26,8 +26,8 @@ namespace Models
         public virtual Kkm Kkm { get; set; }
 
         public Operation( OperationTypeEnum type, string shiftId,
-            OperationStateEnum operationState, bool isOffline,
-            DateTime creationDate, string qr, decimal amount, decimal changeAmount, decimal cashAmount,
+            OperationStateEnum operationState,
+            DateTime creationDate, decimal amount, decimal changeAmount, decimal cashAmount,
             decimal cardAmount, string userId, string kkmId, User user, Kkm kkm, int checkNumber)
         {
             CheckNumber = checkNumber;
@@ -36,9 +36,8 @@ namespace Models
             Type = type;
             ShiftId = shiftId;
             OperationState = operationState;
-            IsOffline = isOffline;
+            IsOffline = false;
             CreationDate = creationDate;
-            QR = qr;
             Amount = amount;
             ChangeAmount = changeAmount;
             CashAmount = cashAmount;

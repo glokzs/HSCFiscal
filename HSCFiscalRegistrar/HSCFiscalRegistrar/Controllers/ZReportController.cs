@@ -39,7 +39,7 @@ namespace HSCFiscalRegistrar.Controllers
                 Log.Information($"Z-Отчет: {request.Token}");
                 
                 var user = _userManager.Users.FirstOrDefault(u => u.UserToken == request.Token);
-                var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.UserId == user.Id);
+                var kkm = _applicationContext.Kkms.FirstOrDefault(k => k.Id == user.KkmId);
                 var shift = _applicationContext.Shifts.Last(s => s.KkmId == kkm.Id);
                 var operations = _applicationContext.Operations.Where(o => o.ShiftId == shift.Id);
                 var shiftOperations = ZxReportService.GetShiftOperations(operations, shift);
@@ -50,7 +50,7 @@ namespace HSCFiscalRegistrar.Controllers
                 if (kkm == null) return Json(_errorHelper.GetErrorRequest(3));
                 kkm.OfdToken = closeShiftOfdResponse.Result.Token;
                 kkm.ReqNum += 1;
-                var response = new XReportKkmResponse(shiftOperations, operations, user, kkm, shift);
+                var response = new XReportKkmResponse(shiftOperations, operations, merch, kkm, shift);
                 _applicationContext.ShiftOperations.AddRangeAsync(shiftOperations);
                 _applicationContext.SaveChangesAsync();
                 return Ok(JsonConvert.SerializeObject(response));

@@ -71,19 +71,15 @@ namespace HSCFiscalRegistrar.Controllers
             };
             try
             {
-                var sum = checkOperationRequest.Payments.Sum(paymentsType => paymentsType.Sum);
-                var checkNumber = GeneratorFiscalSign.GenerateFiscalSign();
                 var date = DateTime.Now;
-                var qr = GetUrl(kkm, checkNumber.ToString(), sum, date);
-                var operation = GetOperation(shift, checkOperationRequest, date, qr, user.Result, kkm);
-                var kkmResponse = new KkmResponse(operation, shift);
+                var operation = GetOperation(shift, checkOperationRequest, date, user.Result, kkm);
                 var response = await OfdFiscalResponse(checkOperationRequest, operation, kkm, org);
                 operation.FiscalNumber = response.Ticket.TicketNumber;
                 operation.QR = response.Ticket.QrCode;
+                var kkmResponse = new KkmResponse(operation, shift);
                 if (kkm == null) return Ok(JsonConvert.SerializeObject(_errorHelper.GetErrorRequest(6)));
                 kkm.OfdToken = response.Token;
                 await UpdateDatabaseFields(kkm, operation);
-
                 return Ok(JsonConvert.SerializeObject(kkmResponse));
             }
             catch (Exception e)
@@ -140,7 +136,7 @@ namespace HSCFiscalRegistrar.Controllers
         }
 
         private Operation GetOperation(Shift shift,
-            CheckOperationRequest checkOperationRequest, DateTime date, string qr, User oper, Kkm kkm)
+            CheckOperationRequest checkOperationRequest, DateTime date, User oper, Kkm kkm)
         {
             var total = checkOperationRequest.Payments.Sum(p => p.Sum);
             var cardAmount = checkOperationRequest.Payments
@@ -150,9 +146,9 @@ namespace HSCFiscalRegistrar.Controllers
                 .Where(p => p.PaymentType == PaymentTypeEnum.PAYMENT_CASH)
                 .Sum(p => p.Sum);
             var checkNumber = _applicationContext.Operations.Count(s => s.ShiftId == shift.Id) + 1;
-            var operation = new Operation(checkOperationRequest.OperationType, shift.Id, OperationStateEnum.New, false,
+            var operation = new Operation(checkOperationRequest.OperationType, shift.Id, OperationStateEnum.New,
                 date,
-                qr, total, checkOperationRequest.Change, cashAmount, cardAmount, oper.Id, kkm.Id, oper, kkm,
+                 total, checkOperationRequest.Change, cashAmount, cardAmount, oper.Id, kkm.Id, oper, kkm,
                 checkNumber);
             return operation;
         }

@@ -2801,3 +2801,890 @@ VALUES (@p26, @p27, @p28, @p29, @p30, @p31, @p32, @p33);
 2019-10-23 22:51:36.812 +06:00 [INF] Executed action HSCFiscalRegistrar.Controllers.XReportController.Post (HSCFiscalRegistrar) in 17985.5425ms
 2019-10-23 22:51:36.812 +06:00 [INF] Executed endpoint 'HSCFiscalRegistrar.Controllers.XReportController.Post (HSCFiscalRegistrar)'
 2019-10-23 22:51:36.813 +06:00 [INF] Request finished in 17993.0073ms 200 text/plain; charset=utf-8
+2019-10-24 14:40:43.013 +06:00 [INF] Starting web host
+2019-10-24 14:40:44.572 +06:00 [INF] User profile is available. Using 'C:\Users\Dell\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-10-24 14:40:45.555 +06:00 [INF] Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL' with options: using lazy-loading proxies 
+2019-10-24 14:40:48.734 +06:00 [INF] Executed DbCommand (279ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+                    SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+                    FROM information_schema.tables
+                    WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema')
+2019-10-24 14:40:49.105 +06:00 [FTL] Unable to start Kestrel.
+System.Net.Sockets.SocketException (10049): The requested address is not valid in its context
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransport.BindAsync()
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.<>c__DisplayClass21_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.ListenOptions.BindAsync(AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(IServerAddressesFeature addresses, KestrelServerOptions serverOptions, ILogger logger, Func`2 createBinding)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+2019-10-24 14:40:49.169 +06:00 [FTL] Host terminated unexpectedly
+System.Net.Sockets.SocketException (10049): The requested address is not valid in its context
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransport.BindAsync()
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.<>c__DisplayClass21_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.ListenOptions.BindAsync(AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(IServerAddressesFeature addresses, KestrelServerOptions serverOptions, ILogger logger, Func`2 createBinding)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.Internal.WebHost.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.WebHostExtensions.RunAsync(IWebHost host, CancellationToken token, String shutdownMessage)
+   at Microsoft.AspNetCore.Hosting.WebHostExtensions.RunAsync(IWebHost host, CancellationToken token)
+   at Microsoft.AspNetCore.Hosting.WebHostExtensions.Run(IWebHost host)
+   at HSCFiscalRegistrar.Program.Main(String[] args) in C:\Users\Dell\Desktop\master\HSCFiscal\HSCFiscalRegistrar\HSCFiscalRegistrar\Program.cs:line 36
+2019-10-24 14:43:08.974 +06:00 [INF] Starting web host
+2019-10-24 14:43:10.718 +06:00 [INF] User profile is available. Using 'C:\Users\Dell\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-10-24 14:43:12.187 +06:00 [INF] Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL' with options: using lazy-loading proxies 
+2019-10-24 14:43:15.115 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+                    SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+                    FROM information_schema.tables
+                    WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema')
+2019-10-24 14:43:15.491 +06:00 [FTL] Unable to start Kestrel.
+System.Net.Sockets.SocketException (10049): The requested address is not valid in its context
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransport.BindAsync()
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.<>c__DisplayClass21_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.ListenOptions.BindAsync(AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(IServerAddressesFeature addresses, KestrelServerOptions serverOptions, ILogger logger, Func`2 createBinding)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+2019-10-24 14:43:15.549 +06:00 [FTL] Host terminated unexpectedly
+System.Net.Sockets.SocketException (10049): The requested address is not valid in its context
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransport.BindAsync()
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.<>c__DisplayClass21_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.ListenOptions.BindAsync(AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(IServerAddressesFeature addresses, KestrelServerOptions serverOptions, ILogger logger, Func`2 createBinding)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.Internal.WebHost.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.WebHostExtensions.RunAsync(IWebHost host, CancellationToken token, String shutdownMessage)
+   at Microsoft.AspNetCore.Hosting.WebHostExtensions.RunAsync(IWebHost host, CancellationToken token)
+   at Microsoft.AspNetCore.Hosting.WebHostExtensions.Run(IWebHost host)
+   at HSCFiscalRegistrar.Program.Main(String[] args) in C:\Users\Dell\Desktop\master\HSCFiscal\HSCFiscalRegistrar\HSCFiscalRegistrar\Program.cs:line 36
+2019-10-24 14:46:07.620 +06:00 [INF] Starting web host
+2019-10-24 14:46:08.892 +06:00 [INF] User profile is available. Using 'C:\Users\Dell\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-10-24 14:46:10.131 +06:00 [INF] Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL' with options: using lazy-loading proxies 
+2019-10-24 14:46:12.825 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+                    SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+                    FROM information_schema.tables
+                    WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema')
+2019-10-24 14:46:13.138 +06:00 [FTL] Unable to start Kestrel.
+System.Net.Sockets.SocketException (10049): The requested address is not valid in its context
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransport.BindAsync()
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.<>c__DisplayClass21_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.ListenOptions.BindAsync(AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(IServerAddressesFeature addresses, KestrelServerOptions serverOptions, ILogger logger, Func`2 createBinding)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+2019-10-24 14:46:13.192 +06:00 [FTL] Host terminated unexpectedly
+System.Net.Sockets.SocketException (10049): The requested address is not valid in its context
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransport.BindAsync()
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.<>c__DisplayClass21_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.ListenOptions.BindAsync(AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(IServerAddressesFeature addresses, KestrelServerOptions serverOptions, ILogger logger, Func`2 createBinding)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.Internal.WebHost.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.WebHostExtensions.RunAsync(IWebHost host, CancellationToken token, String shutdownMessage)
+   at Microsoft.AspNetCore.Hosting.WebHostExtensions.RunAsync(IWebHost host, CancellationToken token)
+   at Microsoft.AspNetCore.Hosting.WebHostExtensions.Run(IWebHost host)
+   at HSCFiscalRegistrar.Program.Main(String[] args) in C:\Users\Dell\Desktop\master\HSCFiscal\HSCFiscalRegistrar\HSCFiscalRegistrar\Program.cs:line 36
+2019-10-24 14:46:41.012 +06:00 [INF] Starting web host
+2019-10-24 14:46:42.087 +06:00 [INF] User profile is available. Using 'C:\Users\Dell\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-10-24 14:46:43.088 +06:00 [INF] Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL' with options: using lazy-loading proxies 
+2019-10-24 14:55:33.289 +06:00 [INF] Starting web host
+2019-10-24 14:55:34.467 +06:00 [INF] User profile is available. Using 'C:\Users\Dell\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-10-24 14:55:35.578 +06:00 [INF] Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL' with options: using lazy-loading proxies 
+2019-10-24 15:12:38.604 +06:00 [INF] Starting web host
+2019-10-24 15:12:39.938 +06:00 [INF] User profile is available. Using 'C:\Users\Dell\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-10-24 15:12:41.036 +06:00 [INF] Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL' with options: using lazy-loading proxies 
+2019-10-24 15:12:43.959 +06:00 [INF] Executed DbCommand (274ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+                    SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+                    FROM information_schema.tables
+                    WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema')
+2019-10-24 15:12:44.592 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:6001/api/values  
+2019-10-24 15:12:44.599 +06:00 [WRN] Failed to determine the https port for redirect.
+2019-10-24 15:12:44.639 +06:00 [INF] Executing endpoint 'HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar)'
+2019-10-24 15:12:44.651 +06:00 [INF] Route matched with {action = "Index", controller = "Values"}. Executing controller action with signature System.String Index() on controller HSCFiscalRegistrar.Controllers.ValuesController (HSCFiscalRegistrar).
+2019-10-24 15:12:44.657 +06:00 [INF] Executing action method HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar) - Validation state: "Valid"
+2019-10-24 15:12:44.658 +06:00 [INF] Serialog на старте!
+2019-10-24 15:12:44.660 +06:00 [INF] Executed action method HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.4867ms.
+2019-10-24 15:12:44.667 +06:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2019-10-24 15:12:44.685 +06:00 [INF] Executed action HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar) in 31.818ms
+2019-10-24 15:12:44.685 +06:00 [INF] Executed endpoint 'HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar)'
+2019-10-24 15:12:44.687 +06:00 [INF] Request finished in 95.9331ms 200 text/plain; charset=utf-8
+2019-10-24 15:12:44.701 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:6001/favicon.ico  
+2019-10-24 15:12:44.705 +06:00 [INF] Request finished in 3.7585ms 404 
+2019-10-24 15:14:15.432 +06:00 [INF] Connection id "0HLQOC9A7P5TJ" bad request data: "Invalid request line: '\x16\x03\x01\x02\x00\x01\x00\x01\xFC\x03\x03\x00\xE5\x7F\xB9V\xBF\xAE\x1C~\x1El\x92i|\xA12\xA6}\xA8?\x1F\xE6TR\x17}$$\x1EK\x03. \x04\xFBW\xCCI\x16^\xB5\xDDr]r\xDEv\xFF\x02A\x91b\x177\xB4|\x9C\x9AG\x93,G\xCF\x85\xC0\x00"::\x13\x01\x13\x02\x13\x03\xC0+\xC0/\xC0,\xC00\xCC\xA9\xCC\xA8\xC0\x13\xC0\x14\x00\x9C\x00\x9D\x00/\x005\x00\x0A'"
+Microsoft.AspNetCore.Server.Kestrel.Core.BadHttpRequestException: Invalid request line: '\x16\x03\x01\x02\x00\x01\x00\x01\xFC\x03\x03\x00\xE5\x7F\xB9V\xBF\xAE\x1C~\x1El\x92i|\xA12\xA6}\xA8?\x1F\xE6TR\x17}$$\x1EK\x03. \x04\xFBW\xCCI\x16^\xB5\xDDr]r\xDEv\xFF\x02A\x91b\x177\xB4|\x9C\x9AG\x93,G\xCF\x85\xC0\x00"::\x13\x01\x13\x02\x13\x03\xC0+\xC0/\xC0,\xC00\xCC\xA9\xCC\xA8\xC0\x13\xC0\x14\x00\x9C\x00\x9D\x00/\x005\x00\x0A'
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpParser`1.RejectRequestLine(Byte* requestLine, Int32 length)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpParser`1.GetUnknownMethod(Byte* data, Int32 length, Int32& methodLength)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpParser`1.ParseRequestLine(TRequestHandler handler, Byte* data, Int32 length)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpParser`1.ParseRequestLine(TRequestHandler handler, ReadOnlySequence`1& buffer, SequencePosition& consumed, SequencePosition& examined)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpParser`1.Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.IHttpParser<TRequestHandler>.ParseRequestLine(TRequestHandler handler, ReadOnlySequence`1& buffer, SequencePosition& consumed, SequencePosition& examined)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Http1Connection.TakeStartLine(ReadOnlySequence`1 buffer, SequencePosition& consumed, SequencePosition& examined)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Http1Connection.ParseRequest(ReadOnlySequence`1 buffer, SequencePosition& consumed, SequencePosition& examined)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Http1Connection.TryParseRequest(ReadResult result, Boolean& endConnection)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequestsAsync[TContext](IHttpApplication`1 application)
+2019-10-24 15:14:15.432 +06:00 [INF] Connection id "0HLQOC9A7P5TK" bad request data: "Invalid request line: '\x16\x03\x01\x02\x00\x01\x00\x01\xFC\x03\x03shw\x88e\xAC\xF3B~`\xCA\xE3"\x0F\x0D\xB2\xFAOF\xA1\x8E\xFD\xAF\x13\x8E\xE9\x08\x113\xE9\xD5l \xAC/\x06N^\x19\x96w\xB5\xEB+JZ\xC4\x11\x0C\xABIt\xBB\xCE\x1B\xF2\xF7f\xC5\xC0}1\x8F\xE7\xDF\x00"\x9A\x9A\x13\x01\x13\x02\x13\x03\xC0+\xC0/\xC0,\xC00\xCC\xA9\xCC\xA8\xC0\x13\xC0\x14\x00\x9C\x00\x9D\x00/\x005\x00\x0A'"
+Microsoft.AspNetCore.Server.Kestrel.Core.BadHttpRequestException: Invalid request line: '\x16\x03\x01\x02\x00\x01\x00\x01\xFC\x03\x03shw\x88e\xAC\xF3B~`\xCA\xE3"\x0F\x0D\xB2\xFAOF\xA1\x8E\xFD\xAF\x13\x8E\xE9\x08\x113\xE9\xD5l \xAC/\x06N^\x19\x96w\xB5\xEB+JZ\xC4\x11\x0C\xABIt\xBB\xCE\x1B\xF2\xF7f\xC5\xC0}1\x8F\xE7\xDF\x00"\x9A\x9A\x13\x01\x13\x02\x13\x03\xC0+\xC0/\xC0,\xC00\xCC\xA9\xCC\xA8\xC0\x13\xC0\x14\x00\x9C\x00\x9D\x00/\x005\x00\x0A'
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpParser`1.RejectRequestLine(Byte* requestLine, Int32 length)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpParser`1.GetUnknownMethod(Byte* data, Int32 length, Int32& methodLength)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpParser`1.ParseRequestLine(TRequestHandler handler, Byte* data, Int32 length)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpParser`1.ParseRequestLine(TRequestHandler handler, ReadOnlySequence`1& buffer, SequencePosition& consumed, SequencePosition& examined)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpParser`1.Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.IHttpParser<TRequestHandler>.ParseRequestLine(TRequestHandler handler, ReadOnlySequence`1& buffer, SequencePosition& consumed, SequencePosition& examined)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Http1Connection.TakeStartLine(ReadOnlySequence`1 buffer, SequencePosition& consumed, SequencePosition& examined)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Http1Connection.ParseRequest(ReadOnlySequence`1 buffer, SequencePosition& consumed, SequencePosition& examined)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Http1Connection.TryParseRequest(ReadResult result, Boolean& endConnection)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequestsAsync[TContext](IHttpApplication`1 application)
+2019-10-24 15:14:20.688 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:6001/api/values  
+2019-10-24 15:14:20.690 +06:00 [INF] Executing endpoint 'HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar)'
+2019-10-24 15:14:20.691 +06:00 [INF] Route matched with {action = "Index", controller = "Values"}. Executing controller action with signature System.String Index() on controller HSCFiscalRegistrar.Controllers.ValuesController (HSCFiscalRegistrar).
+2019-10-24 15:14:20.691 +06:00 [INF] Executing action method HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar) - Validation state: "Valid"
+2019-10-24 15:14:20.691 +06:00 [INF] Serialog на старте!
+2019-10-24 15:14:20.691 +06:00 [INF] Executed action method HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.091900000000000009ms.
+2019-10-24 15:14:20.692 +06:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2019-10-24 15:14:20.692 +06:00 [INF] Executed action HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar) in 1.327ms
+2019-10-24 15:14:20.692 +06:00 [INF] Executed endpoint 'HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar)'
+2019-10-24 15:14:20.693 +06:00 [INF] Request finished in 4.3161ms 200 text/plain; charset=utf-8
+2019-10-24 15:14:30.426 +06:00 [INF] Connection id "0HLQOC9A7P5TN" bad request data: "Invalid request line: '\x16\x03\x01\x00\xE1\x01\x00\x00\xDD\x03\x03\x1D$s\xAD\x0Dk\xC1#\x92\xF7\xD9\x01\x8Do\xB9)\xF2\x8A\x80\xFB\xBAN\x1E\x8B\x06\x06\x15]\xD2\xD2\xF2_\x00\x00\\xC0/\xC0+\xC00\xC0,\x00\x9E\xC0'\x00g\xC0(\x00k\x00\xA3\x00\x9F\xCC\xA9\xCC\xA8\xCC\xAA\xC0\xAF\xC0\xAD\xC0\xA3\xC0\x9F\x00\xA2\xC0\xAE\xC0\xAC\xC0\xA2\xC0\x9E\xC0$\x00j\xC0#\x00@\xC0\x0A'"
+Microsoft.AspNetCore.Server.Kestrel.Core.BadHttpRequestException: Invalid request line: '\x16\x03\x01\x00\xE1\x01\x00\x00\xDD\x03\x03\x1D$s\xAD\x0Dk\xC1#\x92\xF7\xD9\x01\x8Do\xB9)\xF2\x8A\x80\xFB\xBAN\x1E\x8B\x06\x06\x15]\xD2\xD2\xF2_\x00\x00\\xC0/\xC0+\xC00\xC0,\x00\x9E\xC0'\x00g\xC0(\x00k\x00\xA3\x00\x9F\xCC\xA9\xCC\xA8\xCC\xAA\xC0\xAF\xC0\xAD\xC0\xA3\xC0\x9F\x00\xA2\xC0\xAE\xC0\xAC\xC0\xA2\xC0\x9E\xC0$\x00j\xC0#\x00@\xC0\x0A'
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpParser`1.RejectRequestLine(Byte* requestLine, Int32 length)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpParser`1.GetUnknownMethod(Byte* data, Int32 length, Int32& methodLength)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpParser`1.ParseRequestLine(TRequestHandler handler, Byte* data, Int32 length)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpParser`1.ParseRequestLine(TRequestHandler handler, ReadOnlySequence`1& buffer, SequencePosition& consumed, SequencePosition& examined)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpParser`1.Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.IHttpParser<TRequestHandler>.ParseRequestLine(TRequestHandler handler, ReadOnlySequence`1& buffer, SequencePosition& consumed, SequencePosition& examined)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Http1Connection.TakeStartLine(ReadOnlySequence`1 buffer, SequencePosition& consumed, SequencePosition& examined)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Http1Connection.ParseRequest(ReadOnlySequence`1 buffer, SequencePosition& consumed, SequencePosition& examined)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Http1Connection.TryParseRequest(ReadResult result, Boolean& endConnection)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequestsAsync[TContext](IHttpApplication`1 application)
+2019-10-24 15:14:34.238 +06:00 [INF] Request starting HTTP/1.1 POST http://localhost:6001/api/Check application/json 1392
+2019-10-24 15:14:34.238 +06:00 [INF] Executing endpoint 'HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar)'
+2019-10-24 15:14:34.251 +06:00 [INF] Route matched with {action = "Post", controller = "Check"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(Models.DTO.Fiscalization.KKM.CheckOperationRequest) on controller HSCFiscalRegistrar.Controllers.CheckController (HSCFiscalRegistrar).
+2019-10-24 15:14:34.253 +06:00 [INF] Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL' with options: using lazy-loading proxies 
+2019-10-24 15:14:35.637 +06:00 [INF] Executed DbCommand (266ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+                    SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+                    FROM information_schema.tables
+                    WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema')
+2019-10-24 15:14:35.747 +06:00 [INF] Executing action method HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar) - Validation state: "Valid"
+2019-10-24 15:14:35.748 +06:00 [INF] Check|Post
+2019-10-24 15:14:35.748 +06:00 [INF] Получение списка касс пользователя: Microsoft.AspNetCore.Identity.UserManager`1[Models.User]
+2019-10-24 15:14:35.748 +06:00 [INF] Информация по чеку: 2bbfb42a-ff83-440f-88ea-9d9977647ccd%KMoYJVnFVUmSik1cRllyqw
+2019-10-24 15:14:36.120 +06:00 [INF] Executed DbCommand (273ms) [Parameters=[@__get_Item_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT e."Id", e."AccessFailedCount", e."Address", e."ConcurrencyStamp", e."DateTimeCreationToken", e."Email", e."EmailConfirmed", e."ExpiryDate", e."Fio", e."Inn", e."KkmId", e."LockoutEnabled", e."LockoutEnd", e."NormalizedEmail", e."NormalizedUserName", e."Okved", e."OperatorCode", e."OwnerId", e."PasswordHash", e."PhoneNumber", e."PhoneNumberConfirmed", e."SecurityStamp", e."TaxationType", e."Title", e."TwoFactorEnabled", e."UserName", e."UserToken", e."UserType", e."VAT", e."VATNumber", e."VATSeria"
+FROM "AspNetUsers" AS e
+WHERE e."Id" = @__get_Item_0
+LIMIT 1
+2019-10-24 15:14:36.210 +06:00 [ERR] Object reference not set to an instance of an object.
+2019-10-24 15:14:36.210 +06:00 [INF] Executed action method HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar), returned result Microsoft.AspNetCore.Mvc.JsonResult in 463.2828ms.
+2019-10-24 15:14:36.212 +06:00 [INF] Executing JsonResult, writing value of type 'System.String'.
+2019-10-24 15:14:36.224 +06:00 [INF] Executed action HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar) in 1972.0022000000001ms
+2019-10-24 15:14:36.224 +06:00 [INF] Executed endpoint 'HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar)'
+2019-10-24 15:14:36.224 +06:00 [INF] Request finished in 1986.7513ms 200 application/json; charset=utf-8
+2019-10-24 15:14:48.458 +06:00 [INF] Request starting HTTP/1.1 POST http://localhost:6001/api/Check application/json 1392
+2019-10-24 15:14:48.458 +06:00 [INF] Executing endpoint 'HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar)'
+2019-10-24 15:14:48.458 +06:00 [INF] Route matched with {action = "Post", controller = "Check"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(Models.DTO.Fiscalization.KKM.CheckOperationRequest) on controller HSCFiscalRegistrar.Controllers.CheckController (HSCFiscalRegistrar).
+2019-10-24 15:14:48.458 +06:00 [INF] Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL' with options: using lazy-loading proxies 
+2019-10-24 15:14:49.515 +06:00 [INF] Executed DbCommand (267ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+                    SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+                    FROM information_schema.tables
+                    WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema')
+2019-10-24 15:14:49.516 +06:00 [INF] Executing action method HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar) - Validation state: "Valid"
+2019-10-24 15:14:49.516 +06:00 [INF] Check|Post
+2019-10-24 15:14:49.516 +06:00 [INF] Получение списка касс пользователя: Microsoft.AspNetCore.Identity.UserManager`1[Models.User]
+2019-10-24 15:14:49.516 +06:00 [INF] Информация по чеку: 2bbfb42a-ff83-440f-88ea-9d9977647ccd%KMoYJVnFVUmSik1cRllyqw
+2019-10-24 15:14:49.785 +06:00 [INF] Executed DbCommand (266ms) [Parameters=[@__get_Item_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT e."Id", e."AccessFailedCount", e."Address", e."ConcurrencyStamp", e."DateTimeCreationToken", e."Email", e."EmailConfirmed", e."ExpiryDate", e."Fio", e."Inn", e."KkmId", e."LockoutEnabled", e."LockoutEnd", e."NormalizedEmail", e."NormalizedUserName", e."Okved", e."OperatorCode", e."OwnerId", e."PasswordHash", e."PhoneNumber", e."PhoneNumberConfirmed", e."SecurityStamp", e."TaxationType", e."Title", e."TwoFactorEnabled", e."UserName", e."UserToken", e."UserType", e."VAT", e."VATNumber", e."VATSeria"
+FROM "AspNetUsers" AS e
+WHERE e."Id" = @__get_Item_0
+LIMIT 1
+2019-10-24 15:14:49.851 +06:00 [ERR] Object reference not set to an instance of an object.
+2019-10-24 15:14:49.852 +06:00 [INF] Executed action method HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar), returned result Microsoft.AspNetCore.Mvc.JsonResult in 335.3127ms.
+2019-10-24 15:14:49.852 +06:00 [INF] Executing JsonResult, writing value of type 'System.String'.
+2019-10-24 15:14:49.852 +06:00 [INF] Executed action HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar) in 1393.9326ms
+2019-10-24 15:14:49.852 +06:00 [INF] Executed endpoint 'HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar)'
+2019-10-24 15:14:49.852 +06:00 [INF] Request finished in 1394.5184ms 200 application/json; charset=utf-8
+2019-10-24 15:16:03.498 +06:00 [INF] Request starting HTTP/1.1 POST http://localhost:6001/api/Check application/json 1390
+2019-10-24 15:16:03.498 +06:00 [INF] Executing endpoint 'HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar)'
+2019-10-24 15:16:03.498 +06:00 [INF] Route matched with {action = "Post", controller = "Check"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(Models.DTO.Fiscalization.KKM.CheckOperationRequest) on controller HSCFiscalRegistrar.Controllers.CheckController (HSCFiscalRegistrar).
+2019-10-24 15:16:03.499 +06:00 [INF] Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL' with options: using lazy-loading proxies 
+2019-10-24 15:16:04.544 +06:00 [INF] Executed DbCommand (266ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+                    SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+                    FROM information_schema.tables
+                    WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema')
+2019-10-24 15:16:04.545 +06:00 [INF] Executing action method HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar) - Validation state: "Valid"
+2019-10-24 15:16:04.545 +06:00 [INF] Check|Post
+2019-10-24 15:16:04.545 +06:00 [INF] Получение списка касс пользователя: Microsoft.AspNetCore.Identity.UserManager`1[Models.User]
+2019-10-24 15:16:04.545 +06:00 [INF] Информация по чеку: a5a1c23a-b88f-40c5-984a-b267ba521fd6%oe7vj3t8wkeqP8d2ogvg
+2019-10-24 15:16:04.814 +06:00 [INF] Executed DbCommand (268ms) [Parameters=[@__get_Item_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT e."Id", e."AccessFailedCount", e."Address", e."ConcurrencyStamp", e."DateTimeCreationToken", e."Email", e."EmailConfirmed", e."ExpiryDate", e."Fio", e."Inn", e."KkmId", e."LockoutEnabled", e."LockoutEnd", e."NormalizedEmail", e."NormalizedUserName", e."Okved", e."OperatorCode", e."OwnerId", e."PasswordHash", e."PhoneNumber", e."PhoneNumberConfirmed", e."SecurityStamp", e."TaxationType", e."Title", e."TwoFactorEnabled", e."UserName", e."UserToken", e."UserType", e."VAT", e."VATNumber", e."VATSeria"
+FROM "AspNetUsers" AS e
+WHERE e."Id" = @__get_Item_0
+LIMIT 1
+2019-10-24 15:16:07.586 +06:00 [INF] Executed DbCommand (265ms) [Parameters=[@__checkOperationRequest_CashboxUniqueNumber_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT k."Id", k."Address", k."CurrentStatus", k."Description", k."DeviceId", k."FnsKkmId", k."IdentificationNumber", k."Iin", k."LastDateOperation", k."Mode", k."Name", k."NameOrg", k."OfdToken", k."OperatorId", k."PointOfPayment", k."ReqNum", k."SerialNumber", k."TerminalNumber", k."UserId", k."UserId1"
+FROM "Kkms" AS k
+WHERE k."SerialNumber" = @__checkOperationRequest_CashboxUniqueNumber_0
+LIMIT 1
+2019-10-24 15:16:08.996 +06:00 [INF] Executed DbCommand (266ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM "Shifts" AS s)
+    THEN TRUE::bool ELSE FALSE::bool
+END
+2019-10-24 15:16:08.998 +06:00 [WRN] Query: '(from Shift <generated>_1 in DbSet<Shift> select [<generated>_1]).Last()' uses First/FirstOrDefault/Last/LastOrDefault operation without OrderBy and filter which may lead to unpredictable results.
+2019-10-24 15:16:09.001 +06:00 [WRN] The LINQ expression 'Last()' could not be translated and will be evaluated locally.
+2019-10-24 15:16:09.268 +06:00 [INF] Executed DbCommand (265ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."BuySaldoBegin", s."BuySaldoEnd", s."CloseDate", s."KkmBalance", s."KkmId", s."Number", s."OpenDate", s."RetunBuySaldoBegin", s."RetunBuySaldoEnd", s."RetunSellSaldoBegin", s."RetunSellSaldoEnd", s."SellSaldoBegin", s."SellSaldoEnd", s."UserId"
+FROM "Shifts" AS s
+2019-10-24 15:16:09.548 +06:00 [INF] Executed DbCommand (265ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."BuySaldoBegin", s."BuySaldoEnd", s."CloseDate", s."KkmBalance", s."KkmId", s."Number", s."OpenDate", s."RetunBuySaldoBegin", s."RetunBuySaldoEnd", s."RetunSellSaldoBegin", s."RetunSellSaldoEnd", s."SellSaldoBegin", s."SellSaldoEnd", s."UserId"
+FROM "Shifts" AS s
+2019-10-24 15:16:10.761 +06:00 [INF] Executed DbCommand (265ms) [Parameters=[@__kkm_UserId_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."AccessFailedCount", u."Address", u."ConcurrencyStamp", u."DateTimeCreationToken", u."Email", u."EmailConfirmed", u."ExpiryDate", u."Fio", u."Inn", u."KkmId", u."LockoutEnabled", u."LockoutEnd", u."NormalizedEmail", u."NormalizedUserName", u."Okved", u."OperatorCode", u."OwnerId", u."PasswordHash", u."PhoneNumber", u."PhoneNumberConfirmed", u."SecurityStamp", u."TaxationType", u."Title", u."TwoFactorEnabled", u."UserName", u."UserToken", u."UserType", u."VAT", u."VATNumber", u."VATSeria"
+FROM "AspNetUsers" AS u
+WHERE u."Id" = @__kkm_UserId_0
+LIMIT 1
+2019-10-24 15:16:16.561 +06:00 [INF] Executed DbCommand (265ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)::INT
+FROM "Operations" AS s
+WHERE s."ShiftId" = @__shift_Id_0
+2019-10-24 15:16:36.856 +06:00 [INF] Executed DbCommand (273ms) [Parameters=[@p19='?', @p0='?', @p1='?', @p2='?', @p3='?' (DbType = Int32), @p4='?', @p5='?', @p6='?', @p7='?' (DbType = DateTime), @p8='?', @p9='?', @p10='?', @p11='?' (DbType = Int32), @p12='?', @p13='?', @p14='?' (DbType = Int32), @p15='?', @p16='?', @p17='?', @p18='?', @p20='?', @p21='?' (DbType = Decimal), @p22='?' (DbType = Decimal), @p23='?' (DbType = Decimal), @p24='?' (DbType = Decimal), @p25='?' (DbType = Decimal), @p26='?' (DbType = Int32), @p27='?' (DbType = DateTime), @p28='?', @p29='?' (DbType = Boolean), @p30='?', @p31='?' (DbType = Int32), @p32='?', @p33='?', @p34='?' (DbType = Int32), @p35='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Kkms" SET "Address" = @p0, "CurrentStatus" = @p1, "Description" = @p2, "DeviceId" = @p3, "FnsKkmId" = @p4, "IdentificationNumber" = @p5, "Iin" = @p6, "LastDateOperation" = @p7, "Mode" = @p8, "Name" = @p9, "NameOrg" = @p10, "OfdToken" = @p11, "OperatorId" = @p12, "PointOfPayment" = @p13, "ReqNum" = @p14, "SerialNumber" = @p15, "TerminalNumber" = @p16, "UserId" = @p17, "UserId1" = @p18
+WHERE "Id" = @p19;
+INSERT INTO "Operations" ("Id", "Amount", "CardAmount", "CashAmount", "CashAmountFromClient", "ChangeAmount", "CheckNumber", "CreationDate", "FiscalNumber", "IsOffline", "KkmId", "OperationState", "QR", "ShiftId", "Type", "UserId")
+VALUES (@p20, @p21, @p22, @p23, @p24, @p25, @p26, @p27, @p28, @p29, @p30, @p31, @p32, @p33, @p34, @p35);
+2019-10-24 15:16:40.627 +06:00 [INF] Executed action method HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 36081.5585ms.
+2019-10-24 15:16:40.630 +06:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2019-10-24 15:16:40.631 +06:00 [INF] Executed action HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar) in 37132.1338ms
+2019-10-24 15:16:40.631 +06:00 [INF] Executed endpoint 'HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar)'
+2019-10-24 15:16:40.632 +06:00 [INF] Request finished in 37134.4966ms 200 text/plain; charset=utf-8
+2019-10-24 15:17:44.692 +06:00 [INF] Starting web host
+2019-10-24 15:17:45.962 +06:00 [INF] User profile is available. Using 'C:\Users\Dell\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-10-24 15:17:47.127 +06:00 [INF] Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL' with options: using lazy-loading proxies 
+2019-10-24 15:17:49.818 +06:00 [INF] Executed DbCommand (265ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+                    SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+                    FROM information_schema.tables
+                    WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema')
+2019-10-24 15:17:50.717 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:6001/api/values  
+2019-10-24 15:17:50.725 +06:00 [WRN] Failed to determine the https port for redirect.
+2019-10-24 15:17:50.805 +06:00 [INF] Executing endpoint 'HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar)'
+2019-10-24 15:17:50.818 +06:00 [INF] Route matched with {action = "Index", controller = "Values"}. Executing controller action with signature System.String Index() on controller HSCFiscalRegistrar.Controllers.ValuesController (HSCFiscalRegistrar).
+2019-10-24 15:17:50.827 +06:00 [INF] Executing action method HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar) - Validation state: "Valid"
+2019-10-24 15:17:50.827 +06:00 [INF] Serialog на старте!
+2019-10-24 15:17:50.829 +06:00 [INF] Executed action method HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.5043ms.
+2019-10-24 15:17:50.835 +06:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2019-10-24 15:17:50.851 +06:00 [INF] Executed action HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar) in 31.1304ms
+2019-10-24 15:17:50.851 +06:00 [INF] Executed endpoint 'HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar)'
+2019-10-24 15:17:50.854 +06:00 [INF] Request finished in 138.1331ms 200 text/plain; charset=utf-8
+2019-10-24 15:17:53.168 +06:00 [INF] Request starting HTTP/1.1 POST http://localhost:6001/api/Check application/json 1390
+2019-10-24 15:17:53.170 +06:00 [INF] Executing endpoint 'HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar)'
+2019-10-24 15:17:53.183 +06:00 [INF] Route matched with {action = "Post", controller = "Check"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(Models.DTO.Fiscalization.KKM.CheckOperationRequest) on controller HSCFiscalRegistrar.Controllers.CheckController (HSCFiscalRegistrar).
+2019-10-24 15:17:53.189 +06:00 [INF] Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL' with options: using lazy-loading proxies 
+2019-10-24 15:17:54.228 +06:00 [INF] Executed DbCommand (255ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+                    SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+                    FROM information_schema.tables
+                    WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema')
+2019-10-24 15:17:54.344 +06:00 [INF] Executing action method HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar) - Validation state: "Valid"
+2019-10-24 15:17:54.347 +06:00 [INF] Check|Post
+2019-10-24 15:17:54.347 +06:00 [INF] Получение списка касс пользователя: Microsoft.AspNetCore.Identity.UserManager`1[Models.User]
+2019-10-24 15:17:54.347 +06:00 [INF] Информация по чеку: a5a1c23a-b88f-40c5-984a-b267ba521fd6%oe7vj3t8wkeqP8d2ogvg
+2019-10-24 15:17:54.700 +06:00 [INF] Executed DbCommand (264ms) [Parameters=[@__get_Item_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT e."Id", e."AccessFailedCount", e."Address", e."ConcurrencyStamp", e."DateTimeCreationToken", e."Email", e."EmailConfirmed", e."ExpiryDate", e."Fio", e."Inn", e."KkmId", e."LockoutEnabled", e."LockoutEnd", e."NormalizedEmail", e."NormalizedUserName", e."Okved", e."OperatorCode", e."OwnerId", e."PasswordHash", e."PhoneNumber", e."PhoneNumberConfirmed", e."SecurityStamp", e."TaxationType", e."Title", e."TwoFactorEnabled", e."UserName", e."UserToken", e."UserType", e."VAT", e."VATNumber", e."VATSeria"
+FROM "AspNetUsers" AS e
+WHERE e."Id" = @__get_Item_0
+LIMIT 1
+2019-10-24 15:17:55.053 +06:00 [INF] Executed DbCommand (255ms) [Parameters=[@__checkOperationRequest_CashboxUniqueNumber_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT k."Id", k."Address", k."CurrentStatus", k."Description", k."DeviceId", k."FnsKkmId", k."IdentificationNumber", k."Iin", k."LastDateOperation", k."Mode", k."Name", k."NameOrg", k."OfdToken", k."OperatorId", k."PointOfPayment", k."ReqNum", k."SerialNumber", k."TerminalNumber", k."UserId", k."UserId1"
+FROM "Kkms" AS k
+WHERE k."SerialNumber" = @__checkOperationRequest_CashboxUniqueNumber_0
+LIMIT 1
+2019-10-24 15:17:55.330 +06:00 [INF] Executed DbCommand (255ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM "Shifts" AS s)
+    THEN TRUE::bool ELSE FALSE::bool
+END
+2019-10-24 15:17:55.333 +06:00 [WRN] Query: '(from Shift <generated>_1 in DbSet<Shift> select [<generated>_1]).Last()' uses First/FirstOrDefault/Last/LastOrDefault operation without OrderBy and filter which may lead to unpredictable results.
+2019-10-24 15:17:55.336 +06:00 [WRN] The LINQ expression 'Last()' could not be translated and will be evaluated locally.
+2019-10-24 15:17:55.594 +06:00 [INF] Executed DbCommand (255ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."BuySaldoBegin", s."BuySaldoEnd", s."CloseDate", s."KkmBalance", s."KkmId", s."Number", s."OpenDate", s."RetunBuySaldoBegin", s."RetunBuySaldoEnd", s."RetunSellSaldoBegin", s."RetunSellSaldoEnd", s."SellSaldoBegin", s."SellSaldoEnd", s."UserId"
+FROM "Shifts" AS s
+2019-10-24 15:17:55.863 +06:00 [INF] Executed DbCommand (255ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."BuySaldoBegin", s."BuySaldoEnd", s."CloseDate", s."KkmBalance", s."KkmId", s."Number", s."OpenDate", s."RetunBuySaldoBegin", s."RetunBuySaldoEnd", s."RetunSellSaldoBegin", s."RetunSellSaldoEnd", s."SellSaldoBegin", s."SellSaldoEnd", s."UserId"
+FROM "Shifts" AS s
+2019-10-24 15:17:56.126 +06:00 [INF] Executed DbCommand (255ms) [Parameters=[@__kkm_UserId_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."AccessFailedCount", u."Address", u."ConcurrencyStamp", u."DateTimeCreationToken", u."Email", u."EmailConfirmed", u."ExpiryDate", u."Fio", u."Inn", u."KkmId", u."LockoutEnabled", u."LockoutEnd", u."NormalizedEmail", u."NormalizedUserName", u."Okved", u."OperatorCode", u."OwnerId", u."PasswordHash", u."PhoneNumber", u."PhoneNumberConfirmed", u."SecurityStamp", u."TaxationType", u."Title", u."TwoFactorEnabled", u."UserName", u."UserToken", u."UserType", u."VAT", u."VATNumber", u."VATSeria"
+FROM "AspNetUsers" AS u
+WHERE u."Id" = @__kkm_UserId_0
+LIMIT 1
+2019-10-24 15:17:56.393 +06:00 [INF] Executed DbCommand (255ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)::INT
+FROM "Operations" AS s
+WHERE s."ShiftId" = @__shift_Id_0
+2019-10-24 15:17:58.612 +06:00 [INF] Executed DbCommand (262ms) [Parameters=[@p19='?', @p0='?', @p1='?', @p2='?', @p3='?' (DbType = Int32), @p4='?', @p5='?', @p6='?', @p7='?' (DbType = DateTime), @p8='?', @p9='?', @p10='?', @p11='?' (DbType = Int32), @p12='?', @p13='?', @p14='?' (DbType = Int32), @p15='?', @p16='?', @p17='?', @p18='?', @p20='?', @p21='?' (DbType = Decimal), @p22='?' (DbType = Decimal), @p23='?' (DbType = Decimal), @p24='?' (DbType = Decimal), @p25='?' (DbType = Decimal), @p26='?' (DbType = Int32), @p27='?' (DbType = DateTime), @p28='?', @p29='?' (DbType = Boolean), @p30='?', @p31='?' (DbType = Int32), @p32='?', @p33='?', @p34='?' (DbType = Int32), @p35='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Kkms" SET "Address" = @p0, "CurrentStatus" = @p1, "Description" = @p2, "DeviceId" = @p3, "FnsKkmId" = @p4, "IdentificationNumber" = @p5, "Iin" = @p6, "LastDateOperation" = @p7, "Mode" = @p8, "Name" = @p9, "NameOrg" = @p10, "OfdToken" = @p11, "OperatorId" = @p12, "PointOfPayment" = @p13, "ReqNum" = @p14, "SerialNumber" = @p15, "TerminalNumber" = @p16, "UserId" = @p17, "UserId1" = @p18
+WHERE "Id" = @p19;
+INSERT INTO "Operations" ("Id", "Amount", "CardAmount", "CashAmount", "CashAmountFromClient", "ChangeAmount", "CheckNumber", "CreationDate", "FiscalNumber", "IsOffline", "KkmId", "OperationState", "QR", "ShiftId", "Type", "UserId")
+VALUES (@p20, @p21, @p22, @p23, @p24, @p25, @p26, @p27, @p28, @p29, @p30, @p31, @p32, @p33, @p34, @p35);
+2019-10-24 15:17:58.887 +06:00 [INF] Executed action method HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 4542.8194ms.
+2019-10-24 15:17:58.890 +06:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2019-10-24 15:17:58.891 +06:00 [INF] Executed action HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar) in 5707.9646ms
+2019-10-24 15:17:58.891 +06:00 [INF] Executed endpoint 'HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar)'
+2019-10-24 15:17:58.893 +06:00 [INF] Request finished in 5725.7897ms 200 text/plain; charset=utf-8
+2019-10-24 15:19:48.287 +06:00 [INF] Starting web host
+2019-10-24 15:19:49.558 +06:00 [INF] User profile is available. Using 'C:\Users\Dell\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-10-24 15:19:50.675 +06:00 [INF] Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL' with options: using lazy-loading proxies 
+2019-10-24 15:19:53.385 +06:00 [INF] Executed DbCommand (269ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+                    SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+                    FROM information_schema.tables
+                    WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema')
+2019-10-24 15:19:53.867 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:6001/api/values  
+2019-10-24 15:19:53.874 +06:00 [WRN] Failed to determine the https port for redirect.
+2019-10-24 15:19:53.915 +06:00 [INF] Executing endpoint 'HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar)'
+2019-10-24 15:19:53.926 +06:00 [INF] Route matched with {action = "Index", controller = "Values"}. Executing controller action with signature System.String Index() on controller HSCFiscalRegistrar.Controllers.ValuesController (HSCFiscalRegistrar).
+2019-10-24 15:19:53.932 +06:00 [INF] Executing action method HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar) - Validation state: "Valid"
+2019-10-24 15:19:53.932 +06:00 [INF] Serialog на старте!
+2019-10-24 15:19:53.935 +06:00 [INF] Executed action method HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.5617ms.
+2019-10-24 15:19:53.942 +06:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2019-10-24 15:19:53.956 +06:00 [INF] Executed action HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar) in 28.7821ms
+2019-10-24 15:19:53.956 +06:00 [INF] Executed endpoint 'HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar)'
+2019-10-24 15:19:53.959 +06:00 [INF] Request finished in 92.8616ms 200 text/plain; charset=utf-8
+2019-10-24 15:19:58.684 +06:00 [INF] Request starting HTTP/1.1 POST http://localhost:6001/api/Check application/json 1390
+2019-10-24 15:19:58.686 +06:00 [INF] Executing endpoint 'HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar)'
+2019-10-24 15:19:58.700 +06:00 [INF] Route matched with {action = "Post", controller = "Check"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(Models.DTO.Fiscalization.KKM.CheckOperationRequest) on controller HSCFiscalRegistrar.Controllers.CheckController (HSCFiscalRegistrar).
+2019-10-24 15:19:58.705 +06:00 [INF] Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL' with options: using lazy-loading proxies 
+2019-10-24 15:19:59.726 +06:00 [INF] Executed DbCommand (261ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+                    SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+                    FROM information_schema.tables
+                    WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema')
+2019-10-24 15:19:59.848 +06:00 [INF] Executing action method HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar) - Validation state: "Valid"
+2019-10-24 15:19:59.850 +06:00 [INF] Check|Post
+2019-10-24 15:19:59.850 +06:00 [INF] Получение списка касс пользователя: Microsoft.AspNetCore.Identity.UserManager`1[Models.User]
+2019-10-24 15:19:59.850 +06:00 [INF] Информация по чеку: a5a1c23a-b88f-40c5-984a-b267ba521fd6%oe7vj3t8wkeqP8d2ogvg
+2019-10-24 15:20:00.211 +06:00 [INF] Executed DbCommand (269ms) [Parameters=[@__get_Item_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT e."Id", e."AccessFailedCount", e."Address", e."ConcurrencyStamp", e."DateTimeCreationToken", e."Email", e."EmailConfirmed", e."ExpiryDate", e."Fio", e."Inn", e."KkmId", e."LockoutEnabled", e."LockoutEnd", e."NormalizedEmail", e."NormalizedUserName", e."Okved", e."OperatorCode", e."OwnerId", e."PasswordHash", e."PhoneNumber", e."PhoneNumberConfirmed", e."SecurityStamp", e."TaxationType", e."Title", e."TwoFactorEnabled", e."UserName", e."UserToken", e."UserType", e."VAT", e."VATNumber", e."VATSeria"
+FROM "AspNetUsers" AS e
+WHERE e."Id" = @__get_Item_0
+LIMIT 1
+2019-10-24 15:20:00.552 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[@__checkOperationRequest_CashboxUniqueNumber_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT k."Id", k."Address", k."CurrentStatus", k."Description", k."DeviceId", k."FnsKkmId", k."IdentificationNumber", k."Iin", k."LastDateOperation", k."Mode", k."Name", k."NameOrg", k."OfdToken", k."OperatorId", k."PointOfPayment", k."ReqNum", k."SerialNumber", k."TerminalNumber", k."UserId", k."UserId1"
+FROM "Kkms" AS k
+WHERE k."SerialNumber" = @__checkOperationRequest_CashboxUniqueNumber_0
+LIMIT 1
+2019-10-24 15:20:00.833 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM "Shifts" AS s)
+    THEN TRUE::bool ELSE FALSE::bool
+END
+2019-10-24 15:20:00.835 +06:00 [WRN] Query: '(from Shift <generated>_1 in DbSet<Shift> select [<generated>_1]).Last()' uses First/FirstOrDefault/Last/LastOrDefault operation without OrderBy and filter which may lead to unpredictable results.
+2019-10-24 15:20:00.838 +06:00 [WRN] The LINQ expression 'Last()' could not be translated and will be evaluated locally.
+2019-10-24 15:20:01.102 +06:00 [INF] Executed DbCommand (261ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."BuySaldoBegin", s."BuySaldoEnd", s."CloseDate", s."KkmBalance", s."KkmId", s."Number", s."OpenDate", s."RetunBuySaldoBegin", s."RetunBuySaldoEnd", s."RetunSellSaldoBegin", s."RetunSellSaldoEnd", s."SellSaldoBegin", s."SellSaldoEnd", s."UserId"
+FROM "Shifts" AS s
+2019-10-24 15:20:01.376 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."BuySaldoBegin", s."BuySaldoEnd", s."CloseDate", s."KkmBalance", s."KkmId", s."Number", s."OpenDate", s."RetunBuySaldoBegin", s."RetunBuySaldoEnd", s."RetunSellSaldoBegin", s."RetunSellSaldoEnd", s."SellSaldoBegin", s."SellSaldoEnd", s."UserId"
+FROM "Shifts" AS s
+2019-10-24 15:20:01.643 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[@__kkm_UserId_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."AccessFailedCount", u."Address", u."ConcurrencyStamp", u."DateTimeCreationToken", u."Email", u."EmailConfirmed", u."ExpiryDate", u."Fio", u."Inn", u."KkmId", u."LockoutEnabled", u."LockoutEnd", u."NormalizedEmail", u."NormalizedUserName", u."Okved", u."OperatorCode", u."OwnerId", u."PasswordHash", u."PhoneNumber", u."PhoneNumberConfirmed", u."SecurityStamp", u."TaxationType", u."Title", u."TwoFactorEnabled", u."UserName", u."UserToken", u."UserType", u."VAT", u."VATNumber", u."VATSeria"
+FROM "AspNetUsers" AS u
+WHERE u."Id" = @__kkm_UserId_0
+LIMIT 1
+2019-10-24 15:20:01.914 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)::INT
+FROM "Operations" AS s
+WHERE s."ShiftId" = @__shift_Id_0
+2019-10-24 15:20:04.229 +06:00 [INF] Executed DbCommand (268ms) [Parameters=[@p19='?', @p0='?', @p1='?', @p2='?', @p3='?' (DbType = Int32), @p4='?', @p5='?', @p6='?', @p7='?' (DbType = DateTime), @p8='?', @p9='?', @p10='?', @p11='?' (DbType = Int32), @p12='?', @p13='?', @p14='?' (DbType = Int32), @p15='?', @p16='?', @p17='?', @p18='?', @p20='?', @p21='?' (DbType = Decimal), @p22='?' (DbType = Decimal), @p23='?' (DbType = Decimal), @p24='?' (DbType = Decimal), @p25='?' (DbType = Decimal), @p26='?' (DbType = Int32), @p27='?' (DbType = DateTime), @p28='?', @p29='?' (DbType = Boolean), @p30='?', @p31='?' (DbType = Int32), @p32='?', @p33='?', @p34='?' (DbType = Int32), @p35='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Kkms" SET "Address" = @p0, "CurrentStatus" = @p1, "Description" = @p2, "DeviceId" = @p3, "FnsKkmId" = @p4, "IdentificationNumber" = @p5, "Iin" = @p6, "LastDateOperation" = @p7, "Mode" = @p8, "Name" = @p9, "NameOrg" = @p10, "OfdToken" = @p11, "OperatorId" = @p12, "PointOfPayment" = @p13, "ReqNum" = @p14, "SerialNumber" = @p15, "TerminalNumber" = @p16, "UserId" = @p17, "UserId1" = @p18
+WHERE "Id" = @p19;
+INSERT INTO "Operations" ("Id", "Amount", "CardAmount", "CashAmount", "CashAmountFromClient", "ChangeAmount", "CheckNumber", "CreationDate", "FiscalNumber", "IsOffline", "KkmId", "OperationState", "QR", "ShiftId", "Type", "UserId")
+VALUES (@p20, @p21, @p22, @p23, @p24, @p25, @p26, @p27, @p28, @p29, @p30, @p31, @p32, @p33, @p34, @p35);
+2019-10-24 15:20:04.507 +06:00 [INF] Executed action method HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 4658.6694ms.
+2019-10-24 15:20:04.509 +06:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2019-10-24 15:20:04.510 +06:00 [INF] Executed action HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar) in 5810.4746000000005ms
+2019-10-24 15:20:04.511 +06:00 [INF] Executed endpoint 'HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar)'
+2019-10-24 15:20:04.512 +06:00 [INF] Request finished in 5830.1506ms 200 text/plain; charset=utf-8
+2019-10-24 15:21:06.575 +06:00 [INF] Request starting HTTP/1.1 POST http://localhost:6001/api/ZReport application/json 116
+2019-10-24 15:21:06.576 +06:00 [INF] Executing endpoint 'HSCFiscalRegistrar.Controllers.ZReportController.Post (HSCFiscalRegistrar)'
+2019-10-24 15:21:06.577 +06:00 [INF] Route matched with {action = "Post", controller = "ZReport"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Post(Models.DTO.XReport.KkmRequest) on controller HSCFiscalRegistrar.Controllers.ZReportController (HSCFiscalRegistrar).
+2019-10-24 15:21:06.577 +06:00 [INF] Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL' with options: using lazy-loading proxies 
+2019-10-24 15:21:07.595 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+                    SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+                    FROM information_schema.tables
+                    WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema')
+2019-10-24 15:21:07.599 +06:00 [INF] Executing action method HSCFiscalRegistrar.Controllers.ZReportController.Post (HSCFiscalRegistrar) - Validation state: "Valid"
+2019-10-24 15:21:07.600 +06:00 [INF] ZReport|Post
+2019-10-24 15:21:07.600 +06:00 [INF] Z-Отчет: a5a1c23a-b88f-40c5-984a-b267ba521fd6%oe7vj3t8wkeqP8d2ogvg
+2019-10-24 15:21:11.469 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[@__request_Token_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."AccessFailedCount", u."Address", u."ConcurrencyStamp", u."DateTimeCreationToken", u."Email", u."EmailConfirmed", u."ExpiryDate", u."Fio", u."Inn", u."KkmId", u."LockoutEnabled", u."LockoutEnd", u."NormalizedEmail", u."NormalizedUserName", u."Okved", u."OperatorCode", u."OwnerId", u."PasswordHash", u."PhoneNumber", u."PhoneNumberConfirmed", u."SecurityStamp", u."TaxationType", u."Title", u."TwoFactorEnabled", u."UserName", u."UserToken", u."UserType", u."VAT", u."VATNumber", u."VATSeria"
+FROM "AspNetUsers" AS u
+WHERE u."UserToken" = @__request_Token_0
+LIMIT 1
+2019-10-24 15:21:12.892 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[@__user_KkmId_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT k."Id", k."Address", k."CurrentStatus", k."Description", k."DeviceId", k."FnsKkmId", k."IdentificationNumber", k."Iin", k."LastDateOperation", k."Mode", k."Name", k."NameOrg", k."OfdToken", k."OperatorId", k."PointOfPayment", k."ReqNum", k."SerialNumber", k."TerminalNumber", k."UserId", k."UserId1"
+FROM "Kkms" AS k
+WHERE k."Id" = @__user_KkmId_0
+LIMIT 1
+2019-10-24 15:21:14.672 +06:00 [WRN] The LINQ expression 'Last()' could not be translated and will be evaluated locally.
+2019-10-24 15:21:14.933 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[@__kkm_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."BuySaldoBegin", s."BuySaldoEnd", s."CloseDate", s."KkmBalance", s."KkmId", s."Number", s."OpenDate", s."RetunBuySaldoBegin", s."RetunBuySaldoEnd", s."RetunSellSaldoBegin", s."RetunSellSaldoEnd", s."SellSaldoBegin", s."SellSaldoEnd", s."UserId"
+FROM "Shifts" AS s
+WHERE s."KkmId" = @__kkm_Id_0
+2019-10-24 15:21:17.381 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."CardAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:21:17.644 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."CashAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:21:17.905 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)::INT
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:21:18.167 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:21:18.430 +06:00 [INF] Executed DbCommand (261ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."ChangeAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:21:18.691 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."CardAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:21:18.951 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."CashAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:21:19.213 +06:00 [INF] Executed DbCommand (261ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)::INT
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:21:19.473 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:21:19.737 +06:00 [INF] Executed DbCommand (264ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."ChangeAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:21:19.998 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."CardAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:21:20.257 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."CashAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:21:20.517 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)::INT
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:21:20.777 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:21:21.037 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."ChangeAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:21:21.299 +06:00 [INF] Executed DbCommand (261ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."CardAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:21:21.559 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."CashAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:21:21.820 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)::INT
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:21:22.080 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:21:22.343 +06:00 [INF] Executed DbCommand (262ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."ChangeAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:21:26.194 +06:00 [INF] Executed DbCommand (261ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = 0)
+2019-10-24 15:21:26.457 +06:00 [INF] Executed DbCommand (261ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = 2)
+2019-10-24 15:21:26.719 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = 3)
+2019-10-24 15:21:26.979 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = 0)
+2019-10-24 15:21:27.240 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = 2)
+2019-10-24 15:21:27.502 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = 1)
+2019-10-24 15:21:27.762 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = 0)
+2019-10-24 15:21:28.022 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = 3)
+2019-10-24 15:21:30.638 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[@__kkm_UserId_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."AccessFailedCount", u."Address", u."ConcurrencyStamp", u."DateTimeCreationToken", u."Email", u."EmailConfirmed", u."ExpiryDate", u."Fio", u."Inn", u."KkmId", u."LockoutEnabled", u."LockoutEnd", u."NormalizedEmail", u."NormalizedUserName", u."Okved", u."OperatorCode", u."OwnerId", u."PasswordHash", u."PhoneNumber", u."PhoneNumberConfirmed", u."SecurityStamp", u."TaxationType", u."Title", u."TwoFactorEnabled", u."UserName", u."UserToken", u."UserType", u."VAT", u."VATNumber", u."VATSeria"
+FROM "AspNetUsers" AS u
+WHERE u."Id" = @__kkm_UserId_0
+LIMIT 1
+2019-10-24 15:21:31.571 +06:00 [INF] OfdCloseShiftRequest|Post
+2019-10-24 15:21:31.571 +06:00 [INF] Отправка запроса на закрытие смены в ОФД
+2019-10-24 15:21:37.981 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)::INT
+FROM "Operations" AS o
+WHERE o."ShiftId" = @__shift_Id_0
+2019-10-24 15:21:39.873 +06:00 [INF] Executed DbCommand (512ms) [Parameters=[@p2='?', @p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Decimal), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal), @p7='?' (DbType = Int32), @p8='?' (DbType = Int32), @p9='?', @p10='?' (DbType = Decimal), @p11='?', @p12='?' (DbType = Decimal), @p13='?' (DbType = Decimal), @p14='?' (DbType = Decimal), @p15='?' (DbType = Int32), @p16='?' (DbType = Int32), @p17='?', @p18='?' (DbType = Decimal), @p19='?', @p20='?' (DbType = Decimal), @p21='?' (DbType = Decimal), @p22='?' (DbType = Decimal), @p23='?' (DbType = Int32), @p24='?' (DbType = Int32), @p25='?', @p26='?' (DbType = Decimal), @p27='?', @p28='?' (DbType = Decimal), @p29='?' (DbType = Decimal), @p30='?' (DbType = Decimal), @p31='?' (DbType = Int32), @p32='?' (DbType = Int32), @p33='?', @p34='?' (DbType = Decimal), @p38='?', @p35='?' (DbType = DateTime), @p36='?' (DbType = Decimal), @p37='?' (DbType = Decimal)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Kkms" SET "OfdToken" = @p0, "ReqNum" = @p1
+WHERE "Id" = @p2;
+INSERT INTO "ShiftOperations" ("Id", "CardAmount", "CashAmount", "Change", "Count", "OperationType", "ShiftId", "TotalAmount")
+VALUES (@p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+INSERT INTO "ShiftOperations" ("Id", "CardAmount", "CashAmount", "Change", "Count", "OperationType", "ShiftId", "TotalAmount")
+VALUES (@p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18);
+INSERT INTO "ShiftOperations" ("Id", "CardAmount", "CashAmount", "Change", "Count", "OperationType", "ShiftId", "TotalAmount")
+VALUES (@p19, @p20, @p21, @p22, @p23, @p24, @p25, @p26);
+INSERT INTO "ShiftOperations" ("Id", "CardAmount", "CashAmount", "Change", "Count", "OperationType", "ShiftId", "TotalAmount")
+VALUES (@p27, @p28, @p29, @p30, @p31, @p32, @p33, @p34);
+UPDATE "Shifts" SET "CloseDate" = @p35, "KkmBalance" = @p36, "SellSaldoEnd" = @p37
+WHERE "Id" = @p38;
+2019-10-24 15:21:41.730 +06:00 [INF] Executed action method HSCFiscalRegistrar.Controllers.ZReportController.Post (HSCFiscalRegistrar), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 34130.3464ms.
+2019-10-24 15:21:41.731 +06:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2019-10-24 15:21:41.731 +06:00 [INF] Executed action HSCFiscalRegistrar.Controllers.ZReportController.Post (HSCFiscalRegistrar) in 35153.9665ms
+2019-10-24 15:21:41.731 +06:00 [INF] Executed endpoint 'HSCFiscalRegistrar.Controllers.ZReportController.Post (HSCFiscalRegistrar)'
+2019-10-24 15:21:41.731 +06:00 [INF] Request finished in 35155.8616ms 200 text/plain; charset=utf-8
+2019-10-24 15:23:34.451 +06:00 [INF] Starting web host
+2019-10-24 15:23:35.665 +06:00 [INF] User profile is available. Using 'C:\Users\Dell\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-10-24 15:23:36.833 +06:00 [INF] Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL' with options: using lazy-loading proxies 
+2019-10-24 15:23:39.579 +06:00 [INF] Executed DbCommand (268ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+                    SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+                    FROM information_schema.tables
+                    WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema')
+2019-10-24 15:23:40.476 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost:6001/api/values  
+2019-10-24 15:23:40.482 +06:00 [WRN] Failed to determine the https port for redirect.
+2019-10-24 15:23:40.514 +06:00 [INF] Executing endpoint 'HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar)'
+2019-10-24 15:23:40.526 +06:00 [INF] Route matched with {action = "Index", controller = "Values"}. Executing controller action with signature System.String Index() on controller HSCFiscalRegistrar.Controllers.ValuesController (HSCFiscalRegistrar).
+2019-10-24 15:23:40.532 +06:00 [INF] Executing action method HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar) - Validation state: "Valid"
+2019-10-24 15:23:40.532 +06:00 [INF] Serialog на старте!
+2019-10-24 15:23:40.534 +06:00 [INF] Executed action method HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.3745ms.
+2019-10-24 15:23:40.541 +06:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2019-10-24 15:23:40.556 +06:00 [INF] Executed action HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar) in 27.910600000000002ms
+2019-10-24 15:23:40.556 +06:00 [INF] Executed endpoint 'HSCFiscalRegistrar.Controllers.ValuesController.Index (HSCFiscalRegistrar)'
+2019-10-24 15:23:40.558 +06:00 [INF] Request finished in 82.9202ms 200 text/plain; charset=utf-8
+2019-10-24 15:23:41.788 +06:00 [INF] Request starting HTTP/1.1 POST http://localhost:6001/api/Check application/json 1390
+2019-10-24 15:23:41.792 +06:00 [INF] Executing endpoint 'HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar)'
+2019-10-24 15:23:41.804 +06:00 [INF] Route matched with {action = "Post", controller = "Check"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(Models.DTO.Fiscalization.KKM.CheckOperationRequest) on controller HSCFiscalRegistrar.Controllers.CheckController (HSCFiscalRegistrar).
+2019-10-24 15:23:41.813 +06:00 [INF] Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL' with options: using lazy-loading proxies 
+2019-10-24 15:23:42.888 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+                    SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+                    FROM information_schema.tables
+                    WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema')
+2019-10-24 15:23:43.011 +06:00 [INF] Executing action method HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar) - Validation state: "Valid"
+2019-10-24 15:23:43.013 +06:00 [INF] Check|Post
+2019-10-24 15:23:43.013 +06:00 [INF] Получение списка касс пользователя: Microsoft.AspNetCore.Identity.UserManager`1[Models.User]
+2019-10-24 15:23:43.013 +06:00 [INF] Информация по чеку: a5a1c23a-b88f-40c5-984a-b267ba521fd6%oe7vj3t8wkeqP8d2ogvg
+2019-10-24 15:23:43.398 +06:00 [INF] Executed DbCommand (268ms) [Parameters=[@__get_Item_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT e."Id", e."AccessFailedCount", e."Address", e."ConcurrencyStamp", e."DateTimeCreationToken", e."Email", e."EmailConfirmed", e."ExpiryDate", e."Fio", e."Inn", e."KkmId", e."LockoutEnabled", e."LockoutEnd", e."NormalizedEmail", e."NormalizedUserName", e."Okved", e."OperatorCode", e."OwnerId", e."PasswordHash", e."PhoneNumber", e."PhoneNumberConfirmed", e."SecurityStamp", e."TaxationType", e."Title", e."TwoFactorEnabled", e."UserName", e."UserToken", e."UserType", e."VAT", e."VATNumber", e."VATSeria"
+FROM "AspNetUsers" AS e
+WHERE e."Id" = @__get_Item_0
+LIMIT 1
+2019-10-24 15:23:43.743 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__checkOperationRequest_CashboxUniqueNumber_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT k."Id", k."Address", k."CurrentStatus", k."Description", k."DeviceId", k."FnsKkmId", k."IdentificationNumber", k."Iin", k."LastDateOperation", k."Mode", k."Name", k."NameOrg", k."OfdToken", k."OperatorId", k."PointOfPayment", k."ReqNum", k."SerialNumber", k."TerminalNumber", k."UserId", k."UserId1"
+FROM "Kkms" AS k
+WHERE k."SerialNumber" = @__checkOperationRequest_CashboxUniqueNumber_0
+LIMIT 1
+2019-10-24 15:23:44.023 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM "Shifts" AS s)
+    THEN TRUE::bool ELSE FALSE::bool
+END
+2019-10-24 15:23:44.025 +06:00 [WRN] Query: '(from Shift <generated>_1 in DbSet<Shift> select [<generated>_1]).Last()' uses First/FirstOrDefault/Last/LastOrDefault operation without OrderBy and filter which may lead to unpredictable results.
+2019-10-24 15:23:44.028 +06:00 [WRN] The LINQ expression 'Last()' could not be translated and will be evaluated locally.
+2019-10-24 15:23:44.288 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."BuySaldoBegin", s."BuySaldoEnd", s."CloseDate", s."KkmBalance", s."KkmId", s."Number", s."OpenDate", s."RetunBuySaldoBegin", s."RetunBuySaldoEnd", s."RetunSellSaldoBegin", s."RetunSellSaldoEnd", s."SellSaldoBegin", s."SellSaldoEnd", s."UserId"
+FROM "Shifts" AS s
+2019-10-24 15:23:44.562 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."BuySaldoBegin", s."BuySaldoEnd", s."CloseDate", s."KkmBalance", s."KkmId", s."Number", s."OpenDate", s."RetunBuySaldoBegin", s."RetunBuySaldoEnd", s."RetunSellSaldoBegin", s."RetunSellSaldoEnd", s."SellSaldoBegin", s."SellSaldoEnd", s."UserId"
+FROM "Shifts" AS s
+2019-10-24 15:23:44.821 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."BuySaldoBegin", s."BuySaldoEnd", s."CloseDate", s."KkmBalance", s."KkmId", s."Number", s."OpenDate", s."RetunBuySaldoBegin", s."RetunBuySaldoEnd", s."RetunSellSaldoBegin", s."RetunSellSaldoEnd", s."SellSaldoBegin", s."SellSaldoEnd", s."UserId"
+FROM "Shifts" AS s
+2019-10-24 15:23:45.080 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."BuySaldoBegin", s."BuySaldoEnd", s."CloseDate", s."KkmBalance", s."KkmId", s."Number", s."OpenDate", s."RetunBuySaldoBegin", s."RetunBuySaldoEnd", s."RetunSellSaldoBegin", s."RetunSellSaldoEnd", s."SellSaldoBegin", s."SellSaldoEnd", s."UserId"
+FROM "Shifts" AS s
+2019-10-24 15:23:45.338 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."BuySaldoBegin", s."BuySaldoEnd", s."CloseDate", s."KkmBalance", s."KkmId", s."Number", s."OpenDate", s."RetunBuySaldoBegin", s."RetunBuySaldoEnd", s."RetunSellSaldoBegin", s."RetunSellSaldoEnd", s."SellSaldoBegin", s."SellSaldoEnd", s."UserId"
+FROM "Shifts" AS s
+2019-10-24 15:23:45.597 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."BuySaldoBegin", s."BuySaldoEnd", s."CloseDate", s."KkmBalance", s."KkmId", s."Number", s."OpenDate", s."RetunBuySaldoBegin", s."RetunBuySaldoEnd", s."RetunSellSaldoBegin", s."RetunSellSaldoEnd", s."SellSaldoBegin", s."SellSaldoEnd", s."UserId"
+FROM "Shifts" AS s
+2019-10-24 15:23:45.927 +06:00 [INF] Executed DbCommand (265ms) [Parameters=[@p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Decimal), @p3='?' (DbType = DateTime), @p4='?' (DbType = Decimal), @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = DateTime), @p8='?' (DbType = Decimal), @p9='?' (DbType = Decimal), @p10='?' (DbType = Decimal), @p11='?' (DbType = Decimal), @p12='?' (DbType = Decimal), @p13='?' (DbType = Decimal), @p14='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Shifts" ("Id", "BuySaldoBegin", "BuySaldoEnd", "CloseDate", "KkmBalance", "KkmId", "Number", "OpenDate", "RetunBuySaldoBegin", "RetunBuySaldoEnd", "RetunSellSaldoBegin", "RetunSellSaldoEnd", "SellSaldoBegin", "SellSaldoEnd", "UserId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14);
+2019-10-24 15:23:46.454 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."BuySaldoBegin", s."BuySaldoEnd", s."CloseDate", s."KkmBalance", s."KkmId", s."Number", s."OpenDate", s."RetunBuySaldoBegin", s."RetunBuySaldoEnd", s."RetunSellSaldoBegin", s."RetunSellSaldoEnd", s."SellSaldoBegin", s."SellSaldoEnd", s."UserId"
+FROM "Shifts" AS s
+2019-10-24 15:23:46.720 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[@__kkm_UserId_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."AccessFailedCount", u."Address", u."ConcurrencyStamp", u."DateTimeCreationToken", u."Email", u."EmailConfirmed", u."ExpiryDate", u."Fio", u."Inn", u."KkmId", u."LockoutEnabled", u."LockoutEnd", u."NormalizedEmail", u."NormalizedUserName", u."Okved", u."OperatorCode", u."OwnerId", u."PasswordHash", u."PhoneNumber", u."PhoneNumberConfirmed", u."SecurityStamp", u."TaxationType", u."Title", u."TwoFactorEnabled", u."UserName", u."UserToken", u."UserType", u."VAT", u."VATNumber", u."VATSeria"
+FROM "AspNetUsers" AS u
+WHERE u."Id" = @__kkm_UserId_0
+LIMIT 1
+2019-10-24 15:23:46.989 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)::INT
+FROM "Operations" AS s
+WHERE s."ShiftId" = @__shift_Id_0
+2019-10-24 15:23:49.126 +06:00 [INF] Executed DbCommand (263ms) [Parameters=[@p19='?', @p0='?', @p1='?', @p2='?', @p3='?' (DbType = Int32), @p4='?', @p5='?', @p6='?', @p7='?' (DbType = DateTime), @p8='?', @p9='?', @p10='?', @p11='?' (DbType = Int32), @p12='?', @p13='?', @p14='?' (DbType = Int32), @p15='?', @p16='?', @p17='?', @p18='?', @p20='?', @p21='?' (DbType = Decimal), @p22='?' (DbType = Decimal), @p23='?' (DbType = Decimal), @p24='?' (DbType = Decimal), @p25='?' (DbType = Decimal), @p26='?' (DbType = Int32), @p27='?' (DbType = DateTime), @p28='?', @p29='?' (DbType = Boolean), @p30='?', @p31='?' (DbType = Int32), @p32='?', @p33='?', @p34='?' (DbType = Int32), @p35='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Kkms" SET "Address" = @p0, "CurrentStatus" = @p1, "Description" = @p2, "DeviceId" = @p3, "FnsKkmId" = @p4, "IdentificationNumber" = @p5, "Iin" = @p6, "LastDateOperation" = @p7, "Mode" = @p8, "Name" = @p9, "NameOrg" = @p10, "OfdToken" = @p11, "OperatorId" = @p12, "PointOfPayment" = @p13, "ReqNum" = @p14, "SerialNumber" = @p15, "TerminalNumber" = @p16, "UserId" = @p17, "UserId1" = @p18
+WHERE "Id" = @p19;
+INSERT INTO "Operations" ("Id", "Amount", "CardAmount", "CashAmount", "CashAmountFromClient", "ChangeAmount", "CheckNumber", "CreationDate", "FiscalNumber", "IsOffline", "KkmId", "OperationState", "QR", "ShiftId", "Type", "UserId")
+VALUES (@p20, @p21, @p22, @p23, @p24, @p25, @p26, @p27, @p28, @p29, @p30, @p31, @p32, @p33, @p34, @p35);
+2019-10-24 15:23:49.394 +06:00 [INF] Executed action method HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 6382.0157ms.
+2019-10-24 15:23:49.396 +06:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2019-10-24 15:23:49.397 +06:00 [INF] Executed action HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar) in 7592.868ms
+2019-10-24 15:23:49.397 +06:00 [INF] Executed endpoint 'HSCFiscalRegistrar.Controllers.CheckController.Post (HSCFiscalRegistrar)'
+2019-10-24 15:23:49.399 +06:00 [INF] Request finished in 7611.5106ms 200 text/plain; charset=utf-8
+2019-10-24 15:24:06.816 +06:00 [INF] Request starting HTTP/1.1 POST http://localhost:6001/api/ZReport application/json 116
+2019-10-24 15:24:06.816 +06:00 [INF] Executing endpoint 'HSCFiscalRegistrar.Controllers.ZReportController.Post (HSCFiscalRegistrar)'
+2019-10-24 15:24:06.817 +06:00 [INF] Route matched with {action = "Post", controller = "ZReport"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Post(Models.DTO.XReport.KkmRequest) on controller HSCFiscalRegistrar.Controllers.ZReportController (HSCFiscalRegistrar).
+2019-10-24 15:24:06.818 +06:00 [INF] Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL' with options: using lazy-loading proxies 
+2019-10-24 15:24:07.851 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+                    SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+                    FROM information_schema.tables
+                    WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema')
+2019-10-24 15:24:07.854 +06:00 [INF] Executing action method HSCFiscalRegistrar.Controllers.ZReportController.Post (HSCFiscalRegistrar) - Validation state: "Valid"
+2019-10-24 15:24:07.856 +06:00 [INF] ZReport|Post
+2019-10-24 15:24:07.856 +06:00 [INF] Z-Отчет: a5a1c23a-b88f-40c5-984a-b267ba521fd6%oe7vj3t8wkeqP8d2ogvg
+2019-10-24 15:24:08.119 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[@__request_Token_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."AccessFailedCount", u."Address", u."ConcurrencyStamp", u."DateTimeCreationToken", u."Email", u."EmailConfirmed", u."ExpiryDate", u."Fio", u."Inn", u."KkmId", u."LockoutEnabled", u."LockoutEnd", u."NormalizedEmail", u."NormalizedUserName", u."Okved", u."OperatorCode", u."OwnerId", u."PasswordHash", u."PhoneNumber", u."PhoneNumberConfirmed", u."SecurityStamp", u."TaxationType", u."Title", u."TwoFactorEnabled", u."UserName", u."UserToken", u."UserType", u."VAT", u."VATNumber", u."VATSeria"
+FROM "AspNetUsers" AS u
+WHERE u."UserToken" = @__request_Token_0
+LIMIT 1
+2019-10-24 15:24:08.381 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__user_KkmId_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT k."Id", k."Address", k."CurrentStatus", k."Description", k."DeviceId", k."FnsKkmId", k."IdentificationNumber", k."Iin", k."LastDateOperation", k."Mode", k."Name", k."NameOrg", k."OfdToken", k."OperatorId", k."PointOfPayment", k."ReqNum", k."SerialNumber", k."TerminalNumber", k."UserId", k."UserId1"
+FROM "Kkms" AS k
+WHERE k."Id" = @__user_KkmId_0
+LIMIT 1
+2019-10-24 15:24:08.384 +06:00 [WRN] The LINQ expression 'Last()' could not be translated and will be evaluated locally.
+2019-10-24 15:24:08.643 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__kkm_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT s."Id", s."BuySaldoBegin", s."BuySaldoEnd", s."CloseDate", s."KkmBalance", s."KkmId", s."Number", s."OpenDate", s."RetunBuySaldoBegin", s."RetunBuySaldoEnd", s."RetunSellSaldoBegin", s."RetunSellSaldoEnd", s."SellSaldoBegin", s."SellSaldoEnd", s."UserId"
+FROM "Shifts" AS s
+WHERE s."KkmId" = @__kkm_Id_0
+2019-10-24 15:24:12.964 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."CardAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:24:13.226 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."CashAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:24:13.489 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)::INT
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:24:13.749 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:24:14.011 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."ChangeAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:24:14.271 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."CardAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:24:14.529 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."CashAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:24:14.788 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)::INT
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:24:15.047 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:24:15.306 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."ChangeAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:24:15.565 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."CardAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:24:15.825 +06:00 [INF] Executed DbCommand (260ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."CashAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:24:16.085 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)::INT
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:24:16.343 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:24:16.602 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."ChangeAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:24:16.861 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."CardAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:24:17.119 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."CashAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:24:17.378 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)::INT
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:24:17.637 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:24:17.896 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?', @__type_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."ChangeAmount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = @__type_1)
+2019-10-24 15:24:18.158 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = 0)
+2019-10-24 15:24:18.418 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = 2)
+2019-10-24 15:24:18.680 +06:00 [INF] Executed DbCommand (259ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = 3)
+2019-10-24 15:24:18.938 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = 0)
+2019-10-24 15:24:19.198 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = 2)
+2019-10-24 15:24:19.460 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = 1)
+2019-10-24 15:24:19.718 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = 0)
+2019-10-24 15:24:19.977 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT SUM(o."Amount")
+FROM "Operations" AS o
+WHERE (o."ShiftId" = @__shift_Id_0) AND (o."Type" = 3)
+2019-10-24 15:24:20.236 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__kkm_UserId_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."AccessFailedCount", u."Address", u."ConcurrencyStamp", u."DateTimeCreationToken", u."Email", u."EmailConfirmed", u."ExpiryDate", u."Fio", u."Inn", u."KkmId", u."LockoutEnabled", u."LockoutEnd", u."NormalizedEmail", u."NormalizedUserName", u."Okved", u."OperatorCode", u."OwnerId", u."PasswordHash", u."PhoneNumber", u."PhoneNumberConfirmed", u."SecurityStamp", u."TaxationType", u."Title", u."TwoFactorEnabled", u."UserName", u."UserToken", u."UserType", u."VAT", u."VATNumber", u."VATSeria"
+FROM "AspNetUsers" AS u
+WHERE u."Id" = @__kkm_UserId_0
+LIMIT 1
+2019-10-24 15:24:20.238 +06:00 [INF] OfdCloseShiftRequest|Post
+2019-10-24 15:24:20.238 +06:00 [INF] Отправка запроса на закрытие смены в ОФД
+2019-10-24 15:24:23.455 +06:00 [INF] Executed DbCommand (258ms) [Parameters=[@__shift_Id_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)::INT
+FROM "Operations" AS o
+WHERE o."ShiftId" = @__shift_Id_0
+2019-10-24 15:24:23.488 +06:00 [INF] Executed action method HSCFiscalRegistrar.Controllers.ZReportController.Post (HSCFiscalRegistrar), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 15633.4721ms.
+2019-10-24 15:24:23.488 +06:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2019-10-24 15:24:23.488 +06:00 [INF] Executed action HSCFiscalRegistrar.Controllers.ZReportController.Post (HSCFiscalRegistrar) in 16670.7003ms
+2019-10-24 15:24:23.488 +06:00 [INF] Executed endpoint 'HSCFiscalRegistrar.Controllers.ZReportController.Post (HSCFiscalRegistrar)'
+2019-10-24 15:24:23.927 +06:00 [ERR] Failed executing DbCommand (459ms) [Parameters=[@p2='?', @p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Decimal), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal), @p7='?' (DbType = Int32), @p8='?' (DbType = Int32), @p9='?', @p10='?' (DbType = Decimal), @p11='?', @p12='?' (DbType = Decimal), @p13='?' (DbType = Decimal), @p14='?' (DbType = Decimal), @p15='?' (DbType = Int32), @p16='?' (DbType = Int32), @p17='?', @p18='?' (DbType = Decimal), @p19='?', @p20='?' (DbType = Decimal), @p21='?' (DbType = Decimal), @p22='?' (DbType = Decimal), @p23='?' (DbType = Int32), @p24='?' (DbType = Int32), @p25='?', @p26='?' (DbType = Decimal), @p27='?', @p28='?' (DbType = Decimal), @p29='?' (DbType = Decimal), @p30='?' (DbType = Decimal), @p31='?' (DbType = Int32), @p32='?' (DbType = Int32), @p33='?', @p34='?' (DbType = Decimal), @p36='?', @p35='?' (DbType = DateTime)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Kkms" SET "OfdToken" = @p0, "ReqNum" = @p1
+WHERE "Id" = @p2;
+INSERT INTO "ShiftOperations" ("Id", "CardAmount", "CashAmount", "Change", "Count", "OperationType", "ShiftId", "TotalAmount")
+VALUES (@p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+INSERT INTO "ShiftOperations" ("Id", "CardAmount", "CashAmount", "Change", "Count", "OperationType", "ShiftId", "TotalAmount")
+VALUES (@p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18);
+INSERT INTO "ShiftOperations" ("Id", "CardAmount", "CashAmount", "Change", "Count", "OperationType", "ShiftId", "TotalAmount")
+VALUES (@p19, @p20, @p21, @p22, @p23, @p24, @p25, @p26);
+INSERT INTO "ShiftOperations" ("Id", "CardAmount", "CashAmount", "Change", "Count", "OperationType", "ShiftId", "TotalAmount")
+VALUES (@p27, @p28, @p29, @p30, @p31, @p32, @p33, @p34);
+UPDATE "Shifts" SET "CloseDate" = @p35
+WHERE "Id" = @p36;
+Npgsql.NpgsqlException (0x80004005): Unknown message code: 111
+   at Npgsql.PGUtil.ValidateBackendMessageCode(BackendMessageCode code) in C:\projects\npgsql\src\Npgsql\PGUtil.cs:line 84
+   at Npgsql.NpgsqlConnector.<>c__DisplayClass161_0.<<ReadMessage>g__ReadMessageLong|0>d.MoveNext() in C:\projects\npgsql\src\Npgsql\NpgsqlConnector.cs:line 957
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Npgsql.NpgsqlConnector.<>c__DisplayClass161_0.<<ReadMessage>g__ReadMessageLong|0>d.MoveNext() in C:\projects\npgsql\src\Npgsql\NpgsqlConnector.cs:line 938
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming) in C:\projects\npgsql\src\Npgsql\NpgsqlDataReader.cs:line 444
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReader(CommandBehavior behavior, Boolean async, CancellationToken cancellationToken) in C:\projects\npgsql\src\Npgsql\NpgsqlCommand.cs:line 1215
+   at Microsoft.EntityFrameworkCore.Storage.Internal.RelationalCommand.ExecuteAsync(IRelationalConnection connection, DbCommandMethod executeMethod, IReadOnlyDictionary`2 parameterValues, CancellationToken cancellationToken)

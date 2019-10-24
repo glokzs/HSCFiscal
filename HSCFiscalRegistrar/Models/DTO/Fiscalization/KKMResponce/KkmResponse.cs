@@ -8,8 +8,8 @@
         {
             Data = new Data
             {
-                DateTime = operation.CreationDate,
-                CheckNumber = operation.CheckNumber.ToString(),
+                DateTime = operation.CreationDate.ToString("g"),
+                CheckNumber = operation.FiscalNumber,
                 OfflineMode = true,
                 Cashbox = new Cashbox
                 {

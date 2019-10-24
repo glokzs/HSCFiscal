@@ -34,9 +34,9 @@ namespace Models.DTO.XReport.KkmResponse
                 ShiftNumber = shift.Number,
                 ControlSum = 1,
                 DocumentCount = operations.Count(),
-                OfflineMode = true,
+                OfflineMode = false,
                 ReportNumber = 1,
-                CashboxOfflineMode = true,
+                CashboxOfflineMode = false,
                 EndNonNullable = new NonNullableApiModel()
                 {
                     Sell = shift.SellSaldoEnd,
